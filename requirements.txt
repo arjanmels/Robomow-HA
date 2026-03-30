@@ -1,4 +1,6 @@
 colorlog==6.10.1
 homeassistant==2026.3.2
+sensor-state-data==2.20.0
+bluetooth-sensor-state-data==1.9.0
 pip>=21.3.1
 ruff==0.15.10
