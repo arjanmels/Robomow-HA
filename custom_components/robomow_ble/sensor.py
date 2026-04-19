@@ -19,7 +19,7 @@ from homeassistant.components.sensor import (
 from homeassistant.const import SIGNAL_STRENGTH_DECIBELS_MILLIWATT
 from homeassistant.helpers.device_registry import CONNECTION_BLUETOOTH
 
-from .const import DOMAIN
+from .const import DOMAIN, LOGGER
 from .coordinator import (
     RoboMowBLEAdvertisement,
     RoboMowBLEPassiveBluetoothDataProcessor,
@@ -38,6 +38,11 @@ def advertisement_to_bluetooth_data_update(
     advertisement: RoboMowBLEAdvertisement,
 ) -> PassiveBluetoothDataUpdate[_SensorValueType]:
     """Convert a RoboMow BLE advertisement to Home Assistant sensor updates."""
+    LOGGER.debug(
+        "Processing advertisement from %s with RSSI %d",
+        advertisement.address,
+        advertisement.rssi,
+    )
     entity_key = PassiveBluetoothEntityKey("signal_strength", advertisement.address)
     device_name = advertisement.name or "Robomow"
 
@@ -68,6 +73,7 @@ async def async_setup_entry(
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up the Robomow BLE sensors."""
+    LOGGER.debug("Setting up sensor platform for config entry %s", entry.entry_id)
     coordinator = entry.runtime_data
     processor = PassiveBluetoothDataProcessor(advertisement_to_bluetooth_data_update)
     entry.async_on_unload(

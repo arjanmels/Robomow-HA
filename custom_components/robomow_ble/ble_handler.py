@@ -1,42 +1,504 @@
 """BLE device data structures for the Robomow integration."""
 
-from typing import TYPE_CHECKING
+from __future__ import annotations
 
+import asyncio
+from collections import deque
+import struct
+from typing import TYPE_CHECKING, NamedTuple
+
+from bleak.backends.characteristic import BleakGATTCharacteristic
+from bleak.backends.service import BleakGATTService
+from bleak.exc import (
+    BleakCharacteristicNotFoundError,
+    BleakDeviceNotFoundError,
+)
+from bleak_retry_connector import (
+    BleakClientWithServiceCache,
+    establish_connection,
+)
 from bluetooth_data_tools import short_address
 from bluetooth_sensor_state_data import BluetoothData
+from click import command
+from homeassistant.components.bluetooth import async_ble_device_from_address
+from homeassistant.exceptions import ConfigEntryAuthFailed
 
-from .const import LOGGER
+from .const import (
+    AUTH_RESPONSE_LENGTH,
+    LOGGER,
+    MESSAGE_RECEIVE_BYTE,
+    MESSAGE_SEND_BYTE,
+    MESSAGE_START_BYTE,
+    MINIMUM_MESSAGE_LENGTH,
+    UUID_CHAR_AUTHENTICATE,
+    UUID_CHAR_DATA_IN,
+    UUID_CHAR_DATA_OUT,
+    UUID_SERVICE,
+    EepromParam,
+    MessageType,
+    MessageTypeMisc,
+    MowerFamily,
+)
 
 if TYPE_CHECKING:
     from homeassistant.components.bluetooth import (
         BluetoothServiceInfoBleak as BluetoothServiceInfo,
     )
+    from homeassistant.core import HomeAssistant
+
+
+RESPONSE_COMMAND_COUNTER_SIZE = 2
+
+
+class PendingCommand(NamedTuple):
+    """Command metadata kept in the pending-response FIFO queue."""
+
+    counter: int
+    msg_type: MessageType
+    payload: bytes
+
+
+class RoboMowBLEDevice:
+    """Representation of a Robomow BLE device."""
+
+    def __init__(
+        self, hass: HomeAssistant, address: str, mainboard_serial: str
+    ) -> None:
+        """Initialize the device."""
+        self._hass: HomeAssistant = hass
+        self._address: str = address
+        self._mainboard_serial: bytes = (
+            mainboard_serial.strip().encode("utf-8") + b"\x00"
+        )
+
+        self._client: BleakClientWithServiceCache | None = None
+        self._service: BleakGATTService | None = None
+        self._char_auth: BleakGATTCharacteristic | None = None
+        self._char_data_in: BleakGATTCharacteristic | None = None
+        self._char_data_out: BleakGATTCharacteristic | None = None
+        self._command_counter: int = 0
+        self._pending_commands: deque[PendingCommand] = deque()
+        self._receive_buffer: bytearray = bytearray()
+
+        self._family: MowerFamily | None = None
+        self.software_version: int | None = None
+        self.software_release: int | None = None
+        self.mainboard_version: int | None = None
+
+    @property
+    def address(self) -> str:
+        """Return the device address."""
+        return self._address
+
+    @property
+    def mainboard_serial(self) -> str:
+        """Return the mainboard serial number."""
+        return self._mainboard_serial.decode("utf-8").rstrip("\x00")
+
+    @property
+    def family(self) -> MowerFamily:
+        """Return the mower family, if known."""
+        return self._family or MowerFamily.Unknown
+
+    @family.setter
+    def family(self, value: MowerFamily | int) -> None:
+        self._family = MowerFamily(value)
+
+    async def connect(self) -> None:
+        """Create and connect a Robomow BLE client."""
+        if self._client is not None and self._client.is_connected:
+            LOGGER.debug("BLE client already connected for address %s", self._address)
+            return
+
+        LOGGER.debug("Connecting to Robomow BLE device at address %s", self._address)
+        ble_device = async_ble_device_from_address(
+            self._hass, self._address, connectable=True
+        )
+        if ble_device is None:
+            raise BleakDeviceNotFoundError(self._address)
+
+        try:
+            self._client = await establish_connection(
+                BleakClientWithServiceCache,
+                ble_device,
+                ble_device.address,
+                disconnected_callback=self._handle_disconnect,
+            )
+            await self._client.pair()
+        except Exception as e:
+            LOGGER.error("Error connecting to Robomow BLE device: %s", e)
+            await self.disconnect()
+            raise
+
+        self._service = self._client.services.get_service(UUID_SERVICE)
+        if self._service is None:
+            raise BleakCharacteristicNotFoundError(UUID_SERVICE)
+
+        self._char_auth = self._service.get_characteristic(UUID_CHAR_AUTHENTICATE)
+        if self._char_auth is None:
+            raise BleakCharacteristicNotFoundError(UUID_CHAR_AUTHENTICATE)
+        self._char_data_in = self._service.get_characteristic(UUID_CHAR_DATA_IN)
+        if self._char_data_in is None:
+            raise BleakCharacteristicNotFoundError(UUID_CHAR_DATA_IN)
+        self._char_data_out = self._service.get_characteristic(UUID_CHAR_DATA_OUT)
+        if self._char_data_out is None:
+            raise BleakCharacteristicNotFoundError(UUID_CHAR_DATA_OUT)
+
+        try:
+            await self._client.write_gatt_char(
+                self._char_auth, self._mainboard_serial, response=True
+            )
+        except Exception as e:
+            LOGGER.error("Error connecting to Robomow BLE device: %s", e)
+            await self.disconnect()
+            raise
+
+        auth_response = await self._client.read_gatt_char(self._char_auth)
+        if len(auth_response) != AUTH_RESPONSE_LENGTH or (
+            any(byte != 0x01 for byte in auth_response)
+            and auth_response != self._mainboard_serial
+        ):
+            LOGGER.debug(
+                "Authentication failed: invalid response payload: %s",
+                auth_response.hex(),
+            )
+            raise ConfigEntryAuthFailed
+
+        try:
+            await self._client.start_notify(
+                self._char_data_in, self._handle_data_received
+            )
+        except Exception as e:
+            LOGGER.error("Error connecting to Robomow BLE device: %s", e)
+            await self.disconnect()
+            raise
+
+        self._command_counter = 0
+        self._pending_commands.clear()
+        self._receive_buffer.clear()
+
+    async def _write_value(self, data: bytes | None) -> bool:
+        """Write a packet payload to the mower data output characteristic."""
+        LOGGER.debug("Writing value to device: %s", data.hex() if data else None)
+        if not (
+            self._client and self._client.is_connected and self._char_data_out and data
+        ):
+            return False
+
+        await self._client.write_gatt_char(self._char_data_out, data, response=True)
+        return True
+
+    @staticmethod
+    def _calculate_checksum(data: bytes) -> int:
+        """Calculate packet checksum by XORing 0xFF with the byte sum."""
+        return (~sum(data)) & 0xFF
+
+    async def _send_packet(
+        self, msg_type: MessageType, extra: bytes | None = None
+    ) -> bool:
+        """Update packet checksum and write it to the BLE characteristic."""
+        LOGGER.debug(
+            "Sending packet with msg_type %d and extra data: %s",
+            msg_type,
+            extra.hex() if extra else None,
+        )
+
+        if extra is None:
+            extra = b""
+
+        packet = bytearray(
+            (
+                MESSAGE_START_BYTE,
+                5 + len(extra),
+                MESSAGE_SEND_BYTE,
+                msg_type,
+                *list(extra),
+            )
+        )
+        packet.append(self._calculate_checksum(packet))
+
+        return await self._write_value(packet)
+
+    async def send_simple_msg(self, msg_type: MessageType) -> bool:
+        """Send a simple message with frame [AA, 05, 1F, type, checksum]."""
+        return await self._send_packet(msg_type)
+
+    async def _send_msg_with_sequence(
+        self, msg_type: MessageType, payload: bytes
+    ) -> bool:
+        """Send a message with a 2-byte command counter and the given payload."""
+        command_counter = self._command_counter = self._command_counter + 1
+        buf = struct.pack(">H", command_counter) + payload
+        sent = await self._send_packet(msg_type, buf)
+        if sent:
+            self._pending_commands.append(
+                PendingCommand(command_counter, msg_type, payload)
+            )
+        return sent
+
+    async def send_misc_msg(self, misc_type: MessageTypeMisc) -> bool:
+        """Send a miscellaneous message with the given type and command counter."""
+        return await self._send_msg_with_sequence(
+            MessageType.MISCELLANEOUS, struct.pack(">H", misc_type)
+        )
+
+    async def send_read_eeprom_param(self, param: EepromParam) -> bool:
+        """Send a message to read an EEPROM parameter with the given ID."""
+        return await self._send_msg_with_sequence(
+            MessageType.READEEPROM, struct.pack(">H", param)
+        )
+
+    async def send_write_eeprom_param(self, param: EepromParam, payload: bytes) -> bool:
+        """Send a message to write an EEPROM parameter with the given ID and payload."""
+        return await self._send_msg_with_sequence(
+            MessageType.WRITEEEPROM, struct.pack(">H", param) + payload
+        )
+
+    def _pop_pending_command(
+        self, command_counter: int, msg_type: MessageType
+    ) -> PendingCommand | None:
+        """Pop the matching pending command for a response command counter."""
+        for index, pending in enumerate(self._pending_commands):
+            if pending.counter != command_counter:
+                continue
+
+            skipped = [self._pending_commands.popleft() for _ in range(index)]
+            if skipped:
+                LOGGER.warning(
+                    (
+                        "Detected %d missing response(s) before command counter "
+                        "%d for %s: %s"
+                    ),
+                    len(skipped),
+                    command_counter,
+                    self._address,
+                    ", ".join(str(command.counter) for command in skipped),
+                )
+
+            cmd = self._pending_commands.popleft()
+            if cmd.msg_type != msg_type:
+                LOGGER.warning(
+                    (
+                        "Expected response of type %s for command counter %d but "
+                        "got type %s from %s"
+                    ),
+                    msg_type.name,
+                    command_counter,
+                    cmd.msg_type.name,
+                    self._address,
+                )
+                return None
+            return cmd
+
+        LOGGER.warning(
+            "Received response for unknown command counter %d from %s",
+            command_counter,
+            self._address,
+        )
+        return None
+
+    def _handle_disconnect(self, _client: BleakClientWithServiceCache) -> None:
+        """Handle BLE disconnect callback."""
+        LOGGER.debug("BLE client disconnected for address %s", self._address)
+        self._client = None
+        self._service = None
+        self._char_auth = None
+        self._char_data_in = None
+        self._char_data_out = None
+        self._pending_commands.clear()
+        self._receive_buffer.clear()
+
+    def _handle_data_received(self, _sender: object, data: bytearray) -> None:
+        """Handle BLE notifications."""
+        self._receive_buffer.extend(data)
+
+        while len(self._receive_buffer) >= MINIMUM_MESSAGE_LENGTH:
+            if (
+                self._receive_buffer[0] != MESSAGE_START_BYTE
+                or self._receive_buffer[2] != MESSAGE_RECEIVE_BYTE
+            ):
+                LOGGER.warning(
+                    "Received malformed packet from %s: %s",
+                    self._address,
+                    self._receive_buffer.hex(),
+                )
+                self._receive_buffer.clear()
+                return
+
+            packet_len = self._receive_buffer[1]
+            if len(self._receive_buffer) >= packet_len:
+                packet = self._receive_buffer[:packet_len]
+                self._receive_buffer = self._receive_buffer[packet_len:]
+
+                if self._calculate_checksum(packet[:-1]) != packet[-1]:
+                    LOGGER.warning(
+                        "Received packet with invalid checksum from %s: %s",
+                        self._address,
+                        packet.hex(),
+                    )
+                    return
+
+                self._process_message(MessageType(packet[3]), packet[4:-1])
+
+    def _process_message(self, msg_type: MessageType, payload: bytes) -> None:
+        """Process a complete packet received from the mower."""
+        LOGGER.debug(
+            "Processing packet from %s with msg_type %d and payload: %s",
+            self._address,
+            msg_type,
+            payload.hex(),
+        )
+
+        if msg_type == MessageType.GETCONFIG:
+            if len(payload) < 5:
+                LOGGER.warning(
+                    "Received GETCONFIG response with payload too short from %s: %s",
+                    self._address,
+                    payload.hex(),
+                )
+                return
+            (
+                self.family,
+                self._software_version,
+                self._software_release,
+                self._mainboard_version,
+            ) = struct.unpack_from(">BBHB", payload)
+            LOGGER.debug(
+                f"Updated device info for {self._address}: "
+                f"family={self.family.name}, "
+                f"software_version={self.software_version}, "
+                f"software_release={self.software_release}, "
+                f"mainboard_version={self.mainboard_version}"
+            )
+        elif msg_type in (
+            MessageType.ACKNOWLEDGE,
+            MessageType.MISCELLANEOUS,
+            MessageType.READEEPROM,
+        ):
+            if len(payload) < RESPONSE_COMMAND_COUNTER_SIZE:
+                LOGGER.warning(
+                    (
+                        "Received %s response with payload too short for command "
+                        "counter from %s: %s"
+                    ),
+                    msg_type.name,
+                    self._address,
+                    payload.hex(),
+                )
+                return
+
+            command_counter = struct.unpack_from(">H", payload)[0]
+            response = PendingCommand(command_counter, msg_type, payload[2:])
+
+            request = self._pop_pending_command(response.counter, msg_type)
+            if not request:
+                LOGGER.warning(
+                    "Received %s response with unknown command counter %d from %s",
+                    msg_type.name,
+                    command_counter,
+                    self._address,
+                )
+                return
+
+            if msg_type == MessageType.READEEPROM:
+                LOGGER.debug(
+                    "Received READEEPROM response for command counter %d: %s => %s",
+                    command_counter,
+                    request.payload.hex(),
+                    response.payload.hex(),
+                )
+
+                if len(response.payload) < 4:
+                    LOGGER.warning(
+                        "Received READEEPROM response for PROGRAM_ENABLED with "
+                        "payload too short from %s: %s",
+                        self._address,
+                        response.payload.hex(),
+                    )
+                    return
+
+                if (
+                    struct.unpack_from(">L", request.payload)[0]
+                    == EepromParam.PROGRAM_ENABLED
+                ):
+                    program_enabled = response.payload[2] != 0
+                    LOGGER.debug("Program enabled: %s", program_enabled)
+
+            else:
+                LOGGER.debug(
+                    "Matched response command counter %d to queued %s "
+                    "command: %s => %s",
+                    command_counter,
+                    request.msg_type.name,
+                    request.payload.hex(),
+                    response.payload.hex(),
+                )
+
+    async def disconnect(self) -> None:
+        """Disconnect the BLE client."""
+        LOGGER.debug("BLE client disconnect called")
+        if self._client is not None and self._client.is_connected:
+            if self._char_data_in is not None:
+                await self._client.stop_notify(self._char_data_in)
+            await self._client.disconnect()
+
+        self._client = None
+        self._service = None
+        self._char_auth = None
+        self._char_data_in = None
+        self._char_data_out = None
+        self._pending_commands.clear()
+
+    def is_connected(self) -> bool:
+        """Return True if the client is connected."""
+        return self._client is not None and self._client.is_connected
+
+    def __del__(self) -> None:
+        """Clean up the BLE connection when the instance is garbage collected."""
+        LOGGER.debug("RoboMowBLEDevice instance is being garbage collected")
+        if self._client is not None and self._client.is_connected:
+            self._hass.async_create_task(self._client.disconnect())
+
+    async def update(self) -> None:
+        """Trigger an update by reading from the device."""
+        LOGGER.debug("Triggering update by reading from the device")
+        try:
+            await self.connect()
+        except Exception as e:
+            LOGGER.error("Error connecting to device during update: %s", e)
+            return
+
+        await self.send_simple_msg(MessageType.GETCONFIG)
+        await self.send_simple_msg(MessageType.USER)
+        await self.send_read_eeprom_param(EepromParam.PROGRAM_ENABLED)
+
+        await asyncio.sleep(1)
 
 
 class RoboMowBLEDeviceData(BluetoothData):
     """Data about a Robomow BLE device."""
 
+    def __init__(self) -> None:
+        """Initialize the device data."""
+        super().__init__()
+
     def _start_update(self, service_info: BluetoothServiceInfo) -> None:
         """Update from BLE advertisement data."""
-
-        manufacturer_data = service_info.manufacturer_data
-        _service_uuids = service_info.service_uuids
-        local_name = service_info.name
-        address = service_info.address
-        self.set_device_manufacturer("Robomow")
-
-        if local_name.startswith("Robomow_"):
-            self.set_device_name(service_info.name[8:].replace("_", " "))
-
-        if local_name.startswith("RM"):
-            self.set_device_name(service_info.name[2:].replace("_", " "))
+        LOGGER.debug(
+            "Processing Bluetooth service info (_start_update): %s", service_info
+        )
+        self.set_device_manufacturer("RoboMow")
+        self.set_device_name(service_info.name)
         self.set_precision(2)
 
-        for mfr_id in manufacturer_data:
-            if mfr_id == 2409:
-                self.set_device_type("RX")
-                self.set_device_name(f"RX{short_address(address)}")
-                return
+        if UUID_SERVICE in map(str.lower, service_info.service_uuids or []):
+            LOGGER.debug("Processing Bluetooth service info: %s", service_info)
+            self.set_device_type("RoboMow")
+            if service_info.name:
+                self.set_device_name(service_info.name.replace("_", " "))
+            else:
+                self.set_device_name(f"RoboMow {short_address(service_info.address)}")
+            return
 
     @property
     def device_type(self) -> str | None:
@@ -46,3 +508,34 @@ class RoboMowBLEDeviceData(BluetoothData):
             return device_type.partition("-")[0]
         return None
 
+    async def async_check_mainboard_serial(
+        self,
+        hass: HomeAssistant,
+        address: str,
+        mainboard_serial: str,
+    ) -> bool:
+        """Set the mainboard serial number and validate it via BLE authentication."""
+        client = RoboMowBLEDevice(hass, address, mainboard_serial)
+        await client.connect()
+
+        if not client.is_connected():
+            return False
+
+        self._mainboard_serial = mainboard_serial
+        await client.send_simple_msg(MessageType.GETCONFIG)
+
+        for _ in range(10):
+            if client.family is not None:
+                break
+            await asyncio.sleep(0.1)
+
+        if client.family is not None:
+            self.set_device_hw_version(f"{client.mainboard_version}")
+            self.set_device_sw_version(
+                f"{client.software_version} ({client.software_release}))"
+            )
+            self.set_device_type(f"RoboMow {client.family.name}")
+
+        await client.disconnect()
+
+        return True

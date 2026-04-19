@@ -2,23 +2,28 @@
   "domain": "robomow_ble",
   "name": "Robomow via Bluetooth",
   "version": "0.1.0",
-  "codeowners": ["@arjanmels"],
+  "codeowners": [
+    "@arjanmels"
+  ],
   "integration_type": "device",
-  "dependencies": ["bluetooth_adapters"],
-  "requirements": ["sensor-state-data==2.20.0", "bluetooth-sensor-state-data==1.9.0"],
+  "dependencies": [
+    "bluetooth_adapters"
+  ],
+  "requirements": [
+    "sensor-state-data==2.20.0",
+    "bluetooth-sensor-state-data==1.9.0"
+  ],
   "config_flow": true,
   "iot_class": "local_push",
   "issue_tracker": "https://github.com/arjanmels/Robomow-HA/issues",
   "documentation": "https://github.com/arjanmels/Robomow-HA",
-  "loggers": ["robomow_ble"],
+  "loggers": [
+    "robomow_ble"
+  ],
   "bluetooth": [
     {
-      "connectable": false,
-      "service_uuid": "cba20d00-224d-11e6-9fb8-0002a5d5c51b"
-    },
-    {
-      "connectable": false,
-      "manufacturer_id": 2409
+      "connectable": true,
+      "service_uuid": "ff00a501-d020-913c-1234-56d97200a6a6"
     }
   ]
 }
