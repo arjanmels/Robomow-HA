@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING
 from homeassistant.components.bluetooth import BluetoothScanningMode
 from homeassistant.const import Platform
 from homeassistant.exceptions import ConfigEntryError
+from regex import P
 
 from custom_components.robomow_ble.const import CONF_MAINBOARD_SERIAL, DOMAIN, LOGGER
 
@@ -20,7 +21,7 @@ from .coordinator import (
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
 
-PLATFORMS: list[Platform] = [Platform.SENSOR]
+PLATFORMS: list[Platform] = [Platform.SENSOR, Platform.SWITCH]
 
 _LOGGER = logging.getLogger(__name__)
 

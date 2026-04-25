@@ -3,15 +3,15 @@
 from __future__ import annotations
 
 import asyncio
-from collections import deque
 import struct
+from collections import deque
+from datetime import datetime, timedelta
 from typing import TYPE_CHECKING, NamedTuple
 
-from bleak.backends.characteristic import BleakGATTCharacteristic
-from bleak.backends.service import BleakGATTService
 from bleak.exc import (
     BleakCharacteristicNotFoundError,
     BleakDeviceNotFoundError,
+    BleakError,
 )
 from bleak_retry_connector import (
     BleakClientWithServiceCache,
@@ -19,9 +19,9 @@ from bleak_retry_connector import (
 )
 from bluetooth_data_tools import short_address
 from bluetooth_sensor_state_data import BluetoothData
-from click import command
 from homeassistant.components.bluetooth import async_ble_device_from_address
 from homeassistant.exceptions import ConfigEntryAuthFailed
+from homeassistant.helpers.event import async_track_time_interval
 
 from .const import (
     AUTH_RESPONSE_LENGTH,
@@ -41,6 +41,10 @@ from .const import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
+    from bleak.backends.characteristic import BleakGATTCharacteristic
+    from bleak.backends.service import BleakGATTService
     from homeassistant.components.bluetooth import (
         BluetoothServiceInfoBleak as BluetoothServiceInfo,
     )
@@ -79,11 +83,36 @@ class RoboMowBLEDevice:
         self._command_counter: int = 0
         self._pending_commands: deque[PendingCommand] = deque()
         self._receive_buffer: bytearray = bytearray()
+        self._state_listeners: set[Callable[[], None]] = set()
+        self._date_time_poll_cancel: Callable[[], None] | None = None
+        self._status_poll_cancel: Callable[[], None] | None = None
 
         self._family: MowerFamily | None = None
         self.software_version: int | None = None
         self.software_release: int | None = None
         self.mainboard_version: int | None = None
+        self.program_enabled: bool | None = None
+
+    def add_state_listener(self, listener: Callable[[], None]) -> Callable[[], None]:
+        """Register a callback for connection/program state changes."""
+        self._state_listeners.add(listener)
+
+        def _remove_listener() -> None:
+            self._state_listeners.discard(listener)
+
+        return _remove_listener
+
+    def _notify_state_listeners(self) -> None:
+        """Notify listeners that connection or program state changed."""
+        for listener in tuple(self._state_listeners):
+            listener()
+
+    def _set_program_enabled(self, *, enabled: bool | None) -> None:
+        """Update program_enabled and emit change callbacks when needed."""
+        if self.program_enabled == enabled:
+            return
+        self.program_enabled = enabled
+        self._notify_state_listeners()
 
     @property
     def address(self) -> str:
@@ -176,6 +205,17 @@ class RoboMowBLEDevice:
         self._command_counter = 0
         self._pending_commands.clear()
         self._receive_buffer.clear()
+        self._set_program_enabled(enabled=None)
+        self._notify_state_listeners()
+
+        # Start periodic date/time updates
+        self._start_date_time_polling()
+
+        # Start periodic GET_STATUS polling
+        self._start_status_polling()
+
+        await self.send_simple_msg(MessageType.GET_CONFIG)
+        await self.send_simple_msg(MessageType.GET_STATUS)
 
     async def _write_value(self, data: bytes | None) -> bool:
         """Write a packet payload to the mower data output characteristic."""
@@ -198,8 +238,8 @@ class RoboMowBLEDevice:
     ) -> bool:
         """Update packet checksum and write it to the BLE characteristic."""
         LOGGER.debug(
-            "Sending packet with msg_type %d and extra data: %s",
-            msg_type,
+            "Sending packet with msg_type %s and extra data: %s",
+            msg_type.name,
             extra.hex() if extra else None,
         )
 
@@ -229,29 +269,98 @@ class RoboMowBLEDevice:
         """Send a message with a 2-byte command counter and the given payload."""
         command_counter = self._command_counter = self._command_counter + 1
         buf = struct.pack(">H", command_counter) + payload
+        pending_command = PendingCommand(command_counter, msg_type, payload)
+        self._pending_commands.append(pending_command)
         sent = await self._send_packet(msg_type, buf)
-        if sent:
-            self._pending_commands.append(
-                PendingCommand(command_counter, msg_type, payload)
-            )
+        if not sent:
+            self._pending_commands.remove(pending_command)
+
         return sent
 
-    async def send_misc_msg(self, misc_type: MessageTypeMisc) -> bool:
+    async def _send_misc_msg(self, misc_type: MessageTypeMisc) -> bool:
         """Send a miscellaneous message with the given type and command counter."""
         return await self._send_msg_with_sequence(
             MessageType.MISCELLANEOUS, struct.pack(">H", misc_type)
         )
 
-    async def send_read_eeprom_param(self, param: EepromParam) -> bool:
-        """Send a message to read an EEPROM parameter with the given ID."""
-        return await self._send_msg_with_sequence(
-            MessageType.READEEPROM, struct.pack(">H", param)
+    def _start_date_time_polling(self) -> None:
+        """Start sending date/time updates every minute while connected."""
+        if not self.is_connected():
+            return
+
+        self._date_time_poll_cancel = async_track_time_interval(
+            self._hass,
+            self._on_date_time_poll,
+            timedelta(minutes=1),
         )
 
-    async def send_write_eeprom_param(self, param: EepromParam, payload: bytes) -> bool:
+    async def _on_date_time_poll(self, _now: datetime) -> None:
+        """Send periodic date/time update while connected."""
+        if self.is_connected():
+            await self.update_date_time()
+            LOGGER.debug("Sent periodic date/time update to %s", self._address)
+
+    def _start_status_polling(self) -> None:
+        """Start sending GET_STATUS every 10 seconds while connected."""
+        if not self.is_connected():
+            return
+
+        self._status_poll_cancel = async_track_time_interval(
+            self._hass,
+            self._on_status_poll,
+            timedelta(seconds=10),
+        )
+
+    async def _on_status_poll(self, _now: datetime) -> None:
+        """Send periodic GET_STATUS command while connected."""
+        if not self.is_connected():
+            return
+
+        sent = await self.send_simple_msg(MessageType.GET_STATUS)
+        if sent:
+            LOGGER.debug("Sent periodic GET_STATUS to %s", self._address)
+
+    async def _read_eeprom_param(self, param: EepromParam) -> bool:
+        """Send a message to read an EEPROM parameter with the given ID."""
+        return await self._send_msg_with_sequence(
+            MessageType.READ_EEPROM, struct.pack(">H", param)
+        )
+
+    async def _write_eeprom_param(self, param: EepromParam, payload: bytes) -> bool:
         """Send a message to write an EEPROM parameter with the given ID and payload."""
         return await self._send_msg_with_sequence(
-            MessageType.WRITEEEPROM, struct.pack(">H", param) + payload
+            MessageType.WRITE_EEPROM, struct.pack(">H", param) + payload
+        )
+
+    async def enable_program(self) -> bool:
+        """Send a message to enable the mower program."""
+        return await self._write_eeprom_param(
+            EepromParam.PROGRAM_ENABLED, struct.pack(">L", 1)
+        )
+
+    async def disable_program(self) -> bool:
+        """Send a message to disable the mower program."""
+        return await self._write_eeprom_param(
+            EepromParam.PROGRAM_ENABLED, struct.pack(">L", 0)
+        )
+
+    async def update_date_time(self, timestamp: datetime | None = None) -> bool:
+        """Send a message to update the mower date and time."""
+        timestamp = timestamp or datetime.now().astimezone()
+        return await self._send_msg_with_sequence(
+            MessageType.UPDATE_DATE_TIME,
+            struct.pack(
+                ">HBBHBBB",
+                1,
+                timestamp.day,
+                timestamp.month,
+                timestamp.year,
+                timestamp.hour,
+                timestamp.minute,
+                # The mower's update-time payload is sent with minute-level precision,
+                # so seconds are intentionally set to 0.
+                0,
+            ),
         )
 
     def _pop_pending_command(
@@ -276,15 +385,15 @@ class RoboMowBLEDevice:
                 )
 
             cmd = self._pending_commands.popleft()
-            if cmd.msg_type != msg_type:
+            if msg_type not in (MessageType.ACKNOWLEDGE, cmd.msg_type):
                 LOGGER.warning(
                     (
                         "Expected response of type %s for command counter %d but "
                         "got type %s from %s"
                     ),
-                    msg_type.name,
-                    command_counter,
                     cmd.msg_type.name,
+                    command_counter,
+                    msg_type.name,
                     self._address,
                 )
                 return None
@@ -307,6 +416,19 @@ class RoboMowBLEDevice:
         self._char_data_out = None
         self._pending_commands.clear()
         self._receive_buffer.clear()
+        self._set_program_enabled(enabled=None)
+
+        # Cancel periodic date/time polling
+        if self._date_time_poll_cancel is not None:
+            self._date_time_poll_cancel()
+            self._date_time_poll_cancel = None
+
+        # Cancel periodic GET_STATUS polling
+        if self._status_poll_cancel is not None:
+            self._status_poll_cancel()
+            self._status_poll_cancel = None
+
+        self._notify_state_listeners()
 
     def _handle_data_received(self, _sender: object, data: bytearray) -> None:
         """Handle BLE notifications."""
@@ -343,13 +465,13 @@ class RoboMowBLEDevice:
     def _process_message(self, msg_type: MessageType, payload: bytes) -> None:
         """Process a complete packet received from the mower."""
         LOGGER.debug(
-            "Processing packet from %s with msg_type %d and payload: %s",
+            "Processing packet from %s with msg_type %s and payload: %s",
             self._address,
-            msg_type,
+            msg_type.name,
             payload.hex(),
         )
 
-        if msg_type == MessageType.GETCONFIG:
+        if msg_type == MessageType.GET_CONFIG:
             if len(payload) < 5:
                 LOGGER.warning(
                     "Received GETCONFIG response with payload too short from %s: %s",
@@ -373,7 +495,7 @@ class RoboMowBLEDevice:
         elif msg_type in (
             MessageType.ACKNOWLEDGE,
             MessageType.MISCELLANEOUS,
-            MessageType.READEEPROM,
+            MessageType.READ_EEPROM,
         ):
             if len(payload) < RESPONSE_COMMAND_COUNTER_SIZE:
                 LOGGER.warning(
@@ -400,7 +522,7 @@ class RoboMowBLEDevice:
                 )
                 return
 
-            if msg_type == MessageType.READEEPROM:
+            if msg_type == MessageType.READ_EEPROM:
                 LOGGER.debug(
                     "Received READEEPROM response for command counter %d: %s => %s",
                     command_counter,
@@ -418,11 +540,13 @@ class RoboMowBLEDevice:
                     return
 
                 if (
-                    struct.unpack_from(">L", request.payload)[0]
+                    struct.unpack_from(">H", request.payload)[0]
                     == EepromParam.PROGRAM_ENABLED
                 ):
-                    program_enabled = response.payload[2] != 0
-                    LOGGER.debug("Program enabled: %s", program_enabled)
+                    self._set_program_enabled(
+                        enabled=struct.unpack_from(">L", response.payload)[0] != 0
+                    )
+                    LOGGER.debug("Program enabled: %s", self.program_enabled)
 
             else:
                 LOGGER.debug(
@@ -448,6 +572,19 @@ class RoboMowBLEDevice:
         self._char_data_in = None
         self._char_data_out = None
         self._pending_commands.clear()
+        self._set_program_enabled(enabled=None)
+
+        # Cancel periodic date/time polling
+        if self._date_time_poll_cancel is not None:
+            self._date_time_poll_cancel()
+            self._date_time_poll_cancel = None
+
+        # Cancel periodic GET_STATUS polling
+        if self._status_poll_cancel is not None:
+            self._status_poll_cancel()
+            self._status_poll_cancel = None
+
+        self._notify_state_listeners()
 
     def is_connected(self) -> bool:
         """Return True if the client is connected."""
@@ -464,13 +601,11 @@ class RoboMowBLEDevice:
         LOGGER.debug("Triggering update by reading from the device")
         try:
             await self.connect()
-        except Exception as e:
+        except BleakError as e:
             LOGGER.error("Error connecting to device during update: %s", e)
             return
 
-        await self.send_simple_msg(MessageType.GETCONFIG)
-        await self.send_simple_msg(MessageType.USER)
-        await self.send_read_eeprom_param(EepromParam.PROGRAM_ENABLED)
+        await self._read_eeprom_param(EepromParam.PROGRAM_ENABLED)
 
         await asyncio.sleep(1)
 
@@ -522,7 +657,7 @@ class RoboMowBLEDeviceData(BluetoothData):
             return False
 
         self._mainboard_serial = mainboard_serial
-        await client.send_simple_msg(MessageType.GETCONFIG)
+        await client.send_simple_msg(MessageType.GET_CONFIG)
 
         for _ in range(10):
             if client.family is not None:

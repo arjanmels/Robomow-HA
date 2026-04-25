@@ -29,11 +29,12 @@ class MessageType(IntEnum):
     """Basic message types used in packet payloads."""
 
     ACKNOWLEDGE = 0x04
-    GETCONFIG = 0x0F
+    GET_CONFIG = 0x0F
     MISCELLANEOUS = 0x16
-    USER = 0x1B
-    WRITEEEPROM = 0x1F
-    READEEPROM = 0x20
+    GET_STATUS = 0x1B
+    UPDATE_DATE_TIME = 0x1D
+    WRITE_EEPROM = 0x1F
+    READ_EEPROM = 0x20
 
 
 class MessageTypeMisc(IntEnum):

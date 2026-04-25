@@ -126,6 +126,11 @@ class RoboMowBLECoordinator(
             hass, self._async_poll_timed, timedelta(seconds=30)
         )
 
+    @property
+    def device(self) -> RoboMowBLEDevice:
+        """Return the BLE device."""
+        return self._client
+
     def __del__(self) -> None:
         """Clean up resources when the coordinator is garbage collected."""
         LOGGER.debug("RoboMowBLECoordinator instance is being garbage collected")
