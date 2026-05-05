@@ -2,28 +2,29 @@
 
 from __future__ import annotations
 
-import time
-from dataclasses import dataclass
-from datetime import datetime, timedelta
-from typing import TYPE_CHECKING
+from datetime import UTC, datetime, timedelta
+from typing import TYPE_CHECKING, Any
 
+from bleak.exc import BleakError
 from homeassistant import config_entries
+from homeassistant.components import bluetooth
 from homeassistant.components.bluetooth import (
+    BluetoothChange,
     BluetoothScanningMode,
-    async_ble_device_from_address,
 )
 from homeassistant.components.bluetooth.active_update_processor import (
     ActiveBluetoothProcessorCoordinator,
 )
-from homeassistant.components.bluetooth.passive_update_processor import (
-    PassiveBluetoothDataProcessor,
-)
+from homeassistant.helpers.device_registry import CONNECTION_BLUETOOTH
+from homeassistant.helpers.entity import Entity
 from homeassistant.helpers.event import async_track_time_interval
 
 from custom_components.robomow_ble.ble_handler import RoboMowBLEDevice
-from custom_components.robomow_ble.const import LOGGER
+from custom_components.robomow_ble.const import DOMAIN, LOGGER
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from homeassistant.components.bluetooth import (
         BluetoothServiceInfoBleak,
     )
@@ -33,71 +34,53 @@ if TYPE_CHECKING:
 type RoboMowBLEConfigEntry = config_entries.ConfigEntry[RoboMowBLECoordinator]
 
 
-@dataclass(slots=True)
-class RoboMowBLEAdvertisement:
-    """Normalized data from a RoboMow BLE advertisement."""
-
-    address: str
-    name: str | None
-    rssi: int | None
+POLL_INTERVAL_SECONDS = 30
+POLL_INTERVAL = timedelta(seconds=POLL_INTERVAL_SECONDS)
 
 
-def process_service_info(
-    service_info: BluetoothServiceInfoBleak,
-) -> RoboMowBLEAdvertisement:
-    """Process bluetooth service info into normalized update data."""
-    return RoboMowBLEAdvertisement(
-        address=service_info.address,
-        name=service_info.name,
-        rssi=service_info.rssi,
-    )
+def _ignore_service_info(_service_info: BluetoothServiceInfoBleak) -> None:
+    """Ignore advertisement payloads; this integration polls on a timer."""
+    return
 
 
-class RoboMowBLECoordinator(
-    ActiveBluetoothProcessorCoordinator[RoboMowBLEAdvertisement]
-):
-    """Coordinator for passive RoboMow BLE advertisements."""
+class RoboMowBLECoordinator(ActiveBluetoothProcessorCoordinator[None]):
+    """Coordinator for timed Robomow BLE polling."""
 
     def _needs_poll(
         self,
-        service_info: BluetoothServiceInfoBleak,
-        last_poll: float | None,
+        _service_info: BluetoothServiceInfoBleak,
+        _last_poll: float | None,
     ) -> bool:
-        """Return whether the coordinator should poll the device."""
-        poll_needed = (
-            time.time() - (last_poll or 0) > 1
-            and async_ble_device_from_address(
-                self.hass, service_info.device.address, connectable=True
-            )
-            is not None
-        )
-
+        """Enable advertisement-driven polling."""
         LOGGER.debug(
-            f"Needs poll for {service_info.name} "
-            f"(last poll: {last_poll}): {poll_needed}"
+            "Polling always needed: need to restore connection if device is advertising"
         )
-        return poll_needed
-
-    async def _async_poll(self) -> RoboMowBLEAdvertisement | None:
-        """Poll the device for updated data."""
-        LOGGER.debug("Polling device for updated data")
-        try:
-            await self._client.update()
-        except Exception as e:
-            LOGGER.error("Error polling device: %s", e)
-        return None
+        return True
 
     async def _async_poll_advertisement(
-        self, service_info: BluetoothServiceInfoBleak
-    ) -> RoboMowBLEAdvertisement:
-        LOGGER.debug("Polling device for service info: %s", service_info)
-        await self._async_poll()
-        return process_service_info(service_info)
+        self, _service_info: BluetoothServiceInfoBleak
+    ) -> None:
+        """Poll the device on every advertisement."""
+        LOGGER.debug("Starting poll of device %s", self.address)
+        try:
+            await self._client.connect()
+            bluetooth.async_clear_advertisement_history(self.hass, self.address)
+        except BleakError as e:
+            LOGGER.error("Error polling device: %s", e)
 
-    async def _async_poll_timed(self, _now: datetime) -> None:
-        """Handle timed polling callback."""
-        LOGGER.debug("Timed poll triggered")
-        await self._async_poll()
+    def _async_handle_bluetooth_event(
+        self,
+        _service_info: BluetoothServiceInfoBleak,
+        _change: BluetoothChange,
+    ) -> None:
+        """Handle incoming Bluetooth events."""
+        LOGGER.debug(
+            "Received Bluetooth event for device %s: change=%s, service_info=%s",
+            self.address,
+            _change,
+            _service_info,
+        )
+        super()._async_handle_bluetooth_event(_service_info, _change)
 
     def __init__(
         self,
@@ -107,43 +90,83 @@ class RoboMowBLECoordinator(
     ) -> None:
         """Initialize the RoboMow BLE active coordinator."""
         LOGGER.debug(
-            f"Initializing RoboMowBLECoordinator with address {address}"
-            f" and mainboard serial {mainboard_serial}"
+            (
+                "Initializing RoboMowBLECoordinator with address %s "
+                "and mainboard serial %s"
+            ),
+            address,
+            mainboard_serial,
         )
         super().__init__(
             hass=hass,
             logger=LOGGER,
-            mode=BluetoothScanningMode.PASSIVE,
+            mode=BluetoothScanningMode.ACTIVE,
             address=address,
-            update_method=process_service_info,
-            needs_poll_method=self._needs_poll,
             poll_method=self._async_poll_advertisement,
+            needs_poll_method=self._needs_poll,
+            update_method=_ignore_service_info,
         )
 
-        self._mainboard_serial = mainboard_serial
         self._client = RoboMowBLEDevice(hass, address, mainboard_serial)
-        self._unsub = async_track_time_interval(
-            hass, self._async_poll_timed, timedelta(seconds=30)
-        )
 
     @property
     def device(self) -> RoboMowBLEDevice:
         """Return the BLE device."""
         return self._client
 
-    def __del__(self) -> None:
-        """Clean up resources when the coordinator is garbage collected."""
-        LOGGER.debug("RoboMowBLECoordinator instance is being garbage collected")
-        if self._unsub:
-            self._unsub()
-        if self._client:
-            # Schedule the disconnect to run in the event loop
-            self.hass.async_create_task(self._client.disconnect())
+    async def async_shutdown(self) -> None:
+        """Stop polling and disconnect the BLE client."""
+        LOGGER.debug("Shutting down coordinator for %s", self.address)
+
+        await self._client.disconnect()
 
 
-class RoboMowBLEPassiveBluetoothDataProcessor[T](
-    PassiveBluetoothDataProcessor[T, RoboMowBLEAdvertisement]
-):
-    """Typed passive data processor for RoboMow BLE updates."""
+class RoboMowBLECoordinatorEntity(Entity):
+    """Base mixin for entities backed by a Robomow BLE coordinator."""
 
     coordinator: RoboMowBLECoordinator
+    _remove_state_listener: Callable[[], None] | None
+
+    def _init_coordinator_entity(self, coordinator: RoboMowBLECoordinator) -> None:
+        """Initialize shared coordinator-backed entity state."""
+        self.coordinator = coordinator
+        self._remove_state_listener = None
+
+    async def async_added_to_hass(self) -> None:
+        """Register for BLE state updates when added to Home Assistant."""
+        await super().async_added_to_hass()
+        self._remove_state_listener = self.coordinator.device.add_state_listener(
+            self._handle_device_state_update
+        )
+
+    async def async_will_remove_from_hass(self) -> None:
+        """Unregister BLE state updates when removed from Home Assistant."""
+        if self._remove_state_listener is not None:
+            self._remove_state_listener()
+            self._remove_state_listener = None
+        await super().async_will_remove_from_hass()
+
+    def _handle_device_state_update(self) -> None:
+        """Handle BLE state updates from the underlying device."""
+        if self.hass is None:
+            return
+        self.hass.loop.call_soon_threadsafe(self.async_write_ha_state)
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        """Return device information."""
+        return {
+            "connections": {(CONNECTION_BLUETOOTH, self.coordinator.address)},
+            "identifiers": {(DOMAIN, self.coordinator.address)},
+            "name": f"Robomow {self.coordinator.address.replace(':', '').upper()[-4:]}",
+            "manufacturer": "RoboMow",
+            "hw_version": self.coordinator.device.mainboard_version,
+            "sw_version": self.coordinator.device.software_release,
+            "serial_number": self.coordinator.device.mainboard_serial,
+            "model": f"RoboMow {self.coordinator.device.family}",
+        }
+
+    @property
+    def available(self) -> bool:
+        """Return True if the device is connected."""
+        return self.coordinator.device.is_connected()

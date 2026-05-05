@@ -31,7 +31,6 @@ class RoboMowBLEConfigFlow(ConfigFlow, domain=DOMAIN):
 
     def __init__(self) -> None:
         """Initialize the config flow."""
-        LOGGER.debug("Initializing config flow")
         self._discovery_info: BluetoothServiceInfoBleak | None = None
         self._discovered_device: RoboMowBLEDeviceData | None = None
         self._discovered_devices: dict[

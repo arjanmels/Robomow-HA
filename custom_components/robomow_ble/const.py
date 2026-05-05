@@ -29,18 +29,27 @@ class MessageType(IntEnum):
     """Basic message types used in packet payloads."""
 
     ACKNOWLEDGE = 0x04
+    CLEAR_USER_MESSAGE = 0x0E
     GET_CONFIG = 0x0F
+    COMMAND = 0x15
     MISCELLANEOUS = 0x16
     GET_STATUS = 0x1B
     UPDATE_DATE_TIME = 0x1D
     WRITE_EEPROM = 0x1F
     READ_EEPROM = 0x20
 
+class OperationType(IntEnum):
+    """Operation types used in command messages."""
+
+    STOP_MOWING = 0x0000
+    START_EDGE_MOWING = 0x0001
+    START_MOWING = 0x0002
+    RETURN_HOME = 0x0003
 
 class MessageTypeMisc(IntEnum):
     """Miscellaneous message types used in packet payloads."""
 
-    ROBOT_STATE = 0x08
+    ROBOT_STATE = 0x0B
     CLEAR_USER_MESSAGE = 0x0E
 
 
