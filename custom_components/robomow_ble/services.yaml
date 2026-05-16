@@ -1,0 +1,30 @@
+start_mowing:
+  name: Start mowing
+  description: Start mowing with optional starting zone and duration.
+  target:
+    entity:
+      domain: lawn_mower
+      integration: robomow_ble
+  fields:
+    starting_zone:
+      name: Starting zone
+      description: Starting zone byte (0-255). Default is 128 (0x80).
+      required: false
+      default: 128
+      selector:
+        number:
+          min: 0
+          max: 255
+          step: 1
+          mode: box
+    duration:
+      name: Duration
+      description: Mowing duration in minutes (1-255). Default is 30 minutes.
+      required: false
+      default: 30
+      selector:
+        number:
+          min: 1
+          max: 255
+          step: 1
+          mode: box

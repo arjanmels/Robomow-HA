@@ -2,63 +2,19 @@
 """Constants for Robomow."""
 
 import logging
-from enum import IntEnum, auto
+from enum import IntEnum, StrEnum
 
 LOGGER: logging.Logger = logging.getLogger(__package__)
 
 DOMAIN = "robomow_ble"
+MANUFACTURER = "RoboMow"
 
 CONF_DEVICE_TYPE = "device_type"
 CONF_MAINBOARD_SERIAL = "mainboard_serial"
 
 UUID_SERVICE = "ff00a501-d020-913c-1234-56d97200a6a6"
-UUID_CHAR_AUTHENTICATE = "ff00a502-d020-913c-1234-56d97200a6a6"
-UUID_CHAR_DATA_OUT = "ff00a503-d020-913c-1234-56d97200a6a6"
-UUID_CHAR_DATA_IN = "ff00a506-d020-913c-1234-56d97200a6a6"
 
-MAINBOARD_SERIAL_LENGTH = 14
-AUTH_RESPONSE_LENGTH = 15
-
-MINIMUM_MESSAGE_LENGTH = 4
-MESSAGE_START_BYTE = 0xAA
-MESSAGE_SEND_BYTE = 0x1F
-MESSAGE_RECEIVE_BYTE = 0x1E
-
-
-class MessageType(IntEnum):
-    """Basic message types used in packet payloads."""
-
-    ACKNOWLEDGE = 0x04
-    CLEAR_USER_MESSAGE = 0x0E
-    GET_CONFIG = 0x0F
-    COMMAND = 0x15
-    MISCELLANEOUS = 0x16
-    GET_STATUS = 0x1B
-    UPDATE_DATE_TIME = 0x1D
-    WRITE_EEPROM = 0x1F
-    READ_EEPROM = 0x20
-
-class OperationType(IntEnum):
-    """Operation types used in command messages."""
-
-    STOP_MOWING = 0x0000
-    START_EDGE_MOWING = 0x0001
-    START_MOWING = 0x0002
-    RETURN_HOME = 0x0003
-
-class MessageTypeMisc(IntEnum):
-    """Miscellaneous message types used in packet payloads."""
-
-    ROBOT_STATE = 0x0B
-    CLEAR_USER_MESSAGE = 0x0E
-
-
-class EepromParam(IntEnum):
-    """EEPROM parameter identifiers."""
-
-    PROGRAM_ENABLED = 0x8C
-    CHILD_LOCK = 0xBC
-
+UNKNOWN_FIELD_VALUE = 0xFFFF
 
 class MowerFamily(IntEnum):
     """RoboMow mower types."""
@@ -70,19 +26,63 @@ class MowerFamily(IntEnum):
     RK = 4
     RT = 5
 
-
 class MowerModel(IntEnum):
     """RoboMow mower models."""
 
-    RT300 = auto()
-    RT500 = auto()
-    RT700 = auto()
-    RK1000 = auto()
-    RK2000 = auto()
-    RK3000 = auto()
-    RK4000 = auto()
-    RKS1000 = auto()
-    RKS1200 = auto()
-    RKS1500 = auto()
-    RKS1700 = auto()
-    RKS800 = auto()
+    Unknown = -1
+    RT300 = 5
+    RT500 = 6
+    RT700 = 7
+
+
+class MowerOperatingState(StrEnum):
+    """Human-readable Robomow operating states."""
+
+    WARMING_UP = "Warming up"
+    MOWING = "Mowing"
+    EDGE_MOWING = "Edge Mowing"
+    RETURNING_HOME_FOLLOWING_EDGE = "Following edge home"
+    RETURNING_HOME_WARMING_UP = "Warming up to return home"
+    RETURNING_HOME_SEARCHING_EDGE = "Searching edge"
+
+    GOING_TO_START = "Going to starting point"
+    LEARNING_ENTRY_POINT = "Learning entry point"
+    IDLE = "Idle"
+    CHARGING = "Charging"
+    AUTOMATIC = "Automatic"
+    REMOTE_CONTROL = "Remote control"
+    BIT = "Bit"
+
+
+class EntityKey(StrEnum):
+    """Entity keys for all RoboMow entities."""
+
+    LAWN_MOWER = "lawn_mower"
+    BATTERY_LEVEL = "battery_level"
+    FAMILY = "family"
+    MODEL = "model"
+    SOFTWARE_VERSION = "software_version"
+    SOFTWARE_RELEASE = "software_release"
+    MAINBOARD_VERSION = "mainboard_version"
+    STATE = "state"
+    MESSAGE = "message"
+    SIGNAL_STRENGTH = "signal_strength"
+    START_MOWING = "start_mowing"
+    STOP_MOWING = "stop_mowing"
+    RETURN_HOME = "return_home"
+    EDGE_MOWING = "edge_mowing"
+    PROGRAM_ENABLED = "program_enabled"
+    SERVICE_INFO = "service_info"
+    NEXT_DEPARTURE = "next_departure"
+    PREVIOUS_DEPARTURE = "previous_departure"
+    EXPECTED_DURATION = "expected_duration"
+    NO_DEPART_REASON = "no_depart_reason"
+    ANTI_THEFT_ENABLED = "anti_theft_enabled"
+    CHILD_LOCK_ENABLED = "child_lock_enabled"
+    ANTI_THEFT_ACTIVE = "anti_theft_active"
+    MOWER_HOME = "mower_home"
+    CHARGING_ACTIVE = "charging_active"
+    DISABLING_DEVICE_REMOVED = "disabling_device_removed"
+    WIRE_SIGNAL_TYPE = "wire_signal_type"
+    STARTING_POINT_A = "starting_point_a"
+    STARTING_POINT_B = "starting_point_b"

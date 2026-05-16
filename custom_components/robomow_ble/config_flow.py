@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 from typing import TYPE_CHECKING, Any
 
 import voluptuous as vol
@@ -9,19 +10,33 @@ from bleak.exc import (
     BleakCharacteristicNotFoundError,
     BleakDeviceNotFoundError,
 )
+from bluetooth_data_tools import short_address
+from bluetooth_sensor_state_data import BluetoothData
 from homeassistant.components.bluetooth import (
+    BluetoothServiceInfo,
     BluetoothServiceInfoBleak,
     async_discovered_service_info,
 )
 from homeassistant.config_entries import ConfigFlow
 from homeassistant.const import CONF_ADDRESS
-from homeassistant.exceptions import ConfigEntryAuthFailed
+from homeassistant.exceptions import (
+    ConditionError,
+    ConfigEntryAuthFailed,
+)
 
-from .ble_handler import RoboMowBLEDeviceData
-from .const import CONF_DEVICE_TYPE, CONF_MAINBOARD_SERIAL, DOMAIN, LOGGER
+from .ble_handler import RoboMowDevice
+from .const import (
+    CONF_DEVICE_TYPE,
+    CONF_MAINBOARD_SERIAL,
+    DOMAIN,
+    LOGGER,
+    UUID_SERVICE,
+    MowerModel,
+)
 
 if TYPE_CHECKING:
     from homeassistant.config_entries import ConfigFlowResult
+    from homeassistant.core import HomeAssistant
 
 
 class RoboMowBLEConfigFlow(ConfigFlow, domain=DOMAIN):
@@ -30,11 +45,11 @@ class RoboMowBLEConfigFlow(ConfigFlow, domain=DOMAIN):
     VERSION = 1
 
     def __init__(self) -> None:
-        """Initialize the config flow."""
+        """Initialize config flow instance state."""
         self._discovery_info: BluetoothServiceInfoBleak | None = None
-        self._discovered_device: RoboMowBLEDeviceData | None = None
+        self._discovered_device: RoboMowConfigData | None = None
         self._discovered_devices: dict[
-            str, tuple[RoboMowBLEDeviceData, BluetoothServiceInfoBleak]
+            str, tuple[RoboMowConfigData, BluetoothServiceInfoBleak]
         ] = {}
 
     async def async_step_bluetooth(
@@ -44,7 +59,7 @@ class RoboMowBLEConfigFlow(ConfigFlow, domain=DOMAIN):
         LOGGER.debug("Discovered Bluetooth service info: %s", discovery_info)
         await self.async_set_unique_id(discovery_info.address)
         self._abort_if_unique_id_configured()
-        device = RoboMowBLEDeviceData()
+        device = RoboMowConfigData()
         if not device.supported(discovery_info):
             return self.async_abort(reason="not_supported")
         self._discovery_info = discovery_info
@@ -79,6 +94,8 @@ class RoboMowBLEConfigFlow(ConfigFlow, domain=DOMAIN):
                 errors[CONF_MAINBOARD_SERIAL] = "characteristics_not_found"
             except ConfigEntryAuthFailed:
                 errors[CONF_MAINBOARD_SERIAL] = "invalid_mainboard_serial"
+            except ConditionError:
+                errors[CONF_MAINBOARD_SERIAL] = "model_unsupported"
 
             if not errors:
                 return self.async_create_entry(
@@ -116,6 +133,7 @@ class RoboMowBLEConfigFlow(ConfigFlow, domain=DOMAIN):
             await self.async_set_unique_id(address, raise_on_progress=False)
             self._abort_if_unique_id_configured()
             device, discovery_info = self._discovered_devices[address]
+            title = device.title or device.get_device_name() or discovery_info.name
 
             try:
                 await device.async_check_mainboard_serial(
@@ -130,7 +148,6 @@ class RoboMowBLEConfigFlow(ConfigFlow, domain=DOMAIN):
             except ConfigEntryAuthFailed:
                 errors[CONF_MAINBOARD_SERIAL] = "invalid_mainboard_serial"
 
-            title = device.title or device.get_device_name() or discovery_info.name
             if not errors:
                 return self.async_create_entry(
                     title=title,
@@ -149,7 +166,7 @@ class RoboMowBLEConfigFlow(ConfigFlow, domain=DOMAIN):
             address = discovery_info.address
             if address in current_addresses or address in self._discovered_devices:
                 continue
-            device = RoboMowBLEDeviceData()
+            device = RoboMowConfigData()
             if device.supported(discovery_info):
                 LOGGER.debug("Discovered supported Robomow device: %s", discovery_info)
                 self._discovered_devices[address] = (device, discovery_info)
@@ -180,3 +197,72 @@ class RoboMowBLEConfigFlow(ConfigFlow, domain=DOMAIN):
             ),
             errors=errors,
         )
+
+
+class RoboMowConfigData(BluetoothData):
+    """Data about a Robomow BLE device."""
+
+    def _start_update(self, service_info: BluetoothServiceInfo) -> None:
+        """Update from BLE advertisement data."""
+        LOGGER.debug(
+            "Processing Bluetooth service info (_start_update): %s",
+            service_info,
+        )
+        self.set_device_manufacturer("RoboMow")
+        self.set_device_name(service_info.name)
+        self.set_precision(2)
+
+        if UUID_SERVICE in map(str.lower, service_info.service_uuids or []):
+            LOGGER.debug("Processing Bluetooth service info: %s", service_info)
+            self.set_device_type("RoboMow")
+            if service_info.name:
+                self.set_device_name(service_info.name.replace("_", " "))
+            else:
+                self.set_device_name(f"RoboMow {short_address(service_info.address)}")
+            return
+
+    @property
+    def device_type(self) -> str | None:
+        """Return the device type."""
+        primary_device_id = self.primary_device_id
+        if device_type := self._device_id_to_type.get(primary_device_id):
+            return device_type.partition("-")[0]
+        return None
+
+    async def async_check_mainboard_serial(
+        self,
+        hass: HomeAssistant,
+        address: str,
+        mainboard_serial: str,
+    ) -> bool:
+        """Set the mainboard serial number and validate it via BLE authentication."""
+        mower = RoboMowDevice(hass, address, mainboard_serial, None)
+        await mower.connect()
+
+        try:
+            if not mower.is_connected():
+                return False
+
+            self._mainboard_serial = mainboard_serial
+
+            for _ in range(10):
+                if mower.model is not None:
+                    break
+                await asyncio.sleep(0.1)
+
+            if mower.model is None:
+                raise ConfigEntryAuthFailed
+
+            if mower.model == MowerModel.Unknown:
+                msg = "Mower model is unknown"
+                raise ConditionError(msg)
+
+            self.set_device_type(f"RoboMow {mower.model.name}")
+            self.set_device_hw_version(f"{mower.mainboard_version}")
+            self.set_device_sw_version(
+                f"{mower.software_version} ({mower.software_release})"
+            )
+
+            return True
+        finally:
+            await mower.disconnect()

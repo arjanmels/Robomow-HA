@@ -2,171 +2,171 @@
 
 from __future__ import annotations
 
-from datetime import UTC, datetime, timedelta
 from typing import TYPE_CHECKING, Any
 
 from bleak.exc import BleakError
-from homeassistant import config_entries
 from homeassistant.components import bluetooth
 from homeassistant.components.bluetooth import (
-    BluetoothChange,
     BluetoothScanningMode,
 )
-from homeassistant.components.bluetooth.active_update_processor import (
-    ActiveBluetoothProcessorCoordinator,
+from homeassistant.components.bluetooth.passive_update_processor import (
+    PassiveBluetoothDataProcessor,
+    PassiveBluetoothDataUpdate,
+    PassiveBluetoothEntityKey,
+    PassiveBluetoothProcessorCoordinator,
 )
-from homeassistant.helpers.device_registry import CONNECTION_BLUETOOTH
-from homeassistant.helpers.entity import Entity
-from homeassistant.helpers.event import async_track_time_interval
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.helpers import device_registry as dr
 
-from custom_components.robomow_ble.ble_handler import RoboMowBLEDevice
-from custom_components.robomow_ble.const import DOMAIN, LOGGER
+from custom_components.robomow_ble.ble_handler import RoboMowDevice, RoboMowUpdate
+from custom_components.robomow_ble.const import DOMAIN, LOGGER, MANUFACTURER, EntityKey
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
-
     from homeassistant.components.bluetooth import (
         BluetoothServiceInfoBleak,
     )
     from homeassistant.core import HomeAssistant
 
 
-type RoboMowBLEConfigEntry = config_entries.ConfigEntry[RoboMowBLECoordinator]
+type RoboMowConfigEntry = ConfigEntry[RoboMowCoordinator]
 
 
-POLL_INTERVAL_SECONDS = 30
-POLL_INTERVAL = timedelta(seconds=POLL_INTERVAL_SECONDS)
+class RoboMowCoordinator(PassiveBluetoothProcessorCoordinator[RoboMowUpdate]):
+    """Coordinator for Robomow BLE passive polling."""
 
-
-def _ignore_service_info(_service_info: BluetoothServiceInfoBleak) -> None:
-    """Ignore advertisement payloads; this integration polls on a timer."""
-    return
-
-
-class RoboMowBLECoordinator(ActiveBluetoothProcessorCoordinator[None]):
-    """Coordinator for timed Robomow BLE polling."""
-
-    def _needs_poll(
-        self,
-        _service_info: BluetoothServiceInfoBleak,
-        _last_poll: float | None,
-    ) -> bool:
-        """Enable advertisement-driven polling."""
-        LOGGER.debug(
-            "Polling always needed: need to restore connection if device is advertising"
-        )
-        return True
-
-    async def _async_poll_advertisement(
-        self, _service_info: BluetoothServiceInfoBleak
-    ) -> None:
-        """Poll the device on every advertisement."""
-        LOGGER.debug("Starting poll of device %s", self.address)
-        try:
-            await self._client.connect()
-            bluetooth.async_clear_advertisement_history(self.hass, self.address)
-        except BleakError as e:
-            LOGGER.error("Error polling device: %s", e)
-
-    def _async_handle_bluetooth_event(
-        self,
-        _service_info: BluetoothServiceInfoBleak,
-        _change: BluetoothChange,
-    ) -> None:
-        """Handle incoming Bluetooth events."""
-        LOGGER.debug(
-            "Received Bluetooth event for device %s: change=%s, service_info=%s",
-            self.address,
-            _change,
-            _service_info,
-        )
-        super()._async_handle_bluetooth_event(_service_info, _change)
+    _DEVICE_INFO_UPDATE_KEYS = frozenset(
+        {
+            EntityKey.MODEL,
+            EntityKey.FAMILY,
+            EntityKey.SOFTWARE_VERSION,
+            EntityKey.SOFTWARE_RELEASE,
+            EntityKey.MAINBOARD_VERSION,
+        }
+    )
 
     def __init__(
         self,
         hass: HomeAssistant,
         address: str,
         mainboard_serial: str,
+        entry: RoboMowConfigEntry,
     ) -> None:
-        """Initialize the RoboMow BLE active coordinator."""
+        """Initialize the RoboMow BLE coordinator."""
         LOGGER.debug(
-            (
-                "Initializing RoboMowBLECoordinator with address %s "
-                "and mainboard serial %s"
-            ),
+            "Initializing RoboMowBLECoordinator with address %s "
+            "and mainboard serial %s",
             address,
             mainboard_serial,
         )
+
         super().__init__(
             hass=hass,
             logger=LOGGER,
-            mode=BluetoothScanningMode.ACTIVE,
             address=address,
-            poll_method=self._async_poll_advertisement,
-            needs_poll_method=self._needs_poll,
-            update_method=_ignore_service_info,
+            mode=BluetoothScanningMode.ACTIVE,
+            update_method=self._update_from_service_info,
+            connectable=True,
         )
 
-        self._client = RoboMowBLEDevice(hass, address, mainboard_serial)
+        self._mower = RoboMowDevice(
+            hass,
+            address,
+            mainboard_serial,
+            self.async_set_updated_data,
+        )
+        self._processor: PassiveBluetoothDataProcessor[Any, RoboMowUpdate] | None = None
+        self._entry = entry
+
+    def _get_entity_data(
+        self, update: RoboMowUpdate
+    ) -> PassiveBluetoothDataUpdate[Any]:
+        """Map updates to entity-keyed processor data."""
+        if update.key in self._DEVICE_INFO_UPDATE_KEYS:
+            self._update_device_info()
+
+        return PassiveBluetoothDataUpdate(
+            entity_data={
+                PassiveBluetoothEntityKey(
+                    key=update.key, device_id=self.address
+                ): update.value
+            }
+        )
+
+    def _update_device_info(self) -> None:
+        """Push latest mower metadata into the device registry."""
+        device_registry = dr.async_get(self.hass)
+        device = device_registry.async_get_device(identifiers={(DOMAIN, self.address)})
+        if device is None:
+            return
+
+        device_registry.async_update_device(
+            device.id,
+            model=f"RoboMow {self.mower.model.name}",
+            model_id=f"{self.mower.model}",
+            manufacturer=MANUFACTURER,
+            serial_number=self._mower.mainboard_serial,
+            hw_version=(
+                f"{self.mower.mainboard_version}"
+                if self.mower.mainboard_version is not None
+                else "Unknown"
+            ),
+            sw_version=(
+                (
+                    f"{self.mower.software_version} "
+                    f"({
+                        self.mower.software_release
+                        if self.mower.software_release is not None
+                        else 'Unknown'
+                    })"
+                )
+                if self.mower.software_version is not None
+                else "Unknown"
+            ),
+        )
 
     @property
-    def device(self) -> RoboMowBLEDevice:
+    def processor(self) -> PassiveBluetoothDataProcessor[Any, RoboMowUpdate]:
+        """Return the shared entity processor."""
+        if self._processor is None:
+            self._processor = PassiveBluetoothDataProcessor(
+                update_method=self._get_entity_data,
+            )
+        return self._processor
+
+    async def _async_connect_on_advertisement(self) -> None:
+        """Connect to the mower and clear cached advertisement history."""
+        try:
+            await self._mower.connect()
+            bluetooth.async_clear_advertisement_history(self.hass, self.address)
+        except (BleakError, OSError) as err:
+            LOGGER.error(
+                "Error connecting after advertisement for %s: %s",
+                self.address,
+                err,
+            )
+
+    def _update_from_service_info(
+        self,
+        service_info: BluetoothServiceInfoBleak,
+    ) -> RoboMowUpdate:
+        """Process the latest data and return the device."""
+        LOGGER.debug("Processing update from device %s", self.address)
+
+        self.hass.async_create_task(self._async_connect_on_advertisement())
+
+        try:
+            # Update device data from service info
+            self._mower.update_from_service_info(service_info)
+        except (BleakError, OSError) as err:
+            LOGGER.error("Error processing device update: %s", err)
+        return RoboMowUpdate(EntityKey.SERVICE_INFO, service_info)
+
+    @property
+    def mower(self) -> RoboMowDevice:
         """Return the BLE device."""
-        return self._client
+        return self._mower
 
     async def async_shutdown(self) -> None:
-        """Stop polling and disconnect the BLE client."""
+        """Disconnect from the BLE client (called when config entry is unloaded)."""
         LOGGER.debug("Shutting down coordinator for %s", self.address)
-
-        await self._client.disconnect()
-
-
-class RoboMowBLECoordinatorEntity(Entity):
-    """Base mixin for entities backed by a Robomow BLE coordinator."""
-
-    coordinator: RoboMowBLECoordinator
-    _remove_state_listener: Callable[[], None] | None
-
-    def _init_coordinator_entity(self, coordinator: RoboMowBLECoordinator) -> None:
-        """Initialize shared coordinator-backed entity state."""
-        self.coordinator = coordinator
-        self._remove_state_listener = None
-
-    async def async_added_to_hass(self) -> None:
-        """Register for BLE state updates when added to Home Assistant."""
-        await super().async_added_to_hass()
-        self._remove_state_listener = self.coordinator.device.add_state_listener(
-            self._handle_device_state_update
-        )
-
-    async def async_will_remove_from_hass(self) -> None:
-        """Unregister BLE state updates when removed from Home Assistant."""
-        if self._remove_state_listener is not None:
-            self._remove_state_listener()
-            self._remove_state_listener = None
-        await super().async_will_remove_from_hass()
-
-    def _handle_device_state_update(self) -> None:
-        """Handle BLE state updates from the underlying device."""
-        if self.hass is None:
-            return
-        self.hass.loop.call_soon_threadsafe(self.async_write_ha_state)
-
-    @property
-    def device_info(self) -> dict[str, Any]:
-        """Return device information."""
-        return {
-            "connections": {(CONNECTION_BLUETOOTH, self.coordinator.address)},
-            "identifiers": {(DOMAIN, self.coordinator.address)},
-            "name": f"Robomow {self.coordinator.address.replace(':', '').upper()[-4:]}",
-            "manufacturer": "RoboMow",
-            "hw_version": self.coordinator.device.mainboard_version,
-            "sw_version": self.coordinator.device.software_release,
-            "serial_number": self.coordinator.device.mainboard_serial,
-            "model": f"RoboMow {self.coordinator.device.family}",
-        }
-
-    @property
-    def available(self) -> bool:
-        """Return True if the device is connected."""
-        return self.coordinator.device.is_connected()
+        await self._mower.disconnect()
