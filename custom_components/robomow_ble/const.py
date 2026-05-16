@@ -16,6 +16,7 @@ UUID_SERVICE = "ff00a501-d020-913c-1234-56d97200a6a6"
 
 UNKNOWN_FIELD_VALUE = 0xFFFF
 
+
 class MowerFamily(IntEnum):
     """RoboMow mower types."""
 
@@ -25,6 +26,7 @@ class MowerFamily(IntEnum):
     RX = 3
     RK = 4
     RT = 5
+
 
 class MowerModel(IntEnum):
     """RoboMow mower models."""

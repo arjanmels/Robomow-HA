@@ -30,10 +30,12 @@ PLATFORMS: list[Platform] = [
     Platform.SWITCH,
 ]
 
+
 async def async_setup(hass: HomeAssistant, _config: dict) -> bool:
     """Set up the Robomow BLE component."""
     async_register_services(hass)
     return True
+
 
 async def async_setup_entry(hass: HomeAssistant, entry: RoboMowConfigEntry) -> bool:
     """Set up a Robomow BLE device from a config entry."""

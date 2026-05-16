@@ -7,7 +7,7 @@ import struct
 from collections import deque
 from contextlib import suppress
 from datetime import datetime, timedelta
-from typing import TYPE_CHECKING, ClassVar, NamedTuple
+from typing import TYPE_CHECKING, Any, ClassVar, NamedTuple
 
 from bleak.exc import (
     BleakCharacteristicNotFoundError,
@@ -24,12 +24,10 @@ from homeassistant.components.bluetooth import async_ble_device_from_address
 from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers.event import async_track_time_interval
 
-from custom_components.robomow_ble.messages import MessageRK, MessageRT
-
-# TODO(AM): child-lock fix, starting zone (reverse engineer), manual mowing, program, next departure, previous departure, status message fix?, error report
-# TODO(AM): internationalization
-# TODO(AM): split into RT/RX seperate classes with a base class for the generic message handling and state management, or even separate files for messages vs device state management
-# TODO(AM): split this file into multiple for better organization
+# NOTE: planned protocol work includes child-lock behavior, starting-zone mapping,
+# manual mowing, program scheduling fields, and status/error message refinements.
+# NOTE: internationalization support is pending.
+# NOTE: longer term, this module may still be split into smaller files by concern.
 from .ble_consts import (
     AUTH_RESPONSE_LENGTH,
     MESSAGE_RECEIVE_BYTE,
@@ -39,10 +37,7 @@ from .ble_consts import (
     UUID_CHAR_AUTHENTICATE,
     UUID_CHAR_DATA_IN,
     UUID_CHAR_DATA_OUT,
-    EepromParam,
     MessageType,
-    MessageTypeMisc,
-    OperationType,
     WireSignalType,
 )
 from .const import (
@@ -54,10 +49,10 @@ from .const import (
     MowerModel,
     MowerOperatingState,
 )
+from .rt_family_handler import RoboMowRtFamilyHandler
 
 if TYPE_CHECKING:
     from collections.abc import Callable
-    from typing import Any
 
     from bleak.backends.characteristic import BleakGATTCharacteristic
     from bleak.backends.service import BleakGATTService
@@ -65,6 +60,8 @@ if TYPE_CHECKING:
         BluetoothServiceInfoBleak as BluetoothServiceInfo,
     )
     from homeassistant.core import HomeAssistant
+
+    from .family_handler import RoboMowFamilyHandler
 
 
 class RoboMowUpdate(NamedTuple):
@@ -80,11 +77,6 @@ if TYPE_CHECKING:
 
 RESPONSE_COMMAND_COUNTER_SIZE = 2
 GET_CONFIG_PAYLOAD_MIN_SIZE = 5
-GET_STATUS_PAYLOAD_SIZE = 7
-READ_EEPROM_PAYLOAD_SIZE = 4
-INFO_PAYLOAD_SIZE = 5
-MISC_TYPE_SIZE = 2
-ROBOT_STATE_PAYLOAD_MIN_SIZE = 17
 MESSAGE_TYPE_STOP_ID_MASK = 0x2
 
 
@@ -97,7 +89,30 @@ class PendingCommand(NamedTuple):
 
 
 class RoboMowDevice:
-    """Representation of a Robomow BLE device."""
+    """Base representation of a Robomow BLE device."""
+
+    _AUTOMATIC_OPERATION_LABELS: ClassVar[dict[int, MowerOperatingState]] = {
+        0: MowerOperatingState.WARMING_UP,
+        1: MowerOperatingState.GOING_TO_START,
+        2: MowerOperatingState.MOWING,
+        3: MowerOperatingState.EDGE_MOWING,
+        4: MowerOperatingState.RETURNING_HOME_WARMING_UP,
+        5: MowerOperatingState.RETURNING_HOME_FOLLOWING_EDGE,
+        6: MowerOperatingState.RETURNING_HOME_SEARCHING_EDGE,
+        7: MowerOperatingState.LEARNING_ENTRY_POINT,
+    }
+    _OPERATING_STATE_AUTOMATIC: ClassVar[int] = 3
+    _OPERATING_STATE_LABELS: ClassVar[dict[int, MowerOperatingState]] = {
+        1: MowerOperatingState.IDLE,
+        2: MowerOperatingState.CHARGING,
+        _OPERATING_STATE_AUTOMATIC: MowerOperatingState.AUTOMATIC,
+        4: MowerOperatingState.REMOTE_CONTROL,
+        5: MowerOperatingState.BIT,
+    }
+    STATE_LABELS: ClassVar[list[str]] = [
+        *(state.value for state in _OPERATING_STATE_LABELS.values()),
+        *(state.value for state in _AUTOMATIC_OPERATION_LABELS.values()),
+    ]
 
     def __init__(
         self,
@@ -127,6 +142,7 @@ class RoboMowDevice:
         self._connect_task: asyncio.Task[None] | None = None
         self._date_time_poll_cancel: Callable[[], None] | None = None
         self._status_poll_cancel: Callable[[], None] | None = None
+        self._family_handler: RoboMowFamilyHandler | None = None
 
         self._family: MowerFamily | None = None
         self._model: MowerModel | None = None
@@ -148,7 +164,7 @@ class RoboMowDevice:
         self._mower_home: bool | None = None
         self._charging_active: bool | None = None
         self._disabling_device_removed: bool | None = None
-        self._wire_signal_type: int | None = None
+        self._wire_signal_type: WireSignalType | None = None
         self._starting_point_a: int | None = None
         self._starting_point_b: int | None = None
 
@@ -208,7 +224,7 @@ class RoboMowDevice:
         self._disabling_device_removed = removed
         self._data_changed(EntityKey.DISABLING_DEVICE_REMOVED, removed)
 
-    def _set_wire_signal_type(self, wire_signal_type: int | None) -> None:
+    def _set_wire_signal_type(self, wire_signal_type: WireSignalType | None) -> None:
         """Update wire signal type and emit change callbacks when needed."""
         if self._wire_signal_type == wire_signal_type:
             return
@@ -293,12 +309,46 @@ class RoboMowDevice:
         self._data_changed(EntityKey.NO_DEPART_REASON, value)
 
     def _set_family(self, value: MowerFamily | int | None) -> None:
-        """Update mower family and emit change callbacks when needed."""
+        """Update mower family and select a family-specific protocol handler."""
         family = None if value is None else MowerFamily(value)
         if self._family == family:
             return
+
         self._family = family
         self._data_changed(EntityKey.FAMILY, self._family)
+
+        if family is None:
+            self._family_handler = None
+            LOGGER.warning("Mower family is unknown; using base protocol handler")
+            return
+
+        if family is MowerFamily.RT:
+            target_handler_cls = RoboMowRtFamilyHandler
+        else:
+            self._family_handler = None
+            LOGGER.warning(
+                "No protocol handler registered for mower family %s; "
+                "using base handler",
+                family.name,
+            )
+            return
+
+        current_handler = self._family_handler
+        if isinstance(current_handler, target_handler_cls):
+            return
+
+        LOGGER.debug(
+            "Switching mower protocol handler from %s to %s for family %s",
+            (
+                current_handler.__class__.__name__
+                if current_handler is not None
+                else "None"
+            ),
+            target_handler_cls.__name__,
+            family.name,
+        )
+        self._family_handler = target_handler_cls(self)
+        self._hass.async_create_task(self._initialize_family_state())
 
     def _set_model(self, value: MowerModel | int | None) -> None:
         """Update mower model and emit change callbacks when needed."""
@@ -329,6 +379,16 @@ class RoboMowDevice:
             return
         self._mainboard_version = value
         self._data_changed(EntityKey.MAINBOARD_VERSION, self._mainboard_version)
+
+    def _describe_operating_state(
+        self, state: int, operation: int
+    ) -> MowerOperatingState | str:
+        """Return human-readable text for the mower operating state."""
+        if state == self._OPERATING_STATE_AUTOMATIC:
+            return self._AUTOMATIC_OPERATION_LABELS.get(
+                operation, f"Unknown Automatic ({operation})"
+            )
+        return self._OPERATING_STATE_LABELS.get(state, f"Unknown ({state})")
 
     # --- Internal state helpers ---
 
@@ -580,18 +640,7 @@ class RoboMowDevice:
             # Start periodic GET_STATUS polling
             self._start_status_polling()
 
-            await self._send_msg(MessageType.GET_CONFIG)
-            await self._send_msg(MessageType.GET_MESSAGE)
-            await self._send_misc_msg(MessageTypeMisc.INFO)
-
-            await self._read_eeprom_param(
-                EepromParam.CHILD_LOCK_ENABLED,
-                EepromParam.ANTI_THEFT_ENABLED,
-                EepromParam.PROGRAM_ENABLED,
-                EepromParam.WIRE_SIGNAL_TYPE,
-                EepromParam.STARTING_POINT_A,
-                EepromParam.STARTING_POINT_B,
-            )
+            await self._initialize_family_state()
 
     async def connect(self) -> None:
         """Create and connect a Robomow BLE client."""
@@ -677,7 +726,7 @@ class RoboMowDevice:
 
         return sent
 
-    async def _send_misc_msg(self, misc_type: MessageTypeMisc) -> bool:
+    async def _send_misc_msg(self, misc_type: int) -> bool:
         """Send a miscellaneous message with the given type and command counter."""
         return await self._send_msg_with_sequence(
             MessageType.MISCELLANEOUS, struct.pack(">H", misc_type)
@@ -712,21 +761,22 @@ class RoboMowDevice:
         )
 
     async def _on_status_poll(self, _now: datetime) -> None:
-        """Send periodic GET_STATUS command while connected."""
-        await self._send_msg(MessageType.GET_MESSAGE)
-        await self._send_misc_msg(MessageTypeMisc.STATE)
-        await self._read_eeprom_param(
-            EepromParam.CHILD_LOCK_ENABLED,
-            EepromParam.ANTI_THEFT_ENABLED,
-            EepromParam.PROGRAM_ENABLED,
-            EepromParam.WIRE_SIGNAL_TYPE,
-            EepromParam.STARTING_POINT_A,
-            EepromParam.STARTING_POINT_B,
-        )
+        """Send periodic family-specific status command(s) while connected."""
+        await self._poll_family_status()
 
-    # --- EEPROM / commands ---
+    async def _initialize_family_state(self) -> None:
+        """Initialize family-specific state after connection."""
+        if self._family_handler is not None:
+            await self._family_handler.initialize_state()
+            return
+        await self._send_msg(MessageType.GET_CONFIG)
 
-    async def _read_eeprom_param(self, *params: EepromParam) -> bool:
+    async def _poll_family_status(self) -> None:
+        """Poll family-specific status while connected."""
+        if self._family_handler is not None:
+            await self._family_handler.poll_status()
+
+    async def _read_eeprom_param(self, *params: int) -> bool:
         """Send a message to read one or more EEPROM parameters by ID."""
         if not params:
             return False
@@ -737,128 +787,128 @@ class RoboMowDevice:
         )
         return await self._send_msg_with_sequence(MessageType.READ_EEPROM, payload)
 
-    async def _write_eeprom_param(self, param: EepromParam, value: int) -> bool:
+    async def _write_eeprom_param(self, param: int, value: int) -> bool:
         """Send a message to write an EEPROM parameter with the given ID and value."""
         return await self._send_msg_with_sequence(
             MessageType.WRITE_EEPROM, struct.pack(">HL", param, value)
         )
 
+    # --- EEPROM / commands ---
+
     async def enable_program(self) -> None:
-        """Send a message to enable the mower program."""
-        await self._write_eeprom_param(EepromParam.PROGRAM_ENABLED, 1)
-        await self._send_misc_msg(MessageTypeMisc.STATE)
+        """Enable mower program for the active mower family."""
+        if self._family_handler is not None:
+            await self._family_handler.enable_program()
+            return
+        msg = f"enable_program not implemented for family {self.family.name}"
+        raise NotImplementedError(msg)
 
     async def disable_program(self) -> None:
-        """Send a message to disable the mower program."""
-        await self._write_eeprom_param(EepromParam.PROGRAM_ENABLED, 0)
-        await self._send_misc_msg(MessageTypeMisc.STATE)
+        """Disable mower program for the active mower family."""
+        if self._family_handler is not None:
+            await self._family_handler.disable_program()
+            return
+        msg = f"disable_program not implemented for family {self.family.name}"
+        raise NotImplementedError(msg)
 
     async def enable_anti_theft(self) -> None:
-        """Enable anti-theft mode (currently unsupported by protocol mapping)."""
-        await self._write_eeprom_param(EepromParam.ANTI_THEFT_ENABLED, 1)
-        await self._send_misc_msg(MessageTypeMisc.STATE)
+        """Enable anti-theft for the active mower family."""
+        if self._family_handler is not None:
+            await self._family_handler.enable_anti_theft()
+            return
+        msg = f"enable_anti_theft not implemented for family {self.family.name}"
+        raise NotImplementedError(msg)
 
     async def disable_anti_theft(self) -> None:
-        """Disable anti-theft mode (currently unsupported by protocol mapping)."""
-        await self._write_eeprom_param(EepromParam.ANTI_THEFT_ENABLED, 0)
-        await self._send_misc_msg(MessageTypeMisc.STATE)
+        """Disable anti-theft for the active mower family."""
+        if self._family_handler is not None:
+            await self._family_handler.disable_anti_theft()
+            return
+        msg = f"disable_anti_theft not implemented for family {self.family.name}"
+        raise NotImplementedError(msg)
 
     async def enable_child_lock(self) -> None:
-        """Enable child lock."""
-        await self._write_eeprom_param(EepromParam.CHILD_LOCK_ENABLED, 1)
-        await self._send_misc_msg(MessageTypeMisc.STATE)
-        await self._read_eeprom_param(EepromParam.CHILD_LOCK_ENABLED)
+        """Enable child lock for the active mower family."""
+        if self._family_handler is not None:
+            await self._family_handler.enable_child_lock()
+            return
+        msg = f"enable_child_lock not implemented for family {self.family.name}"
+        raise NotImplementedError(msg)
 
     async def disable_child_lock(self) -> None:
-        """Disable child lock."""
-        await self._write_eeprom_param(EepromParam.CHILD_LOCK_ENABLED, 0)
-        await self._send_misc_msg(MessageTypeMisc.STATE)
-        await self._read_eeprom_param(EepromParam.CHILD_LOCK_ENABLED)
+        """Disable child lock for the active mower family."""
+        if self._family_handler is not None:
+            await self._family_handler.disable_child_lock()
+            return
+        msg = f"disable_child_lock not implemented for family {self.family.name}"
+        raise NotImplementedError(msg)
 
     async def set_wire_signal_type(self, wire_signal_type: WireSignalType) -> None:
-        """Set wire signal type and refresh it from EEPROM."""
-        await self._write_eeprom_param(
-            EepromParam.WIRE_SIGNAL_TYPE, int(wire_signal_type)
-        )
-        await self._read_eeprom_param(EepromParam.WIRE_SIGNAL_TYPE)
+        """Set wire signal type for the active mower family."""
+        if self._family_handler is not None:
+            await self._family_handler.set_wire_signal_type(wire_signal_type)
+            return
+        msg = f"set_wire_signal_type not implemented for family {self.family.name}"
+        raise NotImplementedError(msg)
 
     async def set_starting_point_a(self, value: int) -> None:
-        """Set starting point A and refresh it from EEPROM."""
-        await self._write_eeprom_param(EepromParam.STARTING_POINT_A, value)
-        await self._read_eeprom_param(EepromParam.STARTING_POINT_A)
+        """Set starting point A for the active mower family."""
+        if self._family_handler is not None:
+            await self._family_handler.set_starting_point_a(value)
+            return
+        msg = f"set_starting_point_a not implemented for family {self.family.name}"
+        raise NotImplementedError(msg)
 
     async def set_starting_point_b(self, value: int) -> None:
-        """Set starting point B and refresh it from EEPROM."""
-        await self._write_eeprom_param(EepromParam.STARTING_POINT_B, value)
-        await self._read_eeprom_param(EepromParam.STARTING_POINT_B)
+        """Set starting point B for the active mower family."""
+        if self._family_handler is not None:
+            await self._family_handler.set_starting_point_b(value)
+            return
+        msg = f"set_starting_point_b not implemented for family {self.family.name}"
+        raise NotImplementedError(msg)
 
     async def start_mowing(
         self,
         duration_minutes: int | None = None,
         starting_zone: int | None = None,
     ) -> None:
-        """Send a message to start the mower program, optionally with a duration."""
-        duration_minutes = (
-            max(1, min(0xFF, duration_minutes)) if duration_minutes is not None else 30
-        )
-        starting_zone = (
-            max(0, min(0xFF, starting_zone)) if starting_zone is not None else 0x80
-        )
-        await self._send_msg_with_sequence(
-            MessageType.COMMAND,
-            struct.pack(
-                ">BBB",
-                OperationType.START_MOWING,
-                starting_zone,
-                duration_minutes,
-            ),
-        )
-        await self._send_msg(MessageType.GET_MESSAGE)
-        await self._send_misc_msg(MessageTypeMisc.STATE)
+        """Start mowing for the active mower family."""
+        if self._family_handler is not None:
+            await self._family_handler.start_mowing(duration_minutes, starting_zone)
+            return
+        msg = f"start_mowing not implemented for family {self.family.name}"
+        raise NotImplementedError(msg)
 
     async def start_mowing_edge(self) -> None:
-        """Send a message to start edge mowing."""
-        await self._send_msg_with_sequence(
-            MessageType.COMMAND,
-            struct.pack(">BB", OperationType.START_EDGE_MOWING, 0x80),
-        )
-        await self._send_msg(MessageType.GET_MESSAGE)
-        await self._send_misc_msg(MessageTypeMisc.STATE)
+        """Start edge mowing for the active mower family."""
+        if self._family_handler is not None:
+            await self._family_handler.start_mowing_edge()
+            return
+        msg = f"start_mowing_edge not implemented for family {self.family.name}"
+        raise NotImplementedError(msg)
 
     async def stop_mowing(self) -> None:
-        """Send a message to stop the mower program."""
-        await self._send_msg_with_sequence(
-            MessageType.COMMAND, struct.pack(">BB", OperationType.STOP_MOWING, 0xFF)
-        )
-        await self._send_msg(MessageType.GET_MESSAGE)
-        await self._send_misc_msg(MessageTypeMisc.STATE)
+        """Stop mowing for the active mower family."""
+        if self._family_handler is not None:
+            await self._family_handler.stop_mowing()
+            return
+        msg = f"stop_mowing not implemented for family {self.family.name}"
+        raise NotImplementedError(msg)
 
     async def return_to_home(self) -> None:
-        """Send a message to return the mower to its home base."""
-        await self._send_msg_with_sequence(
-            MessageType.COMMAND, struct.pack(">BB", OperationType.RETURN_HOME, 0xBF)
-        )
-        await self._send_msg(MessageType.GET_MESSAGE)
-        await self._send_misc_msg(MessageTypeMisc.STATE)
+        """Return mower home for the active mower family."""
+        if self._family_handler is not None:
+            await self._family_handler.return_to_home()
+            return
+        msg = f"return_to_home not implemented for family {self.family.name}"
+        raise NotImplementedError(msg)
 
     async def update_date_time(self, timestamp: datetime | None = None) -> bool:
-        """Send a message to update the mower date and time."""
-        timestamp = timestamp or datetime.now().astimezone()
-        return await self._send_msg_with_sequence(
-            MessageType.UPDATE_DATE_TIME,
-            struct.pack(
-                ">HBBHBBB",
-                1,
-                timestamp.day,
-                timestamp.month,
-                timestamp.year,
-                timestamp.hour,
-                timestamp.minute,
-                # The mower's update-time payload is sent with minute-level precision,
-                # so seconds are intentionally set to 0.
-                0,
-            ),
-        )
+        """Update date/time for the active mower family."""
+        if self._family_handler is not None:
+            return await self._family_handler.update_date_time(timestamp)
+        msg = f"update_date_time not implemented for family {self.family.name}"
+        raise NotImplementedError(msg)
 
     # --- Response matching ---
 
@@ -993,7 +1043,7 @@ class RoboMowDevice:
             self._handle_sequenced_response(msg_type, payload)
 
     def _handle_get_config(self, payload: bytes) -> None:
-        """Handle a GET_CONFIG response packet."""
+        """Handle GET_CONFIG for family detection and shared version fields."""
         if not self._check_payload_length(
             MessageType.GET_CONFIG, payload, GET_CONFIG_PAYLOAD_MIN_SIZE
         ):
@@ -1009,36 +1059,16 @@ class RoboMowDevice:
         self._set_software_version(software_version)
         self._set_software_release(software_release)
         self._set_mainboard_version(mainboard_version)
-        LOGGER.debug(
-            "  CONFIG: family=%s, software_version=%s, "
-            "software_release=%s, mainboard_version=%s",
-            self.family.name,
-            self.software_version,
-            self.software_release,
-            self.mainboard_version,
-        )
 
     def _handle_get_message(self, payload: bytes) -> None:
-        """Handle a GET_STATUS response packet."""
-        if not self._check_payload_length(
-            MessageType.GET_MESSAGE, payload, GET_STATUS_PAYLOAD_SIZE, exact=True
-        ):
+        """Handle a GET_MESSAGE response packet for the active mower family."""
+        if self._family_handler is not None:
+            self._family_handler.handle_get_message(payload)
             return
-
-        (msgtype, msgid, stopid, _failureid) = struct.unpack_from(">BHHH", payload)
-
-        if msgtype & MESSAGE_TYPE_STOP_ID_MASK:
-            message = (
-                ""
-                if stopid == UNKNOWN_FIELD_VALUE
-                else MessageRK.get_stop_message(stopid)
-            )
-            self._set_message("Error: " + str(message))
-        else:
-            message = (
-                "" if msgid == UNKNOWN_FIELD_VALUE else MessageRK.get_message(msgid)
-            )
-            self._set_message(str(message))
+        LOGGER.debug(
+            "Ignoring GET_MESSAGE for unsupported family handler: %s",
+            payload.hex(),
+        )
 
     def _handle_sequenced_response(self, msg_type: MessageType, payload: bytes) -> None:
         """Handle a sequenced response: extract counter, match command, delegate."""
@@ -1078,243 +1108,28 @@ class RoboMowDevice:
     def _handle_read_eeprom_response(
         self, request: PendingCommand, response: PendingCommand
     ) -> None:
-        """Handle a READ_EEPROM response after the pending command has been matched."""
-        if not self._check_payload_length(
-            MessageType.READ_EEPROM,
-            response.payload,
-            READ_EEPROM_PAYLOAD_SIZE * len(request.payload) // 2,
-            exact=True,
-        ):
-            LOGGER.warning(
-                "Received READ_EEPROM response with invalid payload length: %s",
-                response.payload.hex(),
-            )
+        """Handle READ_EEPROM for the active mower family."""
+        if self._family_handler is not None:
+            self._family_handler.handle_read_eeprom_response(request, response)
             return
-
-        for index in range(len(request.payload) // 2):
-            field = struct.unpack_from(">H", request.payload, offset=index * 2)[0]
-            value = struct.unpack_from(
-                ">L", response.payload, offset=index * READ_EEPROM_PAYLOAD_SIZE
-            )[0]
-
-            try:
-                field_name = EepromParam(field).name
-            except ValueError:
-                field_name = f"0x{field:04X}"
-
-            LOGGER.debug(
-                "  EEPROM: %s=0x%08X",
-                field_name,
-                value,
-            )
-
-            if field == EepromParam.WIRE_SIGNAL_TYPE:
-                self._set_wire_signal_type(value)
-            elif field == EepromParam.STARTING_POINT_A:
-                self._set_starting_point_a(value)
-            elif field == EepromParam.STARTING_POINT_B:
-                self._set_starting_point_b(value)
-
-    _AUTOMATIC_OPERATION_LABELS: ClassVar[dict[int, MowerOperatingState]] = {
-        0: MowerOperatingState.WARMING_UP,
-        1: MowerOperatingState.GOING_TO_START,
-        2: MowerOperatingState.MOWING,
-        3: MowerOperatingState.EDGE_MOWING,
-        4: MowerOperatingState.RETURNING_HOME_WARMING_UP,
-        5: MowerOperatingState.RETURNING_HOME_FOLLOWING_EDGE,
-        6: MowerOperatingState.RETURNING_HOME_SEARCHING_EDGE,
-        7: MowerOperatingState.LEARNING_ENTRY_POINT,
-    }
-
-    _OPERATING_STATE_AUTOMATIC: ClassVar[int] = 3
-
-    _OPERATING_STATE_LABELS: ClassVar[dict[int, MowerOperatingState]] = {
-        1: MowerOperatingState.IDLE,
-        2: MowerOperatingState.CHARGING,
-        _OPERATING_STATE_AUTOMATIC: MowerOperatingState.AUTOMATIC,
-        4: MowerOperatingState.REMOTE_CONTROL,
-        5: MowerOperatingState.BIT,
-    }
-
-    STATE_LABELS: ClassVar[list[str]] = [
-        *(state.value for state in _OPERATING_STATE_LABELS.values()),
-        *(state.value for state in _AUTOMATIC_OPERATION_LABELS.values()),
-    ]
-
-    def _describe_operating_state(
-        self, state: int, operation: int
-    ) -> MowerOperatingState | str:
-        """Return human-readable text for the mower operating state."""
-        if state == self._OPERATING_STATE_AUTOMATIC:
-            return self._AUTOMATIC_OPERATION_LABELS.get(
-                operation, f"Unknown Automatic ({operation})"
-            )
-        return self._OPERATING_STATE_LABELS.get(state, f"Unknown ({state})")
+        LOGGER.debug(
+            "Ignoring READ_EEPROM for unsupported family handler: %s => %s",
+            request.payload.hex(),
+            response.payload.hex(),
+        )
 
     def _handle_miscellaneous_response(
         self, request: PendingCommand, response: PendingCommand
     ) -> None:
-        """Handle a MISCELLANEOUS response after matching the pending command."""
-        if not self._check_payload_length(
-            MessageType.MISCELLANEOUS, response.payload, MISC_TYPE_SIZE
-        ):
-            LOGGER.debug(
-                "Matched response command counter 0x%04X to queued %s "
-                "command: %s => %s",
-                response.counter,
-                request.msg_type.name,
-                request.payload.hex(),
-                response.payload.hex(),
-            )
+        """Handle MISCELLANEOUS response for the active mower family."""
+        if self._family_handler is not None:
+            self._family_handler.handle_miscellaneous_response(request, response)
             return
-
-        try:
-            misc_type = MessageTypeMisc(struct.unpack_from(">H", response.payload)[0])
-        except ValueError:
-            LOGGER.warning(
-                "Received MISCELLANEOUS response with unknown type: %s",
-                response.payload.hex(),
-            )
-            return
-
-        if misc_type == MessageTypeMisc.STATE:
-            if not self._check_payload_length(
-                MessageType.MISCELLANEOUS,
-                response.payload,
-                ROBOT_STATE_PAYLOAD_MIN_SIZE,
-            ):
-                return
-
-            (
-                byte_0,
-                state,
-                battery_level,
-                next_departure,
-                previous_departure,
-                expected_duration,
-                one_time_setup,
-                no_depart_reason,
-                byte_10,
-                byte_11,
-                byte_12,
-                charging_state,
-            ) = struct.unpack_from(
-                ">BBBHHBBBBBBB", response.payload, offset=MISC_TYPE_SIZE
-            )
-
-            operation = byte_0 & 0x07
-            bit_0_3 = byte_0 & 0x08 != 0
-            program_enabled = byte_0 & 0x10 != 0
-
-            anti_theft_enabled = byte_10 & 0x01 != 0
-            anti_theft_active = byte_10 & 0x02 != 0
-            bit_10_3 = byte_10 & 0x04 != 0  # NOTE: maybe error or ready flag?
-            bit_10_4 = byte_10 & 0x08 != 0
-            child_lock_enabled = byte_10 & 0x10 != 0
-
-            mower_home = byte_11 & 0x01 != 0
-            disabling_device_removed = byte_11 & 0x02 != 0
-            energy_saving_mode = byte_11 & 0x04 != 0
-            bit_11_2 = byte_11 & 0x08 != 0
-            charging_active = byte_11 & 0x10 != 0
-            bit_11_5_to_6 = (byte_11 & 0x60) >> 5
-
-            LOGGER.debug(
-                "  ROBOT_STATE:"
-                "\n  "
-                "byte_0=0x%02X, "
-                "operation=0x%02X, "
-                "bit_0_3=%s, "
-                "program_enabled=%s, "
-                "state=%02X, "
-                "battery_level=%s, "
-                "next_departure=%s, "
-                "previous_departure=%s, "
-                "expected_duration=%s, "
-                "one_time_setup=%s, "
-                "no_depart_reason=%s, "
-                "\n  "
-                "byte_10=0x%02X, "
-                "anti_theft_enabled=%s, "
-                "anti_theft_active=%s, "
-                "bit_10_3=%s, "
-                "bit_10_4=%s, "
-                "child_lock_enabled=%s, "
-                "byte_11=0x%02X, "
-                "mower_home=%s, "
-                "disabling_device_removed=%s, "
-                "energy_saving_mode=%s, "
-                "bit_11_2=%s, "
-                "charging_active=%s, "
-                "bit_11_5_to_6=%s, "
-                "byte_12=0x%02X, "
-                "charging_state=%02X, ",
-                byte_0,
-                operation,
-                bit_0_3,
-                program_enabled,
-                state,
-                battery_level,
-                next_departure,
-                previous_departure,
-                expected_duration,
-                one_time_setup,
-                no_depart_reason,
-                byte_10,
-                anti_theft_enabled,
-                anti_theft_active,
-                bit_10_3,
-                bit_10_4,
-                child_lock_enabled,
-                byte_11,
-                mower_home,
-                disabling_device_removed,
-                energy_saving_mode,
-                bit_11_2,
-                charging_active,
-                bit_11_5_to_6,
-                byte_12,
-                charging_state,
-            )
-
-            self._set_program_enabled(program_enabled)
-            self._set_anti_theft_enabled(anti_theft_enabled)
-            self._set_child_lock_enabled(child_lock_enabled)
-            self._set_anti_theft_active(anti_theft_active)
-            self._set_mower_home(mower_home)
-            self._set_charging_active(charging_active)
-            self._set_disabling_device_removed(disabling_device_removed)
-            self._set_state(self._describe_operating_state(state, operation))
-            self._set_battery_level(battery_level)
-            self._set_next_departure(next_departure)
-            self._set_previous_departure(previous_departure)
-            self._set_expected_duration(expected_duration)
-            self._set_no_depart_reason(
-                ""
-                if no_depart_reason == 0
-                else str(MessageRT.get_message(no_depart_reason))
-            )
-        elif misc_type == MessageTypeMisc.INFO:
-            if not self._check_payload_length(
-                MessageType.MISCELLANEOUS,
-                response.payload,
-                INFO_PAYLOAD_SIZE,
-                exact=True,
-            ):
-                return
-
-            model, max_cycles, max_areas = struct.unpack_from(
-                ">BBB", response.payload, offset=MISC_TYPE_SIZE
-            )
-            self._set_model(model)
-
-            LOGGER.debug(
-                "  INFO: model=%s (%d), max_cycles=%d, max_areas=%d",
-                self._model.name if self._model else "Unknown",
-                model,
-                max_cycles,
-                max_areas,
-            )
+        LOGGER.debug(
+            "Ignoring MISCELLANEOUS for unsupported family handler: %s => %s",
+            request.payload.hex(),
+            response.payload.hex(),
+        )
 
     def update_from_service_info(self, service_info: BluetoothServiceInfo) -> None:
         """Update from BLE service info."""

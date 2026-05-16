@@ -10,7 +10,7 @@ from homeassistant.config_entries import ConfigEntryState
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers import service
 
-from custom_components.robomow_ble.const import DOMAIN, LOGGER
+from custom_components.robomow_ble.const import DOMAIN
 
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant, ServiceCall
