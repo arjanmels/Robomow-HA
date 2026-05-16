@@ -33,6 +33,7 @@ from .const import (
     UUID_SERVICE,
     MowerModel,
 )
+from .exceptions import RoboMowAuthenticationError
 
 if TYPE_CHECKING:
     from homeassistant.config_entries import ConfigFlowResult
@@ -237,7 +238,10 @@ class RoboMowConfigData(BluetoothData):
     ) -> bool:
         """Set the mainboard serial number and validate it via BLE authentication."""
         mower = RoboMowDevice(hass, address, mainboard_serial, None)
-        await mower.connect()
+        try:
+            await mower.connect()
+        except RoboMowAuthenticationError as err:
+            raise ConfigEntryAuthFailed from err
 
         try:
             if not mower.is_connected():
