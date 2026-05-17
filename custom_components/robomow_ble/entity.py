@@ -14,10 +14,10 @@ from homeassistant.helpers.entity import Entity, EntityDescription
 from custom_components.robomow_ble.const import DOMAIN
 
 if TYPE_CHECKING:
-    from custom_components.robomow_ble.coordinator import RoboMowCoordinator
+    from custom_components.robomow_ble.coordinator import RobomowCoordinator
 
 
-class RoboMowEntity(Entity):
+class RobomowEntity(Entity):
     """Base class for Robomow BLE entities."""
 
     _attr_has_entity_name = True
@@ -25,7 +25,7 @@ class RoboMowEntity(Entity):
 
     def __init__(
         self,
-        coordinator: RoboMowCoordinator,
+        coordinator: RobomowCoordinator,
         processor: PassiveBluetoothDataProcessor[Any, Any],
         description: EntityDescription,
     ) -> None:  # type: ignore[name-defined]
@@ -59,6 +59,6 @@ class RoboMowEntity(Entity):
         )
 
     @property
-    def available(self) -> bool:
+    def available(self) -> bool:  # pyright: ignore[reportIncompatibleVariableOverride]
         """Return True if the device is available."""
         return self.coordinator.available and self.coordinator.mower.is_connected()

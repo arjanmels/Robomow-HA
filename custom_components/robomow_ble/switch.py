@@ -8,13 +8,13 @@ from homeassistant.components.switch import SwitchEntity, SwitchEntityDescriptio
 from homeassistant.const import EntityCategory
 
 from .const import LOGGER, EntityKey
-from .entity import RoboMowEntity
+from .entity import RobomowEntity
 
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
     from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-    from .coordinator import RoboMowConfigEntry
+    from .coordinator import RobomowConfigEntry
 
 
 SWITCH_DESCRIPTIONS = (
@@ -37,7 +37,7 @@ SWITCH_DESCRIPTIONS = (
 
 async def async_setup_entry(
     _hass: HomeAssistant,
-    entry: RoboMowConfigEntry,
+    entry: RobomowConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up the Robomow BLE switches."""
@@ -49,18 +49,18 @@ async def async_setup_entry(
 
     # Create switch entities
     entities = [
-        RoboMowSwitchEntity(coordinator, coordinator.processor, description)
+        RobomowSwitchEntity(coordinator, coordinator.processor, description)
         for description in SWITCH_DESCRIPTIONS
     ]
 
     async_add_entities(entities)
 
 
-class RoboMowSwitchEntity(RoboMowEntity, SwitchEntity):
+class RobomowSwitchEntity(RobomowEntity, SwitchEntity):  # pyright: ignore[reportIncompatibleVariableOverride]
     """Representation of a Robomow BLE switch."""
 
     @property
-    def is_on(self) -> bool:
+    def is_on(self) -> bool:  # pyright: ignore[reportIncompatibleVariableOverride]
         """Return True if the switch is on."""
         if self.entity_key in self.processor.entity_data:
             return self.processor.entity_data[self.entity_key]
@@ -74,11 +74,11 @@ class RoboMowSwitchEntity(RoboMowEntity, SwitchEntity):
             self.coordinator.address,
         )
         if self.entity_description.key == EntityKey.PROGRAM_ENABLED:
-            await self.coordinator.mower.enable_program()
+            await self.coordinator.mower.async_enable_program()
         elif self.entity_description.key == EntityKey.ANTI_THEFT_ENABLED:
-            await self.coordinator.mower.enable_anti_theft()
+            await self.coordinator.mower.async_enable_anti_theft()
         elif self.entity_description.key == EntityKey.CHILD_LOCK_ENABLED:
-            await self.coordinator.mower.enable_child_lock()
+            await self.coordinator.mower.async_enable_child_lock()
         self.async_write_ha_state()
 
     async def async_turn_off(self, **_kwargs: Any) -> None:
@@ -89,9 +89,9 @@ class RoboMowSwitchEntity(RoboMowEntity, SwitchEntity):
             self.coordinator.address,
         )
         if self.entity_description.key == EntityKey.PROGRAM_ENABLED:
-            await self.coordinator.mower.disable_program()
+            await self.coordinator.mower.async_disable_program()
         elif self.entity_description.key == EntityKey.ANTI_THEFT_ENABLED:
-            await self.coordinator.mower.disable_anti_theft()
+            await self.coordinator.mower.async_disable_anti_theft()
         elif self.entity_description.key == EntityKey.CHILD_LOCK_ENABLED:
-            await self.coordinator.mower.disable_child_lock()
+            await self.coordinator.mower.async_disable_child_lock()
         self.async_write_ha_state()

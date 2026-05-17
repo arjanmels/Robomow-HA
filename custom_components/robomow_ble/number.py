@@ -8,13 +8,13 @@ from homeassistant.components.number import NumberEntity, NumberEntityDescriptio
 from homeassistant.const import EntityCategory
 
 from .const import LOGGER, EntityKey
-from .entity import RoboMowEntity
+from .entity import RobomowEntity
 
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
     from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-    from .coordinator import RoboMowConfigEntry
+    from .coordinator import RobomowConfigEntry
 
 
 NUMBER_DESCRIPTIONS = (
@@ -47,7 +47,7 @@ NUMBER_DESCRIPTIONS = (
 
 async def async_setup_entry(
     _hass: HomeAssistant,
-    entry: RoboMowConfigEntry,
+    entry: RobomowConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up the Robomow BLE number entities."""
@@ -58,19 +58,19 @@ async def async_setup_entry(
 
     async_add_entities(
         [
-            RoboMowNumberEntity(coordinator, coordinator.processor, description)
+            RobomowNumberEntity(coordinator, coordinator.processor, description)
             for description in NUMBER_DESCRIPTIONS
         ]
     )
 
 
-class RoboMowNumberEntity(RoboMowEntity, NumberEntity):
+class RobomowNumberEntity(RobomowEntity, NumberEntity):  # pyright: ignore[reportIncompatibleVariableOverride]
     """Representation of a Robomow BLE number entity."""
 
     _attr_suggested_display_precision = 1
 
     @property
-    def native_value(self) -> float | None:
+    def native_value(self) -> float | None:  # pyright: ignore[reportIncompatibleVariableOverride]
         """Return the current number value."""
         value = self.processor.entity_data.get(self.entity_key)
         if value is None:
@@ -82,6 +82,6 @@ class RoboMowNumberEntity(RoboMowEntity, NumberEntity):
         int_value = round(value * 100)
 
         if self.entity_description.key == EntityKey.STARTING_POINT_A:
-            await self.coordinator.mower.set_starting_point_a(int_value)
+            await self.coordinator.mower.async_set_starting_point_a(int_value)
         elif self.entity_description.key == EntityKey.STARTING_POINT_B:
-            await self.coordinator.mower.set_starting_point_b(int_value)
+            await self.coordinator.mower.async_set_starting_point_b(int_value)

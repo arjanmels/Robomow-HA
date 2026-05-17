@@ -1,20 +1,19 @@
-"""RT-family protocol handler for RoboMow BLE."""
+"""RT-family protocol handler for Robomow BLE."""
 
 # ruff: noqa: SLF001
 
 from __future__ import annotations
 
-import logging
 import struct
 from datetime import datetime
+from enum import IntEnum
 from typing import Any
 
-from .constants import MessageType, WireSignalType
-from .family_handler import RoboMowFamilyHandler
+from .const import LOGGER, MessageType, WireSignalType
+from .family_handler_base import RobomowFamilyHandler
+from .helpers import check_payload_length
 from .messages import MessageRK, MessageRT
-from .rt_family_types import EepromParam, MessageTypeMisc, OperationType
 
-LOGGER = logging.getLogger(__name__)
 UNKNOWN_FIELD_VALUE = 0xFFFF
 
 GET_STATUS_PAYLOAD_SIZE = 7
@@ -25,18 +24,46 @@ ROBOT_STATE_PAYLOAD_MIN_SIZE = 17
 MESSAGE_TYPE_STOP_ID_MASK = 0x2
 
 
-class RoboMowRtFamilyHandler(RoboMowFamilyHandler):
-    """RT-family RoboMow BLE protocol behavior."""
+class OperationType(IntEnum):
+    """Operation types used in RT command messages."""
+
+    STOP_MOWING = 0x0000
+    START_EDGE_MOWING = 0x0001
+    START_MOWING = 0x0002
+    RETURN_HOME = 0x0003
+
+
+class MessageTypeMisc(IntEnum):
+    """RT miscellaneous message sub-types."""
+
+    INFO = 0x08
+    STATE = 0x0B
+
+
+class EepromParam(IntEnum):
+    """RT-family EEPROM parameter identifiers."""
+
+    STARTING_POINT_A = 0x000D
+    STARTING_POINT_B = 0x000E
+
+    PROGRAM_ENABLED = 0x008C
+    ANTI_THEFT_ENABLED = 0x00B9
+    CHILD_LOCK_ENABLED = 0x00BC
+    WIRE_SIGNAL_TYPE = 0x011F
+
+
+class RobomowRtFamilyHandler(RobomowFamilyHandler):
+    """RT-family Robomow BLE protocol behavior."""
 
     def __init__(self, device: Any) -> None:
         """Initialize RT family handler with a backing device."""
         self._device = device
 
-    async def initialize_state(self) -> None:
+    async def async_initialize_state(self) -> None:
         """Initialize RT-family state after connection."""
-        await self._device._send_msg(MessageType.GET_MESSAGE)
-        await self._device._send_misc_msg(MessageTypeMisc.INFO)
-        await self._device._read_eeprom_param(
+        await self._device._async_send_msg(MessageType.GET_MESSAGE)
+        await self._device._async_send_misc_msg(MessageTypeMisc.INFO)
+        await self._device._async_read_eeprom_param(
             EepromParam.CHILD_LOCK_ENABLED,
             EepromParam.ANTI_THEFT_ENABLED,
             EepromParam.PROGRAM_ENABLED,
@@ -45,65 +72,71 @@ class RoboMowRtFamilyHandler(RoboMowFamilyHandler):
             EepromParam.STARTING_POINT_B,
         )
 
-    async def poll_status(self) -> None:
+    async def async_poll_status(self) -> None:
         """Poll RT-family status while connected."""
-        await self._device._send_msg(MessageType.GET_MESSAGE)
-        await self._device._send_misc_msg(MessageTypeMisc.STATE)
-        await self._device._read_eeprom_param(
+        await self._device._async_send_msg(MessageType.GET_MESSAGE)
+        await self._device._async_send_misc_msg(MessageTypeMisc.STATE)
+        await self._device._async_read_eeprom_param(
             EepromParam.CHILD_LOCK_ENABLED,
             EepromParam.ANTI_THEFT_ENABLED,
         )
 
-    async def enable_program(self) -> None:
+    async def async_enable_program(self) -> None:
         """Enable the mower program."""
-        await self._device._write_eeprom_param(EepromParam.PROGRAM_ENABLED, 1)
-        await self._device._send_misc_msg(MessageTypeMisc.STATE)
+        await self._device._async_write_eeprom_param(EepromParam.PROGRAM_ENABLED, 1)
+        await self._device._async_send_misc_msg(MessageTypeMisc.STATE)
 
-    async def disable_program(self) -> None:
+    async def async_disable_program(self) -> None:
         """Disable the mower program."""
-        await self._device._write_eeprom_param(EepromParam.PROGRAM_ENABLED, 0)
-        await self._device._send_misc_msg(MessageTypeMisc.STATE)
+        await self._device._async_write_eeprom_param(EepromParam.PROGRAM_ENABLED, 0)
+        await self._device._async_send_misc_msg(MessageTypeMisc.STATE)
 
-    async def enable_anti_theft(self) -> None:
+    async def async_enable_anti_theft(self) -> None:
         """Enable anti-theft mode."""
-        await self._device._write_eeprom_param(EepromParam.ANTI_THEFT_ENABLED, 1)
-        await self._device._send_misc_msg(MessageTypeMisc.STATE)
+        await self._device._async_write_eeprom_param(EepromParam.ANTI_THEFT_ENABLED, 1)
+        await self._device._async_send_misc_msg(MessageTypeMisc.STATE)
 
-    async def disable_anti_theft(self) -> None:
+    async def async_disable_anti_theft(self) -> None:
         """Disable anti-theft mode."""
-        await self._device._write_eeprom_param(EepromParam.ANTI_THEFT_ENABLED, 0)
-        await self._device._send_misc_msg(MessageTypeMisc.STATE)
+        await self._device._async_write_eeprom_param(EepromParam.ANTI_THEFT_ENABLED, 0)
+        await self._device._async_send_misc_msg(MessageTypeMisc.STATE)
 
-    async def enable_child_lock(self) -> None:
+    async def async_enable_child_lock(self) -> None:
         """Enable child lock mode."""
-        await self._device._write_eeprom_param(EepromParam.CHILD_LOCK_ENABLED, 1)
-        await self._device._send_misc_msg(MessageTypeMisc.STATE)
-        await self._device._read_eeprom_param(EepromParam.CHILD_LOCK_ENABLED)
+        await self._device._async_write_eeprom_param(EepromParam.CHILD_LOCK_ENABLED, 1)
+        await self._device._async_send_misc_msg(MessageTypeMisc.STATE)
+        await self._device._async_read_eeprom_param(EepromParam.CHILD_LOCK_ENABLED)
 
-    async def disable_child_lock(self) -> None:
+    async def async_disable_child_lock(self) -> None:
         """Disable child lock mode."""
-        await self._device._write_eeprom_param(EepromParam.CHILD_LOCK_ENABLED, 0)
-        await self._device._send_misc_msg(MessageTypeMisc.STATE)
-        await self._device._read_eeprom_param(EepromParam.CHILD_LOCK_ENABLED)
+        await self._device._async_write_eeprom_param(EepromParam.CHILD_LOCK_ENABLED, 0)
+        await self._device._async_send_misc_msg(MessageTypeMisc.STATE)
+        await self._device._async_read_eeprom_param(EepromParam.CHILD_LOCK_ENABLED)
 
-    async def set_wire_signal_type(self, wire_signal_type: WireSignalType) -> None:
+    async def async_set_wire_signal_type(
+        self, wire_signal_type: WireSignalType
+    ) -> None:
         """Set wire signal type and refresh it from EEPROM."""
-        await self._device._write_eeprom_param(
+        await self._device._async_write_eeprom_param(
             EepromParam.WIRE_SIGNAL_TYPE, int(wire_signal_type)
         )
-        await self._device._read_eeprom_param(EepromParam.WIRE_SIGNAL_TYPE)
+        await self._device._async_read_eeprom_param(EepromParam.WIRE_SIGNAL_TYPE)
 
-    async def set_starting_point_a(self, value: int) -> None:
+    async def async_set_starting_point_a(self, value: int) -> None:
         """Set starting point A and refresh it from EEPROM."""
-        await self._device._write_eeprom_param(EepromParam.STARTING_POINT_A, value)
-        await self._device._read_eeprom_param(EepromParam.STARTING_POINT_A)
+        await self._device._async_write_eeprom_param(
+            EepromParam.STARTING_POINT_A, value
+        )
+        await self._device._async_read_eeprom_param(EepromParam.STARTING_POINT_A)
 
-    async def set_starting_point_b(self, value: int) -> None:
+    async def async_set_starting_point_b(self, value: int) -> None:
         """Set starting point B and refresh it from EEPROM."""
-        await self._device._write_eeprom_param(EepromParam.STARTING_POINT_B, value)
-        await self._device._read_eeprom_param(EepromParam.STARTING_POINT_B)
+        await self._device._async_write_eeprom_param(
+            EepromParam.STARTING_POINT_B, value
+        )
+        await self._device._async_read_eeprom_param(EepromParam.STARTING_POINT_B)
 
-    async def start_mowing(
+    async def async_start_mowing(
         self,
         duration_minutes: int | None = None,
         starting_zone: int | None = None,
@@ -115,7 +148,7 @@ class RoboMowRtFamilyHandler(RoboMowFamilyHandler):
         starting_zone = (
             max(0, min(0xFF, starting_zone)) if starting_zone is not None else 0x80
         )
-        await self._device._send_msg_with_sequence(
+        await self._device._async_send_msg_with_sequence(
             MessageType.COMMAND,
             struct.pack(
                 ">BBB",
@@ -124,40 +157,40 @@ class RoboMowRtFamilyHandler(RoboMowFamilyHandler):
                 duration_minutes,
             ),
         )
-        await self._device._send_msg(MessageType.GET_MESSAGE)
-        await self._device._send_misc_msg(MessageTypeMisc.STATE)
+        await self._device._async_send_msg(MessageType.GET_MESSAGE)
+        await self._device._async_send_misc_msg(MessageTypeMisc.STATE)
 
-    async def start_mowing_edge(self) -> None:
+    async def async_start_mowing_edge(self) -> None:
         """Start edge mowing."""
-        await self._device._send_msg_with_sequence(
+        await self._device._async_send_msg_with_sequence(
             MessageType.COMMAND,
             struct.pack(">BB", OperationType.START_EDGE_MOWING, 0x80),
         )
-        await self._device._send_msg(MessageType.GET_MESSAGE)
-        await self._device._send_misc_msg(MessageTypeMisc.STATE)
+        await self._device._async_send_msg(MessageType.GET_MESSAGE)
+        await self._device._async_send_misc_msg(MessageTypeMisc.STATE)
 
-    async def stop_mowing(self) -> None:
+    async def async_stop_mowing(self) -> None:
         """Stop mowing."""
-        await self._device._send_msg_with_sequence(
+        await self._device._async_send_msg_with_sequence(
             MessageType.COMMAND,
             struct.pack(">BB", OperationType.STOP_MOWING, 0xFF),
         )
-        await self._device._send_msg(MessageType.GET_MESSAGE)
-        await self._device._send_misc_msg(MessageTypeMisc.STATE)
+        await self._device._async_send_msg(MessageType.GET_MESSAGE)
+        await self._device._async_send_misc_msg(MessageTypeMisc.STATE)
 
-    async def return_to_home(self) -> None:
+    async def async_return_to_home(self) -> None:
         """Return mower to its home base."""
-        await self._device._send_msg_with_sequence(
+        await self._device._async_send_msg_with_sequence(
             MessageType.COMMAND,
             struct.pack(">BB", OperationType.RETURN_HOME, 0xBF),
         )
-        await self._device._send_msg(MessageType.GET_MESSAGE)
-        await self._device._send_misc_msg(MessageTypeMisc.STATE)
+        await self._device._async_send_msg(MessageType.GET_MESSAGE)
+        await self._device._async_send_misc_msg(MessageTypeMisc.STATE)
 
-    async def update_date_time(self, timestamp: datetime | None = None) -> bool:
+    async def async_update_date_time(self, timestamp: datetime | None = None) -> bool:
         """Update mower date and time."""
         timestamp = timestamp or datetime.now().astimezone()
-        return await self._device._send_msg_with_sequence(
+        return await self._device._async_send_msg_with_sequence(
             MessageType.UPDATE_DATE_TIME,
             struct.pack(
                 ">HBBHBBB",
@@ -171,9 +204,9 @@ class RoboMowRtFamilyHandler(RoboMowFamilyHandler):
             ),
         )
 
-    def handle_get_message(self, payload: bytes) -> None:
+    def handle_get_message(self, payload: bytes | bytearray | memoryview) -> None:
         """Handle GET_MESSAGE response packet."""
-        if not self._device._check_payload_length(
+        if not check_payload_length(
             MessageType.GET_MESSAGE,
             payload,
             GET_STATUS_PAYLOAD_SIZE,
@@ -199,7 +232,7 @@ class RoboMowRtFamilyHandler(RoboMowFamilyHandler):
     def handle_read_eeprom_response(self, request: Any, response: Any) -> None:
         """Handle a READ_EEPROM response after pending command matching."""
         expected_size = READ_EEPROM_PAYLOAD_SIZE * len(request.payload) // 2
-        if not self._device._check_payload_length(
+        if not check_payload_length(
             MessageType.READ_EEPROM,
             response.payload,
             expected_size,
@@ -233,21 +266,13 @@ class RoboMowRtFamilyHandler(RoboMowFamilyHandler):
             elif field == EepromParam.STARTING_POINT_B:
                 self._device._set_starting_point_b(value)
 
-    def handle_miscellaneous_response(self, request: Any, response: Any) -> None:
+    def handle_miscellaneous_response(self, response: Any) -> None:
         """Handle a MISCELLANEOUS response after pending command matching."""
-        if not self._device._check_payload_length(
+        if not check_payload_length(
             MessageType.MISCELLANEOUS,
             response.payload,
             MISC_TYPE_SIZE,
         ):
-            LOGGER.debug(
-                "Matched response command counter 0x%04X to queued %s "
-                "command: %s => %s",
-                response.counter,
-                request.msg_type.name,
-                request.payload.hex(),
-                response.payload.hex(),
-            )
             return
 
         try:
@@ -260,7 +285,7 @@ class RoboMowRtFamilyHandler(RoboMowFamilyHandler):
             return
 
         if misc_type == MessageTypeMisc.STATE:
-            if not self._device._check_payload_length(
+            if not check_payload_length(
                 MessageType.MISCELLANEOUS,
                 response.payload,
                 ROBOT_STATE_PAYLOAD_MIN_SIZE,
@@ -317,7 +342,7 @@ class RoboMowRtFamilyHandler(RoboMowFamilyHandler):
                 else str(MessageRT.get_message(no_depart_reason))
             )
         elif misc_type == MessageTypeMisc.INFO:
-            if not self._device._check_payload_length(
+            if not check_payload_length(
                 MessageType.MISCELLANEOUS,
                 response.payload,
                 INFO_PAYLOAD_SIZE,

@@ -12,8 +12,8 @@ from homeassistant.components.sensor import (
 )
 from homeassistant.const import EntityCategory, UnitOfTime
 
-from custom_components.robomow_ble.ble_handler import RoboMowDevice
-from custom_components.robomow_ble.entity import RoboMowEntity
+from custom_components.robomow_ble.entity import RobomowEntity
+from robomow_ble import RobomowDevice
 
 from .const import LOGGER, EntityKey
 
@@ -21,7 +21,7 @@ if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
     from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-    from .coordinator import RoboMowConfigEntry
+    from .coordinator import RobomowConfigEntry
 
 
 SENSOR_DESCRIPTIONS = (
@@ -30,7 +30,7 @@ SENSOR_DESCRIPTIONS = (
         name="Operating State",
         icon="mdi:state-machine",
         device_class=SensorDeviceClass.ENUM,
-        options=RoboMowDevice.STATE_LABELS,
+        options=RobomowDevice.STATE_LABELS,
     ),
     SensorEntityDescription(
         key=EntityKey.MESSAGE,
@@ -76,7 +76,7 @@ SENSOR_DESCRIPTIONS = (
 
 async def async_setup_entry(
     _hass: HomeAssistant,
-    entry: RoboMowConfigEntry,
+    entry: RobomowConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up the Robomow BLE sensors."""
@@ -88,7 +88,7 @@ async def async_setup_entry(
 
     # Create sensor entities
     entities = [
-        RoboMowSensorEntity(coordinator, coordinator.processor, description)
+        RobomowSensorEntity(coordinator, coordinator.processor, description)
         for description in SENSOR_DESCRIPTIONS
     ]
 
@@ -96,11 +96,11 @@ async def async_setup_entry(
     async_add_entities(entities)
 
 
-class RoboMowSensorEntity(RoboMowEntity, SensorEntity):
+class RobomowSensorEntity(RobomowEntity, SensorEntity):  # pyright: ignore[reportIncompatibleVariableOverride]
     """Representation of a Robomow BLE sensor."""
 
     @property
-    def native_value(self) -> Any | None:
+    def native_value(self) -> Any | None:  # pyright: ignore[reportIncompatibleVariableOverride]
         """Return the current sensor value."""
         if self.entity_key in self.processor.entity_data:
             return self.processor.entity_data[self.entity_key]

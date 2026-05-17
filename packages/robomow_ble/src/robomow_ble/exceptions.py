@@ -1,4 +1,4 @@
-"""Package-specific exception types for RoboMow BLE protocol handling."""
+"""Package-specific exception types for Robomow BLE protocol handling."""
 
 
 class RobomowProtocolError(Exception):

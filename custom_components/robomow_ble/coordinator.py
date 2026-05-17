@@ -4,10 +4,11 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-from bleak.exc import BleakError
+from bleak.exc import BleakDeviceNotFoundError, BleakError
 from homeassistant.components import bluetooth
 from homeassistant.components.bluetooth import (
     BluetoothScanningMode,
+    async_ble_device_from_address,
 )
 from homeassistant.components.bluetooth.passive_update_processor import (
     PassiveBluetoothDataProcessor,
@@ -18,8 +19,9 @@ from homeassistant.components.bluetooth.passive_update_processor import (
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers import device_registry as dr
 
-from custom_components.robomow_ble.ble_handler import RoboMowDevice, RoboMowUpdate
-from custom_components.robomow_ble.const import DOMAIN, LOGGER, MANUFACTURER, EntityKey
+from robomow_ble import EntityKey, RobomowDevice, RobomowUpdate
+
+from .const import DOMAIN, LOGGER, MANUFACTURER
 
 if TYPE_CHECKING:
     from homeassistant.components.bluetooth import (
@@ -28,10 +30,10 @@ if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
 
 
-type RoboMowConfigEntry = ConfigEntry[RoboMowCoordinator]
+type RobomowConfigEntry = ConfigEntry[RobomowCoordinator]
 
 
-class RoboMowCoordinator(PassiveBluetoothProcessorCoordinator[RoboMowUpdate]):
+class RobomowCoordinator(PassiveBluetoothProcessorCoordinator[RobomowUpdate]):
     """Coordinator for Robomow BLE passive polling."""
 
     _DEVICE_INFO_UPDATE_KEYS = frozenset(
@@ -49,11 +51,11 @@ class RoboMowCoordinator(PassiveBluetoothProcessorCoordinator[RoboMowUpdate]):
         hass: HomeAssistant,
         address: str,
         mainboard_serial: str,
-        entry: RoboMowConfigEntry,
+        entry: RobomowConfigEntry,
     ) -> None:
-        """Initialize the RoboMow BLE coordinator."""
+        """Initialize the Robomow BLE coordinator."""
         LOGGER.debug(
-            "Initializing RoboMowBLECoordinator with address %s "
+            "Initializing RobomowBLECoordinator with address %s "
             "and mainboard serial %s",
             address,
             mainboard_serial,
@@ -68,17 +70,16 @@ class RoboMowCoordinator(PassiveBluetoothProcessorCoordinator[RoboMowUpdate]):
             connectable=True,
         )
 
-        self._mower = RoboMowDevice(
-            hass,
+        self._mower = RobomowDevice(
             address,
             mainboard_serial,
             self.async_set_updated_data,
         )
-        self._processor: PassiveBluetoothDataProcessor[Any, RoboMowUpdate] | None = None
+        self._processor: PassiveBluetoothDataProcessor[Any, RobomowUpdate] | None = None
         self._entry = entry
 
     def _get_entity_data(
-        self, update: RoboMowUpdate
+        self, update: RobomowUpdate
     ) -> PassiveBluetoothDataUpdate[Any]:
         """Map updates to entity-keyed processor data."""
         if update.key in self._DEVICE_INFO_UPDATE_KEYS:
@@ -101,7 +102,7 @@ class RoboMowCoordinator(PassiveBluetoothProcessorCoordinator[RoboMowUpdate]):
 
         device_registry.async_update_device(
             device.id,
-            model=f"RoboMow {self.mower.model.name}",
+            model=f"Robomow {self.mower.model.name}",
             model_id=f"{self.mower.model}",
             manufacturer=MANUFACTURER,
             serial_number=self._mower.mainboard_serial,
@@ -125,7 +126,7 @@ class RoboMowCoordinator(PassiveBluetoothProcessorCoordinator[RoboMowUpdate]):
         )
 
     @property
-    def processor(self) -> PassiveBluetoothDataProcessor[Any, RoboMowUpdate]:
+    def processor(self) -> PassiveBluetoothDataProcessor[Any, RobomowUpdate]:
         """Return the shared entity processor."""
         if self._processor is None:
             self._processor = PassiveBluetoothDataProcessor(
@@ -135,8 +136,15 @@ class RoboMowCoordinator(PassiveBluetoothProcessorCoordinator[RoboMowUpdate]):
 
     async def _async_connect_on_advertisement(self) -> None:
         """Connect to the mower and clear cached advertisement history."""
+        device = async_ble_device_from_address(
+            self.hass, self.address, connectable=True
+        )
+        if device is None:
+            msg = f"Device with address {self.address} not found"
+            raise BleakDeviceNotFoundError(msg)
+
         try:
-            await self._mower.connect()
+            await self._mower.async_connect(device)
             bluetooth.async_clear_advertisement_history(self.hass, self.address)
         except (BleakError, OSError) as err:
             LOGGER.error(
@@ -148,7 +156,7 @@ class RoboMowCoordinator(PassiveBluetoothProcessorCoordinator[RoboMowUpdate]):
     def _update_from_service_info(
         self,
         service_info: BluetoothServiceInfoBleak,
-    ) -> RoboMowUpdate:
+    ) -> RobomowUpdate:
         """Process the latest data and return the device."""
         LOGGER.debug("Processing update from device %s", self.address)
 
@@ -156,17 +164,17 @@ class RoboMowCoordinator(PassiveBluetoothProcessorCoordinator[RoboMowUpdate]):
 
         try:
             # Update device data from service info
-            self._mower.update_from_service_info(service_info)
+            self._mower.update_from_rssi(service_info.rssi)
         except (BleakError, OSError) as err:
             LOGGER.error("Error processing device update: %s", err)
-        return RoboMowUpdate(EntityKey.SERVICE_INFO, service_info)
+        return RobomowUpdate(EntityKey.SERVICE_INFO, service_info)
 
     @property
-    def mower(self) -> RoboMowDevice:
+    def mower(self) -> RobomowDevice:
         """Return the BLE device."""
         return self._mower
 
     async def async_shutdown(self) -> None:
         """Disconnect from the BLE client (called when config entry is unloaded)."""
         LOGGER.debug("Shutting down coordinator for %s", self.address)
-        await self._mower.disconnect()
+        await self._mower.async_disconnect()

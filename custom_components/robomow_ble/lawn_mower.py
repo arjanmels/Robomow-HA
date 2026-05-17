@@ -14,13 +14,13 @@ from homeassistant.components.lawn_mower.const import (
 )
 
 from .const import LOGGER, EntityKey, MowerOperatingState
-from .entity import RoboMowEntity
+from .entity import RobomowEntity
 
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
     from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-    from .coordinator import RoboMowConfigEntry
+    from .coordinator import RobomowConfigEntry
 
 
 LAWN_MOWER_DESCRIPTION = LawnMowerEntityEntityDescription(
@@ -30,7 +30,7 @@ LAWN_MOWER_DESCRIPTION = LawnMowerEntityEntityDescription(
 
 async def async_setup_entry(
     _hass: HomeAssistant,
-    entry: RoboMowConfigEntry,
+    entry: RobomowConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up the Robomow BLE lawn mower entity."""
@@ -44,7 +44,7 @@ async def async_setup_entry(
 
     async_add_entities(
         [
-            RoboMowLawnMowerEntity(
+            RobomowLawnMowerEntity(
                 coordinator,
                 coordinator.processor,
                 LAWN_MOWER_DESCRIPTION,
@@ -53,7 +53,7 @@ async def async_setup_entry(
     )
 
 
-class RoboMowLawnMowerEntity(RoboMowEntity, LawnMowerEntity):
+class RobomowLawnMowerEntity(RobomowEntity, LawnMowerEntity):  # pyright: ignore[reportIncompatibleVariableOverride]
     """Representation of a Robomow BLE lawn mower."""
 
     _attr_supported_features = (
@@ -63,7 +63,7 @@ class RoboMowLawnMowerEntity(RoboMowEntity, LawnMowerEntity):
     )
 
     @property
-    def activity(self) -> LawnMowerActivity | None:
+    def activity(self) -> LawnMowerActivity | None:  # pyright: ignore[reportIncompatibleVariableOverride]
         """Return the current mower activity."""
         state = self.processor.entity_data.get(self.entity_key)
         if state in (
@@ -95,21 +95,21 @@ class RoboMowLawnMowerEntity(RoboMowEntity, LawnMowerEntity):
         """Start or resume mowing."""
         if self.activity == LawnMowerActivity.RETURNING:
             LOGGER.debug("Mower is returning, stop first.")
-            await self.coordinator.mower.stop_mowing()
+            await self.coordinator.mower.async_stop_mowing()
 
-        await self.coordinator.mower.start_mowing(
+        await self.coordinator.mower.async_start_mowing(
             duration_minutes,
             starting_zone,
         )
 
     async def async_pause(self) -> None:
         """Pause mowing."""
-        await self.coordinator.mower.stop_mowing()
+        await self.coordinator.mower.async_stop_mowing()
 
     async def async_dock(self) -> None:
         """Dock mower by returning it home."""
         if self.activity == LawnMowerActivity.MOWING:
             LOGGER.debug("Mower is mowing, stop first.")
-            await self.coordinator.mower.stop_mowing()
+            await self.coordinator.mower.async_stop_mowing()
 
-        await self.coordinator.mower.return_to_home()
+        await self.coordinator.mower.async_return_to_home()

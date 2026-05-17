@@ -3,7 +3,7 @@ requires = ["setuptools>=69", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "RoboMow-BLE"
+name = "Robomow-BLE"
 version = "0.1.0"
 description = "Robomow BLE protocol core library"
 readme = "README.md"

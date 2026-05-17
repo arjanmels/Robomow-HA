@@ -1,4 +1,4 @@
-# RoboMow-BLE
+# Robomow-BLE
 
 Standalone Robomow BLE protocol package extracted from the Home Assistant
 integration.

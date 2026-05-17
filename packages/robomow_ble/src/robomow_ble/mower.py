@@ -11,54 +11,47 @@ from typing import TYPE_CHECKING, Any, ClassVar, NamedTuple
 
 from bleak.exc import (
     BleakCharacteristicNotFoundError,
-    BleakDeviceNotFoundError,
     BleakError,
 )
 from bleak_retry_connector import (
     BleakClientWithServiceCache,
     establish_connection,
 )
-from homeassistant.components.bluetooth import async_ble_device_from_address
-from homeassistant.helpers.event import async_track_time_interval
 
 from .const import (
-    LOGGER,
-    UNKNOWN_FIELD_VALUE,
-    UUID_SERVICE,
-    EntityKey,
-    MowerFamily,
-    MowerModel,
-    MowerOperatingState,
-)
-from .constants import (
     AUTH_RESPONSE_LENGTH,
+    LOGGER,
     MESSAGE_RECEIVE_BYTE,
     MESSAGE_SEND_BYTE,
     MESSAGE_START_BYTE,
     MINIMUM_MESSAGE_LENGTH,
+    UNKNOWN_FIELD_VALUE,
     UUID_CHAR_AUTHENTICATE,
     UUID_CHAR_DATA_IN,
     UUID_CHAR_DATA_OUT,
+    UUID_SERVICE,
+    EntityKey,
     MessageType,
+    MowerFamily,
+    MowerModel,
+    MowerOperatingState,
     WireSignalType,
 )
 from .exceptions import RobomowAuthenticationError
-from .rt_family_handler import RoboMowRtFamilyHandler
+from .family_handler_rt import RobomowRtFamilyHandler
+from .helpers import check_payload_length
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
+    from collections.abc import Callable, Coroutine
 
     from bleak.backends.characteristic import BleakGATTCharacteristic
+    from bleak.backends.device import BLEDevice
     from bleak.backends.service import BleakGATTService
-    from homeassistant.components.bluetooth import (
-        BluetoothServiceInfoBleak as BluetoothServiceInfo,
-    )
-    from homeassistant.core import HomeAssistant
 
-    from .family_handler import RoboMowFamilyHandler
+    from .family_handler_base import RobomowFamilyHandler
 
 
-class RoboMowUpdate(NamedTuple):
+class RobomowUpdate(NamedTuple):
     """Structured update payload for entity state changes."""
 
     key: EntityKey
@@ -66,7 +59,7 @@ class RoboMowUpdate(NamedTuple):
 
 
 if TYPE_CHECKING:
-    type RoboMowUpdateCallback = Callable[[RoboMowUpdate], None]
+    type RobomowUpdateCallback = Callable[[RobomowUpdate], None]
 
 
 RESPONSE_COMMAND_COUNTER_SIZE = 2
@@ -79,10 +72,10 @@ class PendingCommand(NamedTuple):
 
     counter: int
     msg_type: MessageType
-    payload: bytes
+    payload: bytes | bytearray | memoryview
 
 
-class RoboMowDevice:
+class RobomowDevice:
     """Base representation of a Robomow BLE device."""
 
     _AUTOMATIC_OPERATION_LABELS: ClassVar[dict[int, MowerOperatingState]] = {
@@ -110,18 +103,16 @@ class RoboMowDevice:
 
     def __init__(
         self,
-        hass: HomeAssistant,
         address: str,
         mainboard_serial: str,
-        update_callback: RoboMowUpdateCallback | None,
+        update_callback: RobomowUpdateCallback | None,
     ) -> None:
         """Initialize the device."""
-        self._hass: HomeAssistant = hass
         self._address: str = address
         self._mainboard_serial: bytes = (
             mainboard_serial.strip().encode("utf-8") + b"\x00"
         )
-        self._update_callback: RoboMowUpdateCallback | None = update_callback
+        self._update_callback: RobomowUpdateCallback | None = update_callback
 
         self._client: BleakClientWithServiceCache | None = None
         self._service: BleakGATTService | None = None
@@ -134,9 +125,10 @@ class RoboMowDevice:
         self._connect_lock = asyncio.Lock()
         self._connect_task_lock = asyncio.Lock()
         self._connect_task: asyncio.Task[None] | None = None
+        self._background_tasks: set[asyncio.Task[Any]] = set()
         self._date_time_poll_cancel: Callable[[], None] | None = None
         self._status_poll_cancel: Callable[[], None] | None = None
-        self._family_handler: RoboMowFamilyHandler | None = None
+        self._family_handler: RobomowFamilyHandler | None = None
 
         self._family: MowerFamily | None = None
         self._model: MowerModel | None = None
@@ -167,7 +159,7 @@ class RoboMowDevice:
     def _data_changed(self, entity_key: EntityKey, value: Any) -> None:
         """Notify listeners that the mower data has changed."""
         if self._update_callback is not None:
-            self._update_callback(RoboMowUpdate(entity_key, value))
+            self._update_callback(RobomowUpdate(entity_key, value))
 
     def _set_program_enabled(self, enabled: bool | None) -> None:  # noqa: FBT001
         """Update program_enabled and emit change callbacks when needed."""
@@ -302,7 +294,7 @@ class RoboMowDevice:
         self._no_depart_reason = value
         self._data_changed(EntityKey.NO_DEPART_REASON, value)
 
-    def _set_family(self, value: MowerFamily | int | None) -> None:
+    async def _async_set_family(self, value: MowerFamily | int | None) -> None:
         """Update mower family and select a family-specific protocol handler."""
         family = None if value is None else MowerFamily(value)
         if self._family == family:
@@ -317,7 +309,7 @@ class RoboMowDevice:
             return
 
         if family is MowerFamily.RT:
-            target_handler_cls = RoboMowRtFamilyHandler
+            target_handler_cls = RobomowRtFamilyHandler
         else:
             self._family_handler = None
             LOGGER.warning(
@@ -342,7 +334,7 @@ class RoboMowDevice:
             family.name,
         )
         self._family_handler = target_handler_cls(self)
-        self._hass.async_create_task(self._initialize_family_state())
+        await self._async_initialize_family_state()
 
     def _set_model(self, value: MowerModel | int | None) -> None:
         """Update mower model and emit change callbacks when needed."""
@@ -429,21 +421,15 @@ class RoboMowDevice:
         self._char_data_out = None
         self._initialize_runtime_state()
 
-    async def _establish_client_connection(self) -> None:
+    async def _async_establish_client_connection(self, ble_device: BLEDevice) -> None:
         """Resolve BLE device and establish a paired client connection."""
-        ble_device = async_ble_device_from_address(
-            self._hass, self._address, connectable=True
-        )
-        if ble_device is None:
-            raise BleakDeviceNotFoundError(self._address)
-
         self._client = await establish_connection(
             BleakClientWithServiceCache,
             ble_device,
             ble_device.address,
             disconnected_callback=self._handle_disconnect,
+            pair=True,
         )
-        await self._client.pair()
 
     def _resolve_characteristics(self) -> None:
         """Resolve GATT service and required characteristics for this device."""
@@ -466,7 +452,7 @@ class RoboMowDevice:
         if self._char_data_out is None:
             raise BleakCharacteristicNotFoundError(UUID_CHAR_DATA_OUT)
 
-    async def _authenticate_connection(self) -> None:
+    async def _async_authenticate_connection(self) -> None:
         """Authenticate by writing the mainboard serial and validating response."""
         if self._client is None:
             return
@@ -488,14 +474,17 @@ class RoboMowDevice:
             )
             raise RobomowAuthenticationError
 
-    async def _start_notifications(self) -> None:
+    async def _async_start_notifications(self) -> None:
         """Start notifications for incoming mower packets."""
         if self._client is None:
             return
         if self._char_data_in is None:
             raise BleakCharacteristicNotFoundError(UUID_CHAR_DATA_IN)
 
-        await self._client.start_notify(self._char_data_in, self._handle_data_received)
+        await self._client.start_notify(
+            self._char_data_in,
+            self._async_handle_data_received,
+        )
 
     @property
     def address(self) -> str:
@@ -608,7 +597,7 @@ class RoboMowDevice:
 
     # --- Connection lifecycle ---
 
-    async def _connect_worker(self) -> None:
+    async def _async_connect_worker(self, device: BLEDevice) -> None:
         """Perform a single serialized connect attempt."""
         async with self._connect_lock:
             if self._client is not None and self._client.is_connected:
@@ -618,12 +607,12 @@ class RoboMowDevice:
             LOGGER.debug("Connecting to Robomow BLE device")
 
             try:
-                await self._establish_client_connection()
+                await self._async_establish_client_connection(device)
                 self._resolve_characteristics()
-                await self._authenticate_connection()
-                await self._start_notifications()
+                await self._async_authenticate_connection()
+                await self._async_start_notifications()
             except BleakError:
-                await self._disconnect_unlocked()
+                await self._async_disconnect_unlocked()
                 raise
 
             self._initialize_runtime_state()
@@ -634,20 +623,20 @@ class RoboMowDevice:
             # Start periodic GET_STATUS polling
             self._start_status_polling()
 
-            await self._initialize_family_state()
+            await self._async_initialize_family_state()
 
-    async def connect(self) -> None:
+    async def async_connect(self, device: BLEDevice) -> None:
         """Create and connect a Robomow BLE client."""
         async with self._connect_task_lock:
             if self._connect_task is None or self._connect_task.done():
-                self._connect_task = self._hass.async_create_task(
-                    self._connect_worker()
+                self._connect_task = asyncio.create_task(
+                    self._async_connect_worker(device)
                 )
             connect_task = self._connect_task
 
         await connect_task
 
-    async def _disconnect_unlocked(self) -> None:
+    async def _async_disconnect_unlocked(self) -> None:
         """Disconnect without acquiring the connect lock."""
         LOGGER.debug("BLE client disconnect called")
         self._cancel_periodic_polling()
@@ -656,7 +645,7 @@ class RoboMowDevice:
                 await self._client.stop_notify(self._char_data_in)
             await self._client.disconnect()
 
-    async def disconnect(self) -> None:
+    async def async_disconnect(self) -> None:
         """Disconnect the BLE client."""
         async with self._connect_task_lock:
             connect_task = self._connect_task
@@ -668,11 +657,11 @@ class RoboMowDevice:
                 await connect_task
 
         async with self._connect_lock:
-            await self._disconnect_unlocked()
+            await self._async_disconnect_unlocked()
 
     # --- Packet I/O ---
 
-    async def _write_value(self, data: bytes) -> bool:
+    async def _async_write_value(self, data: bytes) -> bool:
         """Write a packet payload to the mower data output characteristic."""
         if not self.is_connected() or not self._client or not self._char_data_out:
             return False
@@ -685,12 +674,14 @@ class RoboMowDevice:
         return True
 
     @staticmethod
-    def _calculate_checksum(data: bytes) -> int:
+    def _calculate_checksum(data: bytes | bytearray | memoryview) -> int:
         """Calculate packet checksum by XORing 0xFF with the byte sum."""
         return (~sum(data)) & 0xFF
 
-    async def _send_msg(
-        self, msg_type: MessageType, payload: bytes | None = None
+    async def _async_send_msg(
+        self,
+        msg_type: MessageType,
+        payload: bytes | bytearray | memoryview | None = None,
     ) -> bool:
         """Update packet checksum and write it to the BLE characteristic."""
         payload = payload or b""
@@ -703,74 +694,102 @@ class RoboMowDevice:
         packet += payload
         packet += struct.pack(">B", self._calculate_checksum(packet))
 
-        return await self._write_value(packet)
+        return await self._async_write_value(packet)
 
-    async def _send_msg_with_sequence(
-        self, msg_type: MessageType, payload: bytes
+    async def _async_send_msg_with_sequence(
+        self, msg_type: MessageType, payload: bytes | bytearray | memoryview
     ) -> bool:
         """Send a message with a 2-byte command counter and the given payload."""
         command_counter = self._command_counter = self._command_counter + 1
         buf = struct.pack(">H", command_counter) + payload
         pending_command = PendingCommand(command_counter, msg_type, payload)
         self._pending_commands.append(pending_command)
-        sent = await self._send_msg(msg_type, buf)
+        sent = await self._async_send_msg(msg_type, buf)
         if not sent:
             with suppress(ValueError):
                 self._pending_commands.remove(pending_command)
 
         return sent
 
-    async def _send_misc_msg(self, misc_type: int) -> bool:
+    async def _async_send_misc_msg(self, misc_type: int) -> bool:
         """Send a miscellaneous message with the given type and command counter."""
-        return await self._send_msg_with_sequence(
+        return await self._async_send_msg_with_sequence(
             MessageType.MISCELLANEOUS, struct.pack(">H", misc_type)
         )
 
     # --- Polling ---
+
+    def _start_periodic_poll(
+        self,
+        action: Callable[[], Coroutine[Any, Any, Any]],
+        interval: timedelta,
+    ) -> Callable[[], None]:
+        """Run an async action repeatedly using the current asyncio loop."""
+        loop = asyncio.get_running_loop()
+        interval_seconds = interval.total_seconds()
+        cancelled = False
+        timer_handle: asyncio.TimerHandle | None = None
+
+        def _run() -> None:
+            nonlocal timer_handle
+            if cancelled:
+                return
+            task = asyncio.create_task(action())
+            self._background_tasks.add(task)
+            task.add_done_callback(self._background_tasks.discard)
+            timer_handle = loop.call_later(interval_seconds, _run)
+
+        timer_handle = loop.call_later(interval_seconds, _run)
+
+        def _cancel() -> None:
+            nonlocal cancelled
+            cancelled = True
+            if timer_handle is not None:
+                timer_handle.cancel()
+
+        return _cancel
 
     def _start_date_time_polling(self) -> None:
         """Start sending date/time updates every minute while connected."""
         if not self.is_connected():
             return
 
-        self._date_time_poll_cancel = async_track_time_interval(
-            self._hass,
-            self._on_date_time_poll,
+        self._date_time_poll_cancel = self._start_periodic_poll(
+            self._async_on_date_time_poll,
             timedelta(seconds=60),
         )
 
-    async def _on_date_time_poll(self, _now: datetime) -> None:
+    async def _async_on_date_time_poll(self) -> None:
         """Send periodic date/time update while connected."""
-        await self.update_date_time()
+        await self.async_update_date_time()
 
     def _start_status_polling(self) -> None:
         """Start sending GET_STATUS every 10 seconds while connected."""
         if not self.is_connected():
             return
 
-        self._status_poll_cancel = async_track_time_interval(
-            self._hass,
-            self._on_status_poll,
+        self._status_poll_cancel = self._start_periodic_poll(
+            self._async_on_status_poll,
             timedelta(seconds=2),
         )
 
-    async def _on_status_poll(self, _now: datetime) -> None:
+    async def _async_on_status_poll(self) -> None:
         """Send periodic family-specific status command(s) while connected."""
-        await self._poll_family_status()
+        await self._async_poll_family_status()
 
-    async def _initialize_family_state(self) -> None:
+    async def _async_initialize_family_state(self) -> None:
         """Initialize family-specific state after connection."""
         if self._family_handler is not None:
-            await self._family_handler.initialize_state()
+            await self._family_handler.async_initialize_state()
             return
-        await self._send_msg(MessageType.GET_CONFIG)
+        await self._async_send_msg(MessageType.GET_CONFIG)
 
-    async def _poll_family_status(self) -> None:
+    async def _async_poll_family_status(self) -> None:
         """Poll family-specific status while connected."""
         if self._family_handler is not None:
-            await self._family_handler.poll_status()
+            await self._family_handler.async_poll_status()
 
-    async def _read_eeprom_param(self, *params: int) -> bool:
+    async def _async_read_eeprom_param(self, *params: int) -> bool:
         """Send a message to read one or more EEPROM parameters by ID."""
         if not params:
             return False
@@ -779,128 +798,134 @@ class RoboMowDevice:
             f">{len(params)}H",
             *(int(param) for param in params),
         )
-        return await self._send_msg_with_sequence(MessageType.READ_EEPROM, payload)
+        return await self._async_send_msg_with_sequence(
+            MessageType.READ_EEPROM,
+            payload,
+        )
 
-    async def _write_eeprom_param(self, param: int, value: int) -> bool:
+    async def _async_write_eeprom_param(self, param: int, value: int) -> bool:
         """Send a message to write an EEPROM parameter with the given ID and value."""
-        return await self._send_msg_with_sequence(
+        return await self._async_send_msg_with_sequence(
             MessageType.WRITE_EEPROM, struct.pack(">HL", param, value)
         )
 
-    # --- EEPROM / commands ---
-
-    async def enable_program(self) -> None:
+    async def async_enable_program(self) -> None:
         """Enable mower program for the active mower family."""
         if self._family_handler is not None:
-            await self._family_handler.enable_program()
+            await self._family_handler.async_enable_program()
             return
         msg = f"enable_program not implemented for family {self.family.name}"
         raise NotImplementedError(msg)
 
-    async def disable_program(self) -> None:
+    async def async_disable_program(self) -> None:
         """Disable mower program for the active mower family."""
         if self._family_handler is not None:
-            await self._family_handler.disable_program()
+            await self._family_handler.async_disable_program()
             return
         msg = f"disable_program not implemented for family {self.family.name}"
         raise NotImplementedError(msg)
 
-    async def enable_anti_theft(self) -> None:
+    async def async_enable_anti_theft(self) -> None:
         """Enable anti-theft for the active mower family."""
         if self._family_handler is not None:
-            await self._family_handler.enable_anti_theft()
+            await self._family_handler.async_enable_anti_theft()
             return
         msg = f"enable_anti_theft not implemented for family {self.family.name}"
         raise NotImplementedError(msg)
 
-    async def disable_anti_theft(self) -> None:
+    async def async_disable_anti_theft(self) -> None:
         """Disable anti-theft for the active mower family."""
         if self._family_handler is not None:
-            await self._family_handler.disable_anti_theft()
+            await self._family_handler.async_disable_anti_theft()
             return
         msg = f"disable_anti_theft not implemented for family {self.family.name}"
         raise NotImplementedError(msg)
 
-    async def enable_child_lock(self) -> None:
+    async def async_enable_child_lock(self) -> None:
         """Enable child lock for the active mower family."""
         if self._family_handler is not None:
-            await self._family_handler.enable_child_lock()
+            await self._family_handler.async_enable_child_lock()
             return
         msg = f"enable_child_lock not implemented for family {self.family.name}"
         raise NotImplementedError(msg)
 
-    async def disable_child_lock(self) -> None:
+    async def async_disable_child_lock(self) -> None:
         """Disable child lock for the active mower family."""
         if self._family_handler is not None:
-            await self._family_handler.disable_child_lock()
+            await self._family_handler.async_disable_child_lock()
             return
         msg = f"disable_child_lock not implemented for family {self.family.name}"
         raise NotImplementedError(msg)
 
-    async def set_wire_signal_type(self, wire_signal_type: WireSignalType) -> None:
+    async def async_set_wire_signal_type(
+        self, wire_signal_type: WireSignalType
+    ) -> None:
         """Set wire signal type for the active mower family."""
         if self._family_handler is not None:
-            await self._family_handler.set_wire_signal_type(wire_signal_type)
+            await self._family_handler.async_set_wire_signal_type(wire_signal_type)
             return
         msg = f"set_wire_signal_type not implemented for family {self.family.name}"
         raise NotImplementedError(msg)
 
-    async def set_starting_point_a(self, value: int) -> None:
+    async def async_set_starting_point_a(self, value: int) -> None:
         """Set starting point A for the active mower family."""
         if self._family_handler is not None:
-            await self._family_handler.set_starting_point_a(value)
+            await self._family_handler.async_set_starting_point_a(value)
             return
         msg = f"set_starting_point_a not implemented for family {self.family.name}"
         raise NotImplementedError(msg)
 
-    async def set_starting_point_b(self, value: int) -> None:
+    async def async_set_starting_point_b(self, value: int) -> None:
         """Set starting point B for the active mower family."""
         if self._family_handler is not None:
-            await self._family_handler.set_starting_point_b(value)
+            await self._family_handler.async_set_starting_point_b(value)
             return
         msg = f"set_starting_point_b not implemented for family {self.family.name}"
         raise NotImplementedError(msg)
 
-    async def start_mowing(
+    async def async_start_mowing(
         self,
         duration_minutes: int | None = None,
         starting_zone: int | None = None,
     ) -> None:
         """Start mowing for the active mower family."""
         if self._family_handler is not None:
-            await self._family_handler.start_mowing(duration_minutes, starting_zone)
+            await self._family_handler.async_start_mowing(
+                duration_minutes,
+                starting_zone,
+            )
             return
         msg = f"start_mowing not implemented for family {self.family.name}"
         raise NotImplementedError(msg)
 
-    async def start_mowing_edge(self) -> None:
+    async def async_start_mowing_edge(self) -> None:
         """Start edge mowing for the active mower family."""
         if self._family_handler is not None:
-            await self._family_handler.start_mowing_edge()
+            await self._family_handler.async_start_mowing_edge()
             return
         msg = f"start_mowing_edge not implemented for family {self.family.name}"
         raise NotImplementedError(msg)
 
-    async def stop_mowing(self) -> None:
+    async def async_stop_mowing(self) -> None:
         """Stop mowing for the active mower family."""
         if self._family_handler is not None:
-            await self._family_handler.stop_mowing()
+            await self._family_handler.async_stop_mowing()
             return
         msg = f"stop_mowing not implemented for family {self.family.name}"
         raise NotImplementedError(msg)
 
-    async def return_to_home(self) -> None:
+    async def async_return_to_home(self) -> None:
         """Return mower home for the active mower family."""
         if self._family_handler is not None:
-            await self._family_handler.return_to_home()
+            await self._family_handler.async_return_to_home()
             return
         msg = f"return_to_home not implemented for family {self.family.name}"
         raise NotImplementedError(msg)
 
-    async def update_date_time(self, timestamp: datetime | None = None) -> bool:
+    async def async_update_date_time(self, timestamp: datetime | None = None) -> bool:
         """Update date/time for the active mower family."""
         if self._family_handler is not None:
-            return await self._family_handler.update_date_time(timestamp)
+            return await self._family_handler.async_update_date_time(timestamp)
         msg = f"update_date_time not implemented for family {self.family.name}"
         raise NotImplementedError(msg)
 
@@ -945,7 +970,11 @@ class RoboMowDevice:
         self._cancel_periodic_polling()
         self._teardown_connection()
 
-    def _handle_data_received(self, _sender: object, data: bytearray) -> None:
+    async def _async_handle_data_received(
+        self,
+        _sender: object,
+        data: bytearray,
+    ) -> None:
         """Handle BLE notifications."""
         self._receive_buffer.extend(data)
 
@@ -985,48 +1014,16 @@ class RoboMowDevice:
                 )
                 continue
 
-            self._process_message(msg_type, packet[4:-1])
+            await self._async_process_message(msg_type, packet[4:-1])
 
-    def _check_payload_length(
-        self,
-        msg_type: MessageType,
-        payload: bytes,
-        expected_length: int,
-        *,
-        exact: bool = False,
-    ) -> bool:
-        """
-        Validate payload length and log warning if invalid; return validity.
-
-        Args:
-            msg_type: The message type of the payload to validate.
-            payload: The payload bytes to validate.
-            expected_length: Minimum (or exact) length required.
-            exact: If True, check for exact length; if False, check for minimum.
-
-        """
-        is_valid = (
-            len(payload) == expected_length
-            if exact
-            else len(payload) >= expected_length
-        )
-        if not is_valid:
-            LOGGER.warning(
-                "Payload %s (expected %d, got %d) for %s: %s",
-                "length mismatch" if exact else "too short",
-                expected_length,
-                len(payload),
-                msg_type.name,
-                payload.hex(),
-            )
-        return is_valid
-
-    def _process_message(self, msg_type: MessageType, payload: bytes) -> None:
+    async def _async_process_message(
+        self, msg_type: MessageType, payload: bytes | bytearray | memoryview
+    ) -> None:
         """Dispatch a complete received packet to the appropriate handler."""
         LOGGER.debug("Received %-15s: %s", msg_type.name, payload.hex())
 
         if msg_type == MessageType.GET_CONFIG:
-            self._handle_get_config(payload)
+            await self._async_handle_get_config(payload)
         elif msg_type == MessageType.GET_MESSAGE:
             self._handle_get_message(payload)
         elif msg_type in (
@@ -1036,9 +1033,11 @@ class RoboMowDevice:
         ):
             self._handle_sequenced_response(msg_type, payload)
 
-    def _handle_get_config(self, payload: bytes) -> None:
+    async def _async_handle_get_config(
+        self, payload: bytes | bytearray | memoryview
+    ) -> None:
         """Handle GET_CONFIG for family detection and shared version fields."""
-        if not self._check_payload_length(
+        if not check_payload_length(
             MessageType.GET_CONFIG, payload, GET_CONFIG_PAYLOAD_MIN_SIZE
         ):
             return
@@ -1049,12 +1048,12 @@ class RoboMowDevice:
             software_release,
             mainboard_version,
         ) = struct.unpack_from(">BBHB", payload)
-        self._set_family(family)
+        await self._async_set_family(family)
         self._set_software_version(software_version)
         self._set_software_release(software_release)
         self._set_mainboard_version(mainboard_version)
 
-    def _handle_get_message(self, payload: bytes) -> None:
+    def _handle_get_message(self, payload: bytes | bytearray | memoryview) -> None:
         """Handle a GET_MESSAGE response packet for the active mower family."""
         if self._family_handler is not None:
             self._family_handler.handle_get_message(payload)
@@ -1064,11 +1063,11 @@ class RoboMowDevice:
             payload.hex(),
         )
 
-    def _handle_sequenced_response(self, msg_type: MessageType, payload: bytes) -> None:
+    def _handle_sequenced_response(
+        self, msg_type: MessageType, payload: bytes | bytearray | memoryview
+    ) -> None:
         """Handle a sequenced response: extract counter, match command, delegate."""
-        if not self._check_payload_length(
-            msg_type, payload, RESPONSE_COMMAND_COUNTER_SIZE
-        ):
+        if not check_payload_length(msg_type, payload, RESPONSE_COMMAND_COUNTER_SIZE):
             return
 
         command_counter = struct.unpack_from(">H", payload)[0]
@@ -1117,7 +1116,7 @@ class RoboMowDevice:
     ) -> None:
         """Handle MISCELLANEOUS response for the active mower family."""
         if self._family_handler is not None:
-            self._family_handler.handle_miscellaneous_response(request, response)
+            self._family_handler.handle_miscellaneous_response(response)
             return
         LOGGER.debug(
             "Ignoring MISCELLANEOUS for unsupported family handler: %s => %s",
@@ -1125,10 +1124,10 @@ class RoboMowDevice:
             response.payload.hex(),
         )
 
-    def update_from_service_info(self, service_info: BluetoothServiceInfo) -> None:
-        """Update from BLE service info."""
+    def update_from_rssi(self, rssi: int | None) -> None:
+        """Update RSSI from BLE service info."""
         LOGGER.debug(
-            "Processing Bluetooth service info (update_from_service_info): %s",
-            service_info,
+            "Updating RSSI from service info: %s",
+            rssi,
         )
-        self._set_rssi(service_info.rssi)
+        self._set_rssi(rssi)

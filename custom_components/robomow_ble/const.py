@@ -4,10 +4,14 @@
 import logging
 from enum import IntEnum, StrEnum
 
+from robomow_ble import EntityKey
+
+__all__ = ["EntityKey", "MowerFamily", "MowerModel", "MowerOperatingState"]
+
 LOGGER: logging.Logger = logging.getLogger(__package__)
 
 DOMAIN = "robomow_ble"
-MANUFACTURER = "RoboMow"
+MANUFACTURER = "Robomow"
 
 CONF_DEVICE_TYPE = "device_type"
 CONF_MAINBOARD_SERIAL = "mainboard_serial"
@@ -18,7 +22,7 @@ UNKNOWN_FIELD_VALUE = 0xFFFF
 
 
 class MowerFamily(IntEnum):
-    """RoboMow mower types."""
+    """Robomow mower types."""
 
     Unknown = -1
     RS = 1
@@ -29,7 +33,7 @@ class MowerFamily(IntEnum):
 
 
 class MowerModel(IntEnum):
-    """RoboMow mower models."""
+    """Robomow mower models."""
 
     Unknown = -1
     RT300 = 5
@@ -54,37 +58,3 @@ class MowerOperatingState(StrEnum):
     AUTOMATIC = "Automatic"
     REMOTE_CONTROL = "Remote control"
     BIT = "Bit"
-
-
-class EntityKey(StrEnum):
-    """Entity keys for all RoboMow entities."""
-
-    LAWN_MOWER = "lawn_mower"
-    BATTERY_LEVEL = "battery_level"
-    FAMILY = "family"
-    MODEL = "model"
-    SOFTWARE_VERSION = "software_version"
-    SOFTWARE_RELEASE = "software_release"
-    MAINBOARD_VERSION = "mainboard_version"
-    STATE = "state"
-    MESSAGE = "message"
-    SIGNAL_STRENGTH = "signal_strength"
-    START_MOWING = "start_mowing"
-    STOP_MOWING = "stop_mowing"
-    RETURN_HOME = "return_home"
-    EDGE_MOWING = "edge_mowing"
-    PROGRAM_ENABLED = "program_enabled"
-    SERVICE_INFO = "service_info"
-    NEXT_DEPARTURE = "next_departure"
-    PREVIOUS_DEPARTURE = "previous_departure"
-    EXPECTED_DURATION = "expected_duration"
-    NO_DEPART_REASON = "no_depart_reason"
-    ANTI_THEFT_ENABLED = "anti_theft_enabled"
-    CHILD_LOCK_ENABLED = "child_lock_enabled"
-    ANTI_THEFT_ACTIVE = "anti_theft_active"
-    MOWER_HOME = "mower_home"
-    CHARGING_ACTIVE = "charging_active"
-    DISABLING_DEVICE_REMOVED = "disabling_device_removed"
-    WIRE_SIGNAL_TYPE = "wire_signal_type"
-    STARTING_POINT_A = "starting_point_a"
-    STARTING_POINT_B = "starting_point_b"

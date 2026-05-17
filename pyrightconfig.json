@@ -1,0 +1,14 @@
+{
+  "include": [
+    "custom_components",
+    "packages/robomow_ble/src"
+  ],
+  "executionEnvironments": [
+    {
+      "root": ".",
+      "extraPaths": [
+        "packages/robomow_ble/src"
+      ]
+    }
+  ]
+}

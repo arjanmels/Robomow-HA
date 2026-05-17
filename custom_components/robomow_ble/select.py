@@ -7,15 +7,16 @@ from typing import TYPE_CHECKING
 from homeassistant.components.select import SelectEntity, SelectEntityDescription
 from homeassistant.const import EntityCategory
 
-from .ble_consts import WireSignalType
+from robomow_ble import WireSignalType
+
 from .const import LOGGER, EntityKey
-from .entity import RoboMowEntity
+from .entity import RobomowEntity
 
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
     from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-    from .coordinator import RoboMowConfigEntry
+    from .coordinator import RobomowConfigEntry
 
 
 SELECT_DESCRIPTIONS = (
@@ -33,7 +34,7 @@ SELECT_DESCRIPTIONS = (
 
 async def async_setup_entry(
     _hass: HomeAssistant,
-    entry: RoboMowConfigEntry,
+    entry: RobomowConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up the Robomow BLE select entities."""
@@ -44,17 +45,17 @@ async def async_setup_entry(
 
     async_add_entities(
         [
-            RoboMowSelectEntity(coordinator, coordinator.processor, description)
+            RobomowSelectEntity(coordinator, coordinator.processor, description)
             for description in SELECT_DESCRIPTIONS
         ]
     )
 
 
-class RoboMowSelectEntity(RoboMowEntity, SelectEntity):
+class RobomowSelectEntity(RobomowEntity, SelectEntity):  # pyright: ignore[reportIncompatibleVariableOverride]
     """Representation of a Robomow BLE select entity."""
 
     @property
-    def current_option(self) -> str | None:
+    def current_option(self) -> str | None:  # pyright: ignore[reportIncompatibleVariableOverride]
         """Return the currently selected option."""
         value = self.processor.entity_data.get(self.entity_key)
         if value is None:
@@ -68,4 +69,4 @@ class RoboMowSelectEntity(RoboMowEntity, SelectEntity):
     async def async_select_option(self, option: str) -> None:
         """Change selected option."""
         wire_signal_type = WireSignalType[option]
-        await self.coordinator.mower.set_wire_signal_type(wire_signal_type)
+        await self.coordinator.mower.async_set_wire_signal_type(wire_signal_type)

@@ -11,13 +11,13 @@ from homeassistant.components.binary_sensor import (
 from homeassistant.const import EntityCategory
 
 from .const import LOGGER, EntityKey
-from .entity import RoboMowEntity
+from .entity import RobomowEntity
 
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
     from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-    from .coordinator import RoboMowConfigEntry
+    from .coordinator import RobomowConfigEntry
 
 
 BINARY_SENSOR_DESCRIPTIONS = (
@@ -54,7 +54,7 @@ BINARY_SENSOR_DESCRIPTIONS = (
 
 async def async_setup_entry(
     _hass: HomeAssistant,
-    entry: RoboMowConfigEntry,
+    entry: RobomowConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up the Robomow BLE binary sensors."""
@@ -71,16 +71,16 @@ async def async_setup_entry(
 
     async_add_entities(
         [
-            RoboMowBinarySensorEntity(coordinator, coordinator.processor, description)
+            RobomowBinarySensorEntity(coordinator, coordinator.processor, description)
             for description in BINARY_SENSOR_DESCRIPTIONS
         ]
     )
 
 
-class RoboMowBinarySensorEntity(RoboMowEntity, BinarySensorEntity):
+class RobomowBinarySensorEntity(RobomowEntity, BinarySensorEntity):  # pyright: ignore[reportIncompatibleVariableOverride]
     """Representation of a Robomow BLE binary sensor."""
 
     @property
-    def is_on(self) -> bool | None:
+    def is_on(self) -> bool | None:  # pyright: ignore[reportIncompatibleVariableOverride]
         """Return the current binary sensor value."""
         return self.processor.entity_data.get(self.entity_key)

@@ -15,9 +15,9 @@ from custom_components.robomow_ble.const import DOMAIN
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant, ServiceCall
 
-    from custom_components.robomow_ble.lawn_mower import RoboMowLawnMowerEntity
+    from custom_components.robomow_ble.lawn_mower import RobomowLawnMowerEntity
 
-SERVICE_START_MOWING = "start_mowing"
+SERVICE_START_MOWING = "async_start_mowing"
 ATTR_TARGET = "target"
 ATTR_STARTING_ZONE = "starting_zone"
 ATTR_DURATION = "duration"
@@ -61,9 +61,9 @@ def async_unregister_services_if_unused(hass: HomeAssistant) -> None:
 
 
 async def async_handle_start_mowing(
-    entity: RoboMowLawnMowerEntity, call: ServiceCall
+    entity: RobomowLawnMowerEntity, call: ServiceCall
 ) -> None:
-    """Handle robomow_ble.start_mowing service calls."""
+    """Handle robomow_ble.async_start_mowing service calls."""
     await entity.async_start_mowing(
         duration_minutes=call.data.get(ATTR_DURATION),
         starting_zone=call.data.get(ATTR_STARTING_ZONE),
