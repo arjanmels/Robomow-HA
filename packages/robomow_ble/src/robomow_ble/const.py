@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
+import datetime
 import logging
 from enum import IntEnum, StrEnum
 
-LOGGER: logging.Logger = logging.getLogger(__package__)
+from attr import dataclass
 
-CONF_DEVICE_TYPE = "device_type"
-CONF_MAINBOARD_SERIAL = "mainboard_serial"
+LOGGER: logging.Logger = logging.getLogger(__package__)
 
 MAINBOARD_SERIAL_LENGTH = 14
 AUTH_RESPONSE_LENGTH = 15
@@ -48,6 +48,18 @@ class WireSignalType(IntEnum):
     TYPE_C = 0x02
 
 
+class Zone(IntEnum):
+    """Robomow mower zones."""
+
+    MAIN = 0
+    STARTING_POINT_A = 1
+    STARTING_POINT_B = 2
+    SUB_1 = 3
+    SUB_2 = 4
+    SUB_3 = 5
+    SUB_4 = 6
+
+
 class MowerFamily(IntEnum):
     """Robomow mower types."""
 
@@ -66,6 +78,32 @@ class MowerModel(IntEnum):
     RT300 = 5
     RT500 = 6
     RT700 = 7
+
+
+@dataclass
+class MowerSchedule:
+    """Data class representing a Robomow mowing schedule."""
+
+    @dataclass
+    class Day:
+        """Data class representing a day in the mowing schedule."""
+
+        enabled: bool = True
+        cycles: int = 1
+        zone: Zone = Zone.MAIN
+        duration: int = 30
+
+    start_time: datetime.time = datetime.time(hour=9, minute=0)
+    end_time: datetime.time = datetime.time(hour=21, minute=0)
+    day: tuple[Day, Day, Day, Day, Day, Day, Day] = (
+        Day(),
+        Day(),
+        Day(),
+        Day(),
+        Day(),
+        Day(),
+        Day(),
+    )
 
 
 class MowerOperatingState(StrEnum):
@@ -104,7 +142,8 @@ class EntityKey(StrEnum):
     STOP_MOWING = "async_stop_mowing"
     RETURN_HOME = "return_home"
     EDGE_MOWING = "edge_mowing"
-    PROGRAM_ENABLED = "program_enabled"
+    SCHEDULE_ENABLED = "schedule_enabled"
+    SCHEDULE = "schedule"
     SERVICE_INFO = "service_info"
     NEXT_DEPARTURE = "next_departure"
     PREVIOUS_DEPARTURE = "previous_departure"

@@ -10,9 +10,9 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 from homeassistant.const import Platform
-from homeassistant.exceptions import ConfigEntryError
 
 
+# TODO(AM): Remove this hack once we have proper packages published to PyPI.
 def _ensure_package_import_path() -> None:
     """Allow local monorepo package imports during development."""
     package_src = (
@@ -24,7 +24,7 @@ def _ensure_package_import_path() -> None:
 
 _ensure_package_import_path()
 
-from .const import CONF_MAINBOARD_SERIAL, DOMAIN, LOGGER
+from .const import LOGGER
 from .coordinator import RobomowCoordinator
 from .services import async_register_services, async_unregister_services_if_unused
 
@@ -51,35 +51,26 @@ async def async_setup(hass: HomeAssistant, _config: dict) -> bool:
 
 async def async_setup_entry(hass: HomeAssistant, entry: RobomowConfigEntry) -> bool:
     """Set up a Robomow BLE device from a config entry."""
-    LOGGER.debug("Setting up config entry (async_setup_entry) %s", entry.entry_id)
-    address = entry.unique_id
-    if address is None:
-        raise ConfigEntryError(
-            translation_domain=DOMAIN, translation_key="no_unique_address"
-        )
+    LOGGER.debug("Setting up config entry %s", entry.entry_id)
 
-    mainboard_serial = entry.data.get(CONF_MAINBOARD_SERIAL)
-    if mainboard_serial is None:
-        raise ConfigEntryError(
-            translation_domain=DOMAIN, translation_key="no_mainboard_serial"
-        )
+    coordinator = RobomowCoordinator(hass, entry)
+    entry.runtime_data = coordinator
 
-    entry.runtime_data = RobomowCoordinator(hass, address, mainboard_serial, entry)
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
-    try:
-        await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
-    except Exception:
-        await entry.runtime_data.async_shutdown()
-        raise
+    entry.async_on_unload(coordinator.async_start())
 
-    entry.async_on_unload(entry.runtime_data.async_start())
     return True
 
 
 async def async_unload_entry(hass: HomeAssistant, entry: RobomowConfigEntry) -> bool:
     """Unload a config entry."""
+    LOGGER.debug("Unloading config entry %s", entry.entry_id)
+
     unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
     if unload_ok:
-        await entry.runtime_data.async_shutdown()
         async_unregister_services_if_unused(hass)
+        coordinator: RobomowCoordinator = entry.runtime_data
+        await coordinator.async_shutdown()
+
     return unload_ok

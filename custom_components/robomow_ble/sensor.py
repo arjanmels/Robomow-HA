@@ -12,7 +12,7 @@ from homeassistant.components.sensor import (
 )
 from homeassistant.const import EntityCategory, UnitOfTime
 
-from custom_components.robomow_ble.entity import RobomowEntity
+from .entity import RobomowEntity
 from robomow_ble import RobomowDevice
 
 from .const import LOGGER, EntityKey

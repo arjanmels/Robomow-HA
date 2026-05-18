@@ -19,8 +19,8 @@ if TYPE_CHECKING:
 
 SWITCH_DESCRIPTIONS = (
     SwitchEntityDescription(
-        key=EntityKey.PROGRAM_ENABLED,
-        name="Program enabled",
+        key=EntityKey.SCHEDULE_ENABLED,
+        name="Schedule enabled",
     ),
     SwitchEntityDescription(
         key=EntityKey.ANTI_THEFT_ENABLED,
@@ -73,8 +73,8 @@ class RobomowSwitchEntity(RobomowEntity, SwitchEntity):  # pyright: ignore[repor
             self.entity_description.key,
             self.coordinator.address,
         )
-        if self.entity_description.key == EntityKey.PROGRAM_ENABLED:
-            await self.coordinator.mower.async_enable_program()
+        if self.entity_description.key == EntityKey.SCHEDULE_ENABLED:
+            await self.coordinator.mower.async_enable_schedule()
         elif self.entity_description.key == EntityKey.ANTI_THEFT_ENABLED:
             await self.coordinator.mower.async_enable_anti_theft()
         elif self.entity_description.key == EntityKey.CHILD_LOCK_ENABLED:
@@ -88,8 +88,8 @@ class RobomowSwitchEntity(RobomowEntity, SwitchEntity):  # pyright: ignore[repor
             self.entity_description.key,
             self.coordinator.address,
         )
-        if self.entity_description.key == EntityKey.PROGRAM_ENABLED:
-            await self.coordinator.mower.async_disable_program()
+        if self.entity_description.key == EntityKey.SCHEDULE_ENABLED:
+            await self.coordinator.mower.async_disable_schedule()
         elif self.entity_description.key == EntityKey.ANTI_THEFT_ENABLED:
             await self.coordinator.mower.async_disable_anti_theft()
         elif self.entity_description.key == EntityKey.CHILD_LOCK_ENABLED:

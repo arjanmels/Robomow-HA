@@ -8,15 +8,19 @@ start_mowing:
   fields:
     starting_zone:
       name: Starting zone
-      description: Starting zone byte (0-255). Default is 128 (0x80).
+      description: Robomow zone to start mowing from.
       required: false
-      default: 128
+      default: MAIN
       selector:
-        number:
-          min: 0
-          max: 255
-          step: 1
-          mode: box
+        select:
+          options:
+            - MAIN
+            - STARTING_POINT_A
+            - STARTING_POINT_B
+            - SUB_1
+            - SUB_2
+            - SUB_3
+            - SUB_4
     duration:
       name: Duration
       description: Mowing duration in minutes (1-255). Default is 30 minutes.
@@ -28,3 +32,304 @@ start_mowing:
           max: 255
           step: 1
           mode: box
+
+set_schedule:
+  name: Set schedule
+  description: Set the mower schedule.
+  target:
+    entity:
+      domain: lawn_mower
+      integration: robomow_ble
+  fields:
+    start_time:
+      name: Start time
+      description: Time to start mowing each day.
+      required: false
+      selector:
+        time:
+    end_time:
+      name: End time
+      description: Time to end mowing each day.
+      required: false
+      selector:
+        time:
+    day_0_enabled:
+      name: Monday enabled
+      description: Whether to mow on Monday.
+      required: false
+      selector:
+        boolean:
+    day_0_duration:
+      name: Monday duration
+      description: Mowing duration for Monday in minutes (1-255).
+      required: false
+      selector:
+        number:
+          min: 1
+          max: 255
+          step: 1
+          mode: box
+    day_0_cycles:
+      name: Monday cycles
+      description: Number of mowing cycles for Monday (1-2).
+      required: false
+      selector:
+        number:
+          min: 1
+          max: 2
+          step: 1
+          mode: box
+    day_0_zone:
+      name: Monday zone
+      description: Robomow zone to mow on Monday.
+      required: false
+      selector:
+        select:
+          options:
+            - MAIN
+            - STARTING_POINT_A
+            - STARTING_POINT_B
+            - SUB_1
+            - SUB_2
+            - SUB_3
+            - SUB_4
+    day_1_enabled:
+      name: Tuesday enabled
+      description: Whether to mow on Tuesday.
+      required: false
+      selector:
+        boolean:
+    day_1_duration:
+      name: Tuesday duration
+      description: Mowing duration for Tuesday in minutes (1-255).
+      required: false
+      selector:
+        number:
+          min: 1
+          max: 255
+          step: 1
+          mode: box
+    day_1_cycles:
+      name: Tuesday cycles
+      description: Number of mowing cycles for Tuesday (1-2).
+      required: false
+      selector:
+        number:
+          min: 1
+          max: 2
+          step: 1
+          mode: box
+    day_1_zone:
+      name: Tuesday zone
+      description: Robomow zone to mow on Tuesday.
+      required: false
+      selector:
+        select:
+          options:
+            - MAIN
+            - STARTING_POINT_A
+            - STARTING_POINT_B
+            - SUB_1
+            - SUB_2
+            - SUB_3
+            - SUB_4
+    day_2_enabled:
+      name: Wednesday enabled
+      description: Whether to mow on Wednesday.
+      required: false
+      selector:
+        boolean:
+    day_2_duration:
+      name: Wednesday duration
+      description: Mowing duration for Wednesday in minutes (1-255).
+      required: false
+      selector:
+        number:
+          min: 1
+          max: 255
+          step: 1
+          mode: box
+    day_2_cycles:
+      name: Wednesday cycles
+      description: Number of mowing cycles for Wednesday (1-2).
+      required: false
+      selector:
+        number:
+          min: 1
+          max: 2
+          step: 1
+          mode: box
+    day_2_zone:
+      name: Wednesday zone
+      description: Robomow zone to mow on Wednesday.
+      required: false
+      selector:
+        select:
+          options:
+            - MAIN
+            - STARTING_POINT_A
+            - STARTING_POINT_B
+            - SUB_1
+            - SUB_2
+            - SUB_3
+            - SUB_4
+    day_3_enabled:
+      name: Thursday enabled
+      description: Whether to mow on Thursday.
+      required: false
+      selector:
+        boolean:
+    day_3_duration:
+      name: Thursday duration
+      description: Mowing duration for Thursday in minutes (1-255).
+      required: false
+      selector:
+        number:
+          min: 1
+          max: 255
+          step: 1
+          mode: box
+    day_3_cycles:
+      name: Thursday cycles
+      description: Number of mowing cycles for Thursday (1-2).
+      required: false
+      selector:
+        number:
+          min: 1
+          max: 2
+          step: 1
+          mode: box
+    day_3_zone:
+      name: Thursday zone
+      description: Robomow zone to mow on Thursday.
+      required: false
+      selector:
+        select:
+          options:
+            - MAIN
+            - STARTING_POINT_A
+            - STARTING_POINT_B
+            - SUB_1
+            - SUB_2
+            - SUB_3
+            - SUB_4
+    day_4_enabled:
+      name: Friday enabled
+      description: Whether to mow on Friday.
+      required: false
+      selector:
+        boolean:
+    day_4_duration:
+      name: Friday duration
+      description: Mowing duration for Friday in minutes (1-255).
+      required: false
+      selector:
+        number:
+          min: 1
+          max: 255
+          step: 1
+          mode: box
+    day_4_cycles:
+      name: Friday cycles
+      description: Number of mowing cycles for Friday (1-2).
+      required: false
+      selector:
+        number:
+          min: 1
+          max: 2
+          step: 1
+          mode: box
+    day_4_zone:
+      name: Friday zone
+      description: Robomow zone to mow on Friday.
+      required: false
+      selector:
+        select:
+          options:
+            - MAIN
+            - STARTING_POINT_A
+            - STARTING_POINT_B
+            - SUB_1
+            - SUB_2
+            - SUB_3
+            - SUB_4
+    day_5_enabled:
+      name: Saturday enabled
+      description: Whether to mow on Saturday.
+      required: false
+      selector:
+        boolean:
+    day_5_duration:
+      name: Saturday duration
+      description: Mowing duration for Saturday in minutes (1-255).
+      required: false
+      selector:
+        number:
+          min: 1
+          max: 255
+          step: 1
+          mode: box
+    day_5_cycles:
+      name: Saturday cycles
+      description: Number of mowing cycles for Saturday (1-2).
+      required: false
+      selector:
+        number:
+          min: 1
+          max: 2
+          step: 1
+          mode: box
+    day_5_zone:
+      name: Saturday zone
+      description: Robomow zone to mow on Saturday.
+      required: false
+      selector:
+        select:
+          options:
+            - MAIN
+            - STARTING_POINT_A
+            - STARTING_POINT_B
+            - SUB_1
+            - SUB_2
+            - SUB_3
+            - SUB_4
+    day_6_enabled:
+      name: Sunday enabled
+      description: Whether to mow on Sunday.
+      required: false
+      selector:
+        boolean:
+    day_6_duration:
+      name: Sunday duration
+      description: Mowing duration for Sunday in minutes (1-255).
+      required: false
+      selector:
+        number:
+          min: 1
+          max: 255
+          step: 1
+          mode: box
+    day_6_cycles:
+      name: Sunday cycles
+      description: Number of mowing cycles for Sunday (1-2).
+      required: false
+      selector:
+        number:
+          min: 1
+          max: 2
+          step: 1
+          mode: box
+    day_6_zone:
+      name: Sunday zone
+      description: Robomow zone to mow on Sunday.
+      required: false
+      selector:
+        select:
+          options:
+            - MAIN
+            - STARTING_POINT_A
+            - STARTING_POINT_B
+            - SUB_1
+            - SUB_2
+            - SUB_3
+            - SUB_4

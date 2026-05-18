@@ -860,10 +860,10 @@ RK_NO_DEPART_MESSAGES: MappingProxyType[int, Message] = MappingProxyType(
             title="It's too cold", text="Mower cannot depart; temperature too low"
         ),
         18: Message(
-            title="Check entry point", text="Program disabled; entry point problem"
+            title="Check entry point", text="Schedule disabled; entry point problem"
         ),
         20: Message(
-            title="Economy mode", text="Program disabled; system in economy mode"
+            title="Economy mode", text="Schedule disabled; system in economy mode"
         ),
         21: Message(
             title="Stop pressed",

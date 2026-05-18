@@ -22,11 +22,17 @@
         },
         "error": {
             "no_unique_address": "No unique address provided.",
-            "no_mainboard_serial": "No mainboard serial number provided."
+            "no_mainboard_serial": "No mainboard serial number provided.",
+            "invalid_mainboard_serial": "The mainboard serial number is invalid. Verify it and try again.",
+            "model_unsupported": "The mower model is not supported.",
+            "device_not_found": "The Robomow device could not be found. Move closer and try again.",
+            "service_not_found": "The required Robomow Bluetooth service was not found on this device.",
+            "characteristics_not_found": "The required Robomow Bluetooth characteristics were not found on this device."
         },
         "abort": {
             "already_configured": "This entry is already configured.",
-            "no_devices_found": "No Robomow devices found."
+            "no_devices_found": "No Robomow devices found.",
+            "not_supported": "This Bluetooth device is not a supported Robomow mower."
         }
     },
     "exceptions": {

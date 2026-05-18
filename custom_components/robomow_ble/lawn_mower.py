@@ -20,6 +20,8 @@ if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
     from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
+    from robomow_ble.const import Zone
+
     from .coordinator import RobomowConfigEntry
 
 
@@ -90,7 +92,7 @@ class RobomowLawnMowerEntity(RobomowEntity, LawnMowerEntity):  # pyright: ignore
     async def async_start_mowing(
         self,
         duration_minutes: int | None = None,
-        starting_zone: int | None = None,
+        starting_zone: Zone | None = None,
     ) -> None:
         """Start or resume mowing."""
         if self.activity == LawnMowerActivity.RETURNING:

@@ -9,7 +9,6 @@ __all__ = [
     "EntityKey",
     "Message",
     "RobomowAuthenticationError",
-    "RobomowAuthenticationError",
     "RobomowDevice",
     "RobomowUpdate",
     "WireSignalType",

@@ -6,14 +6,18 @@ from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from datetime import datetime
+    from robomow_ble.const import MowerSchedule, Zone
 
     from .const import WireSignalType
-    from .mower import PendingCommand
+    from .mower import PendingCommand, RobomowDevice
 
 
 class RobomowFamilyHandler(ABC):
     """Base interface for family-specific Robomow protocol behavior."""
+
+    def __init__(self, device: RobomowDevice) -> None:
+        """Initialize RT family handler with a backing device."""
+        self._device = device
 
     @abstractmethod
     async def async_initialize_state(self) -> None:
@@ -24,12 +28,16 @@ class RobomowFamilyHandler(ABC):
         """Poll family-specific status while connected."""
 
     @abstractmethod
-    async def async_enable_program(self) -> None:
-        """Enable mower program."""
+    async def async_enable_schedule(self) -> None:
+        """Enable mower schedule."""
 
     @abstractmethod
-    async def async_disable_program(self) -> None:
-        """Disable mower program."""
+    async def async_disable_schedule(self) -> None:
+        """Disable mower schedule."""
+
+    @abstractmethod
+    async def async_set_schedule(self, schedule: MowerSchedule) -> None:
+        """Set mowing schedule."""
 
     @abstractmethod
     async def async_enable_anti_theft(self) -> None:
@@ -65,7 +73,7 @@ class RobomowFamilyHandler(ABC):
     async def async_start_mowing(
         self,
         duration_minutes: int | None = None,
-        starting_zone: int | None = None,
+        starting_zone: Zone | None = None,
     ) -> None:
         """Start mowing."""
 
@@ -80,10 +88,6 @@ class RobomowFamilyHandler(ABC):
     @abstractmethod
     async def async_return_to_home(self) -> None:
         """Return mower to home."""
-
-    @abstractmethod
-    async def async_update_date_time(self, timestamp: datetime | None = None) -> bool:
-        """Update device date/time."""
 
     @abstractmethod
     def handle_get_message(self, payload: bytes | bytearray | memoryview) -> None:

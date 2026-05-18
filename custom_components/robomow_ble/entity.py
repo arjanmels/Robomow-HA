@@ -11,10 +11,10 @@ from homeassistant.core import callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import Entity, EntityDescription
 
-from custom_components.robomow_ble.const import DOMAIN
+from .const import DOMAIN
 
 if TYPE_CHECKING:
-    from custom_components.robomow_ble.coordinator import RobomowCoordinator
+    from .coordinator import RobomowCoordinator
 
 
 class RobomowEntity(Entity):
@@ -52,11 +52,10 @@ class RobomowEntity(Entity):
         """When entity is added to hass."""
         await super().async_added_to_hass()
         # Listen to processor updates for this entity key
-        self.async_on_remove(
-            self.processor.async_add_entity_key_listener(
-                self._handle_update, self.entity_key
-            )
+        remove_listener = self.processor.async_add_entity_key_listener(
+            self._handle_update, self.entity_key
         )
+        self.async_on_remove(remove_listener)
 
     @property
     def available(self) -> bool:  # pyright: ignore[reportIncompatibleVariableOverride]

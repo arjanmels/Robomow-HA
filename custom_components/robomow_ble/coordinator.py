@@ -17,11 +17,12 @@ from homeassistant.components.bluetooth.passive_update_processor import (
     PassiveBluetoothProcessorCoordinator,
 )
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.exceptions import ConfigEntryError
 from homeassistant.helpers import device_registry as dr
 
 from robomow_ble import EntityKey, RobomowDevice, RobomowUpdate
 
-from .const import DOMAIN, LOGGER, MANUFACTURER
+from .const import CONF_MAINBOARD_SERIAL, DOMAIN, LOGGER, MANUFACTURER
 
 if TYPE_CHECKING:
     from homeassistant.components.bluetooth import (
@@ -49,10 +50,21 @@ class RobomowCoordinator(PassiveBluetoothProcessorCoordinator[RobomowUpdate]):
     def __init__(
         self,
         hass: HomeAssistant,
-        address: str,
-        mainboard_serial: str,
         entry: RobomowConfigEntry,
     ) -> None:
+        """Initialize the coordinator."""
+        address = entry.unique_id
+        if address is None:
+            raise ConfigEntryError(
+                translation_domain=DOMAIN, translation_key="no_unique_address"
+            )
+
+        mainboard_serial = entry.data.get(CONF_MAINBOARD_SERIAL)
+        if mainboard_serial is None:
+            raise ConfigEntryError(
+                translation_domain=DOMAIN, translation_key="no_mainboard_serial"
+            )
+
         """Initialize the Robomow BLE coordinator."""
         LOGGER.debug(
             "Initializing RobomowBLECoordinator with address %s "
@@ -77,21 +89,6 @@ class RobomowCoordinator(PassiveBluetoothProcessorCoordinator[RobomowUpdate]):
         )
         self._processor: PassiveBluetoothDataProcessor[Any, RobomowUpdate] | None = None
         self._entry = entry
-
-    def _get_entity_data(
-        self, update: RobomowUpdate
-    ) -> PassiveBluetoothDataUpdate[Any]:
-        """Map updates to entity-keyed processor data."""
-        if update.key in self._DEVICE_INFO_UPDATE_KEYS:
-            self._update_device_info()
-
-        return PassiveBluetoothDataUpdate(
-            entity_data={
-                PassiveBluetoothEntityKey(
-                    key=update.key, device_id=self.address
-                ): update.value
-            }
-        )
 
     def _update_device_info(self) -> None:
         """Push latest mower metadata into the device registry."""
@@ -123,6 +120,21 @@ class RobomowCoordinator(PassiveBluetoothProcessorCoordinator[RobomowUpdate]):
                 if self.mower.software_version is not None
                 else "Unknown"
             ),
+        )
+
+    def _get_entity_data(
+        self, update: RobomowUpdate
+    ) -> PassiveBluetoothDataUpdate[Any]:
+        """Map updates to entity-keyed processor data."""
+        if update.key in self._DEVICE_INFO_UPDATE_KEYS:
+            self._update_device_info()
+
+        return PassiveBluetoothDataUpdate(
+            entity_data={
+                PassiveBluetoothEntityKey(
+                    key=update.key, device_id=self.address
+                ): update.value
+            }
         )
 
     @property

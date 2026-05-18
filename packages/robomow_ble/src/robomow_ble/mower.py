@@ -35,7 +35,9 @@ from .const import (
     MowerFamily,
     MowerModel,
     MowerOperatingState,
+    MowerSchedule,
     WireSignalType,
+    Zone,
 )
 from .exceptions import RobomowAuthenticationError
 from .family_handler_rt import RobomowRtFamilyHandler
@@ -125,7 +127,6 @@ class RobomowDevice:
         self._connect_lock = asyncio.Lock()
         self._connect_task_lock = asyncio.Lock()
         self._connect_task: asyncio.Task[None] | None = None
-        self._background_tasks: set[asyncio.Task[Any]] = set()
         self._date_time_poll_cancel: Callable[[], None] | None = None
         self._status_poll_cancel: Callable[[], None] | None = None
         self._family_handler: RobomowFamilyHandler | None = None
@@ -135,7 +136,7 @@ class RobomowDevice:
         self._software_version: int | None = None
         self._software_release: int | None = None
         self._mainboard_version: int | None = None
-        self._program_enabled: bool | None = None
+        self._schedule_enabled: bool | None = None
         self._message: str | None = None
         self._operating_state: MowerOperatingState | str | None = None
         self._battery_level: int | None = None
@@ -153,6 +154,7 @@ class RobomowDevice:
         self._wire_signal_type: WireSignalType | None = None
         self._starting_point_a: int | None = None
         self._starting_point_b: int | None = None
+        self._schedule: MowerSchedule | None = None
 
     # --- State listeners ---
 
@@ -161,12 +163,20 @@ class RobomowDevice:
         if self._update_callback is not None:
             self._update_callback(RobomowUpdate(entity_key, value))
 
-    def _set_program_enabled(self, enabled: bool | None) -> None:  # noqa: FBT001
-        """Update program_enabled and emit change callbacks when needed."""
-        if self._program_enabled == enabled:
+    def _set_schedule_enabled(self, enabled: bool | None) -> None:  # noqa: FBT001
+        """Update schedule_enabled and emit change callbacks when needed."""
+        if self._schedule_enabled == enabled:
             return
-        self._program_enabled = enabled
-        self._data_changed(EntityKey.PROGRAM_ENABLED, enabled)
+        self._schedule_enabled = enabled
+        self._data_changed(EntityKey.SCHEDULE_ENABLED, enabled)
+
+    def _set_schedule(self, schedule: MowerSchedule | None) -> None:
+        """Update the mower schedule and emit change callbacks when needed."""
+        if self._schedule == schedule:
+            return
+
+        self._schedule = schedule
+        self._data_changed(EntityKey.SCHEDULE, schedule is not None)
 
     def _set_anti_theft_enabled(self, enabled: bool | None) -> None:  # noqa: FBT001
         """Update anti_theft_enabled and emit change callbacks when needed."""
@@ -396,7 +406,7 @@ class RobomowDevice:
         self._set_message(None)
         self._set_state(None)
         self._set_battery_level(None)
-        self._set_program_enabled(None)
+        self._set_schedule_enabled(None)
         self._set_rssi(None)
         self._set_next_departure(None)
         self._set_previous_departure(None)
@@ -464,10 +474,7 @@ class RobomowDevice:
         )
 
         auth_response = await self._client.read_gatt_char(self._char_auth)
-        if len(auth_response) != AUTH_RESPONSE_LENGTH or (
-            any(byte != 0x01 for byte in auth_response)
-            and auth_response != self._mainboard_serial
-        ):
+        if auth_response != bytes([0x01] * AUTH_RESPONSE_LENGTH):
             LOGGER.debug(
                 "Authentication failed: invalid response payload: %s",
                 auth_response.hex(),
@@ -522,9 +529,14 @@ class RobomowDevice:
         return self._software_release
 
     @property
-    def program_enabled(self) -> bool | None:
-        """Return whether the mower program is enabled, if known."""
-        return self._program_enabled
+    def schedule_enabled(self) -> bool | None:
+        """Return whether the mower schedule is enabled, if known."""
+        return self._schedule_enabled
+
+    @property
+    def schedule(self) -> MowerSchedule | None:
+        """Return the mower schedule, if known."""
+        return self._schedule
 
     @property
     def anti_theft_enabled(self) -> bool | None:
@@ -634,7 +646,8 @@ class RobomowDevice:
                 )
             connect_task = self._connect_task
 
-        await connect_task
+        with suppress(asyncio.CancelledError):
+            await connect_task
 
     async def _async_disconnect_unlocked(self) -> None:
         """Disconnect without acquiring the connect lock."""
@@ -667,7 +680,10 @@ class RobomowDevice:
             return False
 
         try:
-            await self._client.write_gatt_char(self._char_data_out, data, response=True)
+            for start in range(0, len(data), 20):
+                await self._client.write_gatt_char(
+                    self._char_data_out, data[start : start + 20], response=True
+                )
         except BleakError as err:
             LOGGER.error("Error writing data: %s", err)
             return False
@@ -711,10 +727,12 @@ class RobomowDevice:
 
         return sent
 
-    async def _async_send_misc_msg(self, misc_type: int) -> bool:
+    async def _async_send_misc_msg(
+        self, misc_type: int, payload: bytes | bytearray | memoryview | None = None
+    ) -> bool:
         """Send a miscellaneous message with the given type and command counter."""
         return await self._async_send_msg_with_sequence(
-            MessageType.MISCELLANEOUS, struct.pack(">H", misc_type)
+            MessageType.MISCELLANEOUS, struct.pack(">H", misc_type) + (payload or b"")
         )
 
     # --- Polling ---
@@ -724,28 +742,31 @@ class RobomowDevice:
         action: Callable[[], Coroutine[Any, Any, Any]],
         interval: timedelta,
     ) -> Callable[[], None]:
-        """Run an async action repeatedly using the current asyncio loop."""
-        loop = asyncio.get_running_loop()
+        """Run an async action repeatedly without overlapping executions."""
         interval_seconds = interval.total_seconds()
         cancelled = False
-        timer_handle: asyncio.TimerHandle | None = None
+        runner_task: asyncio.Task[Any] | None = None
 
-        def _run() -> None:
-            nonlocal timer_handle
-            if cancelled:
-                return
-            task = asyncio.create_task(action())
-            self._background_tasks.add(task)
-            task.add_done_callback(self._background_tasks.discard)
-            timer_handle = loop.call_later(interval_seconds, _run)
+        async def _runner() -> None:
+            while not cancelled:
+                try:
+                    await action()
+                except asyncio.CancelledError:
+                    raise
+                except Exception:  # noqa: BLE001
+                    LOGGER.exception("Periodic poll action failed")
 
-        timer_handle = loop.call_later(interval_seconds, _run)
+                if cancelled:
+                    break
+                await asyncio.sleep(interval_seconds)
+
+        runner_task = asyncio.create_task(_runner())
 
         def _cancel() -> None:
-            nonlocal cancelled
+            nonlocal cancelled, runner_task
             cancelled = True
-            if timer_handle is not None:
-                timer_handle.cancel()
+            if runner_task is not None:
+                runner_task.cancel()
 
         return _cancel
 
@@ -755,27 +776,36 @@ class RobomowDevice:
             return
 
         self._date_time_poll_cancel = self._start_periodic_poll(
-            self._async_on_date_time_poll,
+            self.async_update_date_time,
             timedelta(seconds=60),
         )
 
-    async def _async_on_date_time_poll(self) -> None:
-        """Send periodic date/time update while connected."""
-        await self.async_update_date_time()
+    async def async_update_date_time(self, timestamp: datetime | None = None) -> bool:
+        """Update mower date and time."""
+        timestamp = timestamp or datetime.now().astimezone()
+        return await self._async_send_msg_with_sequence(
+            MessageType.UPDATE_DATE_TIME,
+            struct.pack(
+                ">HBBHBBB",
+                1,
+                timestamp.day,
+                timestamp.month,
+                timestamp.year,
+                timestamp.hour,
+                timestamp.minute,
+                0,
+            ),
+        )
 
     def _start_status_polling(self) -> None:
-        """Start sending GET_STATUS every 10 seconds while connected."""
+        """Start sending GET_STATUS every 2 seconds while connected."""
         if not self.is_connected():
             return
 
         self._status_poll_cancel = self._start_periodic_poll(
-            self._async_on_status_poll,
+            self._async_poll_family_status,
             timedelta(seconds=2),
         )
-
-    async def _async_on_status_poll(self) -> None:
-        """Send periodic family-specific status command(s) while connected."""
-        await self._async_poll_family_status()
 
     async def _async_initialize_family_state(self) -> None:
         """Initialize family-specific state after connection."""
@@ -809,20 +839,20 @@ class RobomowDevice:
             MessageType.WRITE_EEPROM, struct.pack(">HL", param, value)
         )
 
-    async def async_enable_program(self) -> None:
-        """Enable mower program for the active mower family."""
+    async def async_enable_schedule(self) -> None:
+        """Enable mower schedule for the active mower family."""
         if self._family_handler is not None:
-            await self._family_handler.async_enable_program()
+            await self._family_handler.async_enable_schedule()
             return
-        msg = f"enable_program not implemented for family {self.family.name}"
+        msg = f"enable_schedule not implemented for family {self.family.name}"
         raise NotImplementedError(msg)
 
-    async def async_disable_program(self) -> None:
-        """Disable mower program for the active mower family."""
+    async def async_disable_schedule(self) -> None:
+        """Disable mower schedule for the active mower family."""
         if self._family_handler is not None:
-            await self._family_handler.async_disable_program()
+            await self._family_handler.async_disable_schedule()
             return
-        msg = f"disable_program not implemented for family {self.family.name}"
+        msg = f"disable_schedule not implemented for family {self.family.name}"
         raise NotImplementedError(msg)
 
     async def async_enable_anti_theft(self) -> None:
@@ -883,10 +913,18 @@ class RobomowDevice:
         msg = f"set_starting_point_b not implemented for family {self.family.name}"
         raise NotImplementedError(msg)
 
+    async def async_set_schedule(self, schedule: MowerSchedule) -> None:
+        """Set mowing schedule for the active mower family."""
+        if self._family_handler is not None:
+            await self._family_handler.async_set_schedule(schedule)
+            return
+        msg = f"set_schedule not implemented for family {self.family.name}"
+        raise NotImplementedError(msg)
+
     async def async_start_mowing(
         self,
         duration_minutes: int | None = None,
-        starting_zone: int | None = None,
+        starting_zone: Zone | None = None,
     ) -> None:
         """Start mowing for the active mower family."""
         if self._family_handler is not None:
@@ -921,15 +959,6 @@ class RobomowDevice:
             return
         msg = f"return_to_home not implemented for family {self.family.name}"
         raise NotImplementedError(msg)
-
-    async def async_update_date_time(self, timestamp: datetime | None = None) -> bool:
-        """Update date/time for the active mower family."""
-        if self._family_handler is not None:
-            return await self._family_handler.async_update_date_time(timestamp)
-        msg = f"update_date_time not implemented for family {self.family.name}"
-        raise NotImplementedError(msg)
-
-    # --- Response matching ---
 
     def _pop_pending_command(
         self, command_counter: int, msg_type: MessageType
