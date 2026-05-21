@@ -176,7 +176,7 @@ class RobomowDevice:
             return
 
         self._schedule = schedule
-        self._data_changed(EntityKey.SCHEDULE, schedule is not None)
+        self._data_changed(EntityKey.SCHEDULE, schedule)
 
     def _set_anti_theft_enabled(self, enabled: bool | None) -> None:  # noqa: FBT001
         """Update anti_theft_enabled and emit change callbacks when needed."""

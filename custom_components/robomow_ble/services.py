@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import copy
 from typing import TYPE_CHECKING
 
 import voluptuous as vol
@@ -10,7 +11,7 @@ from homeassistant.config_entries import ConfigEntryState
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers import service
 
-from robomow_ble.const import MowerSchedule, Zone
+from robomow_ble.const import Zone
 
 from .const import DOMAIN
 
@@ -50,60 +51,6 @@ def _build_set_schedule_schema() -> dict:
 
     return schema
 
-
-def _copy_schedule(schedule: MowerSchedule | None) -> MowerSchedule:
-    """Return a writable schedule copy from current state or defaults."""
-    source = schedule or MowerSchedule()
-    day_tuple = (
-        MowerSchedule.Day(
-            enabled=source.day[0].enabled,
-            cycles=source.day[0].cycles,
-            zone=source.day[0].zone,
-            duration=source.day[0].duration,
-        ),
-        MowerSchedule.Day(
-            enabled=source.day[1].enabled,
-            cycles=source.day[1].cycles,
-            zone=source.day[1].zone,
-            duration=source.day[1].duration,
-        ),
-        MowerSchedule.Day(
-            enabled=source.day[2].enabled,
-            cycles=source.day[2].cycles,
-            zone=source.day[2].zone,
-            duration=source.day[2].duration,
-        ),
-        MowerSchedule.Day(
-            enabled=source.day[3].enabled,
-            cycles=source.day[3].cycles,
-            zone=source.day[3].zone,
-            duration=source.day[3].duration,
-        ),
-        MowerSchedule.Day(
-            enabled=source.day[4].enabled,
-            cycles=source.day[4].cycles,
-            zone=source.day[4].zone,
-            duration=source.day[4].duration,
-        ),
-        MowerSchedule.Day(
-            enabled=source.day[5].enabled,
-            cycles=source.day[5].cycles,
-            zone=source.day[5].zone,
-            duration=source.day[5].duration,
-        ),
-        MowerSchedule.Day(
-            enabled=source.day[6].enabled,
-            cycles=source.day[6].cycles,
-            zone=source.day[6].zone,
-            duration=source.day[6].duration,
-        ),
-    )
-
-    return MowerSchedule(
-        start_time=source.start_time,
-        end_time=source.end_time,
-        day=day_tuple,
-    )
 
 def async_register_services(hass: HomeAssistant) -> None:
     """Register domain services."""
@@ -169,10 +116,11 @@ async def async_handle_set_schedule(
     entity: RobomowLawnMowerEntity, call: ServiceCall
 ) -> None:
     """Handle robomow_ble.set_schedule service calls."""
-    schedule = entity.coordinator.mower.schedule
-    if schedule is None:
+    if entity.coordinator.mower.schedule is None:
         msg = "Current schedule unknown; cannot update"
         raise ValueError(msg)
+
+    schedule = copy.deepcopy(entity.coordinator.mower.schedule)
 
     start_time = call.data.get("start_time")
     if start_time is not None:

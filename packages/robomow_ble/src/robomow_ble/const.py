@@ -6,7 +6,7 @@ import datetime
 import logging
 from enum import IntEnum, StrEnum
 
-from attr import dataclass
+from attr import dataclass, field
 
 LOGGER: logging.Logger = logging.getLogger(__package__)
 
@@ -95,14 +95,8 @@ class MowerSchedule:
 
     start_time: datetime.time = datetime.time(hour=9, minute=0)
     end_time: datetime.time = datetime.time(hour=21, minute=0)
-    day: tuple[Day, Day, Day, Day, Day, Day, Day] = (
-        Day(),
-        Day(),
-        Day(),
-        Day(),
-        Day(),
-        Day(),
-        Day(),
+    day: tuple[Day, ...] = field(
+        factory=lambda: tuple(MowerSchedule.Day() for _ in range(7))
     )
 
 

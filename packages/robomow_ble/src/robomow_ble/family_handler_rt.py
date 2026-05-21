@@ -194,6 +194,7 @@ class RobomowRtFamilyHandler(RobomowFamilyHandler):
     async def async_set_schedule(self, schedule: MowerSchedule) -> None:
         """Set the mower schedule."""
         days = schedule.day
+
         await self._device._async_send_misc_msg(
             MiscMessageType.SET_SCHEDULE,
             struct.pack(

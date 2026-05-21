@@ -4,8 +4,13 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
+from homeassistant.components.bluetooth.passive_update_processor import (
+    PassiveBluetoothDataUpdate,
+    PassiveBluetoothEntityKey,
+)
 from homeassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from homeassistant.const import EntityCategory
+from homeassistant.core import callback
 
 from .const import LOGGER, EntityKey
 from .entity import RobomowEntity
@@ -16,12 +21,12 @@ if TYPE_CHECKING:
 
     from .coordinator import RobomowConfigEntry
 
+SCHEDULE_SWITCH_DESCRIPTION = SwitchEntityDescription(
+    key=EntityKey.SCHEDULE_ENABLED,
+    name="Schedule enabled",
+)
 
 SWITCH_DESCRIPTIONS = (
-    SwitchEntityDescription(
-        key=EntityKey.SCHEDULE_ENABLED,
-        name="Schedule enabled",
-    ),
     SwitchEntityDescription(
         key=EntityKey.ANTI_THEFT_ENABLED,
         name="Anti-theft enabled",
@@ -48,10 +53,21 @@ async def async_setup_entry(
     coordinator.async_register_processor(coordinator.processor, SwitchEntityDescription)
 
     # Create switch entities
-    entities = [
-        RobomowSwitchEntity(coordinator, coordinator.processor, description)
-        for description in SWITCH_DESCRIPTIONS
+    entities: list[RobomowSwitchEntity] = [
+        RobomowScheduleSwitchEntity(
+            coordinator,
+            coordinator.processor,
+            SCHEDULE_SWITCH_DESCRIPTION,
+        )
     ]
+    entities.extend(
+        RobomowSwitchEntity(
+            coordinator,
+            coordinator.processor,
+            description,
+        )
+        for description in SWITCH_DESCRIPTIONS
+    )
 
     async_add_entities(entities)
 
@@ -95,3 +111,59 @@ class RobomowSwitchEntity(RobomowEntity, SwitchEntity):  # pyright: ignore[repor
         elif self.entity_description.key == EntityKey.CHILD_LOCK_ENABLED:
             await self.coordinator.mower.async_disable_child_lock()
         self.async_write_ha_state()
+
+
+class RobomowScheduleSwitchEntity(RobomowSwitchEntity):
+    """Schedule-enabled switch with schedule detail attributes."""
+
+    async def async_added_to_hass(self) -> None:
+        """When entity is added to hass."""
+        await super().async_added_to_hass()
+
+        schedule_key = PassiveBluetoothEntityKey(
+            key=EntityKey.SCHEDULE,
+            device_id=self.coordinator.address,
+        )
+        remove_listener = self.processor.async_add_entity_key_listener(
+            self._handle_schedule_update,
+            schedule_key,
+        )
+        self.async_on_remove(remove_listener)
+
+    @callback
+    def _handle_schedule_update(
+        self, _data: PassiveBluetoothDataUpdate[Any] | None
+    ) -> None:
+        """Handle schedule update for schedule-enabled switch attributes."""
+        self.async_write_ha_state()
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any] | None:  # pyright: ignore[reportIncompatibleVariableOverride]
+        """Return schedule details as switch attributes."""
+        schedule = self.coordinator.mower.schedule
+        if schedule is None:
+            return None
+
+        attributes: dict[str, Any] = {
+            "start_time": schedule.start_time.strftime("%H:%M:%S"),
+            "end_time": schedule.end_time.strftime("%H:%M:%S"),
+        }
+
+        weekdays = (
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday",
+            "saturday",
+            "sunday",
+        )
+        for day in range(7):
+            day_schedule = schedule.day[day]
+            day_name = weekdays[day]
+            attributes[f"{day_name}_enabled"] = day_schedule.enabled
+            attributes[f"{day_name}_duration"] = day_schedule.duration
+            attributes[f"{day_name}_cycles"] = day_schedule.cycles
+            attributes[f"{day_name}_zone"] = day_schedule.zone.name
+
+        return attributes
