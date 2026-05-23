@@ -2,8 +2,12 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
+from homeassistant.components.bluetooth.passive_update_processor import (
+    PassiveBluetoothDataUpdate,
+    PassiveBluetoothEntityKey,
+)
 from homeassistant.components.lawn_mower import (
     LawnMowerEntity,
     LawnMowerEntityEntityDescription,
@@ -12,6 +16,7 @@ from homeassistant.components.lawn_mower.const import (
     LawnMowerActivity,
     LawnMowerEntityFeature,
 )
+from homeassistant.core import callback
 
 from .const import LOGGER, EntityKey, MowerOperatingState
 from .entity import RobomowEntity
@@ -64,6 +69,27 @@ class RobomowLawnMowerEntity(RobomowEntity, LawnMowerEntity):  # pyright: ignore
         | LawnMowerEntityFeature.DOCK
     )
 
+    async def async_added_to_hass(self) -> None:
+        """When entity is added to hass."""
+        await super().async_added_to_hass()
+
+        operations_key = PassiveBluetoothEntityKey(
+            key=EntityKey.LAST_OPERATIONS,
+            device_id=self.coordinator.address,
+        )
+        remove_listener = self.processor.async_add_entity_key_listener(
+            self._handle_last_operations_update,
+            operations_key,
+        )
+        self.async_on_remove(remove_listener)
+
+    @callback
+    def _handle_last_operations_update(
+        self, _data: PassiveBluetoothDataUpdate[Any] | None
+    ) -> None:
+        """Handle operation history updates for entity attributes."""
+        self.async_write_ha_state()
+
     @property
     def activity(self) -> LawnMowerActivity | None:  # pyright: ignore[reportIncompatibleVariableOverride]
         """Return the current mower activity."""
@@ -88,6 +114,26 @@ class RobomowLawnMowerEntity(RobomowEntity, LawnMowerEntity):  # pyright: ignore
         if state == MowerOperatingState.IDLE:
             return LawnMowerActivity.PAUSED
         return LawnMowerActivity.ERROR
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any] | None:  # pyright: ignore[reportIncompatibleVariableOverride]
+        """Expose last operations history as lawn mower attributes."""
+        operations = self.coordinator.mower.last_operations
+
+        operation_attributes: list[dict[str, Any]] = []
+        for operation in operations:
+            operation_data: dict[str, Any] = {
+                "start_time": operation.start_time.isoformat(),
+                "duration": operation.duration,
+                "zone": operation.zone.name,
+                "error_title": operation.error.title,
+                "error_number": operation.error.number,
+            }
+            if operation.error.text is not None:
+                operation_data["error_text"] = operation.error.text
+            operation_attributes.append(operation_data)
+
+        return {"last_operations": operation_attributes}
 
     async def async_start_mowing(
         self,

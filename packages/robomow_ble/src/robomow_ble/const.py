@@ -152,3 +152,28 @@ class EntityKey(StrEnum):
     WIRE_SIGNAL_TYPE = "wire_signal_type"
     STARTING_POINT_A = "starting_point_a"
     STARTING_POINT_B = "starting_point_b"
+    LAST_OPERATIONS = "last_operations"
+
+
+@dataclass
+class MowerOperation:
+    """A single parsed mower operation history entry."""
+
+    id: int
+    start_time: datetime.datetime
+    duration: int
+    zone: Zone
+    error: Message
+
+
+@dataclass(frozen=True)
+class Message:
+    """Base class for user-facing messages with optional title and text."""
+
+    title: str
+    text: str | None = None
+    number: int | None = None
+
+    def __str__(self) -> str:
+        """Return a user-friendly string representation of the message."""
+        return f"{self.title} - {self.text}" if self.text else self.title

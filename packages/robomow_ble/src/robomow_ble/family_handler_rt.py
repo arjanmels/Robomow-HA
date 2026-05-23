@@ -1,71 +1,54 @@
 """RT-family protocol handler for Robomow BLE."""
 
-# ruff: noqa: SLF001
+# ruff: noqa: I001, SLF001
 
 from __future__ import annotations
 
 import datetime
 import struct
-from enum import IntEnum
 from typing import Any
 
-from .const import LOGGER, MessageType, MowerSchedule, WireSignalType, Zone
+from .const import UNKNOWN_FIELD_VALUE
+
+from .const_rt import (
+    EXTENDED_STATE_PAYLOAD_SIZE,
+    EepromParam,
+    GET_STATUS_PAYLOAD_SIZE,
+    INFO_PAYLOAD_SIZE,
+    LAST_OPERATIONS_RECORD_SIZE,
+    MESSAGE_TYPE_STOP_ID_MASK,
+    MISC_TYPE_MIN_SIZE,
+    MiscMessageType,
+    OperationType,
+    READ_EEPROM_PAYLOAD_SIZE,
+    STATE_PAYLOAD_SIZE,
+    get_error_message,
+    get_message,
+    get_no_depart_message,
+)
+
+from .const import (
+    LOGGER,
+    MessageType,
+    MowerOperation,
+    MowerSchedule,
+    WireSignalType,
+    Zone,
+)
 from .family_handler_base import RobomowFamilyHandler
 from .helpers import check_payload_length
-from .messages import MessageRK, MessageRT
-
-UNKNOWN_FIELD_VALUE = 0xFFFF
-
-GET_STATUS_PAYLOAD_SIZE = 7
-READ_EEPROM_PAYLOAD_SIZE = 4
-INFO_PAYLOAD_SIZE = 5
-MISC_TYPE_SIZE = 2
-ROBOT_STATE_PAYLOAD_MIN_SIZE = 17
-MESSAGE_TYPE_STOP_ID_MASK = 0x2
-
-
-class OperationType(IntEnum):
-    """Operation types used in RT command messages."""
-
-    STOP_MOWING = 0x0000
-    START_EDGE_MOWING = 0x0001
-    START_MOWING = 0x0002
-    RETURN_HOME = 0x0003
-
-
-class MiscMessageType(IntEnum):
-    """RT miscellaneous message sub-types."""
-
-    INFO = 0x08
-    STATE = 0x0B
-    GET_SCHEDULE = 0x0D
-    SET_SCHEDULE = 0x3D
-    # TODO(AM): check for correctness
-    ANTI_THEFT_CONFIRM = 0x0C
-    EXTENDED_STATE = 0x27
-    LAST_OPERATIONS = 0x4C
-    CONFIG_META_DATA = 0x4E
-    SUPPORTED_FEATURES = 0x4F
-
-
-class EepromParam(IntEnum):
-    """RT-family EEPROM parameter identifiers."""
-
-    STARTING_POINT_A = 0x000D
-    STARTING_POINT_B = 0x000E
-
-    SCHEDULE_ENABLED = 0x008C
-    ANTI_THEFT_ENABLED = 0x00B9
-    CHILD_LOCK_ENABLED = 0x00BC
-    WIRE_SIGNAL_TYPE = 0x011F
 
 
 class RobomowRtFamilyHandler(RobomowFamilyHandler):
     """RT-family Robomow BLE protocol behavior."""
 
+    def __init__(self, device: Any) -> None:
+        """Initialize handler and last-operations accumulator."""
+        super().__init__(device)
+        self._operations: dict[int, MowerOperation] = {}
+
     async def async_initialize_state(self) -> None:
         """Initialize RT-family state after connection."""
-        await self._device._async_send_msg(MessageType.GET_MESSAGE)
         await self._device._async_send_misc_msg(MiscMessageType.INFO)
         await self._device._async_read_eeprom_param(
             EepromParam.CHILD_LOCK_ENABLED,
@@ -84,6 +67,12 @@ class RobomowRtFamilyHandler(RobomowFamilyHandler):
         await self._device._async_read_eeprom_param(
             EepromParam.CHILD_LOCK_ENABLED,
             EepromParam.ANTI_THEFT_ENABLED,
+        )
+        await self._device._async_send_misc_msg(
+            MiscMessageType.LAST_OPERATIONS, bytes(0)
+        )
+        await self._device._async_send_misc_msg(
+            MiscMessageType.LAST_OPERATIONS, bytes(1)
         )
 
     async def async_enable_schedule(self) -> None:
@@ -226,17 +215,11 @@ class RobomowRtFamilyHandler(RobomowFamilyHandler):
         (msgtype, msgid, stopid, _failureid) = struct.unpack_from(">BHHH", payload)
 
         if msgtype & MESSAGE_TYPE_STOP_ID_MASK:
-            message = (
-                ""
-                if stopid == UNKNOWN_FIELD_VALUE
-                else MessageRK.get_stop_message(stopid)
-            )
-            self._device._set_message("Error: " + str(message))
+            self._device._set_message(get_error_message(stopid))
         else:
-            message = (
-                "" if msgid == UNKNOWN_FIELD_VALUE else MessageRK.get_message(msgid)
+            self._device._set_message(
+                get_message(msgid) if msgid != UNKNOWN_FIELD_VALUE else None
             )
-            self._device._set_message(str(message))
 
     def handle_read_eeprom_response(self, request: Any, response: Any) -> None:
         """Handle a READ_EEPROM response after pending command matching."""
@@ -280,7 +263,7 @@ class RobomowRtFamilyHandler(RobomowFamilyHandler):
         if not check_payload_length(
             MessageType.MISCELLANEOUS,
             response.payload,
-            MISC_TYPE_SIZE,
+            MISC_TYPE_MIN_SIZE,
         ):
             return
 
@@ -293,23 +276,23 @@ class RobomowRtFamilyHandler(RobomowFamilyHandler):
             )
             return
 
-        if misc_type == MiscMessageType.INFO:
-            self._handle_misc_info(response.payload)
+        handler = {
+            MiscMessageType.INFO: self._handle_misc_info,
+            MiscMessageType.STATE: self._handle_misc_state,
+            MiscMessageType.EXTENDED_STATE: self._handle_misc_extended_state,
+            MiscMessageType.GET_SCHEDULE: self._handle_misc_schedule,
+            MiscMessageType.LAST_OPERATIONS: self._handle_last_operations,
+        }.get(misc_type)
+
+        if handler is None:
+            LOGGER.debug(
+                "Received unhandled MISCELLANEOUS response with type %s: %s",
+                misc_type,
+                response.payload.hex(),
+            )
             return
 
-        if misc_type == MiscMessageType.STATE:
-            self._handle_misc_state(response.payload)
-            return
-
-        if misc_type == MiscMessageType.GET_SCHEDULE:
-            self._handle_misc_schedule(response.payload)
-            return
-
-        LOGGER.debug(
-            "Received unhandled MISCELLANEOUS response with type %s: %s",
-            misc_type,
-            response.payload.hex(),
-        )
+        handler(response.payload)
 
     def _handle_misc_info(self, payload: bytes | bytearray | memoryview) -> None:
         """Handle INFO miscellaneous payload."""
@@ -324,7 +307,7 @@ class RobomowRtFamilyHandler(RobomowFamilyHandler):
         model, max_cycles, max_areas = struct.unpack_from(
             ">BBB",
             payload,
-            offset=MISC_TYPE_SIZE,
+            offset=MISC_TYPE_MIN_SIZE,
         )
         self._device._set_model(model)
 
@@ -340,10 +323,65 @@ class RobomowRtFamilyHandler(RobomowFamilyHandler):
         if not check_payload_length(
             MessageType.MISCELLANEOUS,
             payload,
-            ROBOT_STATE_PAYLOAD_MIN_SIZE,
+            STATE_PAYLOAD_SIZE,
+            exact=True,
         ):
             return
 
+        self._parse_misc_robot_state(payload, state_name="STATE")
+
+    def _handle_misc_extended_state(
+        self, payload: bytes | bytearray | memoryview
+    ) -> None:
+        """Handle EXTENDED_STATE miscellaneous payload."""
+        if not check_payload_length(
+            MessageType.MISCELLANEOUS,
+            payload,
+            EXTENDED_STATE_PAYLOAD_SIZE,
+            exact=True,
+        ):
+            return
+
+        self._parse_misc_robot_state(payload, state_name="EXTENDED_STATE")
+
+        extra_data = payload[STATE_PAYLOAD_SIZE:]
+
+        (
+            counter,
+            byte_1,
+            start_hour,
+            start_minute,
+            end_hour,
+            end_minute,
+            zone_byte,
+            error_code,
+            op_id,
+        ) = struct.unpack_from(">7BHI", extra_data)
+
+        duration = (end_hour - start_hour) * 60 + (end_minute - start_minute)
+
+        LOGGER.debug(
+            "  EXTENDED_STATE extra: counter=%d byte_1=%d "
+            "start=%02d:%02d end=%02d:%02d "
+            "zone_byte=%d error=%s op_id=%d duration=%d",
+            counter,
+            byte_1,
+            start_hour,
+            start_minute,
+            end_hour,
+            end_minute,
+            zone_byte,
+            get_message(error_code),
+            op_id,
+            duration,
+        )
+
+    def _parse_misc_robot_state(
+        self,
+        payload: bytes | bytearray | memoryview,
+        state_name: str,
+    ) -> None:
+        """Parse and apply the core robot state fields."""
         (
             byte_0,
             state,
@@ -356,11 +394,12 @@ class RobomowRtFamilyHandler(RobomowFamilyHandler):
             byte_10,
             byte_11,
             byte_12,
-            _charging_state,
+            charging_state,
+            byte_14,
         ) = struct.unpack_from(
-            ">BBBHHBBBBBBB",
+            ">BBBHHBBBBBBBB",
             payload,
-            offset=MISC_TYPE_SIZE,
+            offset=MISC_TYPE_MIN_SIZE,
         )
 
         operation = byte_0 & 0x07
@@ -375,11 +414,13 @@ class RobomowRtFamilyHandler(RobomowFamilyHandler):
         charging_active = byte_11 & 0x10 != 0
 
         LOGGER.debug(
-            "  STATE: operation=%d state=%d battery=%d "
-            "_one_time_setup=%d no_depart_reason=%d _byte_10=%d byte_11=%d byte_12=%d\n"
+            "  %s: operation=%d state=%d battery=%d "
+            "_one_time_setup=%d no_depart_reason=%d _byte_10=%d byte_11=%d byte_12=%d "
+            "charging_state=%d byte_14=%d\n"
             "  next_departure=%d previous_departure=%d expected_duration=%d "
             "anti_theft_enabled=%s anti_theft_active=%s child_lock_enabled=%s"
             "  mower_home=%s disabling_device_removed=%s charging_active=%s",
+            state_name,
             operation,
             state,
             battery_level,
@@ -388,6 +429,8 @@ class RobomowRtFamilyHandler(RobomowFamilyHandler):
             byte_10,
             byte_11,
             byte_12,
+            charging_state,
+            byte_14,
             next_departure,
             previous_departure,
             expected_duration,
@@ -416,7 +459,7 @@ class RobomowRtFamilyHandler(RobomowFamilyHandler):
         self._device._set_no_depart_reason(
             ""
             if no_depart_reason == 0
-            else str(MessageRT.get_message(no_depart_reason))
+            else str(get_no_depart_message(no_depart_reason))
         )
 
     def _handle_misc_schedule(self, payload: bytes | bytearray | memoryview) -> None:
@@ -424,10 +467,10 @@ class RobomowRtFamilyHandler(RobomowFamilyHandler):
         enabled_days, schedule_enabled, start_time, end_time = struct.unpack_from(
             ">BBHH",
             payload,
-            offset=MISC_TYPE_SIZE,
+            offset=MISC_TYPE_MIN_SIZE,
         )
-        byte_27 = payload[MISC_TYPE_SIZE + 27]  # unused turbo/edge mode?
-        byte_28 = payload[MISC_TYPE_SIZE + 28]  # unused turbo/edge mode?
+        byte_27 = payload[MISC_TYPE_MIN_SIZE + 27]  # unused turbo/edge mode?
+        byte_28 = payload[MISC_TYPE_MIN_SIZE + 28]  # unused turbo/edge mode?
         schedule_enabled = schedule_enabled != 0
 
         schedule: MowerSchedule = MowerSchedule(
@@ -447,9 +490,9 @@ class RobomowRtFamilyHandler(RobomowFamilyHandler):
 
         for i in range(7):
             schedule.day[i].enabled = (enabled_days & (1 << i)) != 0
-            schedule.day[i].duration = payload[MISC_TYPE_SIZE + 6 + (6 - i)]
-            schedule.day[i].cycles = payload[MISC_TYPE_SIZE + 13 + (6 - i)]
-            schedule.day[i].zone = Zone(payload[MISC_TYPE_SIZE + 20 + (6 - i)])
+            schedule.day[i].duration = payload[MISC_TYPE_MIN_SIZE + 6 + (6 - i)]
+            schedule.day[i].cycles = payload[MISC_TYPE_MIN_SIZE + 13 + (6 - i)]
+            schedule.day[i].zone = Zone(payload[MISC_TYPE_MIN_SIZE + 20 + (6 - i)])
 
             LOGGER.debug(
                 "  Day %d: enabled=%s duration=%d zone=%d cycles=%d",
@@ -461,3 +504,76 @@ class RobomowRtFamilyHandler(RobomowFamilyHandler):
             )
 
         self._device._set_schedule(schedule)
+
+    def _handle_last_operations(self, payload: bytes | bytearray | memoryview) -> None:
+        """Handle LAST_OPERATIONS miscellaneous payload."""
+        # Response contains back-to-back 14-byte operation records immediately
+        # after the 2-byte misc type header (the selector byte is request-only).
+        if len(payload) < MISC_TYPE_MIN_SIZE:
+            LOGGER.debug(
+                "  LAST_OPERATIONS: payload too short (%d bytes)", len(payload)
+            )
+            return
+
+        data = payload[MISC_TYPE_MIN_SIZE:]
+        num_records = len(data) // LAST_OPERATIONS_RECORD_SIZE
+
+        LOGGER.debug(
+            "  LAST_OPERATIONS: data_bytes=%d records=%d",
+            len(data),
+            num_records,
+        )
+
+        for i in range(num_records):
+            (
+                year_offset,
+                month,
+                day,
+                hour,
+                minute,
+                end_hour,
+                end_minute,
+                zone_byte,
+                error_code,
+                op_id,
+            ) = struct.unpack_from(">8BHI", data, i * LAST_OPERATIONS_RECORD_SIZE)
+
+            duration = (end_hour - hour) * 60 + (end_minute - minute)
+
+            try:
+                start_time = datetime.datetime(
+                    2000 + year_offset,
+                    month,
+                    day,
+                    hour,
+                    minute,
+                    tzinfo=datetime.UTC,
+                )
+            except ValueError:
+                LOGGER.debug("    record[%d]: invalid date", i)
+                continue
+
+            LOGGER.debug(
+                "    record[%d]: id=%d start=%s duration=%d min zone=0x%02X error=%s",
+                i,
+                op_id,
+                start_time.isoformat(timespec="minutes"),
+                duration,
+                zone_byte,
+                get_message(error_code),
+            )
+
+            self._operations[op_id] = MowerOperation(
+                id=op_id,
+                start_time=start_time,
+                duration=duration,
+                zone=Zone(zone_byte),
+                error=get_message(error_code),
+            )
+
+        sorted_operations = sorted(
+            self._operations.values(),
+            key=lambda op: op.start_time,
+            reverse=True,
+        )
+        self._device._set_last_operations(sorted_operations)

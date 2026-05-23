@@ -12,10 +12,10 @@ from homeassistant.components.sensor import (
 )
 from homeassistant.const import EntityCategory, UnitOfTime
 
-from .entity import RobomowEntity
 from robomow_ble import RobomowDevice
 
 from .const import LOGGER, EntityKey
+from .entity import RobomowEntity
 
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant

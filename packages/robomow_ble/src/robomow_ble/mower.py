@@ -31,10 +31,12 @@ from .const import (
     UUID_CHAR_DATA_OUT,
     UUID_SERVICE,
     EntityKey,
+    Message,
     MessageType,
     MowerFamily,
     MowerModel,
     MowerOperatingState,
+    MowerOperation,
     MowerSchedule,
     WireSignalType,
     Zone,
@@ -137,7 +139,7 @@ class RobomowDevice:
         self._software_release: int | None = None
         self._mainboard_version: int | None = None
         self._schedule_enabled: bool | None = None
-        self._message: str | None = None
+        self._message: Message | None = None
         self._operating_state: MowerOperatingState | str | None = None
         self._battery_level: int | None = None
         self._rssi: int | None = None
@@ -155,6 +157,7 @@ class RobomowDevice:
         self._starting_point_a: int | None = None
         self._starting_point_b: int | None = None
         self._schedule: MowerSchedule | None = None
+        self._last_operations: list[MowerOperation] = []
 
     # --- State listeners ---
 
@@ -177,6 +180,11 @@ class RobomowDevice:
 
         self._schedule = schedule
         self._data_changed(EntityKey.SCHEDULE, schedule)
+
+    def _set_last_operations(self, operations: list[MowerOperation]) -> None:
+        """Update last-operations history and emit change callbacks when needed."""
+        self._last_operations = operations
+        self._data_changed(EntityKey.LAST_OPERATIONS, operations)
 
     def _set_anti_theft_enabled(self, enabled: bool | None) -> None:  # noqa: FBT001
         """Update anti_theft_enabled and emit change callbacks when needed."""
@@ -242,7 +250,7 @@ class RobomowDevice:
         self._data_changed(EntityKey.STARTING_POINT_B, value)
 
     # NOTE: user message clearing behavior is not implemented yet.
-    def _set_message(self, message: str | None) -> None:
+    def _set_message(self, message: Message | None) -> None:
         """Update message text and emit change callbacks when needed."""
         if self._message == message:
             return
@@ -539,6 +547,11 @@ class RobomowDevice:
         return self._schedule
 
     @property
+    def last_operations(self) -> list[MowerOperation]:
+        """Return the mower's last operations history, newest-first."""
+        return self._last_operations
+
+    @property
     def anti_theft_enabled(self) -> bool | None:
         """Return whether anti-theft is enabled, if known."""
         return self._anti_theft_enabled
@@ -564,7 +577,7 @@ class RobomowDevice:
         return self._charging_active
 
     @property
-    def status(self) -> str | None:
+    def message(self) -> Message | None:
         """Return the latest mower status text, if known."""
         return self._message
 
@@ -629,13 +642,12 @@ class RobomowDevice:
 
             self._initialize_runtime_state()
 
-            # Start periodic date/time updates
+            await self._async_initialize_family_state()
+
+            self._start_status_polling()
             self._start_date_time_polling()
 
-            # Start periodic GET_STATUS polling
-            self._start_status_polling()
 
-            await self._async_initialize_family_state()
 
     async def async_connect(self, device: BLEDevice) -> None:
         """Create and connect a Robomow BLE client."""
