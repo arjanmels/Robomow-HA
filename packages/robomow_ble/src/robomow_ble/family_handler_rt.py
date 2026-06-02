@@ -11,6 +11,7 @@ from typing import Any
 from .const import UNKNOWN_FIELD_VALUE
 
 from .const_rt import (
+    CONFIG_META_DATA_PAYLOAD_SIZE,
     EXTENDED_STATE_PAYLOAD_SIZE,
     EepromParam,
     GET_STATUS_PAYLOAD_SIZE,
@@ -50,6 +51,7 @@ class RobomowRtFamilyHandler(RobomowFamilyHandler):
     async def async_initialize_state(self) -> None:
         """Initialize RT-family state after connection."""
         await self._device._async_send_misc_msg(MiscMessageType.INFO)
+        await self._device._async_send_misc_msg(MiscMessageType.CONFIG_META_DATA)
         await self._device._async_read_eeprom_param(
             EepromParam.CHILD_LOCK_ENABLED,
             EepromParam.ANTI_THEFT_ENABLED,
@@ -278,6 +280,7 @@ class RobomowRtFamilyHandler(RobomowFamilyHandler):
 
         handler = {
             MiscMessageType.INFO: self._handle_misc_info,
+            MiscMessageType.CONFIG_META_DATA: self._handle_config_meta_data,
             MiscMessageType.STATE: self._handle_misc_state,
             MiscMessageType.EXTENDED_STATE: self._handle_misc_extended_state,
             MiscMessageType.GET_SCHEDULE: self._handle_misc_schedule,
@@ -316,6 +319,45 @@ class RobomowRtFamilyHandler(RobomowFamilyHandler):
             model,
             max_cycles,
             max_areas,
+        )
+
+    def _handle_config_meta_data(self, payload: bytes | bytearray | memoryview) -> None:
+        """Handle CONFIG_META_DATA miscellaneous payload."""
+        if not check_payload_length(
+            MessageType.MISCELLANEOUS,
+            payload,
+            CONFIG_META_DATA_PAYLOAD_SIZE,
+            exact=True,
+        ):
+            return
+
+        (
+            reserved_0,
+            reserved_1,
+            software_version_index,
+            software_test_version_index,
+            reserved_4,
+            reserved_5,
+            rble_version,
+        ) = struct.unpack_from(
+            ">HHHHHHH",
+            payload,
+            offset=MISC_TYPE_MIN_SIZE,
+        )
+
+        self._device._set_software_version(software_version_index)
+
+        LOGGER.debug(
+            "  CONFIG_META_DATA: reserved_0=%d reserved_1=%d "
+            "software_version_index=%d software_test_version_index=%d "
+            "reserved_4=%d reserved_5=%d rble_version=%d",
+            reserved_0,
+            reserved_1,
+            software_version_index,
+            software_test_version_index,
+            reserved_4,
+            reserved_5,
+            rble_version,
         )
 
     def _handle_misc_state(self, payload: bytes | bytearray | memoryview) -> None:
