@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 NUMBER_DESCRIPTIONS = (
     NumberEntityDescription(
         key=EntityKey.STARTING_POINT_A,
-        name="Starting point A",
+        translation_key="starting_point_a",
         icon="mdi:map-marker-path",
         entity_category=EntityCategory.CONFIG,
         native_unit_of_measurement="m",
@@ -32,7 +32,7 @@ NUMBER_DESCRIPTIONS = (
     ),
     NumberEntityDescription(
         key=EntityKey.STARTING_POINT_B,
-        name="Starting point B",
+        translation_key="starting_point_b",
         icon="mdi:map-marker-path",
         entity_category=EntityCategory.CONFIG,
         native_unit_of_measurement="m",

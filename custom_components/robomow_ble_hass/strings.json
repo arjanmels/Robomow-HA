@@ -1,0 +1,148 @@
+{
+    "device": {
+        "name": "Robomow BLE",
+        "manufacturer": "Robomow",
+        "model": "BLE Device"
+    },
+    "config": {
+        "step": {
+            "user": {
+                "description": "Select the Robomow device you want to add to Home Assistant and enter the mainboard serial number.",
+                "data": {
+                    "address": "Address",
+                    "mainboard_serial": "Mainboard serial number"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Enter the mainboard serial number for the Robomow device you want to add to Home Assistant.",
+                "data": {
+                    "mainboard_serial": "Mainboard serial number"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "No unique address provided.",
+            "no_mainboard_serial": "No mainboard serial number provided.",
+            "invalid_mainboard_serial": "The mainboard serial number is invalid. Verify it and try again.",
+            "model_unsupported": "The mower model is not supported.",
+            "device_not_found": "The Robomow device could not be found. Move closer and try again.",
+            "service_not_found": "The required Robomow Bluetooth service was not found on this device.",
+            "characteristics_not_found": "The required Robomow Bluetooth characteristics were not found on this device."
+        },
+        "abort": {
+            "already_configured": "This entry is already configured.",
+            "no_devices_found": "No Robomow devices found.",
+            "not_supported": "This Bluetooth device is not a supported Robomow mower."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Cannot connect to the device"
+        },
+        "invalid_auth": {
+            "message": "Authentication failed"
+        },
+        "unsupported_device": {
+            "message": "This device model is not supported"
+        },
+        "no_unique_address": {
+            "message": "No unique address provided."
+        },
+        "no_mainboard_serial": {
+            "message": "No mainboard serial number provided."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Anti-theft active"
+            },
+            "mower_home": {
+                "name": "Mower home"
+            },
+            "charging_active": {
+                "name": "Charging active"
+            },
+            "disabling_device_removed": {
+                "name": "Disabling device removed"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Operating State"
+            },
+            "status_message": {
+                "name": "Status Message"
+            },
+            "next_departure": {
+                "name": "Next Departure",
+                "description": "Time in minutes until the next scheduled departure"
+            },
+            "previous_departure": {
+                "name": "Previous Departure",
+                "description": "Time in minutes since the last scheduled departure"
+            },
+            "expected_duration": {
+                "name": "Expected Duration",
+                "description": "Expected duration of the current operation in minutes"
+            },
+            "no_depart_reason": {
+                "name": "No Departure Reason",
+                "description": "Reason why the mower did not depart at the scheduled time"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Schedule enabled"
+            },
+            "anti_theft_enabled": {
+                "name": "Anti-theft enabled"
+            },
+            "child_lock_enabled": {
+                "name": "Child lock enabled"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Starting point A",
+                "description": "Distance in meters from the base station to the first starting point"
+            },
+            "starting_point_b": {
+                "name": "Starting point B",
+                "description": "Distance in meters from the base station to the second starting point"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Wire signal type",
+                "description": "Signal type used for the perimeter wire detection"
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Mower"
+            }
+        }
+    },
+    "options": {
+        "operating_state": {
+            "Idle": "Idle",
+            "Charging": "Charging",
+            "Automatic": "Automatic",
+            "Remote control": "Remote control",
+            "Bit": "Bit",
+            "Warming up": "Warming up",
+            "Mowing": "Mowing",
+            "Edge Mowing": "Edge Mowing",
+            "Going to starting point": "Going to starting point",
+            "Learning entry point": "Learning entry point",
+            "Following edge home": "Following edge home",
+            "Warming up to return home": "Warming up to return home",
+            "Searching edge": "Searching edge"
+        },
+        "wire_signal_type": {
+            "ALTERNATING": "Alternating",
+            "DIGITAL": "Digital"
+        }
+    }
+}

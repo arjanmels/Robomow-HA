@@ -23,28 +23,28 @@ if TYPE_CHECKING:
 BINARY_SENSOR_DESCRIPTIONS = (
     BinarySensorEntityDescription(
         key=EntityKey.ANTI_THEFT_ACTIVE,
-        name="Anti-theft active",
+        translation_key="anti_theft_active",
         icon="mdi:shield-alert",
         entity_category=EntityCategory.DIAGNOSTIC,
         entity_registry_visible_default=False,
     ),
     BinarySensorEntityDescription(
         key=EntityKey.MOWER_HOME,
-        name="Mower home",
+        translation_key="mower_home",
         icon="mdi:home",
         entity_category=EntityCategory.DIAGNOSTIC,
         entity_registry_visible_default=False,
     ),
     BinarySensorEntityDescription(
         key=EntityKey.CHARGING_ACTIVE,
-        name="Charging active",
+        translation_key="charging_active",
         icon="mdi:battery-charging",
         entity_category=EntityCategory.DIAGNOSTIC,
         entity_registry_visible_default=False,
     ),
     BinarySensorEntityDescription(
         key=EntityKey.DISABLING_DEVICE_REMOVED,
-        name="Disabling device removed",
+        translation_key="disabling_device_removed",
         icon="mdi:power-plug-off",
         entity_category=EntityCategory.DIAGNOSTIC,
         entity_registry_visible_default=False,

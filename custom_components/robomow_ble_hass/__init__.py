@@ -1,28 +1,11 @@
 #!/usr/bin/env python3
 """Support for Robomow via Bluetooth."""
 
-# ruff: noqa: E402
-
 from __future__ import annotations
 
-import sys
-from pathlib import Path
 from typing import TYPE_CHECKING
 
 from homeassistant.const import Platform
-
-
-# TODO(AM): Remove this hack once we have proper packages published to PyPI.
-def _ensure_package_import_path() -> None:
-    """Allow local monorepo package imports during development."""
-    package_src = (
-        Path(__file__).resolve().parents[2] / "packages" / "robomow_ble" / "src"
-    )
-    if package_src.exists() and str(package_src) not in sys.path:
-        sys.path.insert(0, str(package_src))
-
-
-_ensure_package_import_path()
 
 from .const import LOGGER
 from .coordinator import RobomowCoordinator

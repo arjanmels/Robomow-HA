@@ -31,7 +31,7 @@ if TYPE_CHECKING:
 
 
 LAWN_MOWER_DESCRIPTION = LawnMowerEntityEntityDescription(
-    key=EntityKey.STATE, name="Mower"
+    key=EntityKey.STATE, translation_key="mower"
 )
 
 

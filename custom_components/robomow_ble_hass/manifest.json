@@ -10,8 +10,9 @@
     "bluetooth_adapters"
   ],
   "requirements": [
-    "sensor-state-data==2.20.0",
-    "bluetooth-sensor-state-data==1.9.0"
+    "sensor-state-data>=2.20.0",
+    "bluetooth-sensor-state-data>=1.9.0",
+    "robomow-ble>=0.1.0"
   ],
   "config_flow": true,
   "iot_class": "local_push",

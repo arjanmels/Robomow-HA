@@ -27,14 +27,14 @@ if TYPE_CHECKING:
 SENSOR_DESCRIPTIONS = (
     SensorEntityDescription(
         key=EntityKey.STATE,
-        name="Operating State",
+        translation_key="operating_state",
         icon="mdi:state-machine",
         device_class=SensorDeviceClass.ENUM,
         options=RobomowDevice.STATE_LABELS,
     ),
     SensorEntityDescription(
         key=EntityKey.MESSAGE,
-        name="Status Message",
+        translation_key="status_message",
         icon="mdi:message-text",
     ),
     SensorEntityDescription(
@@ -46,28 +46,28 @@ SENSOR_DESCRIPTIONS = (
     ),
     SensorEntityDescription(
         key=EntityKey.NEXT_DEPARTURE,
-        name="Next Departure",
+        translation_key="next_departure",
         icon="mdi:clock-start",
         entity_category=EntityCategory.DIAGNOSTIC,
         native_unit_of_measurement=UnitOfTime.MINUTES,
     ),
     SensorEntityDescription(
         key=EntityKey.PREVIOUS_DEPARTURE,
-        name="Previous Departure",
+        translation_key="previous_departure",
         icon="mdi:history",
         entity_category=EntityCategory.DIAGNOSTIC,
         native_unit_of_measurement=UnitOfTime.MINUTES,
     ),
     SensorEntityDescription(
         key=EntityKey.EXPECTED_DURATION,
-        name="Expected Duration",
+        translation_key="expected_duration",
         icon="mdi:timer-outline",
         entity_category=EntityCategory.DIAGNOSTIC,
         native_unit_of_measurement=UnitOfTime.MINUTES,
     ),
     SensorEntityDescription(
         key=EntityKey.NO_DEPART_REASON,
-        name="No Departure Reason",
+        translation_key="no_depart_reason",
         icon="mdi:alert-circle-outline",
         entity_category=EntityCategory.DIAGNOSTIC,
     ),

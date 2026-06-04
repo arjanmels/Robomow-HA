@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 SELECT_DESCRIPTIONS = (
     SelectEntityDescription(
         key=EntityKey.WIRE_SIGNAL_TYPE,
-        name="Wire signal type",
+        translation_key="wire_signal_type",
         icon="mdi:sine-wave",
         entity_category=EntityCategory.CONFIG,
         options=[wire_signal_type.name for wire_signal_type in WireSignalType],

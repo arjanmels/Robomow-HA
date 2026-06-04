@@ -23,18 +23,18 @@ if TYPE_CHECKING:
 
 SCHEDULE_SWITCH_DESCRIPTION = SwitchEntityDescription(
     key=EntityKey.SCHEDULE_ENABLED,
-    name="Schedule enabled",
+    translation_key="schedule_enabled",
 )
 
 SWITCH_DESCRIPTIONS = (
     SwitchEntityDescription(
         key=EntityKey.ANTI_THEFT_ENABLED,
-        name="Anti-theft enabled",
+        translation_key="anti_theft_enabled",
         entity_category=EntityCategory.CONFIG,
     ),
     SwitchEntityDescription(
         key=EntityKey.CHILD_LOCK_ENABLED,
-        name="Child lock enabled",
+        translation_key="child_lock_enabled",
         entity_category=EntityCategory.CONFIG,
     ),
 )
