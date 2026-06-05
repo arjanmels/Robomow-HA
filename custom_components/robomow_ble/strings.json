@@ -1,8 +1,14 @@
 {
     "device": {
-        "name": "Robomow BLE",
-        "manufacturer": "Robomow",
-        "model": "BLE Device"
+        "name": {
+            "Robomow BLE": "Robomow BLE"
+        },
+        "manufacturer": {
+            "Robomow": "Robomow"
+        },
+        "model": {
+            "BLE Device": "BLE Device"
+        }
     },
     "config": {
         "step": {
@@ -75,20 +81,16 @@
                 "name": "Status Message"
             },
             "next_departure": {
-                "name": "Next Departure",
-                "description": "Time in minutes until the next scheduled departure"
+                "name": "Next Departure"
             },
             "previous_departure": {
-                "name": "Previous Departure",
-                "description": "Time in minutes since the last scheduled departure"
+                "name": "Previous Departure"
             },
             "expected_duration": {
-                "name": "Expected Duration",
-                "description": "Expected duration of the current operation in minutes"
+                "name": "Expected Duration"
             },
             "no_depart_reason": {
-                "name": "No Departure Reason",
-                "description": "Reason why the mower did not depart at the scheduled time"
+                "name": "No Departure Reason"
             }
         },
         "switch": {
@@ -104,45 +106,21 @@
         },
         "number": {
             "starting_point_a": {
-                "name": "Starting point A",
-                "description": "Distance in meters from the base station to the first starting point"
+                "name": "Starting point A"
             },
             "starting_point_b": {
-                "name": "Starting point B",
-                "description": "Distance in meters from the base station to the second starting point"
+                "name": "Starting point B"
             }
         },
         "select": {
             "wire_signal_type": {
-                "name": "Wire signal type",
-                "description": "Signal type used for the perimeter wire detection"
+                "name": "Wire signal type"
             }
         },
         "lawn_mower": {
             "mower": {
                 "name": "Mower"
             }
-        }
-    },
-    "options": {
-        "operating_state": {
-            "Idle": "Idle",
-            "Charging": "Charging",
-            "Automatic": "Automatic",
-            "Remote control": "Remote control",
-            "Bit": "Bit",
-            "Warming up": "Warming up",
-            "Mowing": "Mowing",
-            "Edge Mowing": "Edge Mowing",
-            "Going to starting point": "Going to starting point",
-            "Learning entry point": "Learning entry point",
-            "Following edge home": "Following edge home",
-            "Warming up to return home": "Warming up to return home",
-            "Searching edge": "Searching edge"
-        },
-        "wire_signal_type": {
-            "ALTERNATING": "Alternating",
-            "DIGITAL": "Digital"
         }
     }
 }
