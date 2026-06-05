@@ -24,7 +24,6 @@ from .entity import RobomowEntity
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
     from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
-
     from robomow_ble.const import Zone
 
     from .coordinator import RobomowConfigEntry

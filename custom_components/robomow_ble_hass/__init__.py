@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Support for Robomow via Bluetooth."""
 
 from __future__ import annotations
