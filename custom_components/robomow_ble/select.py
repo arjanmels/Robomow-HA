@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING
 
 from homeassistant.components.select import SelectEntity, SelectEntityDescription
 from homeassistant.const import EntityCategory
+
 from robomow_ble import WireSignalType
 
 from .const import LOGGER, EntityKey

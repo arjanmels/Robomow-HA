@@ -24,6 +24,7 @@ from homeassistant.exceptions import (
     ConditionError,
     ConfigEntryAuthFailed,
 )
+
 from robomow_ble import RobomowAuthenticationError, RobomowDevice
 
 from .const import (

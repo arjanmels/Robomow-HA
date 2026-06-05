@@ -19,6 +19,7 @@ from homeassistant.components.bluetooth.passive_update_processor import (
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.exceptions import ConfigEntryError
 from homeassistant.helpers import device_registry as dr
+
 from robomow_ble import EntityKey, RobomowDevice, RobomowUpdate
 
 from .const import CONF_MAINBOARD_SERIAL, DOMAIN, LOGGER, MANUFACTURER

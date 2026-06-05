@@ -11,6 +11,7 @@ from homeassistant.components.sensor import (
     SensorStateClass,
 )
 from homeassistant.const import EntityCategory, UnitOfTime
+
 from robomow_ble import MowerOperatingState
 
 from .const import LOGGER, EntityKey

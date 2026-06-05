@@ -1,15 +1,4 @@
 {
-    "device": {
-        "name": {
-            "Robomow BLE": "Robomow BLE"
-        },
-        "manufacturer": {
-            "Robomow": "Robomow"
-        },
-        "model": {
-            "BLE Device": "BLE Device"
-        }
-    },
     "config": {
         "step": {
             "user": {

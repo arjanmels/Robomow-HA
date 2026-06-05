@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+
+echo "Running pre-commit checks..."
+
+# Check all Python files with ruff.
+mapfile -t PY_FILES < <(git ls-files '*.py')
+if [[ ${#PY_FILES[@]} -gt 0 ]]; then
+    echo "- ruff format --check"
+    ruff format --check "${PY_FILES[@]}"
+    echo "- ruff check"
+    ruff check "${PY_FILES[@]}"
+fi
+
+# Validate all JSON files with jq.
+mapfile -t JSON_FILES < <(git ls-files '*.json')
+if [[ ${#JSON_FILES[@]} -gt 0 ]]; then
+    echo "- jq JSON validation"
+    for json_file in "${JSON_FILES[@]}"; do
+        jq -e . "$json_file" >/dev/null
+    done
+fi
+
+# Validate YAML syntax with PyYAML.
+mapfile -t YAML_FILES < <(git ls-files '*.yml' '*.yaml')
+if [[ ${#YAML_FILES[@]} -gt 0 ]]; then
+    echo "- YAML syntax validation"
+    python3 - "${YAML_FILES[@]}" <<'PY'
+import sys
+
+import yaml
+
+
+class HALoader(yaml.SafeLoader):
+    """Safe YAML loader that tolerates Home Assistant custom tags."""
+
+
+def _ha_unknown_tag(loader, tag_suffix, node):
+    if isinstance(node, yaml.ScalarNode):
+        return loader.construct_scalar(node)
+    if isinstance(node, yaml.SequenceNode):
+        return loader.construct_sequence(node)
+    if isinstance(node, yaml.MappingNode):
+        return loader.construct_mapping(node)
+    return None
+
+
+HALoader.add_multi_constructor("!", _ha_unknown_tag)
+
+for path in sys.argv[1:]:
+    with open(path, encoding="utf-8") as file_obj:
+        list(yaml.load_all(file_obj, Loader=HALoader))
+PY
+fi
+
+# Lint Markdown with PyMarkdown.
+mapfile -t MD_FILES < <(git ls-files '*.md' '*.markdown')
+if [[ ${#MD_FILES[@]} -gt 0 ]]; then
+    echo "- Markdown lint"
+    pymarkdown scan "${MD_FILES[@]}"
+fi
+
+# Prevent accidental merge conflict markers in tracked repository files.
+echo "- conflict marker check"
+if git grep -nE '^(<<<<<<<|=======|>>>>>>>)' -- .; then
+    echo "ERROR: Found merge conflict markers in repository files." >&2
+    exit 1
+fi
+
+echo "Pre-commit checks passed."

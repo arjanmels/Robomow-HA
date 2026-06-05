@@ -6,3 +6,5 @@ sensor-state-data>=2.20.0
 bluetooth-sensor-state-data>=1.9.0
 aioesphomeapi>=45.3.1
 robomow-ble>=1.0.0
+PyYAML>=6.0.2
+pymarkdownlnt>=0.9.33
