@@ -11,8 +11,7 @@ from homeassistant.components.sensor import (
     SensorStateClass,
 )
 from homeassistant.const import EntityCategory, UnitOfTime
-
-from robomow_ble import RobomowDevice
+from robomow_ble import MowerOperatingState
 
 from .const import LOGGER, EntityKey
 from .entity import RobomowEntity
@@ -30,7 +29,7 @@ SENSOR_DESCRIPTIONS = (
         translation_key="operating_state",
         icon="mdi:state-machine",
         device_class=SensorDeviceClass.ENUM,
-        options=RobomowDevice.STATE_LABELS,
+        options=[state.value for state in MowerOperatingState],
     ),
     SensorEntityDescription(
         key=EntityKey.MESSAGE,

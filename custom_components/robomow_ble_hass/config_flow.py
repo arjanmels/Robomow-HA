@@ -24,7 +24,6 @@ from homeassistant.exceptions import (
     ConditionError,
     ConfigEntryAuthFailed,
 )
-
 from robomow_ble import RobomowAuthenticationError, RobomowDevice
 
 from .const import (
@@ -238,7 +237,7 @@ class RobomowConfigData(BluetoothData):
         mainboard_serial: str,
     ) -> bool:
         """Set the mainboard serial number and validate it via BLE authentication."""
-        mower = RobomowDevice(address, mainboard_serial, None)
+        mower = RobomowDevice(mainboard_serial, None)
         device = async_ble_device_from_address(hass, address, connectable=True)
 
         if device is None:
