@@ -66,19 +66,19 @@
             "operating_state": {
                 "name": "Operating State",
                 "state": {
-                    "WARMING_UP": "Warming up",
-                    "MOWING": "Mowing",
-                    "EDGE_MOWING": "Edge Mowing",
-                    "RETURNING_HOME_FOLLOWING_EDGE": "Following edge home",
-                    "RETURNING_HOME_WARMING_UP": "Warming up to return home",
-                    "RETURNING_HOME_SEARCHING_EDGE": "Searching edge",
-                    "GOING_TO_START": "Going to starting point",
-                    "LEARNING_ENTRY_POINT": "Learning entry point",
-                    "IDLE": "Idle",
-                    "CHARGING": "Charging",
-                    "AUTOMATIC": "Automatic",
-                    "REMOTE_CONTROL": "Remote control",
-                    "BIT": "Bit"
+                    "warming_up": "Warming up",
+                    "mowing": "Mowing",
+                    "edge_mowing": "Edge Mowing",
+                    "returning_home_following_edge": "Following edge home",
+                    "returning_home_warming_up": "Warming up to return home",
+                    "returning_home_searching_edge": "Searching edge",
+                    "going_to_start": "Going to starting point",
+                    "learning_entry_point": "Learning entry point",
+                    "idle": "Idle",
+                    "charging": "Charging",
+                    "automatic": "Automatic",
+                    "remote_control": "Remote control",
+                    "bit": "Bit"
                 }
             },
             "status_message": {
@@ -129,6 +129,19 @@
         "lawn_mower": {
             "mower": {
                 "name": "Mower"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Main",
+                "starting_point_a": "Starting point A",
+                "starting_point_b": "Starting point B",
+                "sub_1": "Sub zone 1",
+                "sub_2": "Sub zone 2",
+                "sub_3": "Sub zone 3",
+                "sub_4": "Sub zone 4"
             }
         }
     },

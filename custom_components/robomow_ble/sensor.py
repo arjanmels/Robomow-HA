@@ -12,9 +12,7 @@ from homeassistant.components.sensor import (
 )
 from homeassistant.const import EntityCategory, UnitOfTime
 
-from robomow_ble import MowerOperatingState
-
-from .const import LOGGER, EntityKey
+from .const import LOGGER, EntityKey, MowerOperatingState
 from .entity import RobomowEntity
 
 if TYPE_CHECKING:
@@ -30,7 +28,7 @@ SENSOR_DESCRIPTIONS = (
         translation_key="operating_state",
         icon="mdi:state-machine",
         device_class=SensorDeviceClass.ENUM,
-        options=[state.name for state in MowerOperatingState],
+        options=[state.name.lower() for state in MowerOperatingState],
     ),
     SensorEntityDescription(
         key=EntityKey.MESSAGE,
@@ -103,5 +101,8 @@ class RobomowSensorEntity(RobomowEntity, SensorEntity):  # pyright: ignore[repor
     def native_value(self) -> Any | None:  # pyright: ignore[reportIncompatibleVariableOverride]
         """Return the current sensor value."""
         if self.entity_key in self.processor.entity_data:
-            return self.processor.entity_data[self.entity_key]
+            value = self.processor.entity_data[self.entity_key]
+            if self.entity_key.key == EntityKey.STATE and value is not None:
+                return value.name.lower()
+            return value
         return None

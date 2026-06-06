@@ -10,17 +10,18 @@ start_mowing:
       name: Starting zone
       description: Robomow zone to start mowing from.
       required: false
-      default: MAIN
+      default: main
       selector:
         select:
+          translation_key: zone
           options:
-            - MAIN
-            - STARTING_POINT_A
-            - STARTING_POINT_B
-            - SUB_1
-            - SUB_2
-            - SUB_3
-            - SUB_4
+            - main
+            - starting_point_a
+            - starting_point_b
+            - sub_1
+            - sub_2
+            - sub_3
+            - sub_4
     duration:
       name: Duration
       description: Mowing duration in minutes (1-255). Default is 30 minutes.
@@ -85,14 +86,15 @@ set_schedule:
       required: false
       selector:
         select:
+          translation_key: zone
           options:
-            - MAIN
-            - STARTING_POINT_A
-            - STARTING_POINT_B
-            - SUB_1
-            - SUB_2
-            - SUB_3
-            - SUB_4
+            - main
+            - starting_point_a
+            - starting_point_b
+            - sub_1
+            - sub_2
+            - sub_3
+            - sub_4
     day_1_enabled:
       name: Tuesday enabled
       description: Whether to mow on Tuesday.
@@ -125,14 +127,15 @@ set_schedule:
       required: false
       selector:
         select:
+          translation_key: zone
           options:
-            - MAIN
-            - STARTING_POINT_A
-            - STARTING_POINT_B
-            - SUB_1
-            - SUB_2
-            - SUB_3
-            - SUB_4
+            - main
+            - starting_point_a
+            - starting_point_b
+            - sub_1
+            - sub_2
+            - sub_3
+            - sub_4
     day_2_enabled:
       name: Wednesday enabled
       description: Whether to mow on Wednesday.
@@ -165,14 +168,15 @@ set_schedule:
       required: false
       selector:
         select:
+          translation_key: zone
           options:
-            - MAIN
-            - STARTING_POINT_A
-            - STARTING_POINT_B
-            - SUB_1
-            - SUB_2
-            - SUB_3
-            - SUB_4
+            - main
+            - starting_point_a
+            - starting_point_b
+            - sub_1
+            - sub_2
+            - sub_3
+            - sub_4
     day_3_enabled:
       name: Thursday enabled
       description: Whether to mow on Thursday.
@@ -205,14 +209,15 @@ set_schedule:
       required: false
       selector:
         select:
+          translation_key: zone
           options:
-            - MAIN
-            - STARTING_POINT_A
-            - STARTING_POINT_B
-            - SUB_1
-            - SUB_2
-            - SUB_3
-            - SUB_4
+            - main
+            - starting_point_a
+            - starting_point_b
+            - sub_1
+            - sub_2
+            - sub_3
+            - sub_4
     day_4_enabled:
       name: Friday enabled
       description: Whether to mow on Friday.
@@ -245,14 +250,15 @@ set_schedule:
       required: false
       selector:
         select:
+          translation_key: zone
           options:
-            - MAIN
-            - STARTING_POINT_A
-            - STARTING_POINT_B
-            - SUB_1
-            - SUB_2
-            - SUB_3
-            - SUB_4
+            - main
+            - starting_point_a
+            - starting_point_b
+            - sub_1
+            - sub_2
+            - sub_3
+            - sub_4
     day_5_enabled:
       name: Saturday enabled
       description: Whether to mow on Saturday.
@@ -285,14 +291,15 @@ set_schedule:
       required: false
       selector:
         select:
+          translation_key: zone
           options:
-            - MAIN
-            - STARTING_POINT_A
-            - STARTING_POINT_B
-            - SUB_1
-            - SUB_2
-            - SUB_3
-            - SUB_4
+            - main
+            - starting_point_a
+            - starting_point_b
+            - sub_1
+            - sub_2
+            - sub_3
+            - sub_4
     day_6_enabled:
       name: Sunday enabled
       description: Whether to mow on Sunday.
@@ -325,11 +332,12 @@ set_schedule:
       required: false
       selector:
         select:
+          translation_key: zone
           options:
-            - MAIN
-            - STARTING_POINT_A
-            - STARTING_POINT_B
-            - SUB_1
-            - SUB_2
-            - SUB_3
-            - SUB_4
+            - main
+            - starting_point_a
+            - starting_point_b
+            - sub_1
+            - sub_2
+            - sub_3
+            - sub_4

@@ -25,8 +25,8 @@ SERVICE_SET_SCHEDULE = "set_schedule"
 ATTR_STARTING_ZONE = "starting_zone"
 ATTR_DURATION = "duration"
 
-ZONE_NAMES = [zone.name for zone in Zone]
-ZONE_VALIDATOR = vol.In(ZONE_NAMES)
+ZONE_OPTIONS = [zone.name.lower() for zone in Zone]
+ZONE_VALIDATOR = vol.In(ZONE_OPTIONS)
 DURATION_VALIDATOR = vol.All(vol.Coerce(int), vol.Range(min=1, max=0xFF))
 CYCLES_VALIDATOR = vol.All(vol.Coerce(int), vol.Range(min=1, max=2))
 OPTIONAL_TIME_VALIDATOR = vol.Any(None, cv.time)
@@ -66,7 +66,7 @@ def async_register_services(hass: HomeAssistant) -> None:
         schema=cv.make_entity_service_schema(
             {
                 vol.Optional(
-                    ATTR_STARTING_ZONE, default=Zone.MAIN.name
+                    ATTR_STARTING_ZONE, default=Zone.MAIN.name.lower()
                 ): ZONE_VALIDATOR,
                 vol.Optional(ATTR_DURATION, default=30): DURATION_VALIDATOR,
             }
@@ -105,10 +105,9 @@ async def async_handle_start_mowing(
     entity: RobomowLawnMowerEntity, call: ServiceCall
 ) -> None:
     """Handle robomow_ble.async_start_mowing service calls."""
-    starting_zone_name = call.data[ATTR_STARTING_ZONE]
     await entity.async_start_mowing(
         duration_minutes=call.data.get(ATTR_DURATION),
-        starting_zone=Zone[starting_zone_name],
+        starting_zone=Zone[call.data[ATTR_STARTING_ZONE].upper()],
     )
 
 
@@ -143,6 +142,6 @@ async def async_handle_set_schedule(
         if cycles is not None:
             schedule.day[day].cycles = cycles
         if zone is not None:
-            schedule.day[day].zone = Zone[zone]
+            schedule.day[day].zone = Zone[zone.upper()]
 
     await entity.coordinator.mower.async_set_schedule(schedule)

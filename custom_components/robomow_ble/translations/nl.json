@@ -66,19 +66,19 @@
             "operating_state": {
                 "name": "Bedrijfstatus",
                 "state": {
-                    "WARMING_UP": "Opwarmen",
-                    "MOWING": "Maaien",
-                    "EDGE_MOWING": "Kantmaaien",
-                    "RETURNING_HOME_FOLLOWING_EDGE": "Thuis langs rand",
-                    "RETURNING_HOME_WARMING_UP": "Opwarmen voor thuiskomst",
-                    "RETURNING_HOME_SEARCHING_EDGE": "Rand zoeken",
-                    "GOING_TO_START": "Naar startpunt gaan",
-                    "LEARNING_ENTRY_POINT": "Toegangspunt leren",
-                    "IDLE": "Inactief",
-                    "CHARGING": "Laden",
-                    "AUTOMATIC": "Automatisch",
-                    "REMOTE_CONTROL": "Afstandsbediening",
-                    "BIT": "BIT"
+                    "warming_up": "Opwarmen",
+                    "mowing": "Maaien",
+                    "edge_mowing": "Kantmaaien",
+                    "returning_home_following_edge": "Thuis langs rand",
+                    "returning_home_warming_up": "Opwarmen voor thuiskomst",
+                    "returning_home_searching_edge": "Rand zoeken",
+                    "going_to_start": "Naar startpunt gaan",
+                    "learning_entry_point": "Toegangspunt leren",
+                    "idle": "Inactief",
+                    "charging": "Laden",
+                    "automatic": "Automatisch",
+                    "remote_control": "Afstandsbediening",
+                    "bit": "BIT"
                 }
             },
             "status_message": {
@@ -129,6 +129,19 @@
         "lawn_mower": {
             "mower": {
                 "name": "Maaimachine"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Hoofd",
+                "starting_point_a": "Startpunt A",
+                "starting_point_b": "Startpunt B",
+                "sub_1": "Subzone 1",
+                "sub_2": "Subzone 2",
+                "sub_3": "Subzone 3",
+                "sub_4": "Subzone 4"
             }
         }
     },
