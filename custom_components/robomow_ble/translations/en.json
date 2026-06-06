@@ -64,7 +64,22 @@
         },
         "sensor": {
             "operating_state": {
-                "name": "Operating State"
+                "name": "Operating State",
+                "state": {
+                    "WARMING_UP": "Warming up",
+                    "MOWING": "Mowing",
+                    "EDGE_MOWING": "Edge Mowing",
+                    "RETURNING_HOME_FOLLOWING_EDGE": "Following edge home",
+                    "RETURNING_HOME_WARMING_UP": "Warming up to return home",
+                    "RETURNING_HOME_SEARCHING_EDGE": "Searching edge",
+                    "GOING_TO_START": "Going to starting point",
+                    "LEARNING_ENTRY_POINT": "Learning entry point",
+                    "IDLE": "Idle",
+                    "CHARGING": "Charging",
+                    "AUTOMATIC": "Automatic",
+                    "REMOTE_CONTROL": "Remote control",
+                    "BIT": "Bit"
+                }
             },
             "status_message": {
                 "name": "Status Message"
@@ -105,9 +120,9 @@
             "wire_signal_type": {
                 "name": "Wire signal type",
                 "state": {
-                    "TYPE_A": "Type A",
-                    "TYPE_B": "Type B",
-                    "TYPE_C": "Type C"
+                        "type_a": "Type A",
+                        "type_b": "Type B",
+                        "type_c": "Type C"
                 }
             }
         },
@@ -116,35 +131,6 @@
                 "name": "Mower"
             }
         }
-    },
-    "enum": {
-        "operating_state": {
-            "WARMING_UP": "Warming up",
-            "MOWING": "Mowing",
-            "EDGE_MOWING": "Edge Mowing",
-            "RETURNING_HOME_FOLLOWING_EDGE": "Following edge home",
-            "RETURNING_HOME_WARMING_UP": "Warming up to return home",
-            "RETURNING_HOME_SEARCHING_EDGE": "Searching edge",
-            "GOING_TO_START": "Going to starting point",
-            "LEARNING_ENTRY_POINT": "Learning entry point",
-            "IDLE": "Idle",
-            "CHARGING": "Charging",
-            "AUTOMATIC": "Automatic",
-            "REMOTE_CONTROL": "Remote control",
-            "BIT": "Bit"
-        },
-        "zone": {
-            "MAIN": "Main",
-            "STARTING_POINT_A": "Starting point A",
-            "STARTING_POINT_B": "Starting point B",
-            "SUB_1": "Sub zone 1",
-            "SUB_2": "Sub zone 2",
-            "SUB_3": "Sub zone 3",
-            "SUB_4": "Sub zone 4"
-        }
-    },
-    "device": {
-        "suggested_area": "Garden"
     },
     "services": {
         "start_mowing": {

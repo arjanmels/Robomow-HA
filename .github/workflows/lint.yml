@@ -11,15 +11,15 @@ on:
 permissions: {}
 
 jobs:
-  ruff:
-    name: "Ruff"
+  lint:
+    name: "Lint and Check"
     runs-on: "ubuntu-latest"
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@v6.0.2
 
       - name: Set up Python
-        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        uses: actions/setup-python@v6.2.0
         with:
           python-version: "3.14"
           cache: "pip"
@@ -27,8 +27,46 @@ jobs:
       - name: Install requirements
         run: python3 -m pip install -r requirements.txt
 
-      - name: Lint
+      - name: Ruff - Lint
         run: python3 -m ruff check .
 
-      - name: Format
+      - name: Ruff - Format
         run: python3 -m ruff format . --check
+
+      - name: Pyright - Type check
+        run: python3 -m pyright custom_components/
+
+      - name: JSON - Validate
+        run: |
+          for file in $(find . -name "*.json" -type f); do
+            jq -e . "$file" > /dev/null || exit 1
+          done
+
+      - name: YAML - Validate
+        run: |
+          python3 -c "
+          import sys
+          import yaml
+
+          class HALoader(yaml.SafeLoader):
+              pass
+
+          def _ha_unknown_tag(loader, tag_suffix, node):
+              if isinstance(node, yaml.ScalarNode):
+                  return loader.construct_scalar(node)
+              if isinstance(node, yaml.SequenceNode):
+                  return loader.construct_sequence(node)
+              if isinstance(node, yaml.MappingNode):
+                  return loader.construct_mapping(node)
+              return None
+
+          HALoader.add_multi_constructor('!', _ha_unknown_tag)
+
+          import glob
+          for path in glob.glob('**/*.yml', recursive=True) + glob.glob('**/*.yaml', recursive=True):
+              with open(path, encoding='utf-8') as f:
+                  list(yaml.load_all(f, Loader=HALoader))
+          "
+
+      - name: Markdown - Lint
+        run: python3 -m pymarkdown scan . --ignore-front-matter

@@ -64,7 +64,22 @@
         },
         "sensor": {
             "operating_state": {
-                "name": "Bedrijfstatus"
+                "name": "Bedrijfstatus",
+                "state": {
+                    "WARMING_UP": "Opwarmen",
+                    "MOWING": "Maaien",
+                    "EDGE_MOWING": "Kantmaaien",
+                    "RETURNING_HOME_FOLLOWING_EDGE": "Thuis langs rand",
+                    "RETURNING_HOME_WARMING_UP": "Opwarmen voor thuiskomst",
+                    "RETURNING_HOME_SEARCHING_EDGE": "Rand zoeken",
+                    "GOING_TO_START": "Naar startpunt gaan",
+                    "LEARNING_ENTRY_POINT": "Toegangspunt leren",
+                    "IDLE": "Inactief",
+                    "CHARGING": "Laden",
+                    "AUTOMATIC": "Automatisch",
+                    "REMOTE_CONTROL": "Afstandsbediening",
+                    "BIT": "BIT"
+                }
             },
             "status_message": {
                 "name": "Statusbericht"
@@ -105,9 +120,9 @@
             "wire_signal_type": {
                 "name": "Type draadsignaal",
                 "state": {
-                    "TYPE_A": "Type A",
-                    "TYPE_B": "Type B",
-                    "TYPE_C": "Type C"
+                        "type_a": "Type A",
+                        "type_b": "Type B",
+                        "type_c": "Type C"
                 }
             }
         },
@@ -116,35 +131,6 @@
                 "name": "Maaimachine"
             }
         }
-    },
-    "enum": {
-        "operating_state": {
-            "WARMING_UP": "Opwarmen",
-            "MOWING": "Maaien",
-            "EDGE_MOWING": "Kantmaaien",
-            "RETURNING_HOME_FOLLOWING_EDGE": "Thuis langs rand",
-            "RETURNING_HOME_WARMING_UP": "Opwarmen voor thuiskomst",
-            "RETURNING_HOME_SEARCHING_EDGE": "Rand zoeken",
-            "GOING_TO_START": "Naar startpunt gaan",
-            "LEARNING_ENTRY_POINT": "Toegangspunt leren",
-            "IDLE": "Inactief",
-            "CHARGING": "Laden",
-            "AUTOMATIC": "Automatisch",
-            "REMOTE_CONTROL": "Afstandsbediening",
-            "BIT": "BIT"
-        },
-        "zone": {
-            "MAIN": "Hoofd",
-            "STARTING_POINT_A": "Startpunt A",
-            "STARTING_POINT_B": "Startpunt B",
-            "SUB_1": "Subzone 1",
-            "SUB_2": "Subzone 2",
-            "SUB_3": "Subzone 3",
-            "SUB_4": "Subzone 4"
-        }
-    },
-    "device": {
-        "suggested_area": "Tuin"
     },
     "services": {
         "start_mowing": {

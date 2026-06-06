@@ -25,7 +25,7 @@ SELECT_DESCRIPTIONS = (
         translation_key="wire_signal_type",
         icon="mdi:sine-wave",
         entity_category=EntityCategory.CONFIG,
-        options=[wire_signal_type.name for wire_signal_type in WireSignalType],
+        options=[wire_signal_type.name.lower() for wire_signal_type in WireSignalType],
         entity_registry_enabled_default=False,
         entity_registry_visible_default=False,
     ),
@@ -62,11 +62,11 @@ class RobomowSelectEntity(RobomowEntity, SelectEntity):  # pyright: ignore[repor
             return None
 
         try:
-            return WireSignalType(value).name
+            return WireSignalType(value).name.lower()
         except ValueError:
             return None
 
     async def async_select_option(self, option: str) -> None:
         """Change selected option."""
-        wire_signal_type = WireSignalType[option]
+        wire_signal_type = WireSignalType[option.upper()]
         await self.coordinator.mower.async_set_wire_signal_type(wire_signal_type)
