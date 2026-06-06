@@ -1,81 +1,71 @@
-# Contribution guidelines
+# Contributing to Robomow-HA
 
-Contributing to this project should be as easy and transparent as possible,
-whether it's:
+Contributing to this project should be easy and transparent, whether you're:
 
 - Reporting a bug
-- Discussing the current state of the code
+- Discussing the current code
 - Submitting a fix
-- Proposing new features
+- Proposing a new feature
 
-## Github is used for everything
+## GitHub workflow
 
-Github is used to host code, to track issues and feature requests, as well
-as accept pull requests.
-
+GitHub is used to host code, track issues, and accept pull requests.
 Pull requests are the best way to propose changes to the codebase.
 
-1. Fork the repo and create your branch from `main`.
-2. If you've changed something, update the documentation.
-3. Make sure your code lints (using `scripts/lint`).
-4. Test you contribution.
-5. Issue that pull request!
+1. Fork the repository and create your branch from `main`.
+2. Run `scripts/setup` once after cloning to configure Git hooks.
+3. Make your changes.
+4. Update the documentation if needed.
+5. Run `scripts/lint` to verify formatting and syntax.
+6. Test your contribution.
+7. Open that pull request!
 
 ## Pre-commit checks
 
-Run `scripts/setup` once after cloning. This configures Git to use repository hooks.
-
-The pre-commit hook runs checks on all tracked repository files:
+The hook delegates to `scripts/lint` and validates the repository content.
+It runs:
 
 - `ruff format --check` for Python files
 - `ruff check` for Python files
+- `pyright` for Python type checking
 - `jq` JSON validation for JSON files
 - YAML syntax validation for YAML files (using `PyYAML`)
-- Markdown lint for Markdown files (using `pymarkdownlnt`)
+- Markdown lint for Markdown files (using `pymarkdown`)
 - merge conflict marker detection
 
-## Any contributions you make will be under the MIT Software License
+## Reporting bugs
 
-In short, when you submit code changes, your submissions are understood to be
-under the same [MIT License](http://choosealicense.com/licenses/mit/) that
-covers the project. Feel free to contact the maintainers if that's a concern.
+Please use GitHub issues to report bugs.
+Open a new issue at:
 
-## Report bugs using Github's [issues](../../issues)
+- [https://github.com/arjanmels/Robomow-HA/issues](https://github.com/arjanmels/Robomow-HA/issues)
 
-GitHub issues are used to track public bugs.
-Report a bug by [opening a new issue](../../issues/new/choose); it's that easy!
+## Writing useful bug reports
 
-## Write bug reports with detail, background, and sample code
+**Great bug reports** usually include:
 
-**Great Bug Reports** tend to have:
-
-- A quick summary and/or background
+- A short summary and background
 - Steps to reproduce
-  - Be specific!
-  - Give sample code if you can.
-- What you expected would happen
-- What actually happens
-- Notes (possibly including why you think this might be happening, or stuff
-  you tried that didn't work)
+  - Be specific
+  - Include sample code if possible
+- What you expected to happen
+- What actually happened
+- Any notes or troubleshooting steps you already tried
 
-People *love* thorough bug reports. I'm not even kidding.
+Thorough bug reports help us fix issues faster.
 
-## Use a Consistent Coding Style
+## Coding style
 
-Use [black](https://github.com/ambv/black) to make sure the code follows the style.
+Use [black](https://github.com/psf/black) to format Python code.
+Run `scripts/lint` before opening a pull request.
 
-## Test your code modification
+## Testing changes
 
-This custom component is based on
-[robomow template](https://github.com/arjanmels/Robomow-HA).
-
-It comes with development environment in a container, easy to launch
-if you use Visual Studio Code. With this container you will have a stand alone
-Home Assistant instance running and already configured with the included
-[`configuration.yaml`](./config/configuration.yaml)
-file.
+This integration includes a development container for easy local testing in
+Visual Studio Code. After launching the container, a Home Assistant instance is
+available with the included `config/configuration.yaml`.
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under its
-MIT License.
+By contributing, you agree that your contributions will be licensed under the
+same [MIT License](https://choosealicense.com/licenses/mit/) that covers the project.

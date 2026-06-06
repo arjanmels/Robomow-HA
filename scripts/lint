@@ -1,8 +1,78 @@
 #!/usr/bin/env bash
 
-set -e
+set -euo pipefail
 
-cd "$(dirname "$0")/.."
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
 
-ruff format .
-ruff check . --fix
+echo "Running pre-commit checks..."
+
+echo "- ruff format --check"
+ruff format --check .
+
+echo "- ruff check"
+ruff check .
+
+echo "- pyright type check"
+pyright .
+
+echo "- jq JSON validation"
+mapfile -d '' -t JSON_FILES < <(find . -path './.git' -prune -o -type f -name '*.json' -print0)
+json_count=${#JSON_FILES[@]}
+for json_file in "${JSON_FILES[@]}"; do
+    if ! jq -e . "$json_file" >/dev/null; then
+        echo "ERROR: invalid JSON in $json_file" >&2
+        exit 1
+    fi
+ done
+ echo "Checked $json_count JSON files."
+
+echo "- YAML syntax validation"
+mapfile -d '' -t YAML_FILES < <(find . -path './.git' -prune -o -type f \( -name '*.yml' -o -name '*.yaml' \) -print0)
+yaml_count=${#YAML_FILES[@]}
+if [[ $yaml_count -gt 0 ]]; then
+    printf '%s\0' "${YAML_FILES[@]}" | python3 - <<'PY'
+import sys
+import yaml
+
+
+class HALoader(yaml.SafeLoader):
+    """Safe YAML loader that tolerates Home Assistant custom tags."""
+
+
+def _ha_unknown_tag(loader, tag_suffix, node):
+    if isinstance(node, yaml.ScalarNode):
+        return loader.construct_scalar(node)
+    if isinstance(node, yaml.SequenceNode):
+        return loader.construct_sequence(node)
+    if isinstance(node, yaml.MappingNode):
+        return loader.construct_mapping(node)
+    return None
+
+
+HALoader.add_multi_constructor('!', _ha_unknown_tag)
+
+for path in sys.stdin.read().split('\0'):
+    if not path:
+        continue
+    try:
+        with open(path, encoding='utf-8') as file_obj:
+            list(yaml.load_all(file_obj, Loader=HALoader))
+    except Exception as exc:
+        print(f"ERROR: invalid YAML in {path}", file=sys.stderr)
+        print(str(exc), file=sys.stderr)
+        sys.exit(1)
+PY
+fi
+ echo "Checked $yaml_count YAML files."
+
+echo "- Markdown lint"
+pymarkdown scan .
+
+echo "- conflict marker check"
+if git grep -nE '^(<<<<<<<|=======|>>>>>>>)' -- .; then
+    echo "ERROR: Found merge conflict markers in repository files." >&2
+    exit 1
+fi
+
+echo "Pre-commit checks passed."
