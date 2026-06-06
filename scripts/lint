@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+# Executable Python scripts should be marked executable in Git when they
+# include a shebang line, otherwise Ruff may report EXE001.
 ROOT="$(git rev-parse --show-toplevel)"
 cd "$ROOT"
 
