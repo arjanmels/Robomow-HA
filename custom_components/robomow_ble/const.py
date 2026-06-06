@@ -3,7 +3,7 @@
 import logging
 from enum import IntEnum, StrEnum
 
-from robomow_ble import EntityKey
+from robomow_ble_lib import EntityKey
 
 __all__ = ["EntityKey", "MowerFamily", "MowerModel", "MowerOperatingState"]
 

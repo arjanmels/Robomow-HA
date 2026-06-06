@@ -17,15 +17,15 @@ from homeassistant.components.lawn_mower.const import (
     LawnMowerEntityFeature,
 )
 from homeassistant.core import callback
+from robomow_ble_lib import EntityKey, MowerOperatingState
 
-from .const import LOGGER, EntityKey, MowerOperatingState
+from .const import LOGGER
 from .entity import RobomowEntity
 
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
     from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
-
-    from robomow_ble.const import Zone
+    from robomow_ble_lib import Zone
 
     from .coordinator import RobomowConfigEntry
 
@@ -125,7 +125,7 @@ class RobomowLawnMowerEntity(RobomowEntity, LawnMowerEntity):  # pyright: ignore
             operation_data: dict[str, Any] = {
                 "start_time": operation.start_time.isoformat(),
                 "duration": operation.duration,
-                "zone": operation.zone.name,
+                "zone": operation.zone.name.lower(),
                 "error_title": operation.error.title,
                 "error_number": operation.error.number,
             }

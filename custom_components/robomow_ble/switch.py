@@ -164,6 +164,6 @@ class RobomowScheduleSwitchEntity(RobomowSwitchEntity):
             attributes[f"{day_name}_enabled"] = day_schedule.enabled
             attributes[f"{day_name}_duration"] = day_schedule.duration
             attributes[f"{day_name}_cycles"] = day_schedule.cycles
-            attributes[f"{day_name}_zone"] = day_schedule.zone.name
+            attributes[f"{day_name}_zone"] = day_schedule.zone.name.lower()
 
         return attributes

@@ -7,8 +7,21 @@ cd "$ROOT"
 
 echo "Running pre-commit checks..."
 
+# Return tracked files that still exist on disk.
+git_ls_files_existing() {
+    local file
+    local -a patterns=("$@")
+    local -a result=()
+
+    while IFS= read -r file; do
+        [[ -f "$file" ]] && result+=("$file")
+    done < <(git ls-files "${patterns[@]}")
+
+    printf '%s\n' "${result[@]}"
+}
+
 # Check all Python files with ruff.
-mapfile -t PY_FILES < <(git ls-files '*.py')
+mapfile -t PY_FILES < <(git_ls_files_existing '*.py')
 if [[ ${#PY_FILES[@]} -gt 0 ]]; then
     echo "- ruff format --check"
     ruff format --check "${PY_FILES[@]}"
@@ -19,7 +32,7 @@ if [[ ${#PY_FILES[@]} -gt 0 ]]; then
 fi
 
 # Validate all JSON files with jq.
-mapfile -t JSON_FILES < <(git ls-files '*.json')
+mapfile -t JSON_FILES < <(git_ls_files_existing '*.json')
 if [[ ${#JSON_FILES[@]} -gt 0 ]]; then
     echo "- jq JSON validation"
     for json_file in "${JSON_FILES[@]}"; do
@@ -28,7 +41,7 @@ if [[ ${#JSON_FILES[@]} -gt 0 ]]; then
 fi
 
 # Validate YAML syntax with PyYAML.
-mapfile -t YAML_FILES < <(git ls-files '*.yml' '*.yaml')
+mapfile -t YAML_FILES < <(git_ls_files_existing '*.yml' '*.yaml')
 if [[ ${#YAML_FILES[@]} -gt 0 ]]; then
     echo "- YAML syntax validation"
     python3 - "${YAML_FILES[@]}" <<'PY'

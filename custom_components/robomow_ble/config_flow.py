@@ -24,8 +24,7 @@ from homeassistant.exceptions import (
     ConditionError,
     ConfigEntryAuthFailed,
 )
-
-from robomow_ble import RobomowAuthenticationError, RobomowDevice
+from robomow_ble_lib import RobomowAuthenticationError, RobomowDevice
 
 from .const import (
     CONF_DEVICE_TYPE,
@@ -257,7 +256,7 @@ class RobomowConfigData(BluetoothData):
             self._mainboard_serial = mainboard_serial
 
             for _ in range(10):
-                if mower.model is not None:
+                if mower.model is not None and mower.model != MowerModel.Unknown:
                     break
                 await asyncio.sleep(0.1)
 

@@ -1,11 +1,10 @@
 pip>=26.1.2
 ruff>=0.15.16
 colorlog>=6.10.1
-homeassistant>=2026.5.0
-sensor-state-data>=2.20.0
-bluetooth-sensor-state-data>=1.9.0
-aioesphomeapi>=45.3.1
-robomow-ble>=1.0.0
 PyYAML>=6.0.2
 pymarkdownlnt>=0.9.33
 pyright>=1.1.350
+
+homeassistant==2026.6.0
+aioesphomeapi>=45.3.1
+robomow-ble>=1.1.0

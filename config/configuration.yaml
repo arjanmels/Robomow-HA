@@ -20,4 +20,4 @@ logger:
   default: info
   logs:
     custom_components.robomow_ble: debug
-    robomow_ble: debug
+    robomow_ble_lib: debug

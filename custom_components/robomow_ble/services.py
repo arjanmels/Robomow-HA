@@ -10,8 +10,7 @@ from homeassistant.components.lawn_mower.const import DOMAIN as LAWN_MOWER_DOMAI
 from homeassistant.config_entries import ConfigEntryState
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers import service
-
-from robomow_ble.const import Zone
+from robomow_ble_lib import Zone
 
 from .const import DOMAIN
 
@@ -104,7 +103,7 @@ def async_unregister_services_if_unused(hass: HomeAssistant) -> None:
 async def async_handle_start_mowing(
     entity: RobomowLawnMowerEntity, call: ServiceCall
 ) -> None:
-    """Handle robomow_ble.async_start_mowing service calls."""
+    """Handle start_mowing service calls."""
     await entity.async_start_mowing(
         duration_minutes=call.data.get(ATTR_DURATION),
         starting_zone=Zone[call.data[ATTR_STARTING_ZONE].upper()],
@@ -114,7 +113,7 @@ async def async_handle_start_mowing(
 async def async_handle_set_schedule(
     entity: RobomowLawnMowerEntity, call: ServiceCall
 ) -> None:
-    """Handle robomow_ble.set_schedule service calls."""
+    """Handle set_schedule service calls."""
     if entity.coordinator.mower.schedule is None:
         msg = "Current schedule unknown; cannot update"
         raise ValueError(msg)
