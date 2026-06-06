@@ -69,4 +69,4 @@ jobs:
           "
 
       - name: Markdown - Lint
-        run: python3 -m pymarkdown scan . --ignore-front-matter
+        run: python3 -m pymarkdown scan . -r --respect-gitignore
