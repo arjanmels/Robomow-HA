@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "選擇您要新增的Robomow設備並輸入主機板序號。 \n\n取得主機板序號： 1) 登入myrobomow.robomow.com。\n2) 開啟瀏覽器的開發人員工具 (F12)。\n3) 轉到網路選項卡。\n4) 重新載入頁面。\n5) 找出以 /api/customer/products 結尾的請求。\n6) 按一下請求並開啟「回應」標籤。\n7) 在 JSON 回應中，找到名為 MainboardSerial 的欄位。該值是實際的主機板序號。",
+                "data": {
+                    "address": "地址",
+                    "mainboard_serial": "主機板序號"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "輸入要新增至 Home Assistant 的 Roboow 裝置的主機板序號。\n\n取得主機板序號： 1) 登入myrobomow.robomow.com。\n2) 開啟瀏覽器的開發人員工具 (F12)。\n3) 轉到網路選項卡。\n4) 重新載入頁面。\n5) 找出以 /api/customer/products 結尾的請求。\n6) 按一下請求並開啟「回應」標籤。\n7) 在 JSON 回應中，找到名為 MainboardSerial 的欄位。該值是實際的主機板序號。",
+                "data": {
+                    "mainboard_serial": "主機板序號"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "未提供唯一地址。",
+            "no_mainboard_serial": "沒有提供主機板序號。",
+            "invalid_mainboard_serial": "主機板序號無效。驗證並重試。",
+            "model_unsupported": "不支援割草機型號。",
+            "device_not_found": "找不到 Robomow 裝置。靠近一點再試一次。",
+            "service_not_found": "在此裝置上找不到所需的 Roboow 藍牙服務。",
+            "characteristics_not_found": "在此裝置上找不到所需的 Robomow 藍牙特性。"
+        },
+        "abort": {
+            "already_configured": "該條目已配置。",
+            "no_devices_found": "未找到 Robomow 設備。",
+            "not_supported": "此藍牙裝置不是支援的 Roboow 割草機。"
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "無法連接到設備"
+        },
+        "invalid_auth": {
+            "message": "認證失敗"
+        },
+        "unsupported_device": {
+            "message": "此設備型號不受支援"
+        },
+        "no_unique_address": {
+            "message": "未提供唯一地址。"
+        },
+        "no_mainboard_serial": {
+            "message": "沒有提供主機板序號。"
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "防盜主動"
+            },
+            "mower_home": {
+                "name": "割草機之家"
+            },
+            "charging_active": {
+                "name": "正在充電"
+            },
+            "disabling_device_removed": {
+                "name": "禁用裝置已刪除"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "運作狀態",
+                "state": {
+                    "warming_up": "熱身",
+                    "mowing": "割草",
+                    "edge_mowing": "邊緣割草",
+                    "returning_home_following_edge": "跟著邊回家",
+                    "returning_home_warming_up": "回國熱身",
+                    "returning_home_searching_edge": "搜尋邊緣",
+                    "going_to_start": "前往起點",
+                    "learning_entry_point": "學習切入點",
+                    "idle": "閒置的",
+                    "charging": "收費",
+                    "automatic": "自動的",
+                    "remote_control": "遙控",
+                    "bit": "位元"
+                }
+            },
+            "status_message": {
+                "name": "狀態資訊"
+            },
+            "next_departure": {
+                "name": "下一班出發"
+            },
+            "previous_departure": {
+                "name": "先前出發"
+            },
+            "expected_duration": {
+                "name": "預計持續時間"
+            },
+            "no_depart_reason": {
+                "name": "無出發原因"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "已啟用計劃"
+            },
+            "anti_theft_enabled": {
+                "name": "防盜已啟用"
+            },
+            "child_lock_enabled": {
+                "name": "兒童鎖已啟用"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "起點A"
+            },
+            "starting_point_b": {
+                "name": "起點B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "有線訊號類型",
+                "state": {
+                    "type_a": "A型",
+                    "type_b": "B型",
+                    "type_c": "C型"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "割草機"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "主要的",
+                "starting_point_a": "起點A",
+                "starting_point_b": "起點B",
+                "sub_1": "分區1",
+                "sub_2": "分區2",
+                "sub_3": "分區3",
+                "sub_4": "分區4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "開始割草",
+            "description": "以可選的起始區域和持​​續時間開始割草。",
+            "fields": {
+                "starting_zone": {
+                    "name": "起始區",
+                    "description": "Robomow 開始割草的區域。"
+                },
+                "duration": {
+                    "name": "期間",
+                    "description": "割草持續時間（以分鐘為單位）(1-255)。預設值為 30 分鐘。"
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "設定時間表",
+            "description": "設定割草機時間表。",
+            "fields": {
+                "start_time": {
+                    "name": "開始時間",
+                    "description": "每天開始割草的時間到了。"
+                },
+                "end_time": {
+                    "name": "結束時間",
+                    "description": "每天結束割草的時間到了。"
+                },
+                "day_0_enabled": {
+                    "name": "週一啟用",
+                    "description": "週一是否割草。"
+                },
+                "day_0_duration": {
+                    "name": "週一持續時間",
+                    "description": "星期一的割草時間以分鐘為單位 (1-255)。"
+                },
+                "day_0_cycles": {
+                    "name": "週一週期",
+                    "description": "星期一的割草週期數 (1-2)。"
+                },
+                "day_0_zone": {
+                    "name": "週一區",
+                    "description": "週一割草的區域。"
+                },
+                "day_1_enabled": {
+                    "name": "週二啟用",
+                    "description": "週二是否割草。"
+                },
+                "day_1_duration": {
+                    "name": "週二持續時間",
+                    "description": "週二的割草持續時間以分鐘為單位 (1-255)。"
+                },
+                "day_1_cycles": {
+                    "name": "週二週期",
+                    "description": "週二的割草週期數 (1-2)。"
+                },
+                "day_1_zone": {
+                    "name": "週二區",
+                    "description": "週二割草的區域。"
+                },
+                "day_2_enabled": {
+                    "name": "週三啟用",
+                    "description": "週三是否割草。"
+                },
+                "day_2_duration": {
+                    "name": "週三持續時間",
+                    "description": "星期三的割草時間以分鐘為單位 (1-255)。"
+                },
+                "day_2_cycles": {
+                    "name": "週三週期",
+                    "description": "週三的割草週期數 (1-2)。"
+                },
+                "day_2_zone": {
+                    "name": "週三區",
+                    "description": "週三割草的區域。"
+                },
+                "day_3_enabled": {
+                    "name": "週四啟用",
+                    "description": "週四是否割草。"
+                },
+                "day_3_duration": {
+                    "name": "週四持續時間",
+                    "description": "星期四的割草持續時間以分鐘為單位 (1-255)。"
+                },
+                "day_3_cycles": {
+                    "name": "週四週期",
+                    "description": "週四的割草週期數 (1-2)。"
+                },
+                "day_3_zone": {
+                    "name": "週四區",
+                    "description": "星期四割草的區域。"
+                },
+                "day_4_enabled": {
+                    "name": "週五啟用",
+                    "description": "週五是否割草。"
+                },
+                "day_4_duration": {
+                    "name": "週五持續時間",
+                    "description": "週五的割草持續時間以分鐘為單位 (1-255)。"
+                },
+                "day_4_cycles": {
+                    "name": "週五週期",
+                    "description": "週五的割草週期數 (1-2)。"
+                },
+                "day_4_zone": {
+                    "name": "週五區",
+                    "description": "週五割草的區域。"
+                },
+                "day_5_enabled": {
+                    "name": "週六啟用",
+                    "description": "週六是否割草。"
+                },
+                "day_5_duration": {
+                    "name": "週六持續時間",
+                    "description": "星期六的割草時間以分鐘為單位 (1-255)。"
+                },
+                "day_5_cycles": {
+                    "name": "週六週期",
+                    "description": "星期六的割草週期數 (1-2)。"
+                },
+                "day_5_zone": {
+                    "name": "週六區",
+                    "description": "週六割草的區域。"
+                },
+                "day_6_enabled": {
+                    "name": "週日啟用",
+                    "description": "週日是否割草。"
+                },
+                "day_6_duration": {
+                    "name": "週日持續時間",
+                    "description": "週日割草時間以分鐘為單位 (1-255)。"
+                },
+                "day_6_cycles": {
+                    "name": "週日週期",
+                    "description": "週日割草週期數 (1-2)。"
+                },
+                "day_6_zone": {
+                    "name": "週日區",
+                    "description": "週日割草區。"
+                }
+            }
+        }
+    }
+}

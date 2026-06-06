@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "בחר את התקן Robomow שברצונך להוסיף והזן את המספר הסידורי של הלוח הראשי. \n\nכדי לקבל את המספר הסידורי של הלוח הראשי: 1) היכנס ל-myrobomow.robomow.com.\n2) פתח את כלי המפתחים של הדפדפן שלך (F12).\n3) עבור ללשונית רשת.\n4) טען מחדש את הדף.\n5) חפש בקשה המסתיימת ב-/api/customer/products.\n6) לחץ על הבקשה ופתח את הכרטיסייה תגובה.\n7) בתגובת JSON, מצא את השדה בשם MainboardSerial. ערך זה הוא המספר הסידורי של הלוח הראשי בפועל.",
+                "data": {
+                    "address": "כְּתוֹבֶת",
+                    "mainboard_serial": "מספר סידורי של לוח ראשי"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "הזן את המספר הסידורי של הלוח הראשי של מכשיר Robomow שברצונך להוסיף ל-Home Assistant.\n\nכדי לקבל את המספר הסידורי של הלוח הראשי: 1) היכנס ל-myrobomow.robomow.com.\n2) פתח את כלי המפתחים של הדפדפן שלך (F12).\n3) עבור ללשונית רשת.\n4) טען מחדש את הדף.\n5) חפש בקשה המסתיימת ב-/api/customer/products.\n6) לחץ על הבקשה ופתח את הכרטיסייה תגובה.\n7) בתגובת JSON, מצא את השדה בשם MainboardSerial. ערך זה הוא המספר הסידורי של הלוח הראשי בפועל.",
+                "data": {
+                    "mainboard_serial": "מספר סידורי של לוח ראשי"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "לא סופקה כתובת ייחודית.",
+            "no_mainboard_serial": "לא מסופק מספר סידורי של לוח ראשי.",
+            "invalid_mainboard_serial": "המספר הסידורי של הלוח הראשי אינו חוקי. אמת אותו ונסה שוב.",
+            "model_unsupported": "דגם המכסחת אינו נתמך.",
+            "device_not_found": "התקן Robomow לא נמצא. התקרב ונסה שוב.",
+            "service_not_found": "שירות Robomow Bluetooth הנדרש לא נמצא במכשיר זה.",
+            "characteristics_not_found": "המאפיינים הנדרשים של Robomow Bluetooth לא נמצאו במכשיר זה."
+        },
+        "abort": {
+            "already_configured": "ערך זה כבר מוגדר.",
+            "no_devices_found": "לא נמצאו מכשירי Robomow.",
+            "not_supported": "מכשיר Bluetooth זה אינו מכסחת Robomow נתמכת."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "לא ניתן להתחבר למכשיר"
+        },
+        "invalid_auth": {
+            "message": "האימות נכשל"
+        },
+        "unsupported_device": {
+            "message": "דגם מכשיר זה אינו נתמך"
+        },
+        "no_unique_address": {
+            "message": "לא סופקה כתובת ייחודית."
+        },
+        "no_mainboard_serial": {
+            "message": "לא מסופק מספר סידורי של לוח ראשי."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "פעיל נגד גניבה"
+            },
+            "mower_home": {
+                "name": "מכסחת הביתה"
+            },
+            "charging_active": {
+                "name": "טעינה פעילה"
+            },
+            "disabling_device_removed": {
+                "name": "השבתת המכשיר הוסר"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "מצב הפעלה",
+                "state": {
+                    "warming_up": "מתחמם",
+                    "mowing": "כיסוח",
+                    "edge_mowing": "כיסוח קצוות",
+                    "returning_home_following_edge": "בעקבות הקצה הביתה",
+                    "returning_home_warming_up": "מתחמם כדי לחזור הביתה",
+                    "returning_home_searching_edge": "קצה חיפוש",
+                    "going_to_start": "הולכים לנקודת ההתחלה",
+                    "learning_entry_point": "נקודת כניסה ללמידה",
+                    "idle": "לְהִתְבַּטֵל",
+                    "charging": "טְעִינָה",
+                    "automatic": "אוֹטוֹמָטִי",
+                    "remote_control": "שְׁלַט רָחוֹק",
+                    "bit": "קצת"
+                }
+            },
+            "status_message": {
+                "name": "הודעת סטטוס"
+            },
+            "next_departure": {
+                "name": "היציאה הבאה"
+            },
+            "previous_departure": {
+                "name": "יציאה קודמת"
+            },
+            "expected_duration": {
+                "name": "משך זמן צפוי"
+            },
+            "no_depart_reason": {
+                "name": "אין סיבת עזיבה"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "לוח הזמנים מופעל"
+            },
+            "anti_theft_enabled": {
+                "name": "מופעל נגד גניבה"
+            },
+            "child_lock_enabled": {
+                "name": "נעילת ילדים מופעלת"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "נקודת התחלה א'"
+            },
+            "starting_point_b": {
+                "name": "נקודת התחלה ב'"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "סוג אות חוט",
+                "state": {
+                    "type_a": "סוג א'",
+                    "type_b": "סוג ב'",
+                    "type_c": "סוג ג'"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "כַּסָח"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "רָאשִׁי",
+                "starting_point_a": "נקודת התחלה א'",
+                "starting_point_b": "נקודת התחלה ב'",
+                "sub_1": "תת אזור 1",
+                "sub_2": "אזור משנה 2",
+                "sub_3": "אזור משנה 3",
+                "sub_4": "אזור משנה 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "התחל לכסח",
+            "description": "התחל לכסח עם אזור התחלה אופציונלי ומשך זמן.",
+            "fields": {
+                "starting_zone": {
+                    "name": "אזור התחלה",
+                    "description": "אזור Robomow להתחיל לכסח ממנו."
+                },
+                "duration": {
+                    "name": "מֶשֶׁך",
+                    "description": "משך הכיסוח בדקות (1-255). ברירת המחדל היא 30 דקות."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "קבע לוח זמנים",
+            "description": "הגדר את לוח הזמנים של המכסחת.",
+            "fields": {
+                "start_time": {
+                    "name": "שעת התחלה",
+                    "description": "הגיע הזמן להתחיל לכסח כל יום."
+                },
+                "end_time": {
+                    "name": "שעת סיום",
+                    "description": "הגיע הזמן לסיים את הכיסוח בכל יום."
+                },
+                "day_0_enabled": {
+                    "name": "יום שני מופעל",
+                    "description": "האם לכסח ביום שני."
+                },
+                "day_0_duration": {
+                    "name": "משך יום שני",
+                    "description": "משך הכיסוח ליום שני בדקות (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "מחזורי יום שני",
+                    "description": "מספר מחזורי הכיסוח ליום שני (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "אזור יום שני",
+                    "description": "אזור לכסח ביום שני."
+                },
+                "day_1_enabled": {
+                    "name": "יום שלישי מופעל",
+                    "description": "האם לכסח ביום שלישי."
+                },
+                "day_1_duration": {
+                    "name": "משך יום שלישי",
+                    "description": "משך הכיסוח ליום שלישי בדקות (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "מחזורי יום שלישי",
+                    "description": "מספר מחזורי הכיסוח ליום שלישי (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "אזור יום שלישי",
+                    "description": "אזור לכסח ביום שלישי."
+                },
+                "day_2_enabled": {
+                    "name": "יום רביעי מופעל",
+                    "description": "האם לכסח ביום רביעי."
+                },
+                "day_2_duration": {
+                    "name": "משך יום רביעי",
+                    "description": "משך הכיסוח ליום רביעי בדקות (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "מחזורי יום רביעי",
+                    "description": "מספר מחזורי הכיסוח ליום רביעי (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "אזור יום רביעי",
+                    "description": "אזור לכסח ביום רביעי."
+                },
+                "day_3_enabled": {
+                    "name": "יום חמישי מופעל",
+                    "description": "האם לכסח ביום חמישי."
+                },
+                "day_3_duration": {
+                    "name": "משך יום חמישי",
+                    "description": "משך הכיסוח ליום חמישי בדקות (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "מחזורי יום חמישי",
+                    "description": "מספר מחזורי הכיסוח ליום חמישי (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "אזור יום חמישי",
+                    "description": "אזור לכסח ביום חמישי."
+                },
+                "day_4_enabled": {
+                    "name": "יום שישי מופעל",
+                    "description": "האם לכסח ביום שישי."
+                },
+                "day_4_duration": {
+                    "name": "משך יום שישי",
+                    "description": "משך הכיסוח ליום שישי בדקות (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "מחזורי שישי",
+                    "description": "מספר מחזורי הכיסוח ליום שישי (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "אזור שישי",
+                    "description": "אזור לכסח ביום שישי."
+                },
+                "day_5_enabled": {
+                    "name": "שבת מופעלת",
+                    "description": "האם לכסח בשבת."
+                },
+                "day_5_duration": {
+                    "name": "משך שבת",
+                    "description": "משך הכיסוח לשבת בדקות (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "מחזורי שבת",
+                    "description": "מספר מחזורי הכיסוח לשבת (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "אזור שבת",
+                    "description": "אזור לכסח בשבת."
+                },
+                "day_6_enabled": {
+                    "name": "יום ראשון מופעל",
+                    "description": "האם לכסח ביום ראשון."
+                },
+                "day_6_duration": {
+                    "name": "משך יום ראשון",
+                    "description": "משך הכיסוח ליום ראשון בדקות (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "מחזורי יום ראשון",
+                    "description": "מספר מחזורי הכיסוח ליום ראשון (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "אזור יום ראשון",
+                    "description": "אזור לכסח ביום ראשון."
+                }
+            }
+        }
+    }
+}

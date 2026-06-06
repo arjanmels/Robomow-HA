@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "તમે જે રોબોમોવ ઉપકરણને ઉમેરવા માંગો છો તેને પસંદ કરો અને મેઈનબોર્ડ સીરીયલ નંબર દાખલ કરો. \n\nમેઇનબોર્ડ સીરીયલ નંબર મેળવવા માટે: 1) myrobomow.robomow.com પર લોગ ઇન કરો.\n2) તમારા બ્રાઉઝરના ડેવલપર ટૂલ્સ (F12) ખોલો.\n3) નેટવર્ક ટેબ પર જાઓ.\n4) પૃષ્ઠ ફરીથી લોડ કરો.\n5) /api/customer/products માં સમાપ્ત થતી વિનંતી માટે જુઓ.\n6) વિનંતી પર ક્લિક કરો અને પ્રતિસાદ ટેબ ખોલો.\n7) JSON પ્રતિસાદમાં, MainboardSerial નામનું ક્ષેત્ર શોધો. આ મૂલ્ય વાસ્તવિક મેઇનબોર્ડ સીરીયલ નંબર છે.",
+                "data": {
+                    "address": "સરનામું",
+                    "mainboard_serial": "મેઇનબોર્ડ સીરીયલ નંબર"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "તમે હોમ આસિસ્ટન્ટમાં ઉમેરવા માંગો છો તે Robomow ઉપકરણ માટેનો મુખ્ય બોર્ડ સીરીયલ નંબર દાખલ કરો.\n\nમેઇનબોર્ડ સીરીયલ નંબર મેળવવા માટે: 1) myrobomow.robomow.com પર લોગ ઇન કરો.\n2) તમારા બ્રાઉઝરના ડેવલપર ટૂલ્સ (F12) ખોલો.\n3) નેટવર્ક ટેબ પર જાઓ.\n4) પૃષ્ઠ ફરીથી લોડ કરો.\n5) /api/customer/products માં સમાપ્ત થતી વિનંતી માટે જુઓ.\n6) વિનંતી પર ક્લિક કરો અને પ્રતિસાદ ટેબ ખોલો.\n7) JSON પ્રતિસાદમાં, MainboardSerial નામનું ક્ષેત્ર શોધો. આ મૂલ્ય વાસ્તવિક મેઇનબોર્ડ સીરીયલ નંબર છે.",
+                "data": {
+                    "mainboard_serial": "મેઇનબોર્ડ સીરીયલ નંબર"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "કોઈ અનન્ય સરનામું આપવામાં આવ્યું નથી.",
+            "no_mainboard_serial": "કોઈ મેઈનબોર્ડ સીરીયલ નંબર આપવામાં આવેલ નથી.",
+            "invalid_mainboard_serial": "મેઈનબોર્ડ સીરીયલ નંબર અમાન્ય છે. તેને ચકાસો અને ફરી પ્રયાસ કરો.",
+            "model_unsupported": "મોવર મોડલ સપોર્ટેડ નથી.",
+            "device_not_found": "Robomow ઉપકરણ શોધી શકાયું નથી. નજીક જાઓ અને ફરી પ્રયાસ કરો.",
+            "service_not_found": "આ ઉપકરણ પર જરૂરી Robomow Bluetooth સેવા મળી નથી.",
+            "characteristics_not_found": "આ ઉપકરણ પર જરૂરી Robomow Bluetooth લાક્ષણિકતાઓ મળી ન હતી."
+        },
+        "abort": {
+            "already_configured": "આ એન્ટ્રી પહેલેથી જ ગોઠવેલી છે.",
+            "no_devices_found": "કોઈ Robomow ઉપકરણો મળ્યાં નથી.",
+            "not_supported": "આ બ્લૂટૂથ ઉપકરણ સપોર્ટેડ Robomow મોવર નથી."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "ઉપકરણ સાથે કનેક્ટ કરી શકાતું નથી"
+        },
+        "invalid_auth": {
+            "message": "પ્રમાણીકરણ નિષ્ફળ થયું"
+        },
+        "unsupported_device": {
+            "message": "આ ઉપકરણ મોડેલ સમર્થિત નથી"
+        },
+        "no_unique_address": {
+            "message": "કોઈ અનન્ય સરનામું આપવામાં આવ્યું નથી."
+        },
+        "no_mainboard_serial": {
+            "message": "કોઈ મેઈનબોર્ડ સીરીયલ નંબર આપવામાં આવેલ નથી."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "વિરોધી ચોરી સક્રિય"
+            },
+            "mower_home": {
+                "name": "મોવર ઘર"
+            },
+            "charging_active": {
+                "name": "ચાર્જિંગ સક્રિય"
+            },
+            "disabling_device_removed": {
+                "name": "અક્ષમ કરી રહ્યું છે ઉપકરણ દૂર કર્યું"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "સંચાલન રાજ્ય",
+                "state": {
+                    "warming_up": "વોર્મિંગ અપ",
+                    "mowing": "મોવિંગ",
+                    "edge_mowing": "એજ મોવિંગ",
+                    "returning_home_following_edge": "ધાર ઘર નીચેના",
+                    "returning_home_warming_up": "ઘરે પાછા ફરવા માટે ગરમાવો",
+                    "returning_home_searching_edge": "શોધ ધાર",
+                    "going_to_start": "પ્રારંભિક બિંદુ પર જવું",
+                    "learning_entry_point": "લર્નિંગ એન્ટ્રી પોઈન્ટ",
+                    "idle": "નિષ્ક્રિય",
+                    "charging": "ચાર્જિંગ",
+                    "automatic": "સ્વયંસંચાલિત",
+                    "remote_control": "રીમોટ કંટ્રોલ",
+                    "bit": "બીટ"
+                }
+            },
+            "status_message": {
+                "name": "સ્ટેટસ મેસેજ"
+            },
+            "next_departure": {
+                "name": "આગામી પ્રસ્થાન"
+            },
+            "previous_departure": {
+                "name": "અગાઉનું પ્રસ્થાન"
+            },
+            "expected_duration": {
+                "name": "અપેક્ષિત અવધિ"
+            },
+            "no_depart_reason": {
+                "name": "કોઈ પ્રસ્થાન કારણ"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "શેડ્યૂલ સક્ષમ કર્યું"
+            },
+            "anti_theft_enabled": {
+                "name": "વિરોધી ચોરી સક્ષમ"
+            },
+            "child_lock_enabled": {
+                "name": "ચાઇલ્ડ લૉક સક્ષમ"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "પ્રારંભિક બિંદુ A"
+            },
+            "starting_point_b": {
+                "name": "પ્રારંભિક બિંદુ B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "વાયર સિગ્નલ પ્રકાર",
+                "state": {
+                    "type_a": "પ્રકાર એ",
+                    "type_b": "પ્રકાર B",
+                    "type_c": "પ્રકાર સી"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "મોવર"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "મુખ્ય",
+                "starting_point_a": "પ્રારંભિક બિંદુ A",
+                "starting_point_b": "પ્રારંભિક બિંદુ B",
+                "sub_1": "સબ ઝોન 1",
+                "sub_2": "સબ ઝોન 2",
+                "sub_3": "સબ ઝોન 3",
+                "sub_4": "સબ ઝોન 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "વાવણી શરૂ કરો",
+            "description": "વૈકલ્પિક પ્રારંભિક ઝોન અને અવધિ સાથે કાપણી શરૂ કરો.",
+            "fields": {
+                "starting_zone": {
+                    "name": "પ્રારંભિક ઝોન",
+                    "description": "રોબોમોવ ઝોનથી કાપણી શરૂ કરવી."
+                },
+                "duration": {
+                    "name": "અવધિ",
+                    "description": "મિનિટમાં કાપણીનો સમયગાળો (1-255). ડિફોલ્ટ 30 મિનિટ છે."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "શેડ્યૂલ સેટ કરો",
+            "description": "મોવર શેડ્યૂલ સેટ કરો.",
+            "fields": {
+                "start_time": {
+                    "name": "પ્રારંભ સમય",
+                    "description": "દરરોજ કાપણી શરૂ કરવાનો સમય."
+                },
+                "end_time": {
+                    "name": "સમાપ્તિ સમય",
+                    "description": "દરરોજ કાપણી સમાપ્ત કરવાનો સમય."
+                },
+                "day_0_enabled": {
+                    "name": "સોમવારે સક્ષમ",
+                    "description": "સોમવારે વાવણી કરવી કે કેમ."
+                },
+                "day_0_duration": {
+                    "name": "સોમવાર અવધિ",
+                    "description": "સોમવાર માટે મિનિટોમાં કાપણીનો સમયગાળો (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "સોમવાર ચક્ર",
+                    "description": "સોમવાર (1-2) માટે કાપણીના ચક્રની સંખ્યા."
+                },
+                "day_0_zone": {
+                    "name": "સોમવાર ઝોન",
+                    "description": "સોમવારે વાવણી માટે ઝોન."
+                },
+                "day_1_enabled": {
+                    "name": "મંગળવારે સક્ષમ",
+                    "description": "મંગળવારે વાવણી કરવી કે કેમ."
+                },
+                "day_1_duration": {
+                    "name": "મંગળવારની અવધિ",
+                    "description": "મિનિટમાં મંગળવાર માટે કાપણીનો સમયગાળો (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "મંગળવાર ચક્ર",
+                    "description": "મંગળવાર (1-2) માટે કાપણીના ચક્રની સંખ્યા."
+                },
+                "day_1_zone": {
+                    "name": "મંગળવાર ઝોન",
+                    "description": "મંગળવારે વાવણી માટે ઝોન."
+                },
+                "day_2_enabled": {
+                    "name": "બુધવારે સક્ષમ",
+                    "description": "બુધવારે વાવણી કરવી કે કેમ."
+                },
+                "day_2_duration": {
+                    "name": "બુધવારની અવધિ",
+                    "description": "મિનિટમાં બુધવાર માટે કાપણીનો સમયગાળો (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "બુધવાર ચક્ર",
+                    "description": "બુધવાર (1-2) માટે કાપણીના ચક્રની સંખ્યા."
+                },
+                "day_2_zone": {
+                    "name": "બુધવાર ઝોન",
+                    "description": "બુધવારે વાવણી માટે ઝોન."
+                },
+                "day_3_enabled": {
+                    "name": "ગુરુવાર સક્ષમ",
+                    "description": "ગુરુવારે વાવણી કરવી કે કેમ."
+                },
+                "day_3_duration": {
+                    "name": "ગુરુવારની અવધિ",
+                    "description": "મિનિટમાં ગુરુવાર માટે કાપણીનો સમયગાળો (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "ગુરુવાર ચક્ર",
+                    "description": "ગુરુવાર (1-2) માટે કાપણીના ચક્રની સંખ્યા."
+                },
+                "day_3_zone": {
+                    "name": "ગુરુવાર ઝોન",
+                    "description": "ગુરુવારે ઘાસ કાપવાનું ઝોન."
+                },
+                "day_4_enabled": {
+                    "name": "શુક્રવારે સક્ષમ",
+                    "description": "શુક્રવારના દિવસે વાવણી કરવી કે કેમ."
+                },
+                "day_4_duration": {
+                    "name": "શુક્રવારની અવધિ",
+                    "description": "શુક્રવાર માટે મિનિટોમાં કાપણીનો સમયગાળો (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "શુક્રવાર ચક્ર",
+                    "description": "શુક્રવાર (1-2) માટે કાપણીના ચક્રની સંખ્યા."
+                },
+                "day_4_zone": {
+                    "name": "શુક્રવાર ઝોન",
+                    "description": "શુક્રવારના રોજ ઘાસ કાપવાનું ઝોન."
+                },
+                "day_5_enabled": {
+                    "name": "શનિવારે સક્ષમ",
+                    "description": "શનિવારે વાવણી કરવી કે કેમ."
+                },
+                "day_5_duration": {
+                    "name": "શનિવારની અવધિ",
+                    "description": "મિનિટમાં શનિવાર માટે કાપણીનો સમયગાળો (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "શનિવાર ચક્ર",
+                    "description": "શનિવાર (1-2) માટે કાપણીના ચક્રની સંખ્યા."
+                },
+                "day_5_zone": {
+                    "name": "શનિવાર ઝોન",
+                    "description": "શનિવારે વાવણી માટે ઝોન."
+                },
+                "day_6_enabled": {
+                    "name": "રવિવાર સક્ષમ",
+                    "description": "રવિવારે વાવણી કરવી કે કેમ."
+                },
+                "day_6_duration": {
+                    "name": "રવિવાર અવધિ",
+                    "description": "રવિવાર માટે મિનિટોમાં કાપણીનો સમયગાળો (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "રવિવાર ચક્ર",
+                    "description": "રવિવાર (1-2) માટે કાપણીના ચક્રની સંખ્યા."
+                },
+                "day_6_zone": {
+                    "name": "રવિવાર ઝોન",
+                    "description": "રવિવારે ઘાસ કાપવા માટેનો ઝોન."
+                }
+            }
+        }
+    }
+}

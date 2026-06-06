@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Veldu Robomow tækið sem þú vilt bæta við og sláðu inn raðnúmer móðurborðsins. \n\nTil að fá raðnúmer aðalborðsins: 1) Skráðu þig inn á myrobomow.robomow.com.\n2) Opnaðu þróunartól vafrans þíns (F12).\n3) Farðu í Network flipann.\n4) Endurhlaða síðuna.\n5) Leitaðu að beiðni sem endar á /api/customer/products.\n6) Smelltu á beiðnina og opnaðu Svar flipann.\n7) Í JSON svarinu, finndu reitinn sem heitir MainboardSerial. Þetta gildi er raunverulegt raðnúmer aðalborðsins.",
+                "data": {
+                    "address": "Heimilisfang",
+                    "mainboard_serial": "Raðnúmer móðurborðs"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Sláðu inn raðnúmer móðurborðsins fyrir Robomow tækið sem þú vilt bæta við Home Assistant.\n\nTil að fá raðnúmer aðalborðsins: 1) Skráðu þig inn á myrobomow.robomow.com.\n2) Opnaðu þróunartól vafrans þíns (F12).\n3) Farðu í Network flipann.\n4) Endurhlaða síðuna.\n5) Leitaðu að beiðni sem endar á /api/customer/products.\n6) Smelltu á beiðnina og opnaðu Svar flipann.\n7) Í JSON svarinu, finndu reitinn sem heitir MainboardSerial. Þetta gildi er raunverulegt raðnúmer aðalborðsins.",
+                "data": {
+                    "mainboard_serial": "Raðnúmer móðurborðs"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Ekkert einstakt heimilisfang gefið upp.",
+            "no_mainboard_serial": "Ekkert raðnúmer aðalborðs gefið upp.",
+            "invalid_mainboard_serial": "Raðnúmer móðurborðsins er ógilt. Staðfestu það og reyndu aftur.",
+            "model_unsupported": "Sláttuvélargerðin er ekki studd.",
+            "device_not_found": "Robomow tækið fannst ekki. Færðu þig nær og reyndu aftur.",
+            "service_not_found": "Áskilin Robomow Bluetooth þjónusta fannst ekki á þessu tæki.",
+            "characteristics_not_found": "Nauðsynlegir Robomow Bluetooth eiginleikar fundust ekki á þessu tæki."
+        },
+        "abort": {
+            "already_configured": "Þessi færsla er þegar stillt.",
+            "no_devices_found": "Engin Robomow tæki fundust.",
+            "not_supported": "Þetta Bluetooth tæki er ekki studd Robomow sláttuvél."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Ekki er hægt að tengjast tækinu"
+        },
+        "invalid_auth": {
+            "message": "Auðkenning mistókst"
+        },
+        "unsupported_device": {
+            "message": "Þessi gerð tækis er ekki studd"
+        },
+        "no_unique_address": {
+            "message": "Ekkert einstakt heimilisfang gefið upp."
+        },
+        "no_mainboard_serial": {
+            "message": "Ekkert raðnúmer aðalborðs gefið upp."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Þjófavörn virk"
+            },
+            "mower_home": {
+                "name": "Sláttuvél heim"
+            },
+            "charging_active": {
+                "name": "Hleðsla virk"
+            },
+            "disabling_device_removed": {
+                "name": "Slökkva tæki fjarlægt"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Rekstrarríki",
+                "state": {
+                    "warming_up": "Upphitun",
+                    "mowing": "Sláttur",
+                    "edge_mowing": "Kantsláttur",
+                    "returning_home_following_edge": "Eftir brún heim",
+                    "returning_home_warming_up": "Upphitun til að fara heim",
+                    "returning_home_searching_edge": "Leitarbrún",
+                    "going_to_start": "Að fara á upphafsstað",
+                    "learning_entry_point": "Aðgangspunktur náms",
+                    "idle": "Aðgerðarlaus",
+                    "charging": "Hleðsla",
+                    "automatic": "Sjálfvirk",
+                    "remote_control": "Fjarstýring",
+                    "bit": "Bit"
+                }
+            },
+            "status_message": {
+                "name": "Stöðuskilaboð"
+            },
+            "next_departure": {
+                "name": "Næsta brottför"
+            },
+            "previous_departure": {
+                "name": "Fyrri brottför"
+            },
+            "expected_duration": {
+                "name": "Áætluð tímalengd"
+            },
+            "no_depart_reason": {
+                "name": "Engin brottfararástæða"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Dagskrá virkjuð"
+            },
+            "anti_theft_enabled": {
+                "name": "Þjófavörn virkjuð"
+            },
+            "child_lock_enabled": {
+                "name": "Barnalæsing virkt"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Upphafspunktur A"
+            },
+            "starting_point_b": {
+                "name": "Upphafspunktur B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Tegund vírmerkis",
+                "state": {
+                    "type_a": "Tegund A",
+                    "type_b": "Tegund B",
+                    "type_c": "Tegund C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Sláttuvél"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Aðal",
+                "starting_point_a": "Upphafspunktur A",
+                "starting_point_b": "Upphafspunktur B",
+                "sub_1": "Undirsvæði 1",
+                "sub_2": "Undirsvæði 2",
+                "sub_3": "Undirsvæði 3",
+                "sub_4": "Undirsvæði 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Byrjaðu að slá",
+            "description": "Byrjaðu slátt með valfrjálsu byrjunarsvæði og tímalengd.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Byrjunarsvæði",
+                    "description": "Robomow svæði til að byrja að slá úr."
+                },
+                "duration": {
+                    "name": "Lengd",
+                    "description": "Sláttutími í mínútum (1-255). Sjálfgefið er 30 mínútur."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Stilltu áætlun",
+            "description": "Stilltu áætlun sláttuvélarinnar.",
+            "fields": {
+                "start_time": {
+                    "name": "Upphafstími",
+                    "description": "Tími til að byrja að slá á hverjum degi."
+                },
+                "end_time": {
+                    "name": "Lokatími",
+                    "description": "Tími til að hætta slátt á hverjum degi."
+                },
+                "day_0_enabled": {
+                    "name": "Mánudagur virkt",
+                    "description": "Hvort eigi að slá á mánudaginn."
+                },
+                "day_0_duration": {
+                    "name": "Lengd mánudags",
+                    "description": "Sláttutími mánudags í mínútum (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Mánudagslotur",
+                    "description": "Fjöldi sláttulota fyrir mánudag (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Mánudagssvæði",
+                    "description": "Svæði til að slá á mánudaginn."
+                },
+                "day_1_enabled": {
+                    "name": "Þriðjudagur virkt",
+                    "description": "Hvort slá eigi á þriðjudag."
+                },
+                "day_1_duration": {
+                    "name": "Lengd þriðjudags",
+                    "description": "Sláttutími þriðjudags í mínútum (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Þriðjudagslotur",
+                    "description": "Fjöldi sláttulota fyrir þriðjudag (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Þriðjudagssvæði",
+                    "description": "Svæði til að slá á þriðjudag."
+                },
+                "day_2_enabled": {
+                    "name": "Miðvikudagur virkt",
+                    "description": "Hvort eigi að slá á miðvikudaginn."
+                },
+                "day_2_duration": {
+                    "name": "Lengd miðvikudags",
+                    "description": "Sláttutími miðvikudagsins í mínútum (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Miðvikudagslotur",
+                    "description": "Fjöldi sláttulota fyrir miðvikudaginn (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "miðvikudagssvæði",
+                    "description": "Svæði til að slá á miðvikudaginn."
+                },
+                "day_3_enabled": {
+                    "name": "fimmtudag virkt",
+                    "description": "Hvort eigi að slá á fimmtudaginn."
+                },
+                "day_3_duration": {
+                    "name": "Lengd fimmtudags",
+                    "description": "Sláttutími fimmtudags í mínútum (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Fimmtudagslotur",
+                    "description": "Fjöldi sláttulota fyrir fimmtudag (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Fimmtudagssvæði",
+                    "description": "Svæði til að slá á fimmtudaginn."
+                },
+                "day_4_enabled": {
+                    "name": "Föstudagur virkt",
+                    "description": "Hvort eigi að slá á föstudaginn."
+                },
+                "day_4_duration": {
+                    "name": "Föstudagur lengd",
+                    "description": "Sláttutími föstudags í mínútum (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Föstudagslotur",
+                    "description": "Fjöldi sláttulota fyrir föstudaginn (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Föstudagssvæðið",
+                    "description": "Svæði til að slá á föstudaginn."
+                },
+                "day_5_enabled": {
+                    "name": "Laugardagur virkjaður",
+                    "description": "Hvort eigi að slá á laugardaginn."
+                },
+                "day_5_duration": {
+                    "name": "Lengd laugardags",
+                    "description": "Sláttutími laugardags í mínútum (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Laugardagslotur",
+                    "description": "Fjöldi sláttulota fyrir laugardag (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Laugardagssvæðið",
+                    "description": "Svæði til að slá á laugardaginn."
+                },
+                "day_6_enabled": {
+                    "name": "Sunnudagur virkt",
+                    "description": "Hvort á að slá á sunnudag."
+                },
+                "day_6_duration": {
+                    "name": "Lengd sunnudags",
+                    "description": "Sláttutími sunnudags í mínútum (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Sunnudagslotur",
+                    "description": "Fjöldi sláttulota fyrir sunnudag (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Sunnudagssvæði",
+                    "description": "Svæði til að slá á sunnudag."
+                }
+            }
+        }
+    }
+}

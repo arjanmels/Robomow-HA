@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Velg Robomow-enheten du vil legge til og skriv inn hovedkortets serienummer. \n\nFor å få hovedkortets serienummer: 1) Logg inn på myrobomow.robomow.com.\n2) Åpne nettleserens utviklerverktøy (F12).\n3) Gå til fanen Nettverk.\n4) Last inn siden på nytt.\n5) Se etter en forespørsel som slutter på /api/customer/products.\n6) Klikk på forespørselen og åpne fanen Svar.\n7) I JSON-svaret finner du feltet som heter MainboardSerial. Denne verdien er det faktiske hovedkortets serienummer.",
+                "data": {
+                    "address": "Adresse",
+                    "mainboard_serial": "Hovedkortets serienummer"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Skriv inn hovedkortets serienummer for Robomow-enheten du vil legge til Home Assistant.\n\nFor å få hovedkortets serienummer: 1) Logg inn på myrobomow.robomow.com.\n2) Åpne nettleserens utviklerverktøy (F12).\n3) Gå til fanen Nettverk.\n4) Last inn siden på nytt.\n5) Se etter en forespørsel som slutter på /api/customer/products.\n6) Klikk på forespørselen og åpne fanen Svar.\n7) I JSON-svaret finner du feltet som heter MainboardSerial. Denne verdien er det faktiske hovedkortets serienummer.",
+                "data": {
+                    "mainboard_serial": "Hovedkortets serienummer"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Ingen unik adresse oppgitt.",
+            "no_mainboard_serial": "Ingen hovedkortserienummer oppgitt.",
+            "invalid_mainboard_serial": "Hovedkortets serienummer er ugyldig. Bekreft det og prøv igjen.",
+            "model_unsupported": "Klippermodellen støttes ikke.",
+            "device_not_found": "Robomow-enheten ble ikke funnet. Gå nærmere og prøv igjen.",
+            "service_not_found": "Den nødvendige Robomow Bluetooth-tjenesten ble ikke funnet på denne enheten.",
+            "characteristics_not_found": "De nødvendige Robomow Bluetooth-egenskapene ble ikke funnet på denne enheten."
+        },
+        "abort": {
+            "already_configured": "Denne oppføringen er allerede konfigurert.",
+            "no_devices_found": "Ingen Robomow-enheter funnet.",
+            "not_supported": "Denne Bluetooth-enheten er ikke en støttet Robomow-klipper."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Kan ikke koble til enheten"
+        },
+        "invalid_auth": {
+            "message": "Autentisering mislyktes"
+        },
+        "unsupported_device": {
+            "message": "Denne enhetsmodellen støttes ikke"
+        },
+        "no_unique_address": {
+            "message": "Ingen unik adresse oppgitt."
+        },
+        "no_mainboard_serial": {
+            "message": "Ingen hovedkortserienummer oppgitt."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Anti-tyveri aktiv"
+            },
+            "mower_home": {
+                "name": "Klipper hjem"
+            },
+            "charging_active": {
+                "name": "Lading aktiv"
+            },
+            "disabling_device_removed": {
+                "name": "Deaktiveringsenhet fjernet"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Driftsstat",
+                "state": {
+                    "warming_up": "Oppvarming",
+                    "mowing": "Klipping",
+                    "edge_mowing": "Kantklipping",
+                    "returning_home_following_edge": "Etterkant hjem",
+                    "returning_home_warming_up": "Varmer opp for å komme hjem",
+                    "returning_home_searching_edge": "Søkekant",
+                    "going_to_start": "Går til utgangspunktet",
+                    "learning_entry_point": "Inngangspunkt for læring",
+                    "idle": "Uvirksom",
+                    "charging": "Lader",
+                    "automatic": "Automatisk",
+                    "remote_control": "Fjernkontroll",
+                    "bit": "Bit"
+                }
+            },
+            "status_message": {
+                "name": "Statusmelding"
+            },
+            "next_departure": {
+                "name": "Neste avgang"
+            },
+            "previous_departure": {
+                "name": "Forrige avgang"
+            },
+            "expected_duration": {
+                "name": "Forventet varighet"
+            },
+            "no_depart_reason": {
+                "name": "Ingen avreisegrunn"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Tidsplan aktivert"
+            },
+            "anti_theft_enabled": {
+                "name": "Tyverisikring aktivert"
+            },
+            "child_lock_enabled": {
+                "name": "Barnesikring aktivert"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Utgangspunkt A"
+            },
+            "starting_point_b": {
+                "name": "Utgangspunkt B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Trådsignaltype",
+                "state": {
+                    "type_a": "Type A",
+                    "type_b": "Type B",
+                    "type_c": "Type C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Slåmaskin"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Hoved",
+                "starting_point_a": "Utgangspunkt A",
+                "starting_point_b": "Utgangspunkt B",
+                "sub_1": "Undersone 1",
+                "sub_2": "Undersone 2",
+                "sub_3": "Undersone 3",
+                "sub_4": "Undersone 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Begynn å klippe",
+            "description": "Start klippingen med valgfri startsone og varighet.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Startsone",
+                    "description": "Robomow-sone å begynne å klippe fra."
+                },
+                "duration": {
+                    "name": "Varighet",
+                    "description": "Klippetid i minutter (1-255). Standard er 30 minutter."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Sett tidsplan",
+            "description": "Still inn tidsplanen for klipperen.",
+            "fields": {
+                "start_time": {
+                    "name": "Starttid",
+                    "description": "På tide å begynne å klippe hver dag."
+                },
+                "end_time": {
+                    "name": "Sluttid",
+                    "description": "På tide å avslutte klippingen hver dag."
+                },
+                "day_0_enabled": {
+                    "name": "Mandag aktivert",
+                    "description": "Om man skal klippe på mandag."
+                },
+                "day_0_duration": {
+                    "name": "Mandag varighet",
+                    "description": "Klippetid for mandag i minutter (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Mandag sykluser",
+                    "description": "Antall klippesykluser for mandag (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Mandagssone",
+                    "description": "Sone å klippe på mandag."
+                },
+                "day_1_enabled": {
+                    "name": "Tirsdag aktivert",
+                    "description": "Om man skal klippe på tirsdag."
+                },
+                "day_1_duration": {
+                    "name": "Varighet tirsdag",
+                    "description": "Klippetid for tirsdag i minutter (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Tirsdagssykluser",
+                    "description": "Antall klippesykluser for tirsdag (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Tirsdagssone",
+                    "description": "Sone å klippe på tirsdag."
+                },
+                "day_2_enabled": {
+                    "name": "Onsdag aktivert",
+                    "description": "Om man skal klippe på onsdag."
+                },
+                "day_2_duration": {
+                    "name": "Varighet onsdag",
+                    "description": "Klippetid for onsdag i minutter (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Onsdagssykluser",
+                    "description": "Antall klippesykluser for onsdag (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Onsdagssone",
+                    "description": "Sone å klippe på onsdag."
+                },
+                "day_3_enabled": {
+                    "name": "Torsdag aktivert",
+                    "description": "Om man skal klippe på torsdag."
+                },
+                "day_3_duration": {
+                    "name": "Varighet torsdag",
+                    "description": "Klippetid for torsdag i minutter (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Torsdagssykluser",
+                    "description": "Antall klippesykluser for torsdag (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Torsdagssone",
+                    "description": "Sone å klippe på torsdag."
+                },
+                "day_4_enabled": {
+                    "name": "Fredag ​​aktivert",
+                    "description": "Om man skal klippe på fredag."
+                },
+                "day_4_duration": {
+                    "name": "Fredag ​​varighet",
+                    "description": "Klippetid for fredag ​​i minutter (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Fredagssykluser",
+                    "description": "Antall klippesykluser for fredag ​​(1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Fredagssone",
+                    "description": "Sone å klippe på fredag."
+                },
+                "day_5_enabled": {
+                    "name": "Lørdag aktivert",
+                    "description": "Om man skal klippe på lørdag."
+                },
+                "day_5_duration": {
+                    "name": "Lørdag varighet",
+                    "description": "Klippetid for lørdag i minutter (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Lørdagssykluser",
+                    "description": "Antall klippesykluser for lørdag (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Lørdagssone",
+                    "description": "Sone å klippe på lørdag."
+                },
+                "day_6_enabled": {
+                    "name": "Søndag aktivert",
+                    "description": "Om man skal klippe på søndag."
+                },
+                "day_6_duration": {
+                    "name": "Søndag varighet",
+                    "description": "Klippetid for søndag i minutter (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Søndagssykluser",
+                    "description": "Antall klippesykluser for søndag (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Søndagssone",
+                    "description": "Sone å klippe på søndag."
+                }
+            }
+        }
+    }
+}

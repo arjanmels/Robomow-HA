@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Wielt de Robomow Apparat deen Dir wëllt addéieren a gitt d'Mainboard Seriennummer. \n\nFir d'Mainboard Serien Zuel ze kréien: 1) Loggt Iech op myrobomow.robomow.com.\n2) Öffnen Äre Browser Entwéckler Tools (F12).\n3) Gitt op d'Netzwierk Tab.\n4) Lued d'Säit nei.\n5) Sich no enger Demande op /api/Client/Produiten.\n6) Klickt op d'Ufro an öffnen de Tab Äntwert.\n7) An der JSON Äntwert, fannt de Feld mam Numm MainboardSerial. Dëse Wäert ass déi aktuell Mainboard Serien Zuel.",
+                "data": {
+                    "address": "Adress",
+                    "mainboard_serial": "Mainboard Serien Zuel"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Gitt d'Mainboard-Seriennummer fir de Robomow-Apparat un, deen Dir an den Home Assistant addéiere wëllt.\n\nFir d'Mainboard Serien Zuel ze kréien: 1) Loggt Iech op myrobomow.robomow.com.\n2) Öffnen Äre Browser Entwéckler Tools (F12).\n3) Gitt op d'Netzwierk Tab.\n4) Lued d'Säit nei.\n5) Sich no enger Demande op /api/Client/Produiten.\n6) Klickt op d'Ufro an öffnen de Tab Äntwert.\n7) An der JSON Äntwert, fannt de Feld mam Numm MainboardSerial. Dëse Wäert ass déi aktuell Mainboard Serien Zuel.",
+                "data": {
+                    "mainboard_serial": "Mainboard Serien Zuel"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Keng eenzegaarteg Adress uginn.",
+            "no_mainboard_serial": "Nee Mainboard Serien Zuel gëtt.",
+            "invalid_mainboard_serial": "D'Seriennummer vum Mainboard ass ongëlteg. Verifizéiert et a probéiert nach eng Kéier.",
+            "model_unsupported": "De Mower Modell gëtt net ënnerstëtzt.",
+            "device_not_found": "De Robomow Apparat konnt net fonnt ginn. Gitt méi no a probéiert nach eng Kéier.",
+            "service_not_found": "Den erfuerderlechen Robomow Bluetooth Service gouf net op dësem Apparat fonnt.",
+            "characteristics_not_found": "Déi erfuerderlech Robomow Bluetooth Charakteristiken goufen net op dësem Apparat fonnt."
+        },
+        "abort": {
+            "already_configured": "Dës Entrée ass scho konfiguréiert.",
+            "no_devices_found": "Keng Robomow Apparater fonnt.",
+            "not_supported": "Dëse Bluetooth-Apparat ass net e ënnerstëtzte Robomow Méimaschin."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Kann net un den Apparat konnektéieren"
+        },
+        "invalid_auth": {
+            "message": "Authentifikatioun gescheitert"
+        },
+        "unsupported_device": {
+            "message": "Dësen Apparatmodell gëtt net ënnerstëtzt"
+        },
+        "no_unique_address": {
+            "message": "Keng eenzegaarteg Adress uginn."
+        },
+        "no_mainboard_serial": {
+            "message": "Nee Mainboard Serien Zuel gëtt."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Anti-Déifstall aktiv"
+            },
+            "mower_home": {
+                "name": "Mower doheem"
+            },
+            "charging_active": {
+                "name": "Laden aktiv"
+            },
+            "disabling_device_removed": {
+                "name": "Apparat auszeschalten geläscht"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Fonctionnement Staat",
+                "state": {
+                    "warming_up": "Erwiermung",
+                    "mowing": "Méien",
+                    "edge_mowing": "Kant Méien",
+                    "returning_home_following_edge": "Folgend Rand Heem",
+                    "returning_home_warming_up": "Erwiermung fir heem ze kommen",
+                    "returning_home_searching_edge": "Sicht Rand",
+                    "going_to_start": "Gitt op de Startpunkt",
+                    "learning_entry_point": "Léieren Entrée Punkt",
+                    "idle": "Idle",
+                    "charging": "Opluedstatiounen",
+                    "automatic": "Automatesch",
+                    "remote_control": "Fernsteierung",
+                    "bit": "Bit"
+                }
+            },
+            "status_message": {
+                "name": "Status Message"
+            },
+            "next_departure": {
+                "name": "Nächst Depart"
+            },
+            "previous_departure": {
+                "name": "Virdrun Depart"
+            },
+            "expected_duration": {
+                "name": "Erwaart Dauer"
+            },
+            "no_depart_reason": {
+                "name": "Keen Depart Ursaach"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Zäitplang ageschalt"
+            },
+            "anti_theft_enabled": {
+                "name": "Anti-Déifstall aktivéiert"
+            },
+            "child_lock_enabled": {
+                "name": "Kannerslot aktivéiert"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Ausgangspunkt A"
+            },
+            "starting_point_b": {
+                "name": "Ausgangspunkt B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Drot Signal Typ",
+                "state": {
+                    "type_a": "Typ A",
+                    "type_b": "Typ B",
+                    "type_c": "Typ C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Mower"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Main",
+                "starting_point_a": "Ausgangspunkt A",
+                "starting_point_b": "Ausgangspunkt B",
+                "sub_1": "Subzone 1",
+                "sub_2": "Subzone 2",
+                "sub_3": "Subzone 3",
+                "sub_4": "Subzone 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Fänken un ze schneiden",
+            "description": "Start Méien mat fakultativ Start Zone an Dauer.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Startzone",
+                    "description": "Robomow Zone fir ze moossen."
+                },
+                "duration": {
+                    "name": "Dauer",
+                    "description": "Méizäit a Minutten (1-255). Standard ass 30 Minutten."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Setzt Zäitplang",
+            "description": "Set de Mower Zäitplang.",
+            "fields": {
+                "start_time": {
+                    "name": "Start Zäit",
+                    "description": "Zäit fir all Dag ze schneiden."
+                },
+                "end_time": {
+                    "name": "Enn Zäit",
+                    "description": "Zäit fir d'Miesen all Dag opzehalen."
+                },
+                "day_0_enabled": {
+                    "name": "Méindeg ageschalt",
+                    "description": "Ob méindes Méindes."
+                },
+                "day_0_duration": {
+                    "name": "Méindeg Dauer",
+                    "description": "Méideeg Dauer fir Méindeg a Minutten (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Méindeg Zyklen",
+                    "description": "Zuel vun de Méindeszyklen fir Méindeg (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Méindeg Zone",
+                    "description": "Zon fir Méindes ze méien."
+                },
+                "day_1_enabled": {
+                    "name": "Dënschdeg ageschalt",
+                    "description": "Ob en Dënschdeg méien."
+                },
+                "day_1_duration": {
+                    "name": "Dënschdeg Dauer",
+                    "description": "Méien Dauer fir Dënschdeg a Minutten (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Dënschdeg Zyklen",
+                    "description": "Unzuel vun de Méizyklen fir Dënschdeg (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Dënschdeg Zone",
+                    "description": "Zone fir en Dënschdeg ze méien."
+                },
+                "day_2_enabled": {
+                    "name": "Mëttwoch ageschalt",
+                    "description": "Ob e Mëttwoch mëschen."
+                },
+                "day_2_duration": {
+                    "name": "Mëttwoch Dauer",
+                    "description": "Méien Dauer fir Mëttwoch a Minutten (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Mëttwoch Zyklen",
+                    "description": "Unzuel vun de Méizyklen fir Mëttwoch (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Mëttwoch Zone",
+                    "description": "Zone um Mëttwoch ze méien."
+                },
+                "day_3_enabled": {
+                    "name": "Donneschdeg aktivéiert",
+                    "description": "Ob en Donneschdeg méien."
+                },
+                "day_3_duration": {
+                    "name": "Donneschdeg Dauer",
+                    "description": "Méien Dauer fir Donneschdeg a Minutten (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Donneschdeg Zyklen",
+                    "description": "Unzuel vun de Méizyklen fir Donneschdeg (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Donneschdeg Zone",
+                    "description": "Zone fir en Donneschdeg ze méien."
+                },
+                "day_4_enabled": {
+                    "name": "Freideg ageschalt",
+                    "description": "Ob e Freideg ze méien."
+                },
+                "day_4_duration": {
+                    "name": "Freideg Dauer",
+                    "description": "Méih Dauer fir Freideg a Minutten (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Freideg Zyklen",
+                    "description": "Unzuel vun de Méizyklen fir Freideg (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Freideg Zone",
+                    "description": "Zon fir Freides ze méien."
+                },
+                "day_5_enabled": {
+                    "name": "Samschdeg aktivéiert",
+                    "description": "Ob e Samschdeg méien."
+                },
+                "day_5_duration": {
+                    "name": "Samschdeg Dauer",
+                    "description": "Méien Dauer fir Samschdes a Minutten (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Samschdeg Zyklen",
+                    "description": "Unzuel vun de Méizyklen fir Samschdes (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Samschdeg Zone",
+                    "description": "Zon fir Samschdeg ze méien."
+                },
+                "day_6_enabled": {
+                    "name": "Sonndeg aktivéiert",
+                    "description": "Ob Sonndes ze mëschen."
+                },
+                "day_6_duration": {
+                    "name": "Sonndeg Dauer",
+                    "description": "Méien Dauer fir Sonndeg a Minutten (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Sonndeg Zyklen",
+                    "description": "Unzuel vun de Méizyklen fir Sonndeg (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Sonndeg Zone",
+                    "description": "Zon fir Sonndes ze méien."
+                }
+            }
+        }
+    }
+}

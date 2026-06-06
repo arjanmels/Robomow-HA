@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Odaberite Robomow uređaj koji želite dodati i unesite serijski broj matične ploče. \n\nDa biste dobili serijski broj matične ploče: 1) Prijavite se na myrobomow.robomow.com.\n2) Otvorite alate za razvojne programere preglednika (F12).\n3) Idite na karticu Mreža.\n4) Ponovno učitajte stranicu.\n5) Potražite zahtjev koji završava na /api/customer/products.\n6) Pritisnite zahtjev i otvorite karticu Odgovor.\n7) U JSON odgovoru pronađite polje pod nazivom MainboardSerial. Ova vrijednost je stvarni serijski broj matične ploče.",
+                "data": {
+                    "address": "Adresa",
+                    "mainboard_serial": "Serijski broj matične ploče"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Unesite serijski broj matične ploče za Robomow uređaj koji želite dodati u Home Assistant.\n\nDa biste dobili serijski broj matične ploče: 1) Prijavite se na myrobomow.robomow.com.\n2) Otvorite alate za razvojne programere preglednika (F12).\n3) Idite na karticu Mreža.\n4) Ponovno učitajte stranicu.\n5) Potražite zahtjev koji završava na /api/customer/products.\n6) Pritisnite zahtjev i otvorite karticu Odgovor.\n7) U JSON odgovoru pronađite polje pod nazivom MainboardSerial. Ova vrijednost je stvarni serijski broj matične ploče.",
+                "data": {
+                    "mainboard_serial": "Serijski broj matične ploče"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Nije navedena jedinstvena adresa.",
+            "no_mainboard_serial": "Nije naveden serijski broj matične ploče.",
+            "invalid_mainboard_serial": "Serijski broj matične ploče je nevažeći. Provjerite i pokušajte ponovno.",
+            "model_unsupported": "Model kosilice nije podržan.",
+            "device_not_found": "Uređaj Robomow nije pronađen. Približite se i pokušajte ponovno.",
+            "service_not_found": "Potrebna Robomow Bluetooth usluga nije pronađena na ovom uređaju.",
+            "characteristics_not_found": "Potrebne Robomow Bluetooth karakteristike nisu pronađene na ovom uređaju."
+        },
+        "abort": {
+            "already_configured": "Ovaj unos je već konfiguriran.",
+            "no_devices_found": "Nije pronađen nijedan Robomow uređaj.",
+            "not_supported": "Ovaj Bluetooth uređaj nije podržana Robomow kosilica."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Nije moguće povezati se s uređajem"
+        },
+        "invalid_auth": {
+            "message": "Autentifikacija nije uspjela"
+        },
+        "unsupported_device": {
+            "message": "Ovaj model uređaja nije podržan"
+        },
+        "no_unique_address": {
+            "message": "Nije navedena jedinstvena adresa."
+        },
+        "no_mainboard_serial": {
+            "message": "Nije naveden serijski broj matične ploče."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Aktivan sustav protiv krađe"
+            },
+            "mower_home": {
+                "name": "Kosilica doma"
+            },
+            "charging_active": {
+                "name": "Punjenje aktivno"
+            },
+            "disabling_device_removed": {
+                "name": "Uređaj za onemogućavanje uklonjen"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Radno stanje",
+                "state": {
+                    "warming_up": "Zagrijavanje",
+                    "mowing": "Košnja",
+                    "edge_mowing": "Košenje rubova",
+                    "returning_home_following_edge": "Prateći rubni dom",
+                    "returning_home_warming_up": "Zagrijavanje za povratak kući",
+                    "returning_home_searching_edge": "Rub traženja",
+                    "going_to_start": "Odlazak na početnu točku",
+                    "learning_entry_point": "Ulazna točka učenja",
+                    "idle": "besposlen",
+                    "charging": "Punjenje",
+                    "automatic": "Automatski",
+                    "remote_control": "Daljinski upravljač",
+                    "bit": "bit"
+                }
+            },
+            "status_message": {
+                "name": "Statusna poruka"
+            },
+            "next_departure": {
+                "name": "Sljedeći polazak"
+            },
+            "previous_departure": {
+                "name": "Prethodni odlazak"
+            },
+            "expected_duration": {
+                "name": "Očekivano trajanje"
+            },
+            "no_depart_reason": {
+                "name": "Nema razloga za odlazak"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Raspored omogućen"
+            },
+            "anti_theft_enabled": {
+                "name": "Omogućena zaštita od krađe"
+            },
+            "child_lock_enabled": {
+                "name": "Omogućeno zaključavanje za djecu"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Početna točka A"
+            },
+            "starting_point_b": {
+                "name": "Početna točka B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Vrsta signala žice",
+                "state": {
+                    "type_a": "Tip A",
+                    "type_b": "Tip B",
+                    "type_c": "Vrsta C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Kosilica"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Glavni",
+                "starting_point_a": "Početna točka A",
+                "starting_point_b": "Početna točka B",
+                "sub_1": "Podzona 1",
+                "sub_2": "Podzona 2",
+                "sub_3": "Podzona 3",
+                "sub_4": "Podzona 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Počnite kositi",
+            "description": "Započnite kosnju s izbornom početnom zonom i trajanjem.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Startna zona",
+                    "description": "Robomow zona iz koje možete početi kositi."
+                },
+                "duration": {
+                    "name": "Trajanje",
+                    "description": "Trajanje košnje u minutama (1-255). Zadano je 30 minuta."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Postavite raspored",
+            "description": "Postavite raspored kosilice.",
+            "fields": {
+                "start_time": {
+                    "name": "Vrijeme početka",
+                    "description": "Vrijeme je da počnete kositi svaki dan."
+                },
+                "end_time": {
+                    "name": "Vrijeme završetka",
+                    "description": "Vrijeme je za završetak košnje svakog dana."
+                },
+                "day_0_enabled": {
+                    "name": "Ponedjeljak omogućen",
+                    "description": "Treba li kositi u ponedjeljak."
+                },
+                "day_0_duration": {
+                    "name": "Trajanje ponedjeljkom",
+                    "description": "Trajanje košnje za ponedjeljak u minutama (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Ciklusi ponedjeljkom",
+                    "description": "Broj ciklusa košnje za ponedjeljak (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Zona ponedjeljka",
+                    "description": "Zona za kosidbu u ponedjeljak."
+                },
+                "day_1_enabled": {
+                    "name": "Utorak omogućen",
+                    "description": "Da li kositi u utorak."
+                },
+                "day_1_duration": {
+                    "name": "Trajanje utorak",
+                    "description": "Trajanje košnje za utorak u minutama (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Ciklusi utorkom",
+                    "description": "Broj ciklusa košnje za utorak (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Zona utorka",
+                    "description": "Zona za kosidbu u utorak."
+                },
+                "day_2_enabled": {
+                    "name": "Srijeda omogućena",
+                    "description": "Da li kositi u srijedu."
+                },
+                "day_2_duration": {
+                    "name": "Trajanje srijedom",
+                    "description": "Trajanje košnje za srijedu u minutama (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Ciklusi srijedom",
+                    "description": "Broj ciklusa košnje za srijedu (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Zona srijede",
+                    "description": "Zona košnje u srijedu."
+                },
+                "day_3_enabled": {
+                    "name": "Četvrtak omogućen",
+                    "description": "Da li kositi u četvrtak."
+                },
+                "day_3_duration": {
+                    "name": "Trajanje četvrtkom",
+                    "description": "Trajanje košnje za četvrtak u minutama (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Ciklusi četvrtkom",
+                    "description": "Broj ciklusa košnje za četvrtak (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Četvrtak zona",
+                    "description": "Zona za kosidbu u četvrtak."
+                },
+                "day_4_enabled": {
+                    "name": "Petak omogućen",
+                    "description": "Da li kositi u petak."
+                },
+                "day_4_duration": {
+                    "name": "Trajanje petkom",
+                    "description": "Trajanje košnje za petak u minutama (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Ciklusi petkom",
+                    "description": "Broj ciklusa košnje za petak (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Petak zona",
+                    "description": "Zona košnje u petak."
+                },
+                "day_5_enabled": {
+                    "name": "Subota omogućena",
+                    "description": "Da li kositi u subotu."
+                },
+                "day_5_duration": {
+                    "name": "Trajanje subotom",
+                    "description": "Trajanje košnje za subotu u minutama (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Subotnji ciklusi",
+                    "description": "Broj ciklusa košnje za subotu (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Subotnja zona",
+                    "description": "Zona za kosidbu u subotu."
+                },
+                "day_6_enabled": {
+                    "name": "Nedjelja omogućena",
+                    "description": "Da li kositi u nedjelju."
+                },
+                "day_6_duration": {
+                    "name": "trajanje nedjelje",
+                    "description": "Trajanje košnje za nedjelju u minutama (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Nedjeljni ciklusi",
+                    "description": "Broj ciklusa košnje za nedjelju (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Nedjeljna zona",
+                    "description": "Zona za kosidbu u nedjelju."
+                }
+            }
+        }
+    }
+}

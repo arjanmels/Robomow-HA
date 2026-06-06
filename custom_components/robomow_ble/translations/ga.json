@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Roghnaigh an gléas Robomow is mian leat a chur leis agus cuir isteach sraithuimhir an phríomhchláir. \n\nChun sraithuimhir an phríomhchláir a fháil: 1) Logáil isteach ar myrobomow.robomow.com.\n2) Oscail Uirlisí Forbróra do bhrabhsálaí (F12).\n3) Téigh go dtí an Líonra tab.\n4) Athlódáil an leathanach.\n5) Cuardaigh iarratas a chríochnaíonn in /api/customer/products.\n6) Cliceáil ar an iarratas agus oscail an cluaisín Freagra.\n7) I bhfreagra JSON, faigh an réimse darb ainm MainboardSerial. Is é an luach seo sraithuimhir iarbhír an phríomhchláir.",
+                "data": {
+                    "address": "Seoladh",
+                    "mainboard_serial": "Sraithuimhir an phríomhchláir"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Cuir isteach sraithuimhir an phríomhchláir don ghléas Robomow is mian leat a chur le Cúntóir Baile.\n\nChun sraithuimhir an phríomhchláir a fháil: 1) Logáil isteach ar myrobomow.robomow.com.\n2) Oscail Uirlisí Forbróra do bhrabhsálaí (F12).\n3) Téigh go dtí an Líonra tab.\n4) Athlódáil an leathanach.\n5) Cuardaigh iarratas a chríochnaíonn in /api/customer/products.\n6) Cliceáil ar an iarratas agus oscail an cluaisín Freagra.\n7) I bhfreagra JSON, faigh an réimse darb ainm MainboardSerial. Is é an luach seo sraithuimhir iarbhír an phríomhchláir.",
+                "data": {
+                    "mainboard_serial": "Sraithuimhir an phríomhchláir"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Níor tugadh seoladh uathúil.",
+            "no_mainboard_serial": "Níor soláthraíodh sraithuimhir an phríomhchláir.",
+            "invalid_mainboard_serial": "Tá sraithuimhir an phríomhchláir neamhbhailí. Fíoraigh é agus bain triail eile as.",
+            "model_unsupported": "Ní thacaítear leis an múnla lomaire.",
+            "device_not_found": "Níorbh fhéidir gléas Robomow a aimsiú. Bog níos gaire agus bain triail eile as.",
+            "service_not_found": "Níor aimsíodh an tseirbhís Robomow Bluetooth riachtanach ar an ngléas seo.",
+            "characteristics_not_found": "Níor aimsíodh na tréithe riachtanacha Robomow Bluetooth ar an ngléas seo."
+        },
+        "abort": {
+            "already_configured": "Tá an iontráil seo cumraithe cheana féin.",
+            "no_devices_found": "Níor aimsíodh aon ghléas Robomow.",
+            "not_supported": "Ní lomaire Robomow tacaithe é an gléas Bluetooth seo."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Ní féidir ceangal leis an ngléas"
+        },
+        "invalid_auth": {
+            "message": "Theip ar an bhfíordheimhniú"
+        },
+        "unsupported_device": {
+            "message": "Ní thacaítear leis an tsamhail ghléis seo"
+        },
+        "no_unique_address": {
+            "message": "Níor tugadh seoladh uathúil."
+        },
+        "no_mainboard_serial": {
+            "message": "Níor soláthraíodh sraithuimhir an phríomhchláir."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Frith-goid gníomhach"
+            },
+            "mower_home": {
+                "name": "Teach lomaire"
+            },
+            "charging_active": {
+                "name": "Muirearú gníomhach"
+            },
+            "disabling_device_removed": {
+                "name": "Baineadh an gléas díchumasaithe"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Stát Oibriúcháin",
+                "state": {
+                    "warming_up": "Téamh suas",
+                    "mowing": "Baint",
+                    "edge_mowing": "Baint Imill",
+                    "returning_home_following_edge": "Tar éis imeall abhaile",
+                    "returning_home_warming_up": "Téamh suas chun filleadh abhaile",
+                    "returning_home_searching_edge": "Cuardach imeall",
+                    "going_to_start": "Ag dul go pointe tosaigh",
+                    "learning_entry_point": "Pointe iontrála foghlama",
+                    "idle": "Díomhaoin",
+                    "charging": "Muirearú",
+                    "automatic": "Uathoibríoch",
+                    "remote_control": "Cianrialú",
+                    "bit": "Giotán"
+                }
+            },
+            "status_message": {
+                "name": "Teachtaireacht Stádais"
+            },
+            "next_departure": {
+                "name": "An Chéad Imeacht Eile"
+            },
+            "previous_departure": {
+                "name": "Imeacht Roimhe Seo"
+            },
+            "expected_duration": {
+                "name": "Tréimhse Ionchais"
+            },
+            "no_depart_reason": {
+                "name": "Gan Cúis Imeachta"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Sceideal cumasaithe"
+            },
+            "anti_theft_enabled": {
+                "name": "Frith-goid cumasaithe"
+            },
+            "child_lock_enabled": {
+                "name": "Glasáil leanaí cumasaithe"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Túsphointe A"
+            },
+            "starting_point_b": {
+                "name": "Túsphointe B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Cineál comhartha sreang",
+                "state": {
+                    "type_a": "Cineál A",
+                    "type_b": "Cineál B",
+                    "type_c": "Cineál C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "lomaire"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Príomh-",
+                "starting_point_a": "Túsphointe A",
+                "starting_point_b": "Túsphointe B",
+                "sub_1": "Fochrios 1",
+                "sub_2": "Fochrios 2",
+                "sub_3": "Fochrios 3",
+                "sub_4": "Fochrios 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Tosaigh ag baint",
+            "description": "Tosaigh ag baint le crios tosaigh roghnach agus fad.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Crios tosaithe",
+                    "description": "Crios Robomow chun tús a chur le baint as."
+                },
+                "duration": {
+                    "name": "Fad",
+                    "description": "Fad bainte i nóiméid (1-255). Is é 30 nóiméad an réamhshocrú."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Socraigh sceideal",
+            "description": "Socraigh an sceideal lomaire.",
+            "fields": {
+                "start_time": {
+                    "name": "Am tosaithe",
+                    "description": "Tá sé in am tús a chur le gearradh gach lá."
+                },
+                "end_time": {
+                    "name": "Am deiridh",
+                    "description": "Tá sé in am deireadh a chur le baint gach lá."
+                },
+                "day_0_enabled": {
+                    "name": "Dé Luain cumasaithe",
+                    "description": "Cibé an ngearrfar ar an Luan."
+                },
+                "day_0_duration": {
+                    "name": "ré Dé Luain",
+                    "description": "Fad bainte don Luan i nóiméid (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "timthriallta Dé Luain",
+                    "description": "Líon na dtimthriallta gearrtha don Luan (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Crios Dé Luain",
+                    "description": "Crios le baint Dé Luain."
+                },
+                "day_1_enabled": {
+                    "name": "Dé Máirt cumasaithe",
+                    "description": "Cibé acu le baint Dé Máirt."
+                },
+                "day_1_duration": {
+                    "name": "ré Dé Máirt",
+                    "description": "Fad bainte ar feadh Dé Máirt i nóiméid (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Timthriallta Dé Máirt",
+                    "description": "Líon na dtimthriallta gearrtha don Mháirt (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Crios Dé Máirt",
+                    "description": "Crios le baint Dé Máirt."
+                },
+                "day_2_enabled": {
+                    "name": "Dé Céadaoin cumasaithe",
+                    "description": "Cibé an ngearrfar ar an gCéadaoin."
+                },
+                "day_2_duration": {
+                    "name": "Dé Céadaoin",
+                    "description": "Fad bainte don Chéadaoin i nóiméid (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Timthriallta Dé Céadaoin",
+                    "description": "Líon na dtimthriallta gearrtha don Chéadaoin (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Crios Dé Céadaoin",
+                    "description": "Crios le baint Dé Céadaoin."
+                },
+                "day_3_enabled": {
+                    "name": "Déardaoin cumasaithe",
+                    "description": "Cé acu a ghearradh ar an Déardaoin."
+                },
+                "day_3_duration": {
+                    "name": "Fad Déardaoin",
+                    "description": "Fad bainte don Déardaoin i nóiméid (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Timthriallta Déardaoin",
+                    "description": "Líon na dtimthriallta gearrtha don Déardaoin (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Crios Déardaoin",
+                    "description": "Crios le baint ar an Déardaoin."
+                },
+                "day_4_enabled": {
+                    "name": "Dé hAoine cumasaithe",
+                    "description": "Cibé an ngearrfar ar an Aoine."
+                },
+                "day_4_duration": {
+                    "name": "ré Dé hAoine",
+                    "description": "Fad bainte don Aoine i nóiméid (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Timthriallta Dé hAoine",
+                    "description": "Líon na dtimthriallta gearrtha don Aoine (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Crios Dé hAoine",
+                    "description": "Crios le baint Dé hAoine."
+                },
+                "day_5_enabled": {
+                    "name": "Dé Sathairn cumasaithe",
+                    "description": "Cibé acu a ghearradh ar an Satharn."
+                },
+                "day_5_duration": {
+                    "name": "ré Dé Sathairn",
+                    "description": "Fad bainte don Satharn i nóiméid (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "timthriallta Dé Sathairn",
+                    "description": "Líon na dtimthriallta gearrtha don Satharn (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "crios Dé Sathairn",
+                    "description": "Crios le baint Dé Sathairn."
+                },
+                "day_6_enabled": {
+                    "name": "Dé Domhnaigh cumasaithe",
+                    "description": "Cé acu a ghearradh ar an Domhnach."
+                },
+                "day_6_duration": {
+                    "name": "ré Dé Domhnaigh",
+                    "description": "Fad bainte don Domhnach i nóiméid (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Timthriallta Dé Domhnaigh",
+                    "description": "Líon na dtimthriallta gearrtha don Domhnach (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "crios Dé Domhnaigh",
+                    "description": "Crios le baint Dé Domhnaigh."
+                }
+            }
+        }
+    }
+}

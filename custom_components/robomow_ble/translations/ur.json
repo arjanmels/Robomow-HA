@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Robomow ڈیوائس کو منتخب کریں جسے آپ شامل کرنا چاہتے ہیں اور مین بورڈ کا سیریل نمبر درج کریں۔ \n\nمین بورڈ سیریل نمبر حاصل کرنے کے لیے: 1) myrobomow.robomow.com پر لاگ ان کریں۔\n2) اپنے براؤزر کے ڈیولپر ٹولز (F12) کھولیں۔\n3) نیٹ ورک ٹیب پر جائیں۔\n4) صفحہ کو دوبارہ لوڈ کریں۔\n5) /api/customer/products پر ختم ہونے والی درخواست کی تلاش کریں۔\n6) درخواست پر کلک کریں اور رسپانس ٹیب کو کھولیں۔\n7) JSON جواب میں، MainboardSerial نامی فیلڈ تلاش کریں۔ یہ قدر اصل مین بورڈ سیریل نمبر ہے۔",
+                "data": {
+                    "address": "پتہ",
+                    "mainboard_serial": "مین بورڈ سیریل نمبر"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Robomow ڈیوائس کا مین بورڈ سیریل نمبر درج کریں جسے آپ ہوم اسسٹنٹ میں شامل کرنا چاہتے ہیں۔\n\nمین بورڈ سیریل نمبر حاصل کرنے کے لیے: 1) myrobomow.robomow.com پر لاگ ان کریں۔\n2) اپنے براؤزر کے ڈیولپر ٹولز (F12) کھولیں۔\n3) نیٹ ورک ٹیب پر جائیں۔\n4) صفحہ کو دوبارہ لوڈ کریں۔\n5) /api/customer/products پر ختم ہونے والی درخواست کی تلاش کریں۔\n6) درخواست پر کلک کریں اور رسپانس ٹیب کو کھولیں۔\n7) JSON جواب میں، MainboardSerial نامی فیلڈ تلاش کریں۔ یہ قدر اصل مین بورڈ سیریل نمبر ہے۔",
+                "data": {
+                    "mainboard_serial": "مین بورڈ سیریل نمبر"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "کوئی منفرد پتہ فراہم نہیں کیا گیا۔",
+            "no_mainboard_serial": "مین بورڈ کا کوئی سیریل نمبر فراہم نہیں کیا گیا۔",
+            "invalid_mainboard_serial": "مین بورڈ کا سیریل نمبر غلط ہے۔ اس کی تصدیق کریں اور دوبارہ کوشش کریں۔",
+            "model_unsupported": "گھاس کاٹنے والا ماڈل تعاون یافتہ نہیں ہے۔",
+            "device_not_found": "Robomow آلہ نہیں مل سکا۔ قریب جائیں اور دوبارہ کوشش کریں۔",
+            "service_not_found": "اس ڈیوائس پر مطلوبہ روبومو بلوٹوتھ سروس نہیں ملی۔",
+            "characteristics_not_found": "اس ڈیوائس پر روبومو بلوٹوتھ کی مطلوبہ خصوصیات نہیں ملیں۔"
+        },
+        "abort": {
+            "already_configured": "یہ اندراج پہلے سے ترتیب شدہ ہے۔",
+            "no_devices_found": "کوئی Robomow آلات نہیں ملے۔",
+            "not_supported": "یہ بلوٹوتھ ڈیوائس تعاون یافتہ Robomow mower نہیں ہے۔"
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "آلہ سے منسلک نہیں ہو سکتا"
+        },
+        "invalid_auth": {
+            "message": "تصدیق ناکام ہوگئی"
+        },
+        "unsupported_device": {
+            "message": "یہ آلہ ماڈل تعاون یافتہ نہیں ہے۔"
+        },
+        "no_unique_address": {
+            "message": "کوئی منفرد پتہ فراہم نہیں کیا گیا۔"
+        },
+        "no_mainboard_serial": {
+            "message": "مین بورڈ کا کوئی سیریل نمبر فراہم نہیں کیا گیا۔"
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "اینٹی چوری فعال"
+            },
+            "mower_home": {
+                "name": "گھاس کاٹنے والا گھر"
+            },
+            "charging_active": {
+                "name": "چارجنگ فعال"
+            },
+            "disabling_device_removed": {
+                "name": "غیر فعال کرنے والا آلہ ہٹا دیا گیا۔"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "آپریٹنگ ریاست",
+                "state": {
+                    "warming_up": "گرم کرنا",
+                    "mowing": "کٹائی",
+                    "edge_mowing": "کنارے کی کٹائی",
+                    "returning_home_following_edge": "فالونگ ایج ہوم",
+                    "returning_home_warming_up": "گھر واپسی کے لیے گرم کرنا",
+                    "returning_home_searching_edge": "تلاش کے کنارے",
+                    "going_to_start": "نقطہ آغاز پر جا رہے ہیں۔",
+                    "learning_entry_point": "سیکھنے کا انٹری پوائنٹ",
+                    "idle": "بیکار",
+                    "charging": "چارج ہو رہا ہے۔",
+                    "automatic": "خودکار",
+                    "remote_control": "ریموٹ کنٹرول",
+                    "bit": "بٹ"
+                }
+            },
+            "status_message": {
+                "name": "اسٹیٹس میسج"
+            },
+            "next_departure": {
+                "name": "اگلی روانگی"
+            },
+            "previous_departure": {
+                "name": "پچھلی روانگی"
+            },
+            "expected_duration": {
+                "name": "متوقع دورانیہ"
+            },
+            "no_depart_reason": {
+                "name": "روانگی کی کوئی وجہ نہیں۔"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "شیڈول فعال ہے۔"
+            },
+            "anti_theft_enabled": {
+                "name": "اینٹی چوری فعال"
+            },
+            "child_lock_enabled": {
+                "name": "چائلڈ لاک فعال ہے۔"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "نقطہ آغاز A"
+            },
+            "starting_point_b": {
+                "name": "نقطہ آغاز B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "وائر سگنل کی قسم",
+                "state": {
+                    "type_a": "A ٹائپ کریں۔",
+                    "type_b": "B قسم",
+                    "type_c": "قسم سی"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "گھاس کاٹنے والا"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "مین",
+                "starting_point_a": "نقطہ آغاز A",
+                "starting_point_b": "نقطہ آغاز B",
+                "sub_1": "ذیلی زون 1",
+                "sub_2": "ذیلی زون 2",
+                "sub_3": "ذیلی زون 3",
+                "sub_4": "ذیلی زون 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "کٹائی شروع کریں۔",
+            "description": "اختیاری ابتدائی زون اور مدت کے ساتھ کٹائی شروع کریں۔",
+            "fields": {
+                "starting_zone": {
+                    "name": "ابتدائی زون",
+                    "description": "Robomow زون سے کٹائی شروع کرنا ہے۔"
+                },
+                "duration": {
+                    "name": "دورانیہ",
+                    "description": "گھاس کاٹنے کا دورانیہ منٹوں میں (1-255)۔ ڈیفالٹ 30 منٹ ہے۔"
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "شیڈول مرتب کریں۔",
+            "description": "گھاس کاٹنے کا شیڈول مرتب کریں۔",
+            "fields": {
+                "start_time": {
+                    "name": "آغاز کا وقت",
+                    "description": "ہر روز کٹائی شروع کرنے کا وقت۔"
+                },
+                "end_time": {
+                    "name": "اختتامی وقت",
+                    "description": "ہر روز کٹائی ختم کرنے کا وقت۔"
+                },
+                "day_0_enabled": {
+                    "name": "پیر کو فعال کیا گیا۔",
+                    "description": "چاہے پیر کو کاٹنا ہے۔"
+                },
+                "day_0_duration": {
+                    "name": "پیر کی مدت",
+                    "description": "منٹ میں پیر کے لیے کٹائی کا دورانیہ (1-255)۔"
+                },
+                "day_0_cycles": {
+                    "name": "پیر کے چکر",
+                    "description": "پیر (1-2) کے لیے کاٹنے کے چکروں کی تعداد۔"
+                },
+                "day_0_zone": {
+                    "name": "پیر زون",
+                    "description": "پیر کو کاٹنا زون۔"
+                },
+                "day_1_enabled": {
+                    "name": "منگل کو فعال",
+                    "description": "چاہے منگل کو کاٹنا ہے۔"
+                },
+                "day_1_duration": {
+                    "name": "منگل کا دورانیہ",
+                    "description": "منٹوں میں منگل کے لیے کٹائی کا دورانیہ (1-255)۔"
+                },
+                "day_1_cycles": {
+                    "name": "منگل کے چکر",
+                    "description": "منگل (1-2) کے لیے کاٹنے کے چکروں کی تعداد۔"
+                },
+                "day_1_zone": {
+                    "name": "منگل زون",
+                    "description": "منگل کو کاٹنا زون۔"
+                },
+                "day_2_enabled": {
+                    "name": "بدھ کو فعال",
+                    "description": "چاہے بدھ کو گھاس کاٹنا ہے۔"
+                },
+                "day_2_duration": {
+                    "name": "بدھ کا دورانیہ",
+                    "description": "بدھ کے لیے کٹائی کا دورانیہ منٹوں میں (1-255)۔"
+                },
+                "day_2_cycles": {
+                    "name": "بدھ کے چکر",
+                    "description": "بدھ کے لیے کاٹنے کے چکروں کی تعداد (1-2)۔"
+                },
+                "day_2_zone": {
+                    "name": "بدھ زون",
+                    "description": "بدھ کو کاٹنا زون۔"
+                },
+                "day_3_enabled": {
+                    "name": "جمعرات کو فعال",
+                    "description": "چاہے جمعرات کو کٹائی کریں۔"
+                },
+                "day_3_duration": {
+                    "name": "جمعرات کی مدت",
+                    "description": "جمعرات کے لیے گھاس کاٹنے کا دورانیہ منٹوں میں (1-255)۔"
+                },
+                "day_3_cycles": {
+                    "name": "جمعرات کے چکر",
+                    "description": "جمعرات (1-2) کے لیے کاٹنے کے چکروں کی تعداد۔"
+                },
+                "day_3_zone": {
+                    "name": "جمعرات کا زون",
+                    "description": "جمعرات کو گھاس کاٹنے کے لیے زون۔"
+                },
+                "day_4_enabled": {
+                    "name": "جمعہ کو فعال کیا گیا۔",
+                    "description": "جمعہ کے دن کاٹنا ہے یا نہیں۔"
+                },
+                "day_4_duration": {
+                    "name": "جمعہ کا دورانیہ",
+                    "description": "جمعہ کے لیے گھاس کاٹنے کا دورانیہ منٹوں میں (1-255)۔"
+                },
+                "day_4_cycles": {
+                    "name": "جمعہ کے چکر",
+                    "description": "جمعہ کے لیے کاٹنے کے چکروں کی تعداد (1-2)۔"
+                },
+                "day_4_zone": {
+                    "name": "جمعہ کا علاقہ",
+                    "description": "جمعہ کو گھاس کاٹنے کے لیے زون۔"
+                },
+                "day_5_enabled": {
+                    "name": "ہفتہ کو فعال کیا گیا۔",
+                    "description": "چاہے ہفتہ کو کاٹنا ہے۔"
+                },
+                "day_5_duration": {
+                    "name": "ہفتہ کا دورانیہ",
+                    "description": "ہفتہ کے لیے گھاس کاٹنے کا دورانیہ منٹوں میں (1-255)۔"
+                },
+                "day_5_cycles": {
+                    "name": "ہفتہ کے چکر",
+                    "description": "ہفتہ (1-2) کے لیے کاٹنے کے چکروں کی تعداد۔"
+                },
+                "day_5_zone": {
+                    "name": "ہفتہ زون",
+                    "description": "ہفتہ کو گھاس کاٹنے کے لیے زون۔"
+                },
+                "day_6_enabled": {
+                    "name": "اتوار کو فعال کیا گیا۔",
+                    "description": "چاہے اتوار کو کٹائی کریں۔"
+                },
+                "day_6_duration": {
+                    "name": "اتوار کا دورانیہ",
+                    "description": "اتوار کے لیے کٹائی کا دورانیہ منٹوں میں (1-255)۔"
+                },
+                "day_6_cycles": {
+                    "name": "اتوار کے چکر",
+                    "description": "اتوار کے لیے کاٹنے کے چکروں کی تعداد (1-2)۔"
+                },
+                "day_6_zone": {
+                    "name": "اتوار زون",
+                    "description": "اتوار کو گھاس کاٹنے کے لیے زون۔"
+                }
+            }
+        }
+    }
+}

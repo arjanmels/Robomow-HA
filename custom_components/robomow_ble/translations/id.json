@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Pilih perangkat Robomow yang ingin Anda tambahkan dan masukkan nomor seri mainboard. \n\nUntuk mendapatkan nomor seri mainboard: 1) Masuk ke myrobomow.robomow.com.\n2) Buka Alat Pengembang browser Anda (F12).\n3) Buka tab Jaringan.\n4) Muat ulang halaman.\n5) Cari permintaan yang diakhiri dengan /api/customer/products.\n6) Klik permintaan dan buka tab Respons.\n7) Dalam respons JSON, temukan bidang bernama MainboardSerial. Nilai ini adalah nomor seri mainboard sebenarnya.",
+                "data": {
+                    "address": "Alamat",
+                    "mainboard_serial": "Nomor seri papan utama"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Masukkan nomor seri mainboard untuk perangkat Robomow yang ingin Anda tambahkan ke Home Assistant.\n\nUntuk mendapatkan nomor seri mainboard: 1) Masuk ke myrobomow.robomow.com.\n2) Buka Alat Pengembang browser Anda (F12).\n3) Buka tab Jaringan.\n4) Muat ulang halaman.\n5) Cari permintaan yang diakhiri dengan /api/customer/products.\n6) Klik permintaan dan buka tab Respons.\n7) Dalam respons JSON, temukan bidang bernama MainboardSerial. Nilai ini adalah nomor seri mainboard sebenarnya.",
+                "data": {
+                    "mainboard_serial": "Nomor seri papan utama"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Tidak ada alamat unik yang diberikan.",
+            "no_mainboard_serial": "Tidak ada nomor seri mainboard yang disediakan.",
+            "invalid_mainboard_serial": "Nomor seri mainboard tidak valid. Verifikasi dan coba lagi.",
+            "model_unsupported": "Model mesin pemotong rumput tidak didukung.",
+            "device_not_found": "Perangkat Robomow tidak dapat ditemukan. Mendekatlah dan coba lagi.",
+            "service_not_found": "Layanan Bluetooth Robomow yang diperlukan tidak ditemukan di perangkat ini.",
+            "characteristics_not_found": "Karakteristik Bluetooth Robomow yang diperlukan tidak ditemukan pada perangkat ini."
+        },
+        "abort": {
+            "already_configured": "Entri ini sudah dikonfigurasi.",
+            "no_devices_found": "Tidak ada perangkat Robomow yang ditemukan.",
+            "not_supported": "Perangkat Bluetooth ini bukan mesin pemotong rumput Robomow yang didukung."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Tidak dapat terhubung ke perangkat"
+        },
+        "invalid_auth": {
+            "message": "Otentikasi gagal"
+        },
+        "unsupported_device": {
+            "message": "Model perangkat ini tidak didukung"
+        },
+        "no_unique_address": {
+            "message": "Tidak ada alamat unik yang diberikan."
+        },
+        "no_mainboard_serial": {
+            "message": "Tidak ada nomor seri mainboard yang disediakan."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Anti maling aktif"
+            },
+            "mower_home": {
+                "name": "Mesin pemotong rumput di rumah"
+            },
+            "charging_active": {
+                "name": "Pengisian daya aktif"
+            },
+            "disabling_device_removed": {
+                "name": "Menonaktifkan perangkat dihapus"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Status Operasi",
+                "state": {
+                    "warming_up": "Pemanasan",
+                    "mowing": "Memotong",
+                    "edge_mowing": "Pemotongan Tepi",
+                    "returning_home_following_edge": "Mengikuti tepi rumah",
+                    "returning_home_warming_up": "Pemanasan untuk kembali ke rumah",
+                    "returning_home_searching_edge": "Tepi pencarian",
+                    "going_to_start": "Pergi ke titik awal",
+                    "learning_entry_point": "Titik masuk pembelajaran",
+                    "idle": "Menganggur",
+                    "charging": "Mengisi daya",
+                    "automatic": "Otomatis",
+                    "remote_control": "Kendali jarak jauh",
+                    "bit": "Sedikit"
+                }
+            },
+            "status_message": {
+                "name": "Pesan Status"
+            },
+            "next_departure": {
+                "name": "Keberangkatan Berikutnya"
+            },
+            "previous_departure": {
+                "name": "Keberangkatan Sebelumnya"
+            },
+            "expected_duration": {
+                "name": "Durasi yang Diharapkan"
+            },
+            "no_depart_reason": {
+                "name": "Tidak Ada Alasan Keberangkatan"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Jadwal diaktifkan"
+            },
+            "anti_theft_enabled": {
+                "name": "Anti-pencurian diaktifkan"
+            },
+            "child_lock_enabled": {
+                "name": "Kunci anak diaktifkan"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Titik awal A"
+            },
+            "starting_point_b": {
+                "name": "Titik awal B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Jenis sinyal kawat",
+                "state": {
+                    "type_a": "Tipe A",
+                    "type_b": "Tipe B",
+                    "type_c": "Tipe C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Mesin pemotong rumput"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Utama",
+                "starting_point_a": "Titik awal A",
+                "starting_point_b": "Titik awal B",
+                "sub_1": "Sub zona 1",
+                "sub_2": "Sub zona 2",
+                "sub_3": "Sub zona 3",
+                "sub_4": "Sub zona 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Mulailah memotong",
+            "description": "Mulailah memotong dengan zona awal dan durasi opsional.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Zona awal",
+                    "description": "Zona Robomow untuk mulai memotong rumput."
+                },
+                "duration": {
+                    "name": "Lamanya",
+                    "description": "Durasi pemotongan dalam menit (1-255). Standarnya adalah 30 menit."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Tetapkan jadwal",
+            "description": "Atur jadwal mesin pemotong rumput.",
+            "fields": {
+                "start_time": {
+                    "name": "Waktu mulai",
+                    "description": "Saatnya mulai memotong rumput setiap hari."
+                },
+                "end_time": {
+                    "name": "Waktu berakhir",
+                    "description": "Saatnya mengakhiri pemotongan rumput setiap hari."
+                },
+                "day_0_enabled": {
+                    "name": "Senin diaktifkan",
+                    "description": "Apakah akan memotong rumput pada hari Senin."
+                },
+                "day_0_duration": {
+                    "name": "Durasi hari Senin",
+                    "description": "Durasi pemotongan untuk hari Senin dalam hitungan menit (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Siklus Senin",
+                    "description": "Jumlah siklus pemotongan rumput pada hari Senin (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Zona Senin",
+                    "description": "Zona untuk dipotong pada hari Senin."
+                },
+                "day_1_enabled": {
+                    "name": "Selasa diaktifkan",
+                    "description": "Apakah akan memotong rumput pada hari Selasa."
+                },
+                "day_1_duration": {
+                    "name": "Durasi Selasa",
+                    "description": "Durasi pemotongan untuk hari Selasa dalam hitungan menit (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Siklus Selasa",
+                    "description": "Jumlah siklus pemotongan rumput pada hari Selasa (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Zona Selasa",
+                    "description": "Zona untuk dipotong pada hari Selasa."
+                },
+                "day_2_enabled": {
+                    "name": "Rabu diaktifkan",
+                    "description": "Apakah akan memotong rumput pada hari Rabu."
+                },
+                "day_2_duration": {
+                    "name": "Durasi hari Rabu",
+                    "description": "Durasi pemotongan untuk hari Rabu dalam hitungan menit (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Siklus Rabu",
+                    "description": "Jumlah siklus pemotongan rumput pada hari Rabu (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Zona Rabu",
+                    "description": "Zona untuk dipotong pada hari Rabu."
+                },
+                "day_3_enabled": {
+                    "name": "Kamis diaktifkan",
+                    "description": "Apakah akan memotong rumput pada hari Kamis."
+                },
+                "day_3_duration": {
+                    "name": "Durasi hari Kamis",
+                    "description": "Durasi pemotongan untuk hari Kamis dalam hitungan menit (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Siklus Kamis",
+                    "description": "Jumlah siklus pemotongan rumput pada Kamis (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Zona Kamis",
+                    "description": "Zona untuk dipotong pada hari Kamis."
+                },
+                "day_4_enabled": {
+                    "name": "Jumat diaktifkan",
+                    "description": "Apakah akan memotong rumput pada hari Jumat."
+                },
+                "day_4_duration": {
+                    "name": "Durasi hari Jumat",
+                    "description": "Durasi pemotongan untuk hari Jumat dalam hitungan menit (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Siklus Jumat",
+                    "description": "Jumlah siklus pemotongan rumput pada hari Jumat (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Zona Jumat",
+                    "description": "Zona untuk dipotong pada hari Jumat."
+                },
+                "day_5_enabled": {
+                    "name": "Sabtu diaktifkan",
+                    "description": "Apakah akan memotong rumput pada hari Sabtu."
+                },
+                "day_5_duration": {
+                    "name": "Durasi hari Sabtu",
+                    "description": "Durasi pemotongan untuk hari Sabtu dalam hitungan menit (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Siklus hari Sabtu",
+                    "description": "Jumlah siklus pemotongan rumput pada hari Sabtu (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Zona Sabtu",
+                    "description": "Zona untuk dipotong pada hari Sabtu."
+                },
+                "day_6_enabled": {
+                    "name": "Minggu diaktifkan",
+                    "description": "Apakah akan memotong pada hari Minggu."
+                },
+                "day_6_duration": {
+                    "name": "Durasi hari Minggu",
+                    "description": "Durasi pemotongan untuk hari Minggu dalam hitungan menit (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Siklus hari Minggu",
+                    "description": "Jumlah siklus pemotongan rumput pada hari Minggu (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Zona Minggu",
+                    "description": "Zona untuk dipotong pada hari Minggu."
+                }
+            }
+        }
+    }
+}

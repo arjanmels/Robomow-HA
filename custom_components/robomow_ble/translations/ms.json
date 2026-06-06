@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Pilih peranti Robomow yang anda mahu tambah dan masukkan nombor siri papan utama. \n\nUntuk mendapatkan nombor siri papan utama: 1) Log masuk ke myrobomow.robomow.com.\n2) Buka Alat Pembangun penyemak imbas anda (F12).\n3) Pergi ke tab Rangkaian.\n4) Muat semula halaman.\n5) Cari permintaan yang berakhir dengan /api/customer/products.\n6) Klik permintaan dan buka tab Respons.\n7) Dalam respons JSON, cari medan bernama MainboardSerial. Nilai ini ialah nombor siri papan utama sebenar.",
+                "data": {
+                    "address": "Alamat",
+                    "mainboard_serial": "Nombor siri papan utama"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Masukkan nombor siri papan utama untuk peranti Robomow yang ingin anda tambahkan pada Home Assistant.\n\nUntuk mendapatkan nombor siri papan utama: 1) Log masuk ke myrobomow.robomow.com.\n2) Buka Alat Pembangun penyemak imbas anda (F12).\n3) Pergi ke tab Rangkaian.\n4) Muat semula halaman.\n5) Cari permintaan yang berakhir dengan /api/customer/products.\n6) Klik permintaan dan buka tab Respons.\n7) Dalam respons JSON, cari medan bernama MainboardSerial. Nilai ini ialah nombor siri papan utama sebenar.",
+                "data": {
+                    "mainboard_serial": "Nombor siri papan utama"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Tiada alamat unik diberikan.",
+            "no_mainboard_serial": "Tiada nombor siri papan utama diberikan.",
+            "invalid_mainboard_serial": "Nombor siri papan utama tidak sah. Sahkan dan cuba lagi.",
+            "model_unsupported": "Model pemotong tidak disokong.",
+            "device_not_found": "Peranti Robomow tidak dapat ditemui. Bergerak lebih dekat dan cuba lagi.",
+            "service_not_found": "Perkhidmatan Bluetooth Robomow yang diperlukan tidak ditemui pada peranti ini.",
+            "characteristics_not_found": "Ciri Bluetooth Robomow yang diperlukan tidak ditemui pada peranti ini."
+        },
+        "abort": {
+            "already_configured": "Entri ini sudah dikonfigurasikan.",
+            "no_devices_found": "Tiada peranti Robomow ditemui.",
+            "not_supported": "Peranti Bluetooth ini bukan mesin pemotong Robomow yang disokong."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Tidak dapat menyambung ke peranti"
+        },
+        "invalid_auth": {
+            "message": "Pengesahan gagal"
+        },
+        "unsupported_device": {
+            "message": "Model peranti ini tidak disokong"
+        },
+        "no_unique_address": {
+            "message": "Tiada alamat unik diberikan."
+        },
+        "no_mainboard_serial": {
+            "message": "Tiada nombor siri papan utama diberikan."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Anti-kecurian aktif"
+            },
+            "mower_home": {
+                "name": "Mesin pemotong rumah"
+            },
+            "charging_active": {
+                "name": "Pengecasan aktif"
+            },
+            "disabling_device_removed": {
+                "name": "Melumpuhkan peranti dialih keluar"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Negeri Beroperasi",
+                "state": {
+                    "warming_up": "Memanaskan badan",
+                    "mowing": "Memotong",
+                    "edge_mowing": "Memotong Tepi",
+                    "returning_home_following_edge": "Mengikuti rumah tepi",
+                    "returning_home_warming_up": "Memanaskan badan untuk pulang ke rumah",
+                    "returning_home_searching_edge": "Tepi pencarian",
+                    "going_to_start": "Melangkah ke titik permulaan",
+                    "learning_entry_point": "Titik masuk pembelajaran",
+                    "idle": "terbiar",
+                    "charging": "Mengecas",
+                    "automatic": "Automatik",
+                    "remote_control": "Alat kawalan jauh",
+                    "bit": "sedikit"
+                }
+            },
+            "status_message": {
+                "name": "Mesej Status"
+            },
+            "next_departure": {
+                "name": "Berlepas Seterusnya"
+            },
+            "previous_departure": {
+                "name": "Berlepas Sebelumnya"
+            },
+            "expected_duration": {
+                "name": "Jangkaan Tempoh"
+            },
+            "no_depart_reason": {
+                "name": "Tiada Sebab Berlepas"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Jadual didayakan"
+            },
+            "anti_theft_enabled": {
+                "name": "Anti-kecurian didayakan"
+            },
+            "child_lock_enabled": {
+                "name": "Kunci kanak-kanak didayakan"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Titik permulaan A"
+            },
+            "starting_point_b": {
+                "name": "Titik permulaan B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Jenis isyarat wayar",
+                "state": {
+                    "type_a": "Jenis A",
+                    "type_b": "Jenis B",
+                    "type_c": "Jenis C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "mesin pemotong"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Utama",
+                "starting_point_a": "Titik permulaan A",
+                "starting_point_b": "Titik permulaan B",
+                "sub_1": "Sub zon 1",
+                "sub_2": "Sub zon 2",
+                "sub_3": "Sub zon 3",
+                "sub_4": "Sub zon 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Mula memotong",
+            "description": "Mula memotong dengan zon permulaan pilihan dan tempoh.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Zon permulaan",
+                    "description": "Zon Robomow untuk mula memotong dari."
+                },
+                "duration": {
+                    "name": "Tempoh",
+                    "description": "Tempoh pemotongan dalam minit (1-255). Lalai ialah 30 minit."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Tetapkan jadual",
+            "description": "Tetapkan jadual pemotongan.",
+            "fields": {
+                "start_time": {
+                    "name": "Masa mula",
+                    "description": "Masa untuk mula memotong setiap hari."
+                },
+                "end_time": {
+                    "name": "Masa tamat",
+                    "description": "Masa untuk menamatkan pemotongan setiap hari."
+                },
+                "day_0_enabled": {
+                    "name": "Isnin didayakan",
+                    "description": "Sama ada untuk memotong pada hari Isnin."
+                },
+                "day_0_duration": {
+                    "name": "Tempoh hari Isnin",
+                    "description": "Tempoh pemotongan untuk hari Isnin dalam minit (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Kitaran Isnin",
+                    "description": "Bilangan kitaran pemotongan untuk hari Isnin (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "zon Isnin",
+                    "description": "Zon untuk memotong pada hari Isnin."
+                },
+                "day_1_enabled": {
+                    "name": "Selasa didayakan",
+                    "description": "Sama ada untuk memotong pada hari Selasa."
+                },
+                "day_1_duration": {
+                    "name": "tempoh hari Selasa",
+                    "description": "Tempoh pemotongan untuk hari Selasa dalam minit (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Kitaran Selasa",
+                    "description": "Bilangan kitaran pemotongan untuk hari Selasa (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "zon Selasa",
+                    "description": "Zon untuk memotong pada hari Selasa."
+                },
+                "day_2_enabled": {
+                    "name": "Rabu didayakan",
+                    "description": "Sama ada untuk memotong pada hari Rabu."
+                },
+                "day_2_duration": {
+                    "name": "Tempoh hari Rabu",
+                    "description": "Tempoh pemotongan untuk hari Rabu dalam minit (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Kitaran hari Rabu",
+                    "description": "Bilangan kitaran pemotongan untuk hari Rabu (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "zon Rabu",
+                    "description": "Zon untuk memotong pada hari Rabu."
+                },
+                "day_3_enabled": {
+                    "name": "Khamis didayakan",
+                    "description": "Sama ada untuk memotong pada hari Khamis."
+                },
+                "day_3_duration": {
+                    "name": "Tempoh hari Khamis",
+                    "description": "Tempoh pemotongan untuk hari Khamis dalam minit (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Kitaran Khamis",
+                    "description": "Bilangan kitaran pemotongan untuk hari Khamis (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "zon Khamis",
+                    "description": "Zon untuk memotong pada hari Khamis."
+                },
+                "day_4_enabled": {
+                    "name": "Jumaat didayakan",
+                    "description": "Sama ada memotong pada hari Jumaat."
+                },
+                "day_4_duration": {
+                    "name": "Tempoh hari Jumaat",
+                    "description": "Tempoh pemotongan untuk hari Jumaat dalam minit (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Kitaran Jumaat",
+                    "description": "Bilangan kitaran pemotongan untuk hari Jumaat (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "zon Jumaat",
+                    "description": "Zon untuk memotong pada hari Jumaat."
+                },
+                "day_5_enabled": {
+                    "name": "Sabtu didayakan",
+                    "description": "Sama ada memotong pada hari Sabtu."
+                },
+                "day_5_duration": {
+                    "name": "Tempoh hari Sabtu",
+                    "description": "Tempoh pemotongan untuk hari Sabtu dalam minit (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Kitaran Sabtu",
+                    "description": "Bilangan kitaran pemotongan untuk hari Sabtu (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "zon Sabtu",
+                    "description": "Zon untuk memotong pada hari Sabtu."
+                },
+                "day_6_enabled": {
+                    "name": "Ahad didayakan",
+                    "description": "Sama ada untuk memotong pada hari Ahad."
+                },
+                "day_6_duration": {
+                    "name": "Tempoh hari Ahad",
+                    "description": "Tempoh pemotongan untuk hari Ahad dalam minit (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Kitaran Ahad",
+                    "description": "Bilangan kitaran pemotongan untuk hari Ahad (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "zon Ahad",
+                    "description": "Zon untuk memotong pada hari Ahad."
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Valige Robomow seade, mida soovite lisada, ja sisestage emaplaadi seerianumber. \n\nEmaplaadi seerianumbri saamiseks: 1) Logige sisse saidile myrobomow.robomow.com.\n2) Avage brauseris Developer Tools (F12).\n3) Minge vahekaardile Võrk.\n4) Laadige leht uuesti.\n5) Otsige päringut, mis lõpeb numbriga /api/customer/products.\n6) Klõpsake päringut ja avage vahekaart Vastus.\n7) Leidke JSON-i vastusest väli nimega MainboardSerial. See väärtus on emaplaadi tegelik seerianumber.",
+                "data": {
+                    "address": "Aadress",
+                    "mainboard_serial": "Emaplaadi seerianumber"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Sisestage selle Robomow seadme emaplaadi seerianumber, mille soovite koduabilisele lisada.\n\nEmaplaadi seerianumbri saamiseks: 1) Logige sisse saidile myrobomow.robomow.com.\n2) Avage brauseris Developer Tools (F12).\n3) Minge vahekaardile Võrk.\n4) Laadige leht uuesti.\n5) Otsige päringut, mis lõpeb numbriga /api/customer/products.\n6) Klõpsake päringut ja avage vahekaart Vastus.\n7) Leidke JSON-i vastusest väli nimega MainboardSerial. See väärtus on emaplaadi tegelik seerianumber.",
+                "data": {
+                    "mainboard_serial": "Emaplaadi seerianumber"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Unikaalset aadressi pole esitatud.",
+            "no_mainboard_serial": "Emaplaadi seerianumbrit pole esitatud.",
+            "invalid_mainboard_serial": "Emaplaadi seerianumber on kehtetu. Kontrollige seda ja proovige uuesti.",
+            "model_unsupported": "Niiduki mudelit ei toetata.",
+            "device_not_found": "Robomow seadet ei leitud. Liikuge lähemale ja proovige uuesti.",
+            "service_not_found": "Sellest seadmest ei leitud nõutavat Robomow Bluetoothi ​​teenust.",
+            "characteristics_not_found": "Sellel seadmel ei leitud Robomow Bluetoothi ​​vajalikke omadusi."
+        },
+        "abort": {
+            "already_configured": "See kirje on juba konfigureeritud.",
+            "no_devices_found": "Robomow seadmeid ei leitud.",
+            "not_supported": "See Bluetooth-seade ei ole toetatud Robomow niiduk."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Seadmega ei saa ühendust"
+        },
+        "invalid_auth": {
+            "message": "Autentimine ebaõnnestus"
+        },
+        "unsupported_device": {
+            "message": "Seda seadme mudelit ei toetata"
+        },
+        "no_unique_address": {
+            "message": "Unikaalset aadressi pole esitatud."
+        },
+        "no_mainboard_serial": {
+            "message": "Emaplaadi seerianumbrit pole esitatud."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Vargusvastane aktiivne"
+            },
+            "mower_home": {
+                "name": "Niiduk koju"
+            },
+            "charging_active": {
+                "name": "Laadimine aktiivne"
+            },
+            "disabling_device_removed": {
+                "name": "Seadme keelamine eemaldati"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Tööoleku olek",
+                "state": {
+                    "warming_up": "Soojenemine",
+                    "mowing": "Niitmine",
+                    "edge_mowing": "Serva niitmine",
+                    "returning_home_following_edge": "Edaspidi koju",
+                    "returning_home_warming_up": "Soojendus koju naasmiseks",
+                    "returning_home_searching_edge": "Otsimise serv",
+                    "going_to_start": "Lähtepunkti minnes",
+                    "learning_entry_point": "Õppimise sisenemispunkt",
+                    "idle": "Tühikäik",
+                    "charging": "Laadimine",
+                    "automatic": "Automaatne",
+                    "remote_control": "Kaugjuhtimispult",
+                    "bit": "Natuke"
+                }
+            },
+            "status_message": {
+                "name": "Olekuteade"
+            },
+            "next_departure": {
+                "name": "Järgmine väljasõit"
+            },
+            "previous_departure": {
+                "name": "Eelmine lahkumine"
+            },
+            "expected_duration": {
+                "name": "Eeldatav kestus"
+            },
+            "no_depart_reason": {
+                "name": "Lahkumise põhjus puudub"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Ajakava on lubatud"
+            },
+            "anti_theft_enabled": {
+                "name": "Vargusvastane kaitse sisse lülitatud"
+            },
+            "child_lock_enabled": {
+                "name": "Lapselukk lubatud"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Lähtepunkt A"
+            },
+            "starting_point_b": {
+                "name": "Lähtepunkt B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Juhtme signaali tüüp",
+                "state": {
+                    "type_a": "Tüüp A",
+                    "type_b": "Tüüp B",
+                    "type_c": "Tüüp C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Niiduk"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Peamine",
+                "starting_point_a": "Lähtepunkt A",
+                "starting_point_b": "Lähtepunkt B",
+                "sub_1": "Alamtsoon 1",
+                "sub_2": "Alamtsoon 2",
+                "sub_3": "Alamtsoon 3",
+                "sub_4": "Alamtsoon 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Alusta niitmist",
+            "description": "Alustage niitmist valikulise algustsooni ja kestusega.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Starditsoon",
+                    "description": "Robomow tsoon, kust niitmist alustada."
+                },
+                "duration": {
+                    "name": "Kestus",
+                    "description": "Niitmise kestus minutites (1-255). Vaikimisi on 30 minutit."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Määra ajakava",
+            "description": "Määrake niiduki ajakava.",
+            "fields": {
+                "start_time": {
+                    "name": "Algusaeg",
+                    "description": "Iga päev on aeg niitma hakata."
+                },
+                "end_time": {
+                    "name": "Lõpuaeg",
+                    "description": "Iga päev on aeg niitmine lõpetada."
+                },
+                "day_0_enabled": {
+                    "name": "Esmaspäev lubatud",
+                    "description": "Kas esmaspäeval niita."
+                },
+                "day_0_duration": {
+                    "name": "Esmaspäevane kestus",
+                    "description": "Niitmise kestus esmaspäevaks minutites (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Esmaspäevased tsüklid",
+                    "description": "Niitmistsüklite arv esmaspäeval (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Esmaspäevane tsoon",
+                    "description": "Esmaspäeval niita tsoon."
+                },
+                "day_1_enabled": {
+                    "name": "Teisipäev lubatud",
+                    "description": "Kas teisipäeval niita."
+                },
+                "day_1_duration": {
+                    "name": "Teisipäevane kestus",
+                    "description": "Niitmise kestus teisipäevaks minutites (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Teisipäevased tsüklid",
+                    "description": "Niitmistsüklite arv teisipäevaks (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Teisipäeva tsoon",
+                    "description": "Tsoon teisipäeval niita."
+                },
+                "day_2_enabled": {
+                    "name": "Kolmapäev lubatud",
+                    "description": "Kas kolmapäeval niita."
+                },
+                "day_2_duration": {
+                    "name": "Kolmapäevane kestus",
+                    "description": "Niitmise kestus kolmapäevaks minutites (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Kolmapäevased tsüklid",
+                    "description": "Niitmistsüklite arv kolmapäevaks (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Kolmapäevane tsoon",
+                    "description": "Kolmapäeval niita tsoon."
+                },
+                "day_3_enabled": {
+                    "name": "Neljapäev lubatud",
+                    "description": "Kas neljapäeval niita."
+                },
+                "day_3_duration": {
+                    "name": "Neljapäevane kestus",
+                    "description": "Niitmise kestus neljapäevaks minutites (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Neljapäevased tsüklid",
+                    "description": "Niitmistsüklite arv neljapäevaks (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Neljapäevane tsoon",
+                    "description": "Neljapäeval niidetav tsoon."
+                },
+                "day_4_enabled": {
+                    "name": "Reede lubatud",
+                    "description": "Kas reedel niita."
+                },
+                "day_4_duration": {
+                    "name": "Reedene kestus",
+                    "description": "Reede niitmise kestus minutites (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Reedesed tsüklid",
+                    "description": "Reede niitmistsüklite arv (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Reede tsoon",
+                    "description": "Tsoon, mida reedel niita."
+                },
+                "day_5_enabled": {
+                    "name": "Laupäev lubatud",
+                    "description": "Kas laupäeval niita."
+                },
+                "day_5_duration": {
+                    "name": "Laupäevane kestus",
+                    "description": "Laupäevase niitmise kestus minutites (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Laupäevased tsüklid",
+                    "description": "Niitmistsüklite arv laupäevaks (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Laupäevane tsoon",
+                    "description": "Tsoon, mida laupäeval niita."
+                },
+                "day_6_enabled": {
+                    "name": "Pühapäev lubatud",
+                    "description": "Kas pühapäeval niita."
+                },
+                "day_6_duration": {
+                    "name": "Pühapäevane kestus",
+                    "description": "Niitmise kestus pühapäevaks minutites (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Pühapäevased tsüklid",
+                    "description": "Niitmistsüklite arv pühapäeval (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Pühapäeva tsoon",
+                    "description": "Tsoon pühapäeval niita."
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Chọn thiết bị Robomow bạn muốn thêm và nhập số serial của bo mạch chính. \n\nĐể lấy số serial bo mạch chính: 1) Đăng nhập vào myrobomow.robomow.com.\n2) Mở Công cụ dành cho nhà phát triển của trình duyệt (F12).\n3) Chuyển đến tab Mạng.\n4) Tải lại trang.\n5) Tìm yêu cầu kết thúc bằng /api/customer/products.\n6) Nhấp vào yêu cầu và mở tab Phản hồi.\n7) Trong phản hồi JSON, tìm trường có tên MainboardSerial. Giá trị này là số sê-ri bo mạch chính thực tế.",
+                "data": {
+                    "address": "Địa chỉ",
+                    "mainboard_serial": "Số serial bo mạch chủ"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Nhập số serial bo mạch chính của thiết bị Robomow bạn muốn thêm vào Home Assistant.\n\nĐể lấy số serial bo mạch chính: 1) Đăng nhập vào myrobomow.robomow.com.\n2) Mở Công cụ dành cho nhà phát triển của trình duyệt (F12).\n3) Chuyển đến tab Mạng.\n4) Tải lại trang.\n5) Tìm yêu cầu kết thúc bằng /api/customer/products.\n6) Nhấp vào yêu cầu và mở tab Phản hồi.\n7) Trong phản hồi JSON, tìm trường có tên MainboardSerial. Giá trị này là số sê-ri bo mạch chính thực tế.",
+                "data": {
+                    "mainboard_serial": "Số serial bo mạch chủ"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Không có địa chỉ duy nhất được cung cấp.",
+            "no_mainboard_serial": "Không có số serial bo mạch chính được cung cấp.",
+            "invalid_mainboard_serial": "Số serial của bo mạch chính không hợp lệ. Hãy xác minh nó và thử lại.",
+            "model_unsupported": "Mô hình máy cắt không được hỗ trợ.",
+            "device_not_found": "Không thể tìm thấy thiết bị Robomow. Tiến lại gần hơn và thử lại.",
+            "service_not_found": "Không tìm thấy dịch vụ Bluetooth Robomow được yêu cầu trên thiết bị này.",
+            "characteristics_not_found": "Không tìm thấy các đặc tính Bluetooth Robomow cần thiết trên thiết bị này."
+        },
+        "abort": {
+            "already_configured": "Mục nhập này đã được cấu hình.",
+            "no_devices_found": "Không tìm thấy thiết bị Robomow.",
+            "not_supported": "Thiết bị Bluetooth này không phải là máy cắt cỏ Robomow được hỗ trợ."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Không thể kết nối với thiết bị"
+        },
+        "invalid_auth": {
+            "message": "Xác thực không thành công"
+        },
+        "unsupported_device": {
+            "message": "Mẫu thiết bị này không được hỗ trợ"
+        },
+        "no_unique_address": {
+            "message": "Không có địa chỉ duy nhất được cung cấp."
+        },
+        "no_mainboard_serial": {
+            "message": "Không có số serial bo mạch chính được cung cấp."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Chống trộm đang hoạt động"
+            },
+            "mower_home": {
+                "name": "nhà máy cắt cỏ"
+            },
+            "charging_active": {
+                "name": "Đang sạc đang hoạt động"
+            },
+            "disabling_device_removed": {
+                "name": "Đã xóa thiết bị vô hiệu hóa"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Trạng thái vận hành",
+                "state": {
+                    "warming_up": "Khởi động",
+                    "mowing": "cắt cỏ",
+                    "edge_mowing": "Cắt cạnh",
+                    "returning_home_following_edge": "Theo cạnh nhà",
+                    "returning_home_warming_up": "Ấm lên để trở về nhà",
+                    "returning_home_searching_edge": "Cạnh tìm kiếm",
+                    "going_to_start": "Đi về điểm xuất phát",
+                    "learning_entry_point": "Điểm đầu vào học tập",
+                    "idle": "Nhàn rỗi",
+                    "charging": "Sạc",
+                    "automatic": "Tự động",
+                    "remote_control": "Điều khiển từ xa",
+                    "bit": "Chút"
+                }
+            },
+            "status_message": {
+                "name": "Thông báo trạng thái"
+            },
+            "next_departure": {
+                "name": "Chuyến khởi hành tiếp theo"
+            },
+            "previous_departure": {
+                "name": "Chuyến khởi hành trước đó"
+            },
+            "expected_duration": {
+                "name": "Thời lượng dự kiến"
+            },
+            "no_depart_reason": {
+                "name": "Không có lý do khởi hành"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Đã bật lịch biểu"
+            },
+            "anti_theft_enabled": {
+                "name": "Đã bật chống trộm"
+            },
+            "child_lock_enabled": {
+                "name": "Đã bật khóa trẻ em"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Điểm khởi đầu A"
+            },
+            "starting_point_b": {
+                "name": "Điểm xuất phát B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Loại tín hiệu dây",
+                "state": {
+                    "type_a": "Loại A",
+                    "type_b": "Loại B",
+                    "type_c": "Loại C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Máy cắt cỏ"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Chủ yếu",
+                "starting_point_a": "Điểm khởi đầu A",
+                "starting_point_b": "Điểm xuất phát B",
+                "sub_1": "Tiểu khu 1",
+                "sub_2": "Tiểu khu 2",
+                "sub_3": "Tiểu khu 3",
+                "sub_4": "Tiểu khu 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Bắt đầu cắt cỏ",
+            "description": "Bắt đầu cắt cỏ với vùng bắt đầu và thời gian bắt đầu tùy chọn.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Vùng xuất phát",
+                    "description": "Vùng Robomow để bắt đầu cắt cỏ."
+                },
+                "duration": {
+                    "name": "Khoảng thời gian",
+                    "description": "Thời gian cắt cỏ tính bằng phút (1-255). Mặc định là 30 phút."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Đặt lịch",
+            "description": "Đặt lịch trình cắt cỏ.",
+            "fields": {
+                "start_time": {
+                    "name": "Thời gian bắt đầu",
+                    "description": "Đã đến lúc bắt đầu cắt cỏ mỗi ngày."
+                },
+                "end_time": {
+                    "name": "Thời gian kết thúc",
+                    "description": "Đã đến lúc kết thúc việc cắt cỏ mỗi ngày."
+                },
+                "day_0_enabled": {
+                    "name": "Đã bật thứ Hai",
+                    "description": "Có nên cắt cỏ vào thứ Hai không."
+                },
+                "day_0_duration": {
+                    "name": "thời gian thứ hai",
+                    "description": "Thời gian cắt cỏ vào thứ Hai tính bằng phút (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "chu kỳ thứ hai",
+                    "description": "Số chu kỳ cắt cỏ vào thứ Hai (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "khu vực thứ hai",
+                    "description": "Khu vực cắt cỏ vào thứ Hai."
+                },
+                "day_1_enabled": {
+                    "name": "Đã bật thứ ba",
+                    "description": "Có nên cắt cỏ vào thứ ba hay không."
+                },
+                "day_1_duration": {
+                    "name": "thời gian thứ ba",
+                    "description": "Thời gian cắt cỏ vào thứ Ba tính bằng phút (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "chu kỳ thứ ba",
+                    "description": "Số chu kỳ cắt cỏ vào thứ Ba (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "khu vực thứ ba",
+                    "description": "Khu vực cắt cỏ vào thứ ba."
+                },
+                "day_2_enabled": {
+                    "name": "Đã bật thứ Tư",
+                    "description": "Có nên cắt cỏ vào thứ Tư hay không."
+                },
+                "day_2_duration": {
+                    "name": "thời gian thứ tư",
+                    "description": "Thời gian cắt cỏ vào thứ Tư tính bằng phút (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "chu kỳ thứ tư",
+                    "description": "Số chu kỳ cắt cỏ vào Thứ Tư (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "khu vực thứ tư",
+                    "description": "Khu vực cắt cỏ vào thứ Tư."
+                },
+                "day_3_enabled": {
+                    "name": "Đã bật thứ năm",
+                    "description": "Có nên cắt cỏ vào thứ năm hay không."
+                },
+                "day_3_duration": {
+                    "name": "thời gian thứ năm",
+                    "description": "Thời gian cắt cỏ vào thứ Năm tính bằng phút (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "chu kỳ thứ năm",
+                    "description": "Số chu kỳ cắt cỏ vào Thứ Năm (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "khu thứ năm",
+                    "description": "Khu vực cắt cỏ vào thứ năm."
+                },
+                "day_4_enabled": {
+                    "name": "Đã bật thứ sáu",
+                    "description": "Có nên cắt cỏ vào thứ Sáu hay không."
+                },
+                "day_4_duration": {
+                    "name": "thời gian thứ sáu",
+                    "description": "Thời gian cắt cỏ vào thứ Sáu tính bằng phút (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "chu kỳ thứ sáu",
+                    "description": "Số chu kỳ cắt cỏ vào thứ Sáu (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "khu vực thứ sáu",
+                    "description": "Khu vực cắt cỏ vào thứ Sáu."
+                },
+                "day_5_enabled": {
+                    "name": "Đã bật thứ bảy",
+                    "description": "Có nên cắt cỏ vào thứ bảy không."
+                },
+                "day_5_duration": {
+                    "name": "thời gian thứ bảy",
+                    "description": "Thời gian cắt cỏ vào Thứ Bảy tính bằng phút (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "chu kỳ thứ bảy",
+                    "description": "Số chu kỳ cắt cỏ vào Thứ Bảy (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Khu thứ bảy",
+                    "description": "Khu vực cắt cỏ vào thứ bảy."
+                },
+                "day_6_enabled": {
+                    "name": "Đã bật chủ nhật",
+                    "description": "Có nên cắt cỏ vào ngày chủ nhật hay không."
+                },
+                "day_6_duration": {
+                    "name": "thời gian chủ nhật",
+                    "description": "Thời gian cắt cỏ vào Chủ nhật tính bằng phút (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "chu kỳ chủ nhật",
+                    "description": "Số chu kỳ cắt cỏ vào Chủ nhật (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Khu chủ nhật",
+                    "description": "Khu vực cắt cỏ vào ngày chủ nhật."
+                }
+            }
+        }
+    }
+}

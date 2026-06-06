@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Válassza ki a hozzáadni kívánt Robomow eszközt, és adja meg az alaplap sorozatszámát. \n\nAz alaplap sorozatszámának beszerzéséhez: 1) Jelentkezzen be a myrobomow.robomow.com oldalon.\n2) Nyissa meg böngészője Fejlesztői eszközeit (F12).\n3) Lépjen a Hálózat fülre.\n4) Töltse be újra az oldalt.\n5) Keressen egy /api/customer/products végű kérelmet.\n6) Kattintson a kérésre, és nyissa meg a Válasz lapot.\n7) A JSON-válaszban keresse meg a MainboardSerial nevű mezőt. Ez az érték az alaplap tényleges sorozatszáma.",
+                "data": {
+                    "address": "Cím",
+                    "mainboard_serial": "Alaplap sorozatszáma"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Adja meg az otthoni asszisztenshez hozzáadni kívánt Robomow eszköz alaplapi sorozatszámát.\n\nAz alaplap sorozatszámának beszerzéséhez: 1) Jelentkezzen be a myrobomow.robomow.com oldalon.\n2) Nyissa meg böngészője Fejlesztői eszközeit (F12).\n3) Lépjen a Hálózat fülre.\n4) Töltse be újra az oldalt.\n5) Keressen egy /api/customer/products végű kérelmet.\n6) Kattintson a kérésre, és nyissa meg a Válasz lapot.\n7) A JSON-válaszban keresse meg a MainboardSerial nevű mezőt. Ez az érték az alaplap tényleges sorozatszáma.",
+                "data": {
+                    "mainboard_serial": "Alaplap sorozatszáma"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Nincs megadva egyedi cím.",
+            "no_mainboard_serial": "Az alaplap sorozatszáma nincs megadva.",
+            "invalid_mainboard_serial": "Az alaplap sorozatszáma érvénytelen. Ellenőrizze, és próbálja újra.",
+            "model_unsupported": "A fűnyíró modell nem támogatott.",
+            "device_not_found": "A Robomow eszköz nem található. Menjen közelebb, és próbálja újra.",
+            "service_not_found": "A szükséges Robomow Bluetooth szolgáltatás nem található ezen az eszközön.",
+            "characteristics_not_found": "A szükséges Robomow Bluetooth jellemzők nem találhatók ezen az eszközön."
+        },
+        "abort": {
+            "already_configured": "Ez a bejegyzés már konfigurálva van.",
+            "no_devices_found": "Nem található Robomow eszköz.",
+            "not_supported": "Ez a Bluetooth-eszköz nem támogatott Robomow fűnyíró."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Nem lehet csatlakozni a készülékhez"
+        },
+        "invalid_auth": {
+            "message": "A hitelesítés nem sikerült"
+        },
+        "unsupported_device": {
+            "message": "Ez az eszközmodell nem támogatott"
+        },
+        "no_unique_address": {
+            "message": "Nincs megadva egyedi cím."
+        },
+        "no_mainboard_serial": {
+            "message": "Az alaplap sorozatszáma nincs megadva."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Lopásgátló aktív"
+            },
+            "mower_home": {
+                "name": "Kasza haza"
+            },
+            "charging_active": {
+                "name": "Töltés aktív"
+            },
+            "disabling_device_removed": {
+                "name": "Az eszköz letiltása eltávolítva"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Működési állapot",
+                "state": {
+                    "warming_up": "Bemelegítés",
+                    "mowing": "Kaszálás",
+                    "edge_mowing": "Élnyírás",
+                    "returning_home_following_edge": "Követve az él haza",
+                    "returning_home_warming_up": "Bemelegítés a hazatéréshez",
+                    "returning_home_searching_edge": "Kereső él",
+                    "going_to_start": "Irány a kiindulópont",
+                    "learning_entry_point": "A tanulás belépési pontja",
+                    "idle": "Tétlen",
+                    "charging": "Töltés",
+                    "automatic": "Automatikus",
+                    "remote_control": "Távirányító",
+                    "bit": "Bit"
+                }
+            },
+            "status_message": {
+                "name": "Állapotüzenet"
+            },
+            "next_departure": {
+                "name": "Következő Indulás"
+            },
+            "previous_departure": {
+                "name": "Előző Indulás"
+            },
+            "expected_duration": {
+                "name": "Várható időtartam"
+            },
+            "no_depart_reason": {
+                "name": "Nincs indulási ok"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Ütemezés engedélyezve"
+            },
+            "anti_theft_enabled": {
+                "name": "A lopásgátló engedélyezve"
+            },
+            "child_lock_enabled": {
+                "name": "Gyerekzár engedélyezve"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "A kiindulási pont"
+            },
+            "starting_point_b": {
+                "name": "Kiindulási pont B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Vezetékjel típusa",
+                "state": {
+                    "type_a": "A típusú",
+                    "type_b": "B típus",
+                    "type_c": "C típusú"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Kaszálógép"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Fő",
+                "starting_point_a": "A kiindulási pont",
+                "starting_point_b": "Kiindulási pont B",
+                "sub_1": "1. alzóna",
+                "sub_2": "2. alzóna",
+                "sub_3": "3. alzóna",
+                "sub_4": "4. alzóna"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Kezdje el a fűnyírást",
+            "description": "Indítsa el a fűnyírást az opcionális kezdőzónával és időtartammal.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Kezdő zóna",
+                    "description": "Robomow zóna a fűnyírás megkezdéséhez."
+                },
+                "duration": {
+                    "name": "Időtartam",
+                    "description": "A fűnyírás időtartama percben (1-255). Az alapértelmezett 30 perc."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Állítsa be az ütemezést",
+            "description": "Állítsa be a fűnyíró ütemezését.",
+            "fields": {
+                "start_time": {
+                    "name": "Kezdés időpontja",
+                    "description": "Ideje elkezdeni a fűnyírást minden nap."
+                },
+                "end_time": {
+                    "name": "Vége",
+                    "description": "Minden nap ideje befejezni a fűnyírást."
+                },
+                "day_0_enabled": {
+                    "name": "hétfő engedélyezve",
+                    "description": "Hogy kaszáljunk-e hétfőn."
+                },
+                "day_0_duration": {
+                    "name": "Hétfői időtartam",
+                    "description": "A kaszálás időtartama hétfőre percben (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Hétfői ciklusok",
+                    "description": "Kaszálási ciklusok száma hétfőre (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Hétfői zóna",
+                    "description": "Hétfőn kaszálandó zóna."
+                },
+                "day_1_enabled": {
+                    "name": "Kedd engedélyezve",
+                    "description": "Hogy kedden kaszáljunk-e."
+                },
+                "day_1_duration": {
+                    "name": "keddi időtartam",
+                    "description": "Kaszálás időtartama keddre percben (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Keddi ciklusok",
+                    "description": "Kaszálási ciklusok száma keddre (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Keddi zóna",
+                    "description": "Kedden kaszálandó zóna."
+                },
+                "day_2_enabled": {
+                    "name": "Szerda engedélyezve",
+                    "description": "Hogy szerdán kaszáljunk-e."
+                },
+                "day_2_duration": {
+                    "name": "Szerda időtartama",
+                    "description": "Kaszálás időtartama szerdára percben (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Szerdai ciklusok",
+                    "description": "Kaszálási ciklusok száma szerdára (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Szerda zóna",
+                    "description": "Zóna kaszálni szerdán."
+                },
+                "day_3_enabled": {
+                    "name": "Csütörtök engedélyezve",
+                    "description": "Hogy kell-e kaszálni csütörtökön."
+                },
+                "day_3_duration": {
+                    "name": "csütörtöki időtartam",
+                    "description": "Kaszálás időtartama csütörtökre percben (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "csütörtöki ciklusok",
+                    "description": "Kaszálási ciklusok száma csütörtökre (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "csütörtöki zóna",
+                    "description": "Csütörtökön kaszálandó zóna."
+                },
+                "day_4_enabled": {
+                    "name": "Péntek engedélyezve",
+                    "description": "Hogy kell-e kaszálni pénteken."
+                },
+                "day_4_duration": {
+                    "name": "Pénteki időtartam",
+                    "description": "A kaszálás időtartama péntekre percben (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Pénteki ciklusok",
+                    "description": "Pénteki kaszálási ciklusok száma (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "pénteki zóna",
+                    "description": "Pénteken kaszálandó zóna."
+                },
+                "day_5_enabled": {
+                    "name": "Szombat engedélyezve",
+                    "description": "Hogy kell-e kaszálni szombaton."
+                },
+                "day_5_duration": {
+                    "name": "Szombati időtartam",
+                    "description": "Kaszálás időtartama szombatra percben (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Szombati ciklusok",
+                    "description": "Kaszálási ciklusok száma szombatra (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "szombati zóna",
+                    "description": "Zóna kaszálni szombaton."
+                },
+                "day_6_enabled": {
+                    "name": "Vasárnap engedélyezve",
+                    "description": "Hogy kell-e kaszálni vasárnap."
+                },
+                "day_6_duration": {
+                    "name": "Vasárnapi időtartam",
+                    "description": "Kaszálás időtartama vasárnapra percben (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Vasárnapi ciklusok",
+                    "description": "Kaszálási ciklusok száma vasárnapra (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Vasárnapi zóna",
+                    "description": "Vasárnap kaszálandó zóna."
+                }
+            }
+        }
+    }
+}

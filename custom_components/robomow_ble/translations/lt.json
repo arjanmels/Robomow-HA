@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Pasirinkite Robomow įrenginį, kurį norite pridėti, ir įveskite pagrindinės plokštės serijos numerį. \n\nNorėdami gauti pagrindinės plokštės serijos numerį: 1) Prisijunkite prie myrobomow.robomow.com.\n2) Atidarykite naršyklės kūrėjo įrankius (F12).\n3) Eikite į skirtuką Tinklas.\n4) Iš naujo įkelkite puslapį.\n5) Ieškokite užklausos, kuri baigiasi /api/customer/products.\n6) Spustelėkite užklausą ir atidarykite skirtuką Atsakymas.\n7) JSON atsakyme raskite lauką pavadinimu MainboardSerial. Ši vertė yra tikrasis pagrindinės plokštės serijos numeris.",
+                "data": {
+                    "address": "Adresas",
+                    "mainboard_serial": "Pagrindinės plokštės serijos numeris"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Įveskite pagrindinės plokštės serijos numerį Robomow įrenginiui, kurį norite pridėti prie namų asistento.\n\nNorėdami gauti pagrindinės plokštės serijos numerį: 1) Prisijunkite prie myrobomow.robomow.com.\n2) Atidarykite naršyklės kūrėjo įrankius (F12).\n3) Eikite į skirtuką Tinklas.\n4) Iš naujo įkelkite puslapį.\n5) Ieškokite užklausos, kuri baigiasi /api/customer/products.\n6) Spustelėkite užklausą ir atidarykite skirtuką Atsakymas.\n7) JSON atsakyme raskite lauką pavadinimu MainboardSerial. Ši vertė yra tikrasis pagrindinės plokštės serijos numeris.",
+                "data": {
+                    "mainboard_serial": "Pagrindinės plokštės serijos numeris"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Unikalus adresas nepateiktas.",
+            "no_mainboard_serial": "Pagrindinės plokštės serijos numeris nepateiktas.",
+            "invalid_mainboard_serial": "Pagrindinės plokštės serijos numeris neteisingas. Patikrinkite ir bandykite dar kartą.",
+            "model_unsupported": "Vejapjovės modelis nepalaikomas.",
+            "device_not_found": "Robomow įrenginio nepavyko rasti. Prieikite arčiau ir bandykite dar kartą.",
+            "service_not_found": "Reikalinga Robomow Bluetooth paslauga šiame įrenginyje nerasta.",
+            "characteristics_not_found": "Šiame įrenginyje nerasta reikiamų Robomow Bluetooth charakteristikų."
+        },
+        "abort": {
+            "already_configured": "Šis įrašas jau sukonfigūruotas.",
+            "no_devices_found": "Robomow įrenginių nerasta.",
+            "not_supported": "Šis Bluetooth įrenginys nėra palaikoma Robomow vejapjovė."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Nepavyksta prisijungti prie įrenginio"
+        },
+        "invalid_auth": {
+            "message": "Autentifikuoti nepavyko"
+        },
+        "unsupported_device": {
+            "message": "Šis įrenginio modelis nepalaikomas"
+        },
+        "no_unique_address": {
+            "message": "Unikalus adresas nepateiktas."
+        },
+        "no_mainboard_serial": {
+            "message": "Pagrindinės plokštės serijos numeris nepateiktas."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Aktyvus nuo vagystės"
+            },
+            "mower_home": {
+                "name": "Šienapjovės namai"
+            },
+            "charging_active": {
+                "name": "Įkrovimas aktyvus"
+            },
+            "disabling_device_removed": {
+                "name": "Išjungiamas įrenginys pašalintas"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Veikimo būsena",
+                "state": {
+                    "warming_up": "Apšilimas",
+                    "mowing": "Šienavimas",
+                    "edge_mowing": "Krašto pjovimas",
+                    "returning_home_following_edge": "Po krašto namo",
+                    "returning_home_warming_up": "Apšilimas grįžimui namo",
+                    "returning_home_searching_edge": "Paieškos kraštas",
+                    "going_to_start": "Eikite į pradinį tašką",
+                    "learning_entry_point": "Mokymosi įėjimo taškas",
+                    "idle": "Tuščia eiga",
+                    "charging": "Įkrovimas",
+                    "automatic": "Automatinis",
+                    "remote_control": "Nuotolinio valdymo pultas",
+                    "bit": "Bit"
+                }
+            },
+            "status_message": {
+                "name": "Būsenos pranešimas"
+            },
+            "next_departure": {
+                "name": "Kitas išvykimas"
+            },
+            "previous_departure": {
+                "name": "Ankstesnis išvykimas"
+            },
+            "expected_duration": {
+                "name": "Numatoma trukmė"
+            },
+            "no_depart_reason": {
+                "name": "Nėra išvykimo priežasties"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Tvarkaraštis įjungtas"
+            },
+            "anti_theft_enabled": {
+                "name": "Įjungta apsauga nuo vagystės"
+            },
+            "child_lock_enabled": {
+                "name": "Užraktas nuo vaikų įjungtas"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Pradinis taškas A"
+            },
+            "starting_point_b": {
+                "name": "Pradinis taškas B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Laido signalo tipas",
+                "state": {
+                    "type_a": "A tipas",
+                    "type_b": "B tipas",
+                    "type_c": "C tipas"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Šienapjovė"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Pagrindinis",
+                "starting_point_a": "Pradinis taškas A",
+                "starting_point_b": "Pradinis taškas B",
+                "sub_1": "1 subzona",
+                "sub_2": "2 subzona",
+                "sub_3": "3 subzona",
+                "sub_4": "4 subzona"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Pradėkite pjauti",
+            "description": "Pradėti pjauti pasirenkama pradinė zona ir trukmė.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Starto zona",
+                    "description": "Robomow zona, nuo kurios galima pradėti pjauti."
+                },
+                "duration": {
+                    "name": "Trukmė",
+                    "description": "Pjovimo trukmė minutėmis (1-255). Numatytoji vertė yra 30 minučių."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Nustatykite tvarkaraštį",
+            "description": "Nustatykite vejapjovės tvarkaraštį.",
+            "fields": {
+                "start_time": {
+                    "name": "Pradžios laikas",
+                    "description": "Laikas pradėti pjauti kiekvieną dieną."
+                },
+                "end_time": {
+                    "name": "Pabaigos laikas",
+                    "description": "Laikas baigti pjauti kiekvieną dieną."
+                },
+                "day_0_enabled": {
+                    "name": "Pirmadienis įjungtas",
+                    "description": "Ar pjauti pirmadienį."
+                },
+                "day_0_duration": {
+                    "name": "Pirmadienio trukmė",
+                    "description": "Pjovimo trukmė pirmadienį minutėmis (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Pirmadienio ciklai",
+                    "description": "Pjovimo ciklų skaičius pirmadienį (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Pirmadienio zona",
+                    "description": "Zona pjauti pirmadienį."
+                },
+                "day_1_enabled": {
+                    "name": "Antradienis įjungtas",
+                    "description": "Ar pjauti antradienį."
+                },
+                "day_1_duration": {
+                    "name": "Antradienio trukmė",
+                    "description": "Pjovimo trukmė antradienį minutėmis (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Antradienio ciklai",
+                    "description": "Pjovimo ciklų skaičius antradienį (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Antradienio zona",
+                    "description": "Zona pjauti antradienį."
+                },
+                "day_2_enabled": {
+                    "name": "Trečiadienis įjungtas",
+                    "description": "Ar pjauti trečiadienį."
+                },
+                "day_2_duration": {
+                    "name": "Trečiadienio trukmė",
+                    "description": "Pjovimo trukmė trečiadienį minutėmis (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Trečiadienio ciklai",
+                    "description": "Pjovimo ciklų skaičius trečiadienį (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Trečiadienio zona",
+                    "description": "Zona pjauti trečiadienį."
+                },
+                "day_3_enabled": {
+                    "name": "Ketvirtadienis įjungtas",
+                    "description": "Ar pjauti ketvirtadienį."
+                },
+                "day_3_duration": {
+                    "name": "Ketvirtadienio trukmė",
+                    "description": "Pjovimo trukmė ketvirtadienį minutėmis (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Ketvirtadienio ciklai",
+                    "description": "Pjovimo ciklų skaičius ketvirtadienį (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Ketvirtadienio zona",
+                    "description": "Zona pjauti ketvirtadienį."
+                },
+                "day_4_enabled": {
+                    "name": "Penktadienis įjungtas",
+                    "description": "Ar pjauti penktadienį."
+                },
+                "day_4_duration": {
+                    "name": "Penktadienio trukmė",
+                    "description": "Pjovimo trukmė penktadienį minutėmis (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Penktadienio ciklai",
+                    "description": "Pjovimo ciklų skaičius penktadienį (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Penktadienio zona",
+                    "description": "Zona pjauti penktadienį."
+                },
+                "day_5_enabled": {
+                    "name": "Šeštadienis įjungtas",
+                    "description": "Ar šeštadienį šienauti."
+                },
+                "day_5_duration": {
+                    "name": "Šeštadienio trukmė",
+                    "description": "Pjovimo trukmė šeštadienį minutėmis (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Šeštadienio ciklai",
+                    "description": "Šeštadienio pjovimo ciklų skaičius (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Šeštadienio zona",
+                    "description": "Zona pjauti šeštadienį."
+                },
+                "day_6_enabled": {
+                    "name": "Sekmadienis įjungtas",
+                    "description": "Ar sekmadienį šienauti."
+                },
+                "day_6_duration": {
+                    "name": "Sekmadienio trukmė",
+                    "description": "Pjovimo trukmė sekmadienį minutėmis (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Sekmadienio ciklai",
+                    "description": "Pjovimo ciklų skaičius sekmadienį (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Sekmadienio zona",
+                    "description": "Zona pjauti sekmadienį."
+                }
+            }
+        }
+    }
+}

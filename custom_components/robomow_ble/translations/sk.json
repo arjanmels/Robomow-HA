@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Vyberte zariadenie Robomow, ktoré chcete pridať, a zadajte sériové číslo základnej dosky. \n\nPostup získania sériového čísla základnej dosky: 1) Prihláste sa na stránke myrobomow.robomow.com.\n2) Otvorte v prehliadači Vývojárske nástroje (F12).\n3) Prejdite na kartu Sieť.\n4) Znovu načítajte stránku.\n5) Vyhľadajte požiadavku končiacu na /api/customer/products.\n6) Kliknite na požiadavku a otvorte kartu Odpoveď.\n7) V odpovedi JSON nájdite pole s názvom MainboardSerial. Táto hodnota je skutočné sériové číslo základnej dosky.",
+                "data": {
+                    "address": "Adresa",
+                    "mainboard_serial": "Sériové číslo základnej dosky"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Zadajte sériové číslo základnej dosky pre zariadenie Robomow, ktoré chcete pridať do Home Assistant.\n\nPostup získania sériového čísla základnej dosky: 1) Prihláste sa na stránke myrobomow.robomow.com.\n2) Otvorte v prehliadači Vývojárske nástroje (F12).\n3) Prejdite na kartu Sieť.\n4) Znovu načítajte stránku.\n5) Vyhľadajte požiadavku končiacu na /api/customer/products.\n6) Kliknite na požiadavku a otvorte kartu Odpoveď.\n7) V odpovedi JSON nájdite pole s názvom MainboardSerial. Táto hodnota je skutočné sériové číslo základnej dosky.",
+                "data": {
+                    "mainboard_serial": "Sériové číslo základnej dosky"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Nie je uvedená žiadna jedinečná adresa.",
+            "no_mainboard_serial": "Nebolo poskytnuté sériové číslo základnej dosky.",
+            "invalid_mainboard_serial": "Sériové číslo základnej dosky je neplatné. Overte to a skúste to znova.",
+            "model_unsupported": "Model kosačky nie je podporovaný.",
+            "device_not_found": "Zariadenie Robomow sa nepodarilo nájsť. Posuňte sa bližšie a skúste to znova.",
+            "service_not_found": "Požadovaná služba Bluetooth Robomow sa na tomto zariadení nenašla.",
+            "characteristics_not_found": "Na tomto zariadení sa nenašli požadované charakteristiky Bluetooth Robomow."
+        },
+        "abort": {
+            "already_configured": "Tento záznam je už nakonfigurovaný.",
+            "no_devices_found": "Nenašli sa žiadne zariadenia Robomow.",
+            "not_supported": "Toto zariadenie Bluetooth nie je podporovaná kosačka Robomow."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Nedá sa pripojiť k zariadeniu"
+        },
+        "invalid_auth": {
+            "message": "Autentifikácia zlyhala"
+        },
+        "unsupported_device": {
+            "message": "Tento model zariadenia nie je podporovaný"
+        },
+        "no_unique_address": {
+            "message": "Nie je uvedená žiadna jedinečná adresa."
+        },
+        "no_mainboard_serial": {
+            "message": "Nebolo poskytnuté sériové číslo základnej dosky."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Aktívna ochrana proti krádeži"
+            },
+            "mower_home": {
+                "name": "Kosačka domov"
+            },
+            "charging_active": {
+                "name": "Nabíjanie aktívne"
+            },
+            "disabling_device_removed": {
+                "name": "Deaktivačné zariadenie bolo odstránené"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Prevádzkový stav",
+                "state": {
+                    "warming_up": "Zahrievanie",
+                    "mowing": "Kosenie",
+                    "edge_mowing": "Kosenie okrajov",
+                    "returning_home_following_edge": "Po okraji domov",
+                    "returning_home_warming_up": "Rozcvička na návrat domov",
+                    "returning_home_searching_edge": "Vyhľadávacia hrana",
+                    "going_to_start": "Ísť do východiskového bodu",
+                    "learning_entry_point": "Vstupný bod učenia",
+                    "idle": "Nečinný",
+                    "charging": "Nabíjanie",
+                    "automatic": "Automaticky",
+                    "remote_control": "Diaľkové ovládanie",
+                    "bit": "Bit"
+                }
+            },
+            "status_message": {
+                "name": "Správa o stave"
+            },
+            "next_departure": {
+                "name": "Ďalší odchod"
+            },
+            "previous_departure": {
+                "name": "Predchádzajúci odchod"
+            },
+            "expected_duration": {
+                "name": "Očakávané trvanie"
+            },
+            "no_depart_reason": {
+                "name": "Žiadny dôvod odchodu"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Plán povolený"
+            },
+            "anti_theft_enabled": {
+                "name": "Ochrana proti krádeži povolená"
+            },
+            "child_lock_enabled": {
+                "name": "Detská zámka aktivovaná"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Východiskový bod A"
+            },
+            "starting_point_b": {
+                "name": "Východiskový bod B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Typ drôtového signálu",
+                "state": {
+                    "type_a": "Typ A",
+                    "type_b": "Typ B",
+                    "type_c": "Typ C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Kosačka"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Hlavné",
+                "starting_point_a": "Východiskový bod A",
+                "starting_point_b": "Východiskový bod B",
+                "sub_1": "Podzóna 1",
+                "sub_2": "Podzóna 2",
+                "sub_3": "Podzóna 3",
+                "sub_4": "Podzóna 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Začnite kosiť",
+            "description": "Začnite kosiť s voliteľnou štartovacou zónou a trvaním.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Štartovacia zóna",
+                    "description": "Zóna Robomow, z ktorej sa má začať kosiť."
+                },
+                "duration": {
+                    "name": "Trvanie",
+                    "description": "Trvanie kosenia v minútach (1-255). Predvolená hodnota je 30 minút."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Nastaviť plán",
+            "description": "Nastavte plán kosačky.",
+            "fields": {
+                "start_time": {
+                    "name": "Čas začiatku",
+                    "description": "Je čas začať každý deň kosiť."
+                },
+                "end_time": {
+                    "name": "Čas ukončenia",
+                    "description": "Je čas ukončiť každý deň kosenie."
+                },
+                "day_0_enabled": {
+                    "name": "Pondelok povolený",
+                    "description": "Či v pondelok kosiť."
+                },
+                "day_0_duration": {
+                    "name": "Pondelkové trvanie",
+                    "description": "Trvanie kosenia v pondelok v minútach (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Pondelkové cykly",
+                    "description": "Počet cyklov kosenia za pondelok (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Pondelková zóna",
+                    "description": "Zóna na kosenie v pondelok."
+                },
+                "day_1_enabled": {
+                    "name": "Utorok povolený",
+                    "description": "Či v utorok kosiť."
+                },
+                "day_1_duration": {
+                    "name": "Utorkové trvanie",
+                    "description": "Trvanie kosenia v utorok v minútach (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Utorkové cykly",
+                    "description": "Počet cyklov kosenia za utorok (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Utorková zóna",
+                    "description": "Zóna na kosenie v utorok."
+                },
+                "day_2_enabled": {
+                    "name": "Streda povolená",
+                    "description": "Či v stredu kosiť."
+                },
+                "day_2_duration": {
+                    "name": "Streda trvanie",
+                    "description": "Trvanie kosenia v stredu v minútach (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Stredajšie cykly",
+                    "description": "Počet cyklov kosenia za stredu (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Stredová zóna",
+                    "description": "Zóna na kosenie v stredu."
+                },
+                "day_3_enabled": {
+                    "name": "štvrtok povolené",
+                    "description": "Či vo štvrtok kosiť."
+                },
+                "day_3_duration": {
+                    "name": "Štvrtkové trvanie",
+                    "description": "Trvanie kosenia vo štvrtok v minútach (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Štvrtkové cykly",
+                    "description": "Počet cyklov kosenia za štvrtok (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Štvrtková zóna",
+                    "description": "Zóna na kosenie vo štvrtok."
+                },
+                "day_4_enabled": {
+                    "name": "Piatok povolený",
+                    "description": "Či v piatok kosiť."
+                },
+                "day_4_duration": {
+                    "name": "Piatkové trvanie",
+                    "description": "Trvanie kosenia v piatok v minútach (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Piatkové cykly",
+                    "description": "Počet cyklov kosenia za piatok (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Piatková zóna",
+                    "description": "Zóna na kosenie v piatok."
+                },
+                "day_5_enabled": {
+                    "name": "Sobota povolená",
+                    "description": "Či v sobotu kosiť."
+                },
+                "day_5_duration": {
+                    "name": "Sobotňajšie trvanie",
+                    "description": "Trvanie kosenia za sobotu v minútach (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Sobotné cykly",
+                    "description": "Počet cyklov kosenia za sobotu (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Sobotná zóna",
+                    "description": "Zóna na kosenie v sobotu."
+                },
+                "day_6_enabled": {
+                    "name": "Nedeľa povolená",
+                    "description": "Či v nedeľu kosiť."
+                },
+                "day_6_duration": {
+                    "name": "Nedeľné trvanie",
+                    "description": "Trvanie kosenia za nedeľu v minútach (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Nedeľné cykly",
+                    "description": "Počet cyklov kosenia za nedeľu (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Nedeľná zóna",
+                    "description": "Zóna na kosenie v nedeľu."
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Välj den Robomow-enhet du vill lägga till och ange moderkortets serienummer. \n\nFör att få moderkortets serienummer: 1) Logga in på myrobomow.robomow.com.\n2) Öppna webbläsarens utvecklarverktyg (F12).\n3) Gå till fliken Nätverk.\n4) Ladda om sidan.\n5) Leta efter en begäran som slutar på /api/customer/products.\n6) Klicka på begäran och öppna fliken Svar.\n7) Hitta fältet MainboardSerial i JSON-svaret. Detta värde är det faktiska moderkortets serienummer.",
+                "data": {
+                    "address": "Adress",
+                    "mainboard_serial": "Moderkortets serienummer"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Ange moderkortets serienummer för den Robomow-enhet som du vill lägga till i Home Assistant.\n\nFör att få moderkortets serienummer: 1) Logga in på myrobomow.robomow.com.\n2) Öppna webbläsarens utvecklarverktyg (F12).\n3) Gå till fliken Nätverk.\n4) Ladda om sidan.\n5) Leta efter en begäran som slutar på /api/customer/products.\n6) Klicka på begäran och öppna fliken Svar.\n7) Hitta fältet MainboardSerial i JSON-svaret. Detta värde är det faktiska moderkortets serienummer.",
+                "data": {
+                    "mainboard_serial": "Moderkortets serienummer"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Ingen unik adress har angetts.",
+            "no_mainboard_serial": "Inget serienummer på moderkortet tillhandahålls.",
+            "invalid_mainboard_serial": "Moderkortets serienummer är ogiltigt. Verifiera det och försök igen.",
+            "model_unsupported": "Gräsklipparmodellen stöds inte.",
+            "device_not_found": "Robomow-enheten kunde inte hittas. Flytta dig närmare och försök igen.",
+            "service_not_found": "Den nödvändiga Robomow Bluetooth-tjänsten hittades inte på den här enheten.",
+            "characteristics_not_found": "De nödvändiga Robomow Bluetooth-egenskaperna hittades inte på den här enheten."
+        },
+        "abort": {
+            "already_configured": "Denna post är redan konfigurerad.",
+            "no_devices_found": "Inga Robomow-enheter hittades.",
+            "not_supported": "Denna Bluetooth-enhet är inte en Robomow-klippare som stöds."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Kan inte ansluta till enheten"
+        },
+        "invalid_auth": {
+            "message": "Autentiseringen misslyckades"
+        },
+        "unsupported_device": {
+            "message": "Denna enhetsmodell stöds inte"
+        },
+        "no_unique_address": {
+            "message": "Ingen unik adress har angetts."
+        },
+        "no_mainboard_serial": {
+            "message": "Inget serienummer på moderkortet tillhandahålls."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Stöldskydd aktiv"
+            },
+            "mower_home": {
+                "name": "Gräsklipparen hem"
+            },
+            "charging_active": {
+                "name": "Laddning aktiv"
+            },
+            "disabling_device_removed": {
+                "name": "Inaktiverande enhet har tagits bort"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Driftsstat",
+                "state": {
+                    "warming_up": "Värmer upp",
+                    "mowing": "Slåtter",
+                    "edge_mowing": "Kantklippning",
+                    "returning_home_following_edge": "Följande kant hem",
+                    "returning_home_warming_up": "Värmer upp för att komma hem",
+                    "returning_home_searching_edge": "Sökkant",
+                    "going_to_start": "Går till startpunkten",
+                    "learning_entry_point": "Ingångspunkt för lärande",
+                    "idle": "På tomgång",
+                    "charging": "Laddar",
+                    "automatic": "Automatisk",
+                    "remote_control": "Fjärrkontroll",
+                    "bit": "Bit"
+                }
+            },
+            "status_message": {
+                "name": "Statusmeddelande"
+            },
+            "next_departure": {
+                "name": "Nästa avgång"
+            },
+            "previous_departure": {
+                "name": "Föregående avgång"
+            },
+            "expected_duration": {
+                "name": "Förväntad varaktighet"
+            },
+            "no_depart_reason": {
+                "name": "Ingen avgångsanledning"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Schema aktiverat"
+            },
+            "anti_theft_enabled": {
+                "name": "Stöldskydd aktiverat"
+            },
+            "child_lock_enabled": {
+                "name": "Barnlås aktiverat"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Utgångspunkt A"
+            },
+            "starting_point_b": {
+                "name": "Utgångspunkt B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Trådsignaltyp",
+                "state": {
+                    "type_a": "Typ A",
+                    "type_b": "Typ B",
+                    "type_c": "Typ C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Gräsklippare"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Main",
+                "starting_point_a": "Utgångspunkt A",
+                "starting_point_b": "Utgångspunkt B",
+                "sub_1": "Underzon 1",
+                "sub_2": "Underzon 2",
+                "sub_3": "Underzon 3",
+                "sub_4": "Underzon 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Börja klippa",
+            "description": "Börja klippa med valfri startzon och varaktighet.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Startzon",
+                    "description": "Robomow-zon att börja klippa från."
+                },
+                "duration": {
+                    "name": "Varaktighet",
+                    "description": "Klipptid i minuter (1-255). Standard är 30 minuter."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Ställ in schema",
+            "description": "Ställ in klipparens schema.",
+            "fields": {
+                "start_time": {
+                    "name": "Starttid",
+                    "description": "Dags att börja klippa varje dag."
+                },
+                "end_time": {
+                    "name": "Sluttid",
+                    "description": "Dags att avsluta klippningen varje dag."
+                },
+                "day_0_enabled": {
+                    "name": "Måndag aktiverad",
+                    "description": "Om man ska klippa på måndag."
+                },
+                "day_0_duration": {
+                    "name": "Måndagens längd",
+                    "description": "Klipptid för måndag i minuter (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Måndagscykler",
+                    "description": "Antal klippcykler för måndag (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Måndagszon",
+                    "description": "Zon att klippa på måndag."
+                },
+                "day_1_enabled": {
+                    "name": "Tisdag aktiverad",
+                    "description": "Om man ska klippa på tisdag."
+                },
+                "day_1_duration": {
+                    "name": "Tisdags längd",
+                    "description": "Klipptid för tisdag i minuter (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Tisdagscykler",
+                    "description": "Antal klippcykler för tisdag (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Tisdagszon",
+                    "description": "Zon att klippa på tisdag."
+                },
+                "day_2_enabled": {
+                    "name": "Onsdag aktiverad",
+                    "description": "Om man ska klippa på onsdag."
+                },
+                "day_2_duration": {
+                    "name": "Onsdagens längd",
+                    "description": "Klipptid för onsdag i minuter (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Onsdagscykler",
+                    "description": "Antal klippcykler för onsdag (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Onsdagszon",
+                    "description": "Zon att klippa på onsdag."
+                },
+                "day_3_enabled": {
+                    "name": "Torsdag aktiverad",
+                    "description": "Om man ska klippa på torsdag."
+                },
+                "day_3_duration": {
+                    "name": "Torsdagslängd",
+                    "description": "Klipptid för torsdag i minuter (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Torsdagscykler",
+                    "description": "Antal klippcykler för torsdag (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Torsdagszon",
+                    "description": "Zon att klippa på torsdag."
+                },
+                "day_4_enabled": {
+                    "name": "Fredag ​​aktiverad",
+                    "description": "Om man ska klippa på fredag."
+                },
+                "day_4_duration": {
+                    "name": "Fredagens längd",
+                    "description": "Klipptid för fredag ​​i minuter (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Fredagscykler",
+                    "description": "Antal klippcykler för fredag ​​(1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Fredagszon",
+                    "description": "Zon att klippa på fredag."
+                },
+                "day_5_enabled": {
+                    "name": "Lördag aktiverad",
+                    "description": "Om man ska klippa på lördag."
+                },
+                "day_5_duration": {
+                    "name": "Lördagslängd",
+                    "description": "Klipptid för lördag i minuter (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Lördagscykler",
+                    "description": "Antal klippcykler för lördag (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Lördagszon",
+                    "description": "Zon att klippa på lördag."
+                },
+                "day_6_enabled": {
+                    "name": "Söndag aktiverad",
+                    "description": "Om man ska klippa på söndag."
+                },
+                "day_6_duration": {
+                    "name": "Söndagens längd",
+                    "description": "Klipptid för söndag i minuter (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Söndagscykler",
+                    "description": "Antal klippcykler för söndag (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Söndagszon",
+                    "description": "Zon att klippa på söndag."
+                }
+            }
+        }
+    }
+}

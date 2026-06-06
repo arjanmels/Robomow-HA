@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Seleziona il dispositivo Robomow che desideri aggiungere e inserisci il numero di serie della scheda principale. \n\nPer ottenere il numero di serie della scheda madre: 1) Accedi a myrobomow.robomow.com.\n2) Apri gli Strumenti per sviluppatori del tuo browser (F12).\n3) Vai alla scheda Rete.\n4) Ricaricare la pagina.\n5) Cerca una richiesta che termina con /api/customer/products.\n6) Fare clic sulla richiesta e aprire la scheda Risposta.\n7) Nella risposta JSON, trova il campo denominato MainboardSerial. Questo valore è il numero di serie effettivo della scheda madre.",
+                "data": {
+                    "address": "Indirizzo",
+                    "mainboard_serial": "Numero di serie della scheda madre"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Inserisci il numero di serie della scheda madre per il dispositivo Robomow che desideri aggiungere a Home Assistant.\n\nPer ottenere il numero di serie della scheda madre: 1) Accedi a myrobomow.robomow.com.\n2) Apri gli Strumenti per sviluppatori del tuo browser (F12).\n3) Vai alla scheda Rete.\n4) Ricaricare la pagina.\n5) Cerca una richiesta che termina con /api/customer/products.\n6) Fare clic sulla richiesta e aprire la scheda Risposta.\n7) Nella risposta JSON, trova il campo denominato MainboardSerial. Questo valore è il numero di serie effettivo della scheda madre.",
+                "data": {
+                    "mainboard_serial": "Numero di serie della scheda madre"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Nessun indirizzo univoco fornito.",
+            "no_mainboard_serial": "Nessun numero di serie della scheda madre fornito.",
+            "invalid_mainboard_serial": "Il numero di serie della scheda madre non è valido. Verificalo e riprova.",
+            "model_unsupported": "Il modello di tosaerba non è supportato.",
+            "device_not_found": "Impossibile trovare il dispositivo Robomow. Avvicinati e riprova.",
+            "service_not_found": "Il servizio Bluetooth Robomow richiesto non è stato trovato su questo dispositivo.",
+            "characteristics_not_found": "Le caratteristiche Bluetooth Robomow richieste non sono state trovate su questo dispositivo."
+        },
+        "abort": {
+            "already_configured": "Questa voce è già configurata.",
+            "no_devices_found": "Nessun dispositivo Robomow trovato.",
+            "not_supported": "Questo dispositivo Bluetooth non è un tagliaerba Robomow supportato."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Impossibile connettersi al dispositivo"
+        },
+        "invalid_auth": {
+            "message": "Autenticazione non riuscita"
+        },
+        "unsupported_device": {
+            "message": "Questo modello di dispositivo non è supportato"
+        },
+        "no_unique_address": {
+            "message": "Nessun indirizzo univoco fornito."
+        },
+        "no_mainboard_serial": {
+            "message": "Nessun numero di serie della scheda madre fornito."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Antifurto attivo"
+            },
+            "mower_home": {
+                "name": "Falciatrice a casa"
+            },
+            "charging_active": {
+                "name": "Ricarica attiva"
+            },
+            "disabling_device_removed": {
+                "name": "Dispositivo di disabilitazione rimosso"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Stato operativo",
+                "state": {
+                    "warming_up": "Riscaldamento",
+                    "mowing": "Falciatura",
+                    "edge_mowing": "Falciatura dei bordi",
+                    "returning_home_following_edge": "Seguendo il bordo verso casa",
+                    "returning_home_warming_up": "Riscaldamento per il ritorno a casa",
+                    "returning_home_searching_edge": "Bordo di ricerca",
+                    "going_to_start": "Andando al punto di partenza",
+                    "learning_entry_point": "Punto di ingresso dell'apprendimento",
+                    "idle": "Oziare",
+                    "charging": "In carica",
+                    "automatic": "Automatico",
+                    "remote_control": "Telecomando",
+                    "bit": "Morso"
+                }
+            },
+            "status_message": {
+                "name": "Messaggio di stato"
+            },
+            "next_departure": {
+                "name": "Prossima partenza"
+            },
+            "previous_departure": {
+                "name": "Partenza precedente"
+            },
+            "expected_duration": {
+                "name": "Durata prevista"
+            },
+            "no_depart_reason": {
+                "name": "Nessun motivo di partenza"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Pianificazione abilitata"
+            },
+            "anti_theft_enabled": {
+                "name": "Antifurto abilitato"
+            },
+            "child_lock_enabled": {
+                "name": "Blocco bambini abilitato"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Punto di partenza A"
+            },
+            "starting_point_b": {
+                "name": "Punto di partenza B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Tipo di segnale via cavo",
+                "state": {
+                    "type_a": "Tipo A",
+                    "type_b": "Tipo B",
+                    "type_c": "Tipo C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Falciatrice"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Principale",
+                "starting_point_a": "Punto di partenza A",
+                "starting_point_b": "Punto di partenza B",
+                "sub_1": "Sottozona 1",
+                "sub_2": "Sottozona 2",
+                "sub_3": "Sottozona 3",
+                "sub_4": "Sottozona 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Inizia a falciare",
+            "description": "Inizia a tagliare l'erba con zona di inizio e durata opzionali.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Zona di partenza",
+                    "description": "Zona Robomow da cui iniziare a tagliare."
+                },
+                "duration": {
+                    "name": "Durata",
+                    "description": "Durata del taglio in minuti (1-255). L'impostazione predefinita è 30 minuti."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Imposta il programma",
+            "description": "Imposta il programma del tosaerba.",
+            "fields": {
+                "start_time": {
+                    "name": "Ora di inizio",
+                    "description": "È ora di iniziare a falciare ogni giorno."
+                },
+                "end_time": {
+                    "name": "Ora di fine",
+                    "description": "È ora di terminare la falciatura ogni giorno."
+                },
+                "day_0_enabled": {
+                    "name": "Lunedì abilitato",
+                    "description": "Se falciare lunedì."
+                },
+                "day_0_duration": {
+                    "name": "Durata del lunedì",
+                    "description": "Durata del taglio per lunedì in minuti (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Cicli del lunedì",
+                    "description": "Numero di cicli di taglio per lunedì (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Zona lunedì",
+                    "description": "Lunedì zona da sfalciare."
+                },
+                "day_1_enabled": {
+                    "name": "Martedì abilitato",
+                    "description": "Se falciare martedì."
+                },
+                "day_1_duration": {
+                    "name": "Durata del martedì",
+                    "description": "Durata del taglio per martedì in minuti (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Cicli del martedì",
+                    "description": "Numero di cicli di taglio per martedì (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Zona martedì",
+                    "description": "Zona da sfalciare martedì."
+                },
+                "day_2_enabled": {
+                    "name": "Mercoledì abilitato",
+                    "description": "Se falciare mercoledì."
+                },
+                "day_2_duration": {
+                    "name": "Durata del mercoledì",
+                    "description": "Durata del taglio per mercoledì in minuti (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Cicli del mercoledì",
+                    "description": "Numero di cicli di taglio per mercoledì (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Zona mercoledì",
+                    "description": "Mercoledì zona da falciare."
+                },
+                "day_3_enabled": {
+                    "name": "Giovedì abilitato",
+                    "description": "Se falciare giovedì."
+                },
+                "day_3_duration": {
+                    "name": "Durata del giovedì",
+                    "description": "Durata del taglio per giovedì in minuti (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Cicli del giovedì",
+                    "description": "Numero di cicli di taglio per giovedì (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Zona giovedì",
+                    "description": "Zona da sfalciare giovedì."
+                },
+                "day_4_enabled": {
+                    "name": "Venerdì abilitato",
+                    "description": "Se falciare venerdì."
+                },
+                "day_4_duration": {
+                    "name": "Durata del venerdì",
+                    "description": "Durata del taglio per venerdì in minuti (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Cicli del venerdì",
+                    "description": "Numero di cicli di taglio per venerdì (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Zona del venerdì",
+                    "description": "Zona da falciare venerdì."
+                },
+                "day_5_enabled": {
+                    "name": "Sabato abilitato",
+                    "description": "Se falciare sabato."
+                },
+                "day_5_duration": {
+                    "name": "Durata del sabato",
+                    "description": "Durata del taglio per sabato in minuti (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Cicli del sabato",
+                    "description": "Numero di cicli di taglio per sabato (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Zona sabato",
+                    "description": "Zona da falciare sabato."
+                },
+                "day_6_enabled": {
+                    "name": "Domenica abilitata",
+                    "description": "Se falciare domenica."
+                },
+                "day_6_duration": {
+                    "name": "Durata della domenica",
+                    "description": "Durata del taglio per la domenica in minuti (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Cicli domenicali",
+                    "description": "Numero di cicli di taglio per la domenica (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Zona domenicale",
+                    "description": "Zona da sfalciare domenica."
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "追加する Robomow デバイスを選択し、メインボードのシリアル番号を入力します。 \n\nメインボードのシリアル番号を取得するには、次の手順を実行します。 1) myrobomow.robomow.com にログインします。\n2) ブラウザの開発者ツール (F12) を開きます。\n3) 「ネットワーク」タブに移動します。\n4) ページをリロードします。\n5) /api/customer/products で終わるリクエストを探します。\n6) リクエストをクリックして、「応答」タブを開きます。\n7) JSON 応答で、MainboardSerial という名前のフィールドを見つけます。この値は、実際のメインボードのシリアル番号です。",
+                "data": {
+                    "address": "住所",
+                    "mainboard_serial": "メインボードのシリアル番号"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "ホーム アシスタントに追加する Robomow デバイスのメインボードのシリアル番号を入力します。\n\nメインボードのシリアル番号を取得するには、次の手順を実行します。 1) myrobomow.robomow.com にログインします。\n2) ブラウザの開発者ツール (F12) を開きます。\n3) 「ネットワーク」タブに移動します。\n4) ページをリロードします。\n5) /api/customer/products で終わるリクエストを探します。\n6) リクエストをクリックして、「応答」タブを開きます。\n7) JSON 応答で、MainboardSerial という名前のフィールドを見つけます。この値は、実際のメインボードのシリアル番号です。",
+                "data": {
+                    "mainboard_serial": "メインボードのシリアル番号"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "一意のアドレスが指定されていません。",
+            "no_mainboard_serial": "メインボードのシリアル番号は提供されていません。",
+            "invalid_mainboard_serial": "メインボードのシリアル番号が無効です。確認して再試行してください。",
+            "model_unsupported": "芝刈り機のモデルはサポートされていません。",
+            "device_not_found": "Robomow デバイスが見つかりませんでした。近づいてもう一度試してください。",
+            "service_not_found": "必要な Robomow Bluetooth サービスがこのデバイスで見つかりませんでした。",
+            "characteristics_not_found": "必要な Robomow Bluetooth 特性がこのデバイスでは見つかりませんでした。"
+        },
+        "abort": {
+            "already_configured": "このエントリはすでに構成されています。",
+            "no_devices_found": "Robomow デバイスが見つかりません。",
+            "not_supported": "この Bluetooth デバイスはサポートされている Robomow 芝刈り機ではありません。"
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "デバイスに接続できません"
+        },
+        "invalid_auth": {
+            "message": "認証に失敗しました"
+        },
+        "unsupported_device": {
+            "message": "このデバイス モデルはサポートされていません"
+        },
+        "no_unique_address": {
+            "message": "一意のアドレスが指定されていません。"
+        },
+        "no_mainboard_serial": {
+            "message": "メインボードのシリアル番号は提供されていません。"
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "盗難防止アクティブ"
+            },
+            "mower_home": {
+                "name": "芝刈り機ホーム"
+            },
+            "charging_active": {
+                "name": "充電中"
+            },
+            "disabling_device_removed": {
+                "name": "削除されたデバイスを無効化しています"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "動作状態",
+                "state": {
+                    "warming_up": "ウォーミングアップ",
+                    "mowing": "草刈り",
+                    "edge_mowing": "端刈り",
+                    "returning_home_following_edge": "エッジホームに続く",
+                    "returning_home_warming_up": "帰宅に向けてウォーミングアップ中",
+                    "returning_home_searching_edge": "探索エッジ",
+                    "going_to_start": "スタート地点へ向かう",
+                    "learning_entry_point": "学習の入り口",
+                    "idle": "アイドル状態",
+                    "charging": "充電",
+                    "automatic": "自動",
+                    "remote_control": "リモコン",
+                    "bit": "少し"
+                }
+            },
+            "status_message": {
+                "name": "ステータスメッセージ"
+            },
+            "next_departure": {
+                "name": "次の出発"
+            },
+            "previous_departure": {
+                "name": "前回の出発"
+            },
+            "expected_duration": {
+                "name": "予想される期間"
+            },
+            "no_depart_reason": {
+                "name": "出発理由なし"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "スケジュールが有効です"
+            },
+            "anti_theft_enabled": {
+                "name": "盗難防止機能が有効になっています"
+            },
+            "child_lock_enabled": {
+                "name": "チャイルドロックが有効になっている"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "出発点A"
+            },
+            "starting_point_b": {
+                "name": "出発点B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "ワイヤー信号タイプ",
+                "state": {
+                    "type_a": "タイプA",
+                    "type_b": "タイプB",
+                    "type_c": "タイプC"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "芝刈り機"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "主要",
+                "starting_point_a": "出発点A",
+                "starting_point_b": "出発点B",
+                "sub_1": "サブゾーン1",
+                "sub_2": "サブゾーン2",
+                "sub_3": "サブゾーン3",
+                "sub_4": "サブゾーン4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "草刈り開始",
+            "description": "オプションの開始ゾーンと期間で芝刈りを開始します。",
+            "fields": {
+                "starting_zone": {
+                    "name": "スタートゾーン",
+                    "description": "芝刈りを開始するロボモーゾーン。"
+                },
+                "duration": {
+                    "name": "間隔",
+                    "description": "分単位の芝刈り時間 (1 ～ 255)。デフォルトは 30 分です。"
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "スケジュールを設定する",
+            "description": "芝刈り機のスケジュールを設定します。",
+            "fields": {
+                "start_time": {
+                    "name": "開始時間",
+                    "description": "毎日草刈りを始める時間です。"
+                },
+                "end_time": {
+                    "name": "終了時刻",
+                    "description": "毎日の草刈りが終わる時間。"
+                },
+                "day_0_enabled": {
+                    "name": "月曜日が有効",
+                    "description": "月曜日に草刈りをするかどうか。"
+                },
+                "day_0_duration": {
+                    "name": "月曜日の期間",
+                    "description": "月曜日の芝刈り期間 (分単位) (1 ～ 255)。"
+                },
+                "day_0_cycles": {
+                    "name": "月曜日のサイクル",
+                    "description": "月曜日の芝刈りサイクル数 (1-2)。"
+                },
+                "day_0_zone": {
+                    "name": "月曜日ゾーン",
+                    "description": "月曜日に草刈りをするゾーン。"
+                },
+                "day_1_enabled": {
+                    "name": "火曜日が有効",
+                    "description": "火曜日に草刈りをするかどうか。"
+                },
+                "day_1_duration": {
+                    "name": "火曜日の期間",
+                    "description": "火曜日の芝刈り期間 (分単位) (1 ～ 255)。"
+                },
+                "day_1_cycles": {
+                    "name": "火曜日のサイクル",
+                    "description": "火曜日の芝刈りサイクル数 (1-2)。"
+                },
+                "day_1_zone": {
+                    "name": "火曜日ゾーン",
+                    "description": "火曜日に草刈りをするゾーン。"
+                },
+                "day_2_enabled": {
+                    "name": "水曜日が有効",
+                    "description": "水曜日に草刈りをするかどうか。"
+                },
+                "day_2_duration": {
+                    "name": "水曜日の期間",
+                    "description": "水曜日の芝刈り期間 (分単位) (1 ～ 255)。"
+                },
+                "day_2_cycles": {
+                    "name": "水曜日のサイクル",
+                    "description": "水曜日の芝刈りサイクル数 (1-2)。"
+                },
+                "day_2_zone": {
+                    "name": "水曜ゾーン",
+                    "description": "水曜日に草刈りをするゾーン。"
+                },
+                "day_3_enabled": {
+                    "name": "木曜有効",
+                    "description": "木曜日に草刈りをするかどうか。"
+                },
+                "day_3_duration": {
+                    "name": "木曜日の期間",
+                    "description": "木曜日の芝刈り期間 (分単位) (1 ～ 255)。"
+                },
+                "day_3_cycles": {
+                    "name": "木曜日のサイクル",
+                    "description": "木曜日の芝刈りサイクル数 (1-2)。"
+                },
+                "day_3_zone": {
+                    "name": "木曜ゾーン",
+                    "description": "木曜日に草刈りをするゾーン。"
+                },
+                "day_4_enabled": {
+                    "name": "金曜日の有効化",
+                    "description": "金曜日に草刈りをするかどうか。"
+                },
+                "day_4_duration": {
+                    "name": "金曜日の期間",
+                    "description": "金曜日の芝刈り期間 (分単位) (1 ～ 255)。"
+                },
+                "day_4_cycles": {
+                    "name": "金曜日のサイクル",
+                    "description": "金曜日の芝刈りサイクル数 (1-2)。"
+                },
+                "day_4_zone": {
+                    "name": "金曜ゾーン",
+                    "description": "金曜日に草刈りをするゾーン。"
+                },
+                "day_5_enabled": {
+                    "name": "土曜日は有効",
+                    "description": "土曜日に草刈りをするかどうか。"
+                },
+                "day_5_duration": {
+                    "name": "土曜日の期間",
+                    "description": "土曜日の芝刈り期間 (分単位) (1 ～ 255)。"
+                },
+                "day_5_cycles": {
+                    "name": "土曜日のサイクル",
+                    "description": "土曜日の芝刈りサイクル数 (1-2)。"
+                },
+                "day_5_zone": {
+                    "name": "土曜ゾーン",
+                    "description": "土曜日に草刈りをするゾーン。"
+                },
+                "day_6_enabled": {
+                    "name": "日曜日が有効",
+                    "description": "日曜日に草刈りをするかどうか。"
+                },
+                "day_6_duration": {
+                    "name": "日曜日の期間",
+                    "description": "日曜日の芝刈り期間 (分単位) (1 ～ 255)。"
+                },
+                "day_6_cycles": {
+                    "name": "日曜日のサイクル",
+                    "description": "日曜日の芝刈りサイクル数 (1-2)。"
+                },
+                "day_6_zone": {
+                    "name": "サンデーゾーン",
+                    "description": "日曜日に草刈りをするゾーン。"
+                }
+            }
+        }
+    }
+}

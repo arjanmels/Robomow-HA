@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Wählen Sie das Robomow-Gerät aus, das Sie hinzufügen möchten, und geben Sie die Seriennummer des Mainboards ein. \n\nSo erhalten Sie die Seriennummer des Mainboards: 1) Melden Sie sich bei myrobomow.robomow.com an.\n2) Öffnen Sie die Entwicklertools Ihres Browsers (F12).\n3) Gehen Sie zur Registerkarte Netzwerk.\n4) Laden Sie die Seite neu.\n5) Suchen Sie nach einer Anfrage, die auf /api/customer/products endet.\n6) Klicken Sie auf die Anfrage und öffnen Sie die Registerkarte Antwort.\n7) Suchen Sie in der JSON-Antwort das Feld mit dem Namen „MainboardSerial“. Dieser Wert ist die tatsächliche Seriennummer des Mainboards.",
+                "data": {
+                    "address": "Adresse",
+                    "mainboard_serial": "Seriennummer des Mainboards"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Geben Sie die Seriennummer des Mainboards für das Robomow-Gerät ein, das Sie zu Home Assistant hinzufügen möchten.\n\nSo erhalten Sie die Seriennummer des Mainboards: 1) Melden Sie sich bei myrobomow.robomow.com an.\n2) Öffnen Sie die Entwicklertools Ihres Browsers (F12).\n3) Gehen Sie zur Registerkarte Netzwerk.\n4) Laden Sie die Seite neu.\n5) Suchen Sie nach einer Anfrage, die auf /api/customer/products endet.\n6) Klicken Sie auf die Anfrage und öffnen Sie die Registerkarte Antwort.\n7) Suchen Sie in der JSON-Antwort das Feld mit dem Namen „MainboardSerial“. Dieser Wert ist die tatsächliche Seriennummer des Mainboards.",
+                "data": {
+                    "mainboard_serial": "Seriennummer des Mainboards"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Keine eindeutige Adresse angegeben.",
+            "no_mainboard_serial": "Keine Mainboard-Seriennummer angegeben.",
+            "invalid_mainboard_serial": "Die Seriennummer des Mainboards ist ungültig. Überprüfen Sie es und versuchen Sie es erneut.",
+            "model_unsupported": "Das Mähermodell wird nicht unterstützt.",
+            "device_not_found": "Das Robomow-Gerät konnte nicht gefunden werden. Gehen Sie näher heran und versuchen Sie es erneut.",
+            "service_not_found": "Der erforderliche Robomow-Bluetooth-Dienst wurde auf diesem Gerät nicht gefunden.",
+            "characteristics_not_found": "Die erforderlichen Bluetooth-Eigenschaften des Robomow wurden auf diesem Gerät nicht gefunden."
+        },
+        "abort": {
+            "already_configured": "Dieser Eintrag ist bereits konfiguriert.",
+            "no_devices_found": "Keine Robomow-Geräte gefunden.",
+            "not_supported": "Dieses Bluetooth-Gerät ist kein unterstützter Robomow-Mäher."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Es kann keine Verbindung zum Gerät hergestellt werden"
+        },
+        "invalid_auth": {
+            "message": "Die Authentifizierung ist fehlgeschlagen"
+        },
+        "unsupported_device": {
+            "message": "Dieses Gerätemodell wird nicht unterstützt"
+        },
+        "no_unique_address": {
+            "message": "Keine eindeutige Adresse angegeben."
+        },
+        "no_mainboard_serial": {
+            "message": "Keine Mainboard-Seriennummer angegeben."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Diebstahlschutz aktiv"
+            },
+            "mower_home": {
+                "name": "Mäher nach Hause"
+            },
+            "charging_active": {
+                "name": "Ladevorgang aktiv"
+            },
+            "disabling_device_removed": {
+                "name": "Deaktivierungsgerät entfernt"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Betriebszustand",
+                "state": {
+                    "warming_up": "Aufwärmen",
+                    "mowing": "Mähen",
+                    "edge_mowing": "Kantenmähen",
+                    "returning_home_following_edge": "Der Kante nach Hause folgen",
+                    "returning_home_warming_up": "Aufwärmen für die Rückkehr nach Hause",
+                    "returning_home_searching_edge": "Suchkante",
+                    "going_to_start": "Gehe zum Ausgangspunkt",
+                    "learning_entry_point": "Einstiegspunkt zum Lernen",
+                    "idle": "Leerlauf",
+                    "charging": "Aufladen",
+                    "automatic": "Automatisch",
+                    "remote_control": "Fernbedienung",
+                    "bit": "Bisschen"
+                }
+            },
+            "status_message": {
+                "name": "Statusmeldung"
+            },
+            "next_departure": {
+                "name": "Nächste Abreise"
+            },
+            "previous_departure": {
+                "name": "Vorheriger Abflug"
+            },
+            "expected_duration": {
+                "name": "Erwartete Dauer"
+            },
+            "no_depart_reason": {
+                "name": "Kein Abreisegrund"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Zeitplan aktiviert"
+            },
+            "anti_theft_enabled": {
+                "name": "Diebstahlschutz aktiviert"
+            },
+            "child_lock_enabled": {
+                "name": "Kindersicherung aktiviert"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Ausgangspunkt A"
+            },
+            "starting_point_b": {
+                "name": "Ausgangspunkt B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Drahtsignaltyp",
+                "state": {
+                    "type_a": "Typ A",
+                    "type_b": "Typ B",
+                    "type_c": "Typ C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Mäher"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Hauptsächlich",
+                "starting_point_a": "Ausgangspunkt A",
+                "starting_point_b": "Ausgangspunkt B",
+                "sub_1": "Unterzone 1",
+                "sub_2": "Unterzone 2",
+                "sub_3": "Unterzone 3",
+                "sub_4": "Unterzone 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Beginnen Sie mit dem Mähen",
+            "description": "Beginnen Sie mit dem Mähen mit optionaler Startzone und -dauer.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Startzone",
+                    "description": "Robomow-Zone, von der aus mit dem Mähen begonnen werden soll."
+                },
+                "duration": {
+                    "name": "Dauer",
+                    "description": "Mähdauer in Minuten (1-255). Der Standardwert beträgt 30 Minuten."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Zeitplan festlegen",
+            "description": "Legen Sie den Mähplan fest.",
+            "fields": {
+                "start_time": {
+                    "name": "Startzeit",
+                    "description": "Zeit, jeden Tag mit dem Mähen zu beginnen."
+                },
+                "end_time": {
+                    "name": "Endzeit",
+                    "description": "Zeit, jeden Tag mit dem Mähen aufzuhören."
+                },
+                "day_0_enabled": {
+                    "name": "Montag aktiviert",
+                    "description": "Ob am Montag gemäht werden soll."
+                },
+                "day_0_duration": {
+                    "name": "Dauer Montag",
+                    "description": "Mähdauer für Montag in Minuten (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Montagszyklen",
+                    "description": "Anzahl der Mähzyklen für Montag (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Montagszone",
+                    "description": "Zone zum Mähen am Montag."
+                },
+                "day_1_enabled": {
+                    "name": "Dienstag aktiviert",
+                    "description": "Ob am Dienstag gemäht werden soll."
+                },
+                "day_1_duration": {
+                    "name": "Dienstag Dauer",
+                    "description": "Mähdauer für Dienstag in Minuten (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Dienstagszyklen",
+                    "description": "Anzahl der Mähzyklen für Dienstag (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Dienstagszone",
+                    "description": "Zone zum Mähen am Dienstag."
+                },
+                "day_2_enabled": {
+                    "name": "Mittwoch aktiviert",
+                    "description": "Ob am Mittwoch gemäht werden soll."
+                },
+                "day_2_duration": {
+                    "name": "Dauer Mittwoch",
+                    "description": "Mähdauer für Mittwoch in Minuten (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Mittwochszyklen",
+                    "description": "Anzahl der Mähzyklen für Mittwoch (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Mittwochszone",
+                    "description": "Zone zum Mähen am Mittwoch."
+                },
+                "day_3_enabled": {
+                    "name": "Donnerstag aktiviert",
+                    "description": "Ob am Donnerstag gemäht werden soll."
+                },
+                "day_3_duration": {
+                    "name": "Dauer Donnerstag",
+                    "description": "Mähdauer für Donnerstag in Minuten (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Donnerstagszyklen",
+                    "description": "Anzahl der Mähzyklen für Donnerstag (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Donnerstagszone",
+                    "description": "Zone zum Mähen am Donnerstag."
+                },
+                "day_4_enabled": {
+                    "name": "Freitag aktiviert",
+                    "description": "Ob am Freitag gemäht werden soll."
+                },
+                "day_4_duration": {
+                    "name": "Dauer Freitag",
+                    "description": "Mähdauer für Freitag in Minuten (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Freitagszyklen",
+                    "description": "Anzahl der Mähzyklen für Freitag (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Freitagszone",
+                    "description": "Zone zum Mähen am Freitag."
+                },
+                "day_5_enabled": {
+                    "name": "Samstag aktiviert",
+                    "description": "Ob am Samstag gemäht werden soll."
+                },
+                "day_5_duration": {
+                    "name": "Dauer Samstag",
+                    "description": "Mähdauer für Samstag in Minuten (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Samstagszyklen",
+                    "description": "Anzahl der Mähzyklen für Samstag (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Samstagszone",
+                    "description": "Zone zum Mähen am Samstag."
+                },
+                "day_6_enabled": {
+                    "name": "Sonntag aktiviert",
+                    "description": "Ob am Sonntag gemäht werden soll."
+                },
+                "day_6_duration": {
+                    "name": "Sonntagsdauer",
+                    "description": "Mähdauer für Sonntag in Minuten (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Sonntagszyklen",
+                    "description": "Anzahl der Mähzyklen für Sonntag (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Sonntagszone",
+                    "description": "Zone zum Mähen am Sonntag."
+                }
+            }
+        }
+    }
+}

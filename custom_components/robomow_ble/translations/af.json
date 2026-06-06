@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Kies die Robomow-toestel wat jy wil byvoeg en voer die hoofbordreeksnommer in. \n\nOm die hoofbordreeksnommer te kry: 1) Meld aan by myrobomow.robomow.com.\n2) Maak jou blaaier se Ontwikkelaarnutsgoed (F12) oop.\n3) Gaan na die Netwerk-oortjie.\n4) Herlaai die bladsy.\n5) Soek 'n versoek wat eindig op /api/kliënt/produkte.\n6) Klik op die versoek en maak die Antwoord-oortjie oop.\n7) In die JSON-antwoord, vind die veld genaamd MainboardSerial. Hierdie waarde is die werklike hoofbord reeksnommer.",
+                "data": {
+                    "address": "Adres",
+                    "mainboard_serial": "Hoofbord reeksnommer"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Voer die hoofbordreeksnommer in vir die Robomow-toestel wat jy by Home Assistant wil voeg.\n\nOm die hoofbordreeksnommer te kry: 1) Meld aan by myrobomow.robomow.com.\n2) Maak jou blaaier se Ontwikkelaarnutsgoed (F12) oop.\n3) Gaan na die Netwerk-oortjie.\n4) Herlaai die bladsy.\n5) Soek 'n versoek wat eindig op /api/kliënt/produkte.\n6) Klik op die versoek en maak die Antwoord-oortjie oop.\n7) In die JSON-antwoord, vind die veld genaamd MainboardSerial. Hierdie waarde is die werklike hoofbord reeksnommer.",
+                "data": {
+                    "mainboard_serial": "Hoofbord reeksnommer"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Geen unieke adres verskaf nie.",
+            "no_mainboard_serial": "Geen hoofbordreeksnommer verskaf nie.",
+            "invalid_mainboard_serial": "Die hoofbordreeksnommer is ongeldig. Verifieer dit en probeer weer.",
+            "model_unsupported": "Die maaiermodel word nie ondersteun nie.",
+            "device_not_found": "Die Robomow-toestel kon nie gevind word nie. Beweeg nader en probeer weer.",
+            "service_not_found": "Die vereiste Robomow Bluetooth-diens is nie op hierdie toestel gevind nie.",
+            "characteristics_not_found": "Die vereiste Robomow Bluetooth-eienskappe is nie op hierdie toestel gevind nie."
+        },
+        "abort": {
+            "already_configured": "Hierdie inskrywing is reeds gekonfigureer.",
+            "no_devices_found": "Geen Robomow-toestelle gevind nie.",
+            "not_supported": "Hierdie Bluetooth-toestel is nie 'n ondersteunde Robomow-snyer nie."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Kan nie aan die toestel koppel nie"
+        },
+        "invalid_auth": {
+            "message": "Kon nie stawing nie"
+        },
+        "unsupported_device": {
+            "message": "Hierdie toestelmodel word nie ondersteun nie"
+        },
+        "no_unique_address": {
+            "message": "Geen unieke adres verskaf nie."
+        },
+        "no_mainboard_serial": {
+            "message": "Geen hoofbordreeksnommer verskaf nie."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Anti-diefstal aktief"
+            },
+            "mower_home": {
+                "name": "Snyer huis"
+            },
+            "charging_active": {
+                "name": "Laai aktief"
+            },
+            "disabling_device_removed": {
+                "name": "Deaktiveer toestel verwyder"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Bedryfsstaat",
+                "state": {
+                    "warming_up": "Opwarming",
+                    "mowing": "Sny",
+                    "edge_mowing": "Randsny",
+                    "returning_home_following_edge": "Volgende rand huis",
+                    "returning_home_warming_up": "Opwarm om terug te keer huis toe",
+                    "returning_home_searching_edge": "Soek rand",
+                    "going_to_start": "Gaan na beginpunt",
+                    "learning_entry_point": "Leerintreepunt",
+                    "idle": "Ledig",
+                    "charging": "Laai",
+                    "automatic": "Outomatiese",
+                    "remote_control": "Afstandbeheer",
+                    "bit": "Bietjie"
+                }
+            },
+            "status_message": {
+                "name": "Statusboodskap"
+            },
+            "next_departure": {
+                "name": "Volgende vertrek"
+            },
+            "previous_departure": {
+                "name": "Vorige vertrek"
+            },
+            "expected_duration": {
+                "name": "Verwagte Duur"
+            },
+            "no_depart_reason": {
+                "name": "Geen Vertrek Rede"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Skedule geaktiveer"
+            },
+            "anti_theft_enabled": {
+                "name": "Anti-diefstal geaktiveer"
+            },
+            "child_lock_enabled": {
+                "name": "Kinderslot geaktiveer"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Beginpunt A"
+            },
+            "starting_point_b": {
+                "name": "Beginpunt B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Draad sein tipe",
+                "state": {
+                    "type_a": "Tipe A",
+                    "type_b": "Tipe B",
+                    "type_c": "Tipe C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Snyer"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Hoof",
+                "starting_point_a": "Beginpunt A",
+                "starting_point_b": "Beginpunt B",
+                "sub_1": "Subsone 1",
+                "sub_2": "Subsone 2",
+                "sub_3": "Subsone 3",
+                "sub_4": "Subsone 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Begin maai",
+            "description": "Begin maai met opsionele beginsone en tydsduur.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Begin sone",
+                    "description": "Robomow-sone om van te begin maai."
+                },
+                "duration": {
+                    "name": "Duur",
+                    "description": "Snytyd in minute (1-255). Verstek is 30 minute."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Stel skedule",
+            "description": "Stel die snyerskedule in.",
+            "fields": {
+                "start_time": {
+                    "name": "Begin tyd",
+                    "description": "Tyd om elke dag te begin sny."
+                },
+                "end_time": {
+                    "name": "Eindtyd",
+                    "description": "Tyd om elke dag maai te beëindig."
+                },
+                "day_0_enabled": {
+                    "name": "Maandag aangeskakel",
+                    "description": "Of jy Maandag moet sny."
+                },
+                "day_0_duration": {
+                    "name": "Maandag duur",
+                    "description": "Snytyd vir Maandag in minute (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Maandag siklusse",
+                    "description": "Aantal snysiklusse vir Maandag (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Maandag sone",
+                    "description": "Sone om Maandag te sny."
+                },
+                "day_1_enabled": {
+                    "name": "Dinsdag aangeskakel",
+                    "description": "Of jy Dinsdag moet sny."
+                },
+                "day_1_duration": {
+                    "name": "Dinsdag duur",
+                    "description": "Snytyd vir Dinsdag in minute (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Dinsdag siklusse",
+                    "description": "Aantal snysiklusse vir Dinsdag (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Dinsdag sone",
+                    "description": "Sone om Dinsdag te sny."
+                },
+                "day_2_enabled": {
+                    "name": "Woensdag aangeskakel",
+                    "description": "Of jy Woensdag moet sny."
+                },
+                "day_2_duration": {
+                    "name": "Woensdag duur",
+                    "description": "Snytyd vir Woensdag in minute (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Woensdag siklusse",
+                    "description": "Aantal snysiklusse vir Woensdag (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Woensdag sone",
+                    "description": "Sone om Woensdag te sny."
+                },
+                "day_3_enabled": {
+                    "name": "Donderdag aangeskakel",
+                    "description": "Of jy Donderdag moet sny."
+                },
+                "day_3_duration": {
+                    "name": "Donderdag duur",
+                    "description": "Snytyd vir Donderdag in minute (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Donderdag siklusse",
+                    "description": "Aantal maai-siklusse vir Donderdag (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Donderdag sone",
+                    "description": "Sone om Donderdag te sny."
+                },
+                "day_4_enabled": {
+                    "name": "Vrydag aangeskakel",
+                    "description": "Of jy Vrydag moet sny."
+                },
+                "day_4_duration": {
+                    "name": "Vrydag duur",
+                    "description": "Snytyd vir Vrydag in minute (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Vrydag siklusse",
+                    "description": "Aantal snysiklusse vir Vrydag (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Vrydag sone",
+                    "description": "Sone om Vrydag te sny."
+                },
+                "day_5_enabled": {
+                    "name": "Saterdag aangeskakel",
+                    "description": "Of jy Saterdag moet sny."
+                },
+                "day_5_duration": {
+                    "name": "Saterdag duur",
+                    "description": "Snytyd vir Saterdag in minute (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Saterdag siklusse",
+                    "description": "Aantal snysiklusse vir Saterdag (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Saterdag sone",
+                    "description": "Sone om Saterdag te sny."
+                },
+                "day_6_enabled": {
+                    "name": "Sondag aangeskakel",
+                    "description": "Of jy Sondag moet sny."
+                },
+                "day_6_duration": {
+                    "name": "Sondag duur",
+                    "description": "Snytyd vir Sondag in minute (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Sondag siklusse",
+                    "description": "Aantal snysiklusse vir Sondag (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Sondag sone",
+                    "description": "Sone om Sondag te sny."
+                }
+            }
+        }
+    }
+}

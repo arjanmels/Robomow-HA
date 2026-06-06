@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Dewiswch y ddyfais Robomow rydych chi am ei hychwanegu a nodwch rif cyfresol y prif fwrdd. \n\nI gael rhif cyfresol y prif fwrdd: 1) Mewngofnodwch i myrobomow.robomow.com.\n2) Agorwch Offer Datblygwr eich porwr (F12).\n3) Ewch i'r tab Rhwydwaith.\n4) Ail-lwythwch y dudalen.\n5) Chwiliwch am gais sy'n gorffen yn /api/customer/products.\n6) Cliciwch ar y cais ac agorwch y tab Ymateb.\n7) Yn ymateb JSON, darganfyddwch y maes o'r enw MainboardSerial. Y gwerth hwn yw'r rhif cyfresol prif fwrdd gwirioneddol.",
+                "data": {
+                    "address": "Cyfeiriad",
+                    "mainboard_serial": "Rhif cyfresol y prif fwrdd"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Rhowch rif cyfresol y prif fwrdd ar gyfer y ddyfais Robomow rydych chi am ei hychwanegu at Home Assistant.\n\nI gael rhif cyfresol y prif fwrdd: 1) Mewngofnodwch i myrobomow.robomow.com.\n2) Agorwch Offer Datblygwr eich porwr (F12).\n3) Ewch i'r tab Rhwydwaith.\n4) Ail-lwythwch y dudalen.\n5) Chwiliwch am gais sy'n gorffen yn /api/customer/products.\n6) Cliciwch ar y cais ac agorwch y tab Ymateb.\n7) Yn ymateb JSON, darganfyddwch y maes o'r enw MainboardSerial. Y gwerth hwn yw'r rhif cyfresol prif fwrdd gwirioneddol.",
+                "data": {
+                    "mainboard_serial": "Rhif cyfresol y prif fwrdd"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Ni ddarparwyd cyfeiriad unigryw.",
+            "no_mainboard_serial": "Ni ddarparwyd rhif cyfresol y prif fwrdd.",
+            "invalid_mainboard_serial": "Mae rhif cyfresol y prif fwrdd yn annilys. Dilyswch ef a cheisiwch eto.",
+            "model_unsupported": "Nid yw'r model torri gwair yn cael ei gefnogi.",
+            "device_not_found": "Nid oedd modd dod o hyd i ddyfais Robomow. Symud yn nes a cheisio eto.",
+            "service_not_found": "Ni chanfuwyd y gwasanaeth Robomow Bluetooth gofynnol ar y ddyfais hon.",
+            "characteristics_not_found": "Ni ddarganfuwyd y nodweddion Robomow Bluetooth gofynnol ar y ddyfais hon."
+        },
+        "abort": {
+            "already_configured": "Mae'r cofnod hwn eisoes wedi'i ffurfweddu.",
+            "no_devices_found": "Dim dyfeisiau Robomow wedi'u canfod.",
+            "not_supported": "Nid yw'r ddyfais Bluetooth hon yn beiriant torri gwair Robomow a gefnogir."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Methu cysylltu â'r ddyfais"
+        },
+        "invalid_auth": {
+            "message": "Methodd y dilysu"
+        },
+        "unsupported_device": {
+            "message": "Nid yw'r model dyfais hwn yn cael ei gefnogi"
+        },
+        "no_unique_address": {
+            "message": "Ni ddarparwyd cyfeiriad unigryw."
+        },
+        "no_mainboard_serial": {
+            "message": "Ni ddarparwyd rhif cyfresol y prif fwrdd."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Gwrth-ladrad yn weithredol"
+            },
+            "mower_home": {
+                "name": "Cartref torri gwair"
+            },
+            "charging_active": {
+                "name": "Codi tâl yn weithredol"
+            },
+            "disabling_device_removed": {
+                "name": "Dyfais analluogi wedi'i thynnu"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Cyflwr Gweithredu",
+                "state": {
+                    "warming_up": "Cynhesu",
+                    "mowing": "Torri",
+                    "edge_mowing": "Torri Ymyl",
+                    "returning_home_following_edge": "Yn dilyn ymyl adref",
+                    "returning_home_warming_up": "Cynhesu i ddychwelyd adref",
+                    "returning_home_searching_edge": "Chwilio ymyl",
+                    "going_to_start": "Mynd i'r man cychwyn",
+                    "learning_entry_point": "Pwynt mynediad dysgu",
+                    "idle": "Segur",
+                    "charging": "Codi tâl",
+                    "automatic": "Awtomatig",
+                    "remote_control": "Rheolaeth bell",
+                    "bit": "Did"
+                }
+            },
+            "status_message": {
+                "name": "Neges Statws"
+            },
+            "next_departure": {
+                "name": "Ymadawiad nesaf"
+            },
+            "previous_departure": {
+                "name": "Ymadawiad Blaenorol"
+            },
+            "expected_duration": {
+                "name": "Hyd Disgwyliedig"
+            },
+            "no_depart_reason": {
+                "name": "Dim Rheswm Ymadael"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Amserlen wedi'i galluogi"
+            },
+            "anti_theft_enabled": {
+                "name": "Gwrth-ladrad wedi'i alluogi"
+            },
+            "child_lock_enabled": {
+                "name": "Clo plentyn wedi'i alluogi"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Man cychwyn A"
+            },
+            "starting_point_b": {
+                "name": "Man cychwyn B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Math o signal gwifren",
+                "state": {
+                    "type_a": "Math A",
+                    "type_b": "Math B",
+                    "type_c": "Math C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Peiriant torri gwair"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Prif",
+                "starting_point_a": "Man cychwyn A",
+                "starting_point_b": "Man cychwyn B",
+                "sub_1": "Is-barth 1",
+                "sub_2": "Is-barth 2",
+                "sub_3": "Is-barth 3",
+                "sub_4": "Is-barth 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Dechrau torri gwair",
+            "description": "Dechreuwch dorri gyda pharth cychwyn dewisol a hyd.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Parth cychwyn",
+                    "description": "Parth Robomow i ddechrau torri gwair ohono."
+                },
+                "duration": {
+                    "name": "Hyd",
+                    "description": "Hyd torri mewn munudau (1-255). Y rhagosodiad yw 30 munud."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Gosod amserlen",
+            "description": "Gosodwch amserlen y peiriant torri gwair.",
+            "fields": {
+                "start_time": {
+                    "name": "Amser cychwyn",
+                    "description": "Amser i ddechrau torri gwair bob dydd."
+                },
+                "end_time": {
+                    "name": "Amser gorffen",
+                    "description": "Amser i orffen torri gwair bob dydd."
+                },
+                "day_0_enabled": {
+                    "name": "Dydd Llun wedi ei alluogi",
+                    "description": "A ddylid torri gwair ddydd Llun."
+                },
+                "day_0_duration": {
+                    "name": "Hyd dydd Llun",
+                    "description": "Hyd torri ar gyfer dydd Llun mewn munudau (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Cylchoedd dydd Llun",
+                    "description": "Nifer y cylchoedd torri gwair ar gyfer dydd Llun (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "parth dydd Llun",
+                    "description": "Parth i dorri gwair ddydd Llun."
+                },
+                "day_1_enabled": {
+                    "name": "Dydd Mawrth galluogi",
+                    "description": "A ddylid torri gwair ddydd Mawrth."
+                },
+                "day_1_duration": {
+                    "name": "Hyd dydd Mawrth",
+                    "description": "Hyd y lladd gwair ar gyfer dydd Mawrth mewn munudau (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Cylchoedd dydd Mawrth",
+                    "description": "Nifer y cylchoedd torri gwair ar gyfer dydd Mawrth (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "parth dydd Mawrth",
+                    "description": "Parth i dorri dydd Mawrth."
+                },
+                "day_2_enabled": {
+                    "name": "Dydd Mercher wedi ei alluogi",
+                    "description": "A ddylid torri gwair ddydd Mercher."
+                },
+                "day_2_duration": {
+                    "name": "Hyd dydd Mercher",
+                    "description": "Hyd torri ar gyfer dydd Mercher mewn munudau (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "cylchoedd dydd Mercher",
+                    "description": "Nifer y cylchoedd torri gwair ar gyfer dydd Mercher (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "parth dydd Mercher",
+                    "description": "Parth i dorri gwair dydd Mercher."
+                },
+                "day_3_enabled": {
+                    "name": "Dydd Iau wedi ei alluogi",
+                    "description": "A ddylid torri gwair ddydd Iau."
+                },
+                "day_3_duration": {
+                    "name": "Hyd dydd Iau",
+                    "description": "Hyd torri ar gyfer dydd Iau mewn munudau (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Cylchoedd dydd Iau",
+                    "description": "Nifer y cylchoedd torri gwair ar gyfer dydd Iau (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "parth dydd Iau",
+                    "description": "Parth i dorri dydd Iau."
+                },
+                "day_4_enabled": {
+                    "name": "Dydd Gwener wedi ei alluogi",
+                    "description": "A ddylid torri gwair ddydd Gwener."
+                },
+                "day_4_duration": {
+                    "name": "Hyd dydd Gwener",
+                    "description": "Hyd y lladd gwair ar gyfer dydd Gwener mewn munudau (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Cylchoedd dydd Gwener",
+                    "description": "Nifer y cylchoedd torri gwair ar gyfer dydd Gwener (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "parth dydd Gwener",
+                    "description": "Parth i dorri gwair dydd Gwener."
+                },
+                "day_5_enabled": {
+                    "name": "Dydd Sadwrn wedi ei alluogi",
+                    "description": "A ddylid torri gwair ar ddydd Sadwrn."
+                },
+                "day_5_duration": {
+                    "name": "Hyd dydd Sadwrn",
+                    "description": "Hyd torri ar gyfer dydd Sadwrn mewn munudau (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Cylchoedd dydd Sadwrn",
+                    "description": "Nifer y cylchoedd torri gwair ar gyfer dydd Sadwrn (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "parth dydd Sadwrn",
+                    "description": "Parth i dorri dydd Sadwrn."
+                },
+                "day_6_enabled": {
+                    "name": "Dydd Sul galluogi",
+                    "description": "A ddylid torri gwair ar ddydd Sul."
+                },
+                "day_6_duration": {
+                    "name": "Hyd y Sul",
+                    "description": "Hyd torri ar gyfer dydd Sul mewn munudau (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "cylchoedd dydd Sul",
+                    "description": "Nifer y cylchoedd torri gwair ar gyfer dydd Sul (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "parth dydd Sul",
+                    "description": "Parth i dorri ar ddydd Sul."
+                }
+            }
+        }
+    }
+}

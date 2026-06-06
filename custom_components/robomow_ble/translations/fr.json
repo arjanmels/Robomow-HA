@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Sélectionnez l'appareil Robomow que vous souhaitez ajouter et entrez le numéro de série de la carte mère. \n\nPour obtenir le numéro de série de la carte mère : 1) Connectez-vous à myrobomow.robomow.com.\n2) Ouvrez les outils de développement de votre navigateur (F12).\n3) Accédez à l'onglet Réseau.\n4) Rechargez la page.\n5) Recherchez une demande se terminant par /api/customer/products.\n6) Cliquez sur la demande et ouvrez l'onglet Réponse.\n7) Dans la réponse JSON, recherchez le champ nommé MainboardSerial. Cette valeur est le numéro de série réel de la carte mère.",
+                "data": {
+                    "address": "Adresse",
+                    "mainboard_serial": "Numéro de série de la carte mère"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Entrez le numéro de série de la carte mère de l'appareil Robomow que vous souhaitez ajouter à Home Assistant.\n\nPour obtenir le numéro de série de la carte mère : 1) Connectez-vous à myrobomow.robomow.com.\n2) Ouvrez les outils de développement de votre navigateur (F12).\n3) Accédez à l'onglet Réseau.\n4) Rechargez la page.\n5) Recherchez une demande se terminant par /api/customer/products.\n6) Cliquez sur la demande et ouvrez l'onglet Réponse.\n7) Dans la réponse JSON, recherchez le champ nommé MainboardSerial. Cette valeur est le numéro de série réel de la carte mère.",
+                "data": {
+                    "mainboard_serial": "Numéro de série de la carte mère"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Aucune adresse unique fournie.",
+            "no_mainboard_serial": "Aucun numéro de série de la carte mère fourni.",
+            "invalid_mainboard_serial": "Le numéro de série de la carte mère n'est pas valide. Vérifiez-le et réessayez.",
+            "model_unsupported": "Le modèle de tondeuse n'est pas pris en charge.",
+            "device_not_found": "L'appareil Robomow est introuvable. Rapprochez-vous et réessayez.",
+            "service_not_found": "Le service Bluetooth Robomow requis n'a pas été trouvé sur cet appareil.",
+            "characteristics_not_found": "Les caractéristiques Bluetooth Robomow requises n'ont pas été trouvées sur cet appareil."
+        },
+        "abort": {
+            "already_configured": "Cette entrée est déjà configurée.",
+            "no_devices_found": "Aucun appareil Robomow trouvé.",
+            "not_supported": "Cet appareil Bluetooth n'est pas une tondeuse Robomow prise en charge."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Impossible de se connecter à l'appareil"
+        },
+        "invalid_auth": {
+            "message": "L'authentification a échoué"
+        },
+        "unsupported_device": {
+            "message": "Ce modèle d'appareil n'est pas pris en charge"
+        },
+        "no_unique_address": {
+            "message": "Aucune adresse unique fournie."
+        },
+        "no_mainboard_serial": {
+            "message": "Aucun numéro de série de la carte mère fourni."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Antivol actif"
+            },
+            "mower_home": {
+                "name": "Tondeuse à domicile"
+            },
+            "charging_active": {
+                "name": "Chargement actif"
+            },
+            "disabling_device_removed": {
+                "name": "Désactivation du périphérique supprimé"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "État de fonctionnement",
+                "state": {
+                    "warming_up": "Échauffement",
+                    "mowing": "Fauchage",
+                    "edge_mowing": "Tonte des bordures",
+                    "returning_home_following_edge": "Suivant le bord de la maison",
+                    "returning_home_warming_up": "S'échauffer pour rentrer à la maison",
+                    "returning_home_searching_edge": "Bord de recherche",
+                    "going_to_start": "Aller au point de départ",
+                    "learning_entry_point": "Point d’entrée de l’apprentissage",
+                    "idle": "Inactif",
+                    "charging": "Chargement",
+                    "automatic": "Automatique",
+                    "remote_control": "Télécommande",
+                    "bit": "Peu"
+                }
+            },
+            "status_message": {
+                "name": "Message d'état"
+            },
+            "next_departure": {
+                "name": "Prochain départ"
+            },
+            "previous_departure": {
+                "name": "Départ précédent"
+            },
+            "expected_duration": {
+                "name": "Durée prévue"
+            },
+            "no_depart_reason": {
+                "name": "Aucun motif de départ"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Planification activée"
+            },
+            "anti_theft_enabled": {
+                "name": "Antivol activé"
+            },
+            "child_lock_enabled": {
+                "name": "Sécurité enfants activée"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Point de départ A"
+            },
+            "starting_point_b": {
+                "name": "Point de départ B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Type de signal filaire",
+                "state": {
+                    "type_a": "Type A",
+                    "type_b": "Tapez B",
+                    "type_c": "Tapez C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Tondeuse"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Principal",
+                "starting_point_a": "Point de départ A",
+                "starting_point_b": "Point de départ B",
+                "sub_1": "Sous zone 1",
+                "sub_2": "Sous zone 2",
+                "sub_3": "Sous zone 3",
+                "sub_4": "Sous zone 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Commencez à tondre",
+            "description": "Commencez à tondre avec une zone de démarrage et une durée en option.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Zone de départ",
+                    "description": "Zone Robomow à partir de laquelle commencer à tondre."
+                },
+                "duration": {
+                    "name": "Durée",
+                    "description": "Durée de tonte en minutes (1-255). La valeur par défaut est 30 minutes."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Définir le calendrier",
+            "description": "Réglez le programme de la tondeuse.",
+            "fields": {
+                "start_time": {
+                    "name": "Heure de début",
+                    "description": "Il est temps de commencer à tondre chaque jour."
+                },
+                "end_time": {
+                    "name": "Heure de fin",
+                    "description": "Il est temps d’arrêter de tondre chaque jour."
+                },
+                "day_0_enabled": {
+                    "name": "Lundi activé",
+                    "description": "S'il faut tondre lundi."
+                },
+                "day_0_duration": {
+                    "name": "Durée du lundi",
+                    "description": "Durée de tonte du lundi en minutes (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Cycles du lundi",
+                    "description": "Nombre de cycles de tonte pour lundi (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Zone lundi",
+                    "description": "Zone à tondre lundi."
+                },
+                "day_1_enabled": {
+                    "name": "Mardi activé",
+                    "description": "S'il faut tondre mardi."
+                },
+                "day_1_duration": {
+                    "name": "Durée du mardi",
+                    "description": "Durée de tonte du mardi en minutes (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Cycles du mardi",
+                    "description": "Nombre de cycles de tonte pour mardi (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Zone du mardi",
+                    "description": "Zone à tondre mardi."
+                },
+                "day_2_enabled": {
+                    "name": "Mercredi activé",
+                    "description": "S'il faut tondre mercredi."
+                },
+                "day_2_duration": {
+                    "name": "Durée du mercredi",
+                    "description": "Durée de tonte du mercredi en minutes (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Cycles du mercredi",
+                    "description": "Nombre de cycles de tonte pour mercredi (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Zone mercredi",
+                    "description": "Zone à tondre mercredi."
+                },
+                "day_3_enabled": {
+                    "name": "Jeudi activé",
+                    "description": "S'il faut tondre jeudi."
+                },
+                "day_3_duration": {
+                    "name": "Durée du jeudi",
+                    "description": "Durée de tonte du jeudi en minutes (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Cycles du jeudi",
+                    "description": "Nombre de cycles de tonte pour jeudi (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Zone jeudi",
+                    "description": "Zone à tondre jeudi."
+                },
+                "day_4_enabled": {
+                    "name": "Vendredi activé",
+                    "description": "S'il faut tondre vendredi."
+                },
+                "day_4_duration": {
+                    "name": "Durée du vendredi",
+                    "description": "Durée de tonte du vendredi en minutes (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Cycles du vendredi",
+                    "description": "Nombre de cycles de tonte pour vendredi (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Zone vendredi",
+                    "description": "Zone à tondre vendredi."
+                },
+                "day_5_enabled": {
+                    "name": "Samedi activé",
+                    "description": "S'il faut tondre samedi."
+                },
+                "day_5_duration": {
+                    "name": "Durée du samedi",
+                    "description": "Durée de tonte du samedi en minutes (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Cycles du samedi",
+                    "description": "Nombre de cycles de tonte pour samedi (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Zone samedi",
+                    "description": "Zone à tondre samedi."
+                },
+                "day_6_enabled": {
+                    "name": "Dimanche activé",
+                    "description": "S'il faut tondre le dimanche."
+                },
+                "day_6_duration": {
+                    "name": "Durée du dimanche",
+                    "description": "Durée de tonte du dimanche en minutes (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Cycles du dimanche",
+                    "description": "Nombre de cycles de tonte pour dimanche (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Zone dimanche",
+                    "description": "Zone à tondre le dimanche."
+                }
+            }
+        }
+    }
+}

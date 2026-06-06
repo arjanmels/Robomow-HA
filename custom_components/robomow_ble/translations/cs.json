@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Vyberte zařízení Robomow, které chcete přidat, a zadejte sériové číslo základní desky. \n\nChcete-li získat sériové číslo základní desky: 1) Přihlaste se na myrobomow.robomow.com.\n2) Otevřete v prohlížeči Vývojářské nástroje (F12).\n3) Přejděte na kartu Síť.\n4) Znovu načtěte stránku.\n5) Hledejte požadavek končící na /api/customer/products.\n6) Klikněte na požadavek a otevřete kartu Odpověď.\n7) V odpovědi JSON najděte pole s názvem MainboardSerial. Tato hodnota je skutečné sériové číslo základní desky.",
+                "data": {
+                    "address": "Adresa",
+                    "mainboard_serial": "Sériové číslo základní desky"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Zadejte sériové číslo základní desky pro zařízení Robomow, které chcete přidat do Home Assistant.\n\nChcete-li získat sériové číslo základní desky: 1) Přihlaste se na myrobomow.robomow.com.\n2) Otevřete v prohlížeči Vývojářské nástroje (F12).\n3) Přejděte na kartu Síť.\n4) Znovu načtěte stránku.\n5) Hledejte požadavek končící na /api/customer/products.\n6) Klikněte na požadavek a otevřete kartu Odpověď.\n7) V odpovědi JSON najděte pole s názvem MainboardSerial. Tato hodnota je skutečné sériové číslo základní desky.",
+                "data": {
+                    "mainboard_serial": "Sériové číslo základní desky"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Nebyla zadána žádná jedinečná adresa.",
+            "no_mainboard_serial": "Nebylo uvedeno sériové číslo základní desky.",
+            "invalid_mainboard_serial": "Sériové číslo základní desky je neplatné. Ověřte to a zkuste to znovu.",
+            "model_unsupported": "Model sekačky není podporován.",
+            "device_not_found": "Zařízení Robomow nebylo nalezeno. Posuňte se blíž a zkuste to znovu.",
+            "service_not_found": "Požadovaná služba Bluetooth Robomow nebyla na tomto zařízení nalezena.",
+            "characteristics_not_found": "Na tomto zařízení nebyly nalezeny požadované vlastnosti Bluetooth sekačky Robomow."
+        },
+        "abort": {
+            "already_configured": "Tato položka je již nakonfigurována.",
+            "no_devices_found": "Nebyla nalezena žádná zařízení Robomow.",
+            "not_supported": "Toto zařízení Bluetooth není podporovaná sekačka Robomow."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Nelze se připojit k zařízení"
+        },
+        "invalid_auth": {
+            "message": "Ověření se nezdařilo"
+        },
+        "unsupported_device": {
+            "message": "Tento model zařízení není podporován"
+        },
+        "no_unique_address": {
+            "message": "Nebyla zadána žádná jedinečná adresa."
+        },
+        "no_mainboard_serial": {
+            "message": "Nebylo uvedeno sériové číslo základní desky."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Aktivní ochrana proti krádeži"
+            },
+            "mower_home": {
+                "name": "Sekačka domů"
+            },
+            "charging_active": {
+                "name": "Nabíjení aktivní"
+            },
+            "disabling_device_removed": {
+                "name": "Deaktivační zařízení bylo odstraněno"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Provozní stav",
+                "state": {
+                    "warming_up": "Zahřívání",
+                    "mowing": "Sečení",
+                    "edge_mowing": "Sekání okrajů",
+                    "returning_home_following_edge": "Po hraně domů",
+                    "returning_home_warming_up": "Rozcvička k návratu domů",
+                    "returning_home_searching_edge": "Hledací hrana",
+                    "going_to_start": "Jít do výchozího bodu",
+                    "learning_entry_point": "Vstupní bod učení",
+                    "idle": "Líný",
+                    "charging": "Nabíjení",
+                    "automatic": "Automatický",
+                    "remote_control": "Dálkové ovládání",
+                    "bit": "Bit"
+                }
+            },
+            "status_message": {
+                "name": "Stavová zpráva"
+            },
+            "next_departure": {
+                "name": "Další odjezd"
+            },
+            "previous_departure": {
+                "name": "Předchozí odjezd"
+            },
+            "expected_duration": {
+                "name": "Očekávaná doba trvání"
+            },
+            "no_depart_reason": {
+                "name": "Bez důvodu odjezdu"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Plán povolen"
+            },
+            "anti_theft_enabled": {
+                "name": "Ochrana proti krádeži povolena"
+            },
+            "child_lock_enabled": {
+                "name": "Dětský zámek povolen"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Výchozí bod A"
+            },
+            "starting_point_b": {
+                "name": "Výchozí bod B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Typ drátového signálu",
+                "state": {
+                    "type_a": "Typ A",
+                    "type_b": "Typ B",
+                    "type_c": "Typ C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Sekačka"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Hlavní",
+                "starting_point_a": "Výchozí bod A",
+                "starting_point_b": "Výchozí bod B",
+                "sub_1": "Podzóna 1",
+                "sub_2": "Podzóna 2",
+                "sub_3": "Podzóna 3",
+                "sub_4": "Podzóna 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Začněte sekat",
+            "description": "Začněte sekat s volitelnou počáteční zónou a dobou trvání.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Startovní zóna",
+                    "description": "Zóna Robomow, ze které se má začít sekat."
+                },
+                "duration": {
+                    "name": "Trvání",
+                    "description": "Délka sečení v minutách (1-255). Výchozí hodnota je 30 minut."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Nastavit plán",
+            "description": "Nastavte plán sekačky.",
+            "fields": {
+                "start_time": {
+                    "name": "Čas zahájení",
+                    "description": "Je čas začít sekat každý den."
+                },
+                "end_time": {
+                    "name": "Čas ukončení",
+                    "description": "Je čas ukončit sekání každý den."
+                },
+                "day_0_enabled": {
+                    "name": "Pondělí povoleno",
+                    "description": "Zda se má sekat v pondělí."
+                },
+                "day_0_duration": {
+                    "name": "Pondělní trvání",
+                    "description": "Délka sečení za pondělí v minutách (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Pondělní cykly",
+                    "description": "Počet cyklů sečení za pondělí (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Pondělní pásmo",
+                    "description": "Zóna k sečení v pondělí."
+                },
+                "day_1_enabled": {
+                    "name": "úterý povoleno",
+                    "description": "Zda se má sekat v úterý."
+                },
+                "day_1_duration": {
+                    "name": "Úterní trvání",
+                    "description": "Délka sečení za úterý v minutách (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Úterní cykly",
+                    "description": "Počet cyklů sečení za úterý (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Úterní zóna",
+                    "description": "Zóna k sečení v úterý."
+                },
+                "day_2_enabled": {
+                    "name": "Středa povolena",
+                    "description": "Zda se má sekat ve středu."
+                },
+                "day_2_duration": {
+                    "name": "Středeční trvání",
+                    "description": "Délka sečení pro středu v minutách (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Středeční cykly",
+                    "description": "Počet cyklů sečení za středu (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Středeční zóna",
+                    "description": "Zóna sekat ve středu."
+                },
+                "day_3_enabled": {
+                    "name": "čtvrtek povoleno",
+                    "description": "Zda se má sekat ve čtvrtek."
+                },
+                "day_3_duration": {
+                    "name": "Čtvrteční trvání",
+                    "description": "Délka sečení ve čtvrtek v minutách (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Čtvrteční cykly",
+                    "description": "Počet cyklů sečení za čtvrtek (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Čtvrteční zóna",
+                    "description": "Zóna k sečení ve čtvrtek."
+                },
+                "day_4_enabled": {
+                    "name": "Pátek povoleno",
+                    "description": "Zda sekat v pátek."
+                },
+                "day_4_duration": {
+                    "name": "Páteční trvání",
+                    "description": "Délka sečení za pátek v minutách (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Páteční cykly",
+                    "description": "Počet cyklů sečení za pátek (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Páteční pásmo",
+                    "description": "Zóna na sečení v pátek."
+                },
+                "day_5_enabled": {
+                    "name": "Sobota povolena",
+                    "description": "Zda v sobotu sekat."
+                },
+                "day_5_duration": {
+                    "name": "Sobotní trvání",
+                    "description": "Délka sečení za sobotu v minutách (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Sobotní cykly",
+                    "description": "Počet cyklů sečení za sobotu (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Sobotní zóna",
+                    "description": "Zóna na sečení v sobotu."
+                },
+                "day_6_enabled": {
+                    "name": "Neděle povolena",
+                    "description": "Zda sekat v neděli."
+                },
+                "day_6_duration": {
+                    "name": "Nedělní trvání",
+                    "description": "Délka sečení za neděli v minutách (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Nedělní cykly",
+                    "description": "Počet cyklů sečení za neděli (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Nedělní zóna",
+                    "description": "Zóna k sečení v neděli."
+                }
+            }
+        }
+    }
+}

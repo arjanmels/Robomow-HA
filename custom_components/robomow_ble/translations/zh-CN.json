@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Select the Robomow device you want to add to Home Assistant and enter the mainboard serial number.",
+                "description": "Select the Robomow device you want to add and enter the mainboard serial number. \n\nTo get the mainboard serial number: 1) Log in to myrobomow.robomow.com.\n2) Open your browser's Developer Tools (F12).\n3) Go to the Network tab.\n4) Reload the page.\n5) Look for a request ending in /api/customer/products.\n6) Click the request and open the Response tab.\n7) In the JSON response, find the field named MainboardSerial. This value is the actual mainboard serial number.",
                 "data": {
                     "address": "Address",
                     "mainboard_serial": "Mainboard serial number"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Enter the mainboard serial number for the Robomow device you want to add to Home Assistant.",
+                "description": "Enter the mainboard serial number for the Robomow device you want to add to Home Assistant.\n\nTo get the mainboard serial number: 1) Log in to myrobomow.robomow.com.\n2) Open your browser's Developer Tools (F12).\n3) Go to the Network tab.\n4) Reload the page.\n5) Look for a request ending in /api/customer/products.\n6) Click the request and open the Response tab.\n7) In the JSON response, find the field named MainboardSerial. This value is the actual mainboard serial number.",
                 "data": {
                     "mainboard_serial": "Mainboard serial number"
                 }
@@ -120,9 +120,9 @@
             "wire_signal_type": {
                 "name": "Wire signal type",
                 "state": {
-                        "type_a": "Type A",
-                        "type_b": "Type B",
-                        "type_c": "Type C"
+                    "type_a": "Type A",
+                    "type_b": "Type B",
+                    "type_c": "Type C"
                 }
             }
         },
@@ -186,7 +186,7 @@
                 },
                 "day_0_zone": {
                     "name": "Monday zone",
-                    "description": "Robomow zone to mow on Monday."
+                    "description": "Zone to mow on Monday."
                 },
                 "day_1_enabled": {
                     "name": "Tuesday enabled",
@@ -202,7 +202,7 @@
                 },
                 "day_1_zone": {
                     "name": "Tuesday zone",
-                    "description": "Robomow zone to mow on Tuesday."
+                    "description": "Zone to mow on Tuesday."
                 },
                 "day_2_enabled": {
                     "name": "Wednesday enabled",
@@ -218,7 +218,7 @@
                 },
                 "day_2_zone": {
                     "name": "Wednesday zone",
-                    "description": "Robomow zone to mow on Wednesday."
+                    "description": "Zone to mow on Wednesday."
                 },
                 "day_3_enabled": {
                     "name": "Thursday enabled",
@@ -234,7 +234,7 @@
                 },
                 "day_3_zone": {
                     "name": "Thursday zone",
-                    "description": "Robomow zone to mow on Thursday."
+                    "description": "Zone to mow on Thursday."
                 },
                 "day_4_enabled": {
                     "name": "Friday enabled",
@@ -250,7 +250,7 @@
                 },
                 "day_4_zone": {
                     "name": "Friday zone",
-                    "description": "Robomow zone to mow on Friday."
+                    "description": "Zone to mow on Friday."
                 },
                 "day_5_enabled": {
                     "name": "Saturday enabled",
@@ -266,7 +266,7 @@
                 },
                 "day_5_zone": {
                     "name": "Saturday zone",
-                    "description": "Robomow zone to mow on Saturday."
+                    "description": "Zone to mow on Saturday."
                 },
                 "day_6_enabled": {
                     "name": "Sunday enabled",
@@ -282,7 +282,7 @@
                 },
                 "day_6_zone": {
                     "name": "Sunday zone",
-                    "description": "Robomow zone to mow on Sunday."
+                    "description": "Zone to mow on Sunday."
                 }
             }
         }

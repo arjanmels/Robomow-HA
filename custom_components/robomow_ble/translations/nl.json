@@ -2,24 +2,24 @@
     "config": {
         "step": {
             "user": {
-                "description": "Selecteer het Robomow-apparaat dat u wilt toevoegen aan Home Assistant en voer het mainboard-serienummer in.",
+                "description": "Selecteer het Robomow-apparaat dat u wilt toevoegen en voer het serienummer van het moederbord in. \n\nOm het serienummer van het moederbord te vinden: 1) Log in op myrobomow.robomow.com.\n2) Open de Ontwikkelaarstools van uw browser (F12).\n3) Ga naar het tabblad Netwerk.\n4) Herlaad de pagina.\n5) Zoek naar een aanvraag die eindigt op /api/customer/products.\n6) Klik op de aanvraag en open het tabblad Response.\n7) Zoek in de JSON-response naar het veld MainboardSerial. Deze waarde is het echte serienummer van het moederbord.",
                 "data": {
                     "address": "Adres",
-                    "mainboard_serial": "Mainboard-serienummer"
+                    "mainboard_serial": "Serienummer van het moederbord"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Voer het mainboard-serienummer in voor het Robomow-apparaat dat u wilt toevoegen aan Home Assistant.",
+                "description": "Voer het serienummer van het moederbord in voor het Robomow-apparaat dat u wilt toevoegen aan Home Assistant.\n\nOm het serienummer van het moederbord te vinden: 1) Log in op myrobomow.robomow.com.\n2) Open de Ontwikkelaarstools van uw browser (F12).\n3) Ga naar het tabblad Netwerk.\n4) Herlaad de pagina.\n5) Zoek naar een aanvraag die eindigt op /api/customer/products.\n6) Klik op de aanvraag en open het tabblad Response.\n7) Zoek in de JSON-response naar het veld MainboardSerial. Deze waarde is het echte serienummer van het moederbord.",
                 "data": {
-                    "mainboard_serial": "Mainboard-serienummer"
+                    "mainboard_serial": "Serienummer van het moederbord"
                 }
             }
         },
         "error": {
             "no_unique_address": "Geen uniek adres opgegeven.",
-            "no_mainboard_serial": "Geen mainboard-serienummer opgegeven.",
-            "invalid_mainboard_serial": "Het mainboard-serienummer is ongeldig. Controleer het en probeer het opnieuw.",
-            "model_unsupported": "Het mowermodel wordt niet ondersteund.",
+            "no_mainboard_serial": "Geen serienummer van het moederbord opgegeven.",
+            "invalid_mainboard_serial": "Het serienummer van het moederbord is ongeldig. Controleer het en probeer het opnieuw.",
+            "model_unsupported": "Het Robomow model wordt niet ondersteund.",
             "device_not_found": "Het Robomow-apparaat kon niet worden gevonden. Ga dichter bij het apparaat staan en probeer het opnieuw.",
             "service_not_found": "De vereiste Robomow Bluetooth-service is niet gevonden op dit apparaat.",
             "characteristics_not_found": "De vereiste Robomow Bluetooth-karakteristieken zijn niet gevonden op dit apparaat."
@@ -44,7 +44,7 @@
             "message": "Geen uniek adres opgegeven."
         },
         "no_mainboard_serial": {
-            "message": "Geen mainboard-serienummer opgegeven."
+            "message": "Geen serienummer van het moederbord opgegeven."
         }
     },
     "entity": {
@@ -69,13 +69,13 @@
                     "warming_up": "Opwarmen",
                     "mowing": "Maaien",
                     "edge_mowing": "Kantmaaien",
-                    "returning_home_following_edge": "Thuis langs rand",
+                    "returning_home_following_edge": "De rand volgen naar huis",
                     "returning_home_warming_up": "Opwarmen voor thuiskomst",
                     "returning_home_searching_edge": "Rand zoeken",
                     "going_to_start": "Naar startpunt gaan",
                     "learning_entry_point": "Toegangspunt leren",
                     "idle": "Inactief",
-                    "charging": "Laden",
+                    "charging": "Opladen",
                     "automatic": "Automatisch",
                     "remote_control": "Afstandsbediening",
                     "bit": "BIT"
@@ -102,7 +102,7 @@
                 "name": "Schema ingeschakeld"
             },
             "anti_theft_enabled": {
-                "name": "Antidiefstalbeveiligt ingeschakeld"
+                "name": "Antidiefstalbeveiliging ingeschakeld"
             },
             "child_lock_enabled": {
                 "name": "Kinderslot ingeschakeld"
@@ -128,7 +128,7 @@
         },
         "lawn_mower": {
             "mower": {
-                "name": "Maaimachine"
+                "name": "Grasmaaier"
             }
         }
     },
@@ -148,7 +148,7 @@
     "services": {
         "start_mowing": {
             "name": "Maaien starten",
-            "description": "Maaien starten met optioneel startzone en duur.",
+            "description": "Maaien starten met optionele startzone en duur.",
             "fields": {
                 "starting_zone": {
                     "name": "Startzone",
@@ -186,7 +186,7 @@
                 },
                 "day_0_zone": {
                     "name": "Maandag zone",
-                    "description": "Robomow-zone om op maandag maaien."
+                    "description": "Zone om op maandag te maaien."
                 },
                 "day_1_enabled": {
                     "name": "Dinsdag ingeschakeld",
@@ -202,7 +202,7 @@
                 },
                 "day_1_zone": {
                     "name": "Dinsdag zone",
-                    "description": "Robomow-zone om op dinsdag maaien."
+                    "description": "Zone om op dinsdag te maaien."
                 },
                 "day_2_enabled": {
                     "name": "Woensdag ingeschakeld",
@@ -218,7 +218,7 @@
                 },
                 "day_2_zone": {
                     "name": "Woensdag zone",
-                    "description": "Robomow-zone om op woensdag maaien."
+                    "description": "Zone om op woensdag te maaien."
                 },
                 "day_3_enabled": {
                     "name": "Donderdag ingeschakeld",
@@ -234,7 +234,7 @@
                 },
                 "day_3_zone": {
                     "name": "Donderdag zone",
-                    "description": "Robomow-zone om op donderdag maaien."
+                    "description": "Zone om op donderdag te maaien."
                 },
                 "day_4_enabled": {
                     "name": "Vrijdag ingeschakeld",
@@ -250,7 +250,7 @@
                 },
                 "day_4_zone": {
                     "name": "Vrijdag zone",
-                    "description": "Robomow-zone om op vrijdag maaien."
+                    "description": "Zone om op vrijdag te maaien."
                 },
                 "day_5_enabled": {
                     "name": "Zaterdag ingeschakeld",
@@ -266,7 +266,7 @@
                 },
                 "day_5_zone": {
                     "name": "Zaterdag zone",
-                    "description": "Robomow-zone om op zaterdag maaien."
+                    "description": "Zone om op zaterdag te maaien."
                 },
                 "day_6_enabled": {
                     "name": "Zondag ingeschakeld",
@@ -282,7 +282,7 @@
                 },
                 "day_6_zone": {
                     "name": "Zondag zone",
-                    "description": "Robomow-zone om op zondag maaien."
+                    "description": "Zone om op zondag te maaien."
                 }
             }
         }

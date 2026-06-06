@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "دستگاه Robomow را که می خواهید اضافه کنید انتخاب کنید و شماره سریال مین برد را وارد کنید. \n\nبرای دریافت شماره سریال مین برد: 1) به myrobomow.robomow.com وارد شوید.\n2) ابزار توسعه دهنده مرورگر خود (F12) را باز کنید.\n3) به تب Network بروید.\n4) صفحه را دوباره بارگذاری کنید.\n5) به دنبال درخواستی باشید که به /api/customer/products ختم می شود.\n6) روی درخواست کلیک کنید و تب Response را باز کنید.\n7) در پاسخ JSON، فیلدی به نام MainboardSerial را پیدا کنید. این مقدار، شماره سریال اصلی برد اصلی است.",
+                "data": {
+                    "address": "آدرس",
+                    "mainboard_serial": "شماره سریال برد اصلی"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "شماره سریال مین برد دستگاه Robomow را که می خواهید به Home Assistant اضافه کنید وارد کنید.\n\nبرای دریافت شماره سریال مین برد: 1) به myrobomow.robomow.com وارد شوید.\n2) ابزار توسعه دهنده مرورگر خود (F12) را باز کنید.\n3) به تب Network بروید.\n4) صفحه را دوباره بارگذاری کنید.\n5) به دنبال درخواستی باشید که به /api/customer/products ختم می شود.\n6) روی درخواست کلیک کنید و تب Response را باز کنید.\n7) در پاسخ JSON، فیلدی به نام MainboardSerial را پیدا کنید. این مقدار، شماره سریال اصلی برد اصلی است.",
+                "data": {
+                    "mainboard_serial": "شماره سریال برد اصلی"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "هیچ آدرس منحصر به فردی ارائه نشده است.",
+            "no_mainboard_serial": "شماره سریال برد اصلی ارائه نشده است.",
+            "invalid_mainboard_serial": "شماره سریال مین برد نامعتبر است. آن را تأیید کنید و دوباره امتحان کنید.",
+            "model_unsupported": "مدل ماشین چمن زنی پشتیبانی نمی شود.",
+            "device_not_found": "دستگاه Robomow پیدا نشد. نزدیک تر شوید و دوباره امتحان کنید.",
+            "service_not_found": "سرویس بلوتوث مورد نیاز Robomow در این دستگاه یافت نشد.",
+            "characteristics_not_found": "مشخصات بلوتوث مورد نیاز Robomow در این دستگاه یافت نشد."
+        },
+        "abort": {
+            "already_configured": "این ورودی قبلاً پیکربندی شده است.",
+            "no_devices_found": "دستگاه Robomow پیدا نشد.",
+            "not_supported": "این دستگاه بلوتوث یک ماشین چمن زنی Robomow پشتیبانی نمی شود."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "نمی توان به دستگاه متصل شد"
+        },
+        "invalid_auth": {
+            "message": "احراز هویت ناموفق بود"
+        },
+        "unsupported_device": {
+            "message": "این مدل دستگاه پشتیبانی نمی شود"
+        },
+        "no_unique_address": {
+            "message": "هیچ آدرس منحصر به فردی ارائه نشده است."
+        },
+        "no_mainboard_serial": {
+            "message": "شماره سریال برد اصلی ارائه نشده است."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "ضد سرقت فعال"
+            },
+            "mower_home": {
+                "name": "ماشین چمن زنی"
+            },
+            "charging_active": {
+                "name": "شارژ فعال"
+            },
+            "disabling_device_removed": {
+                "name": "غیرفعال کردن دستگاه حذف شد"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "دولت عامل",
+                "state": {
+                    "warming_up": "گرم کردن",
+                    "mowing": "چمن زنی",
+                    "edge_mowing": "لبه زنی",
+                    "returning_home_following_edge": "به دنبال لبه خانه",
+                    "returning_home_warming_up": "گرم کردن برای بازگشت به خانه",
+                    "returning_home_searching_edge": "لبه جستجو",
+                    "going_to_start": "رفتن به نقطه شروع",
+                    "learning_entry_point": "نقطه ورود یادگیری",
+                    "idle": "بیکار",
+                    "charging": "شارژ کردن",
+                    "automatic": "خودکار",
+                    "remote_control": "کنترل از راه دور",
+                    "bit": "بیت"
+                }
+            },
+            "status_message": {
+                "name": "پیام وضعیت"
+            },
+            "next_departure": {
+                "name": "حرکت بعدی"
+            },
+            "previous_departure": {
+                "name": "حرکت قبلی"
+            },
+            "expected_duration": {
+                "name": "مدت زمان مورد انتظار"
+            },
+            "no_depart_reason": {
+                "name": "بدون دلیل خروج"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "زمان‌بندی فعال شد"
+            },
+            "anti_theft_enabled": {
+                "name": "ضد سرقت فعال است"
+            },
+            "child_lock_enabled": {
+                "name": "قفل کودک فعال شد"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "نقطه شروع A"
+            },
+            "starting_point_b": {
+                "name": "نقطه شروع B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "نوع سیگنال سیمی",
+                "state": {
+                    "type_a": "نوع A",
+                    "type_b": "نوع B",
+                    "type_c": "نوع C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "ماشین چمن زن"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "اصلی",
+                "starting_point_a": "نقطه شروع A",
+                "starting_point_b": "نقطه شروع B",
+                "sub_1": "منطقه فرعی 1",
+                "sub_2": "منطقه فرعی 2",
+                "sub_3": "زیر منطقه 3",
+                "sub_4": "منطقه فرعی 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "چمن زنی را شروع کنید",
+            "description": "چمن زنی را با منطقه شروع اختیاری و مدت زمان شروع کنید.",
+            "fields": {
+                "starting_zone": {
+                    "name": "منطقه شروع",
+                    "description": "منطقه Robomow برای شروع چمن زنی."
+                },
+                "duration": {
+                    "name": "مدت زمان",
+                    "description": "مدت زمان چمن زنی بر حسب دقیقه (1-255). پیش فرض 30 دقیقه است."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "تنظیم برنامه",
+            "description": "برنامه چمن زنی را تنظیم کنید.",
+            "fields": {
+                "start_time": {
+                    "name": "زمان شروع",
+                    "description": "زمان شروع چمن زنی هر روز است."
+                },
+                "end_time": {
+                    "name": "زمان پایان",
+                    "description": "زمان پایان دادن به چمن زنی هر روز است."
+                },
+                "day_0_enabled": {
+                    "name": "دوشنبه فعال شد",
+                    "description": "آیا در روز دوشنبه چمن زنی کنیم."
+                },
+                "day_0_duration": {
+                    "name": "مدت زمان دوشنبه",
+                    "description": "مدت زمان چمن زنی برای دوشنبه به دقیقه (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "چرخه های دوشنبه",
+                    "description": "تعداد چرخه های چمن زنی برای دوشنبه (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "منطقه دوشنبه",
+                    "description": "منطقه برای چمن زنی در روز دوشنبه."
+                },
+                "day_1_enabled": {
+                    "name": "سه شنبه فعال شد",
+                    "description": "آیا در روز سه شنبه چمن زنی کنیم."
+                },
+                "day_1_duration": {
+                    "name": "مدت سه شنبه",
+                    "description": "مدت زمان چمن زنی برای سه شنبه بر حسب دقیقه (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "چرخه های سه شنبه",
+                    "description": "تعداد چرخه های چمن زنی برای سه شنبه (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "منطقه سه شنبه",
+                    "description": "منطقه برای چمن زنی در روز سه شنبه."
+                },
+                "day_2_enabled": {
+                    "name": "چهارشنبه فعال شد",
+                    "description": "آیا در روز چهارشنبه چمن زنی کنیم."
+                },
+                "day_2_duration": {
+                    "name": "مدت زمان چهارشنبه",
+                    "description": "مدت زمان چمن زنی برای چهارشنبه به دقیقه (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "چرخه های چهارشنبه",
+                    "description": "تعداد چرخه های چمن زنی برای چهارشنبه (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "منطقه چهارشنبه",
+                    "description": "منطقه برای چمن زنی در روز چهارشنبه."
+                },
+                "day_3_enabled": {
+                    "name": "پنجشنبه فعال شد",
+                    "description": "آیا در روز پنجشنبه چمن زنی کنیم."
+                },
+                "day_3_duration": {
+                    "name": "مدت پنج شنبه",
+                    "description": "مدت زمان چمن زنی برای پنجشنبه به دقیقه (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "چرخه های پنجشنبه",
+                    "description": "تعداد چرخه های چمن زنی برای پنجشنبه (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "منطقه پنجشنبه",
+                    "description": "منطقه برای چمن زنی در روز پنجشنبه."
+                },
+                "day_4_enabled": {
+                    "name": "جمعه فعال شد",
+                    "description": "آیا در روز جمعه چمن زنی کنیم."
+                },
+                "day_4_duration": {
+                    "name": "مدت زمان جمعه",
+                    "description": "مدت زمان چمن زنی برای جمعه به دقیقه (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "چرخه های جمعه",
+                    "description": "تعداد چرخه های چمن زنی برای جمعه (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "منطقه جمعه",
+                    "description": "منطقه برای چمن زنی در روز جمعه."
+                },
+                "day_5_enabled": {
+                    "name": "شنبه فعال شد",
+                    "description": "آیا در روز شنبه چمن زنی."
+                },
+                "day_5_duration": {
+                    "name": "مدت شنبه",
+                    "description": "مدت زمان چمن زنی برای شنبه در دقیقه (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "چرخه های شنبه",
+                    "description": "تعداد چرخه های چمن زنی برای شنبه (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "منطقه شنبه",
+                    "description": "منطقه برای چمن زنی در روز شنبه."
+                },
+                "day_6_enabled": {
+                    "name": "یکشنبه فعال شد",
+                    "description": "آیا در روز یکشنبه چمن زنی کنیم."
+                },
+                "day_6_duration": {
+                    "name": "مدت زمان یکشنبه",
+                    "description": "مدت زمان چمن زنی برای یکشنبه به دقیقه (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "چرخه های یکشنبه",
+                    "description": "تعداد چرخه های چمن زنی برای یکشنبه (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "منطقه یکشنبه",
+                    "description": "منطقه برای چمن زنی در روز یکشنبه."
+                }
+            }
+        }
+    }
+}

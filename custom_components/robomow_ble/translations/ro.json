@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Selectați dispozitivul Robomow pe care doriți să-l adăugați și introduceți numărul de serie al plăcii de bază. \n\nPentru a obține numărul de serie al plăcii de bază: 1) Conectați-vă la myrobomow.robomow.com.\n2) Deschideți Instrumentele pentru dezvoltatori din browser (F12).\n3) Accesați fila Rețea.\n4) Reîncărcați pagina.\n5) Căutați o solicitare care se termină în /api/customer/products.\n6) Faceți clic pe cerere și deschideți fila Răspuns.\n7) În răspunsul JSON, găsiți câmpul numit MainboardSerial. Această valoare este numărul de serie real al plăcii de bază.",
+                "data": {
+                    "address": "Adresa",
+                    "mainboard_serial": "Numărul de serie al plăcii de bază"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Introduceți numărul de serie al plăcii de bază pentru dispozitivul Robomow pe care doriți să îl adăugați la Home Assistant.\n\nPentru a obține numărul de serie al plăcii de bază: 1) Conectați-vă la myrobomow.robomow.com.\n2) Deschideți Instrumentele pentru dezvoltatori din browser (F12).\n3) Accesați fila Rețea.\n4) Reîncărcați pagina.\n5) Căutați o solicitare care se termină în /api/customer/products.\n6) Faceți clic pe cerere și deschideți fila Răspuns.\n7) În răspunsul JSON, găsiți câmpul numit MainboardSerial. Această valoare este numărul de serie real al plăcii de bază.",
+                "data": {
+                    "mainboard_serial": "Numărul de serie al plăcii de bază"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Nu este furnizată nicio adresă unică.",
+            "no_mainboard_serial": "Nu este furnizat un număr de serie al plăcii de bază.",
+            "invalid_mainboard_serial": "Numărul de serie al plăcii de bază este invalid. Verificați-l și încercați din nou.",
+            "model_unsupported": "Modelul de cositoare nu este acceptat.",
+            "device_not_found": "Dispozitivul Robomow nu a putut fi găsit. Apropiați-vă și încercați din nou.",
+            "service_not_found": "Serviciul Robomow Bluetooth necesar nu a fost găsit pe acest dispozitiv.",
+            "characteristics_not_found": "Caracteristicile necesare Robomow Bluetooth nu au fost găsite pe acest dispozitiv."
+        },
+        "abort": {
+            "already_configured": "Această intrare este deja configurată.",
+            "no_devices_found": "Nu s-au găsit dispozitive Robomow.",
+            "not_supported": "Acest dispozitiv Bluetooth nu este o mașină de tuns tuns Robomow acceptată."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Nu se poate conecta la dispozitiv"
+        },
+        "invalid_auth": {
+            "message": "Autentificarea eșuată"
+        },
+        "unsupported_device": {
+            "message": "Acest model de dispozitiv nu este acceptat"
+        },
+        "no_unique_address": {
+            "message": "Nu este furnizată nicio adresă unică."
+        },
+        "no_mainboard_serial": {
+            "message": "Nu este furnizat un număr de serie al plăcii de bază."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Antifurt activ"
+            },
+            "mower_home": {
+                "name": "Cositoare acasă"
+            },
+            "charging_active": {
+                "name": "Încărcare activă"
+            },
+            "disabling_device_removed": {
+                "name": "Dispozitivul de dezactivare a fost eliminat"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Stare de funcționare",
+                "state": {
+                    "warming_up": "Încălzirea",
+                    "mowing": "Cositul",
+                    "edge_mowing": "Cosirea marginilor",
+                    "returning_home_following_edge": "Urmează marginea acasă",
+                    "returning_home_warming_up": "Încălzire pentru a reveni acasă",
+                    "returning_home_searching_edge": "Marginea căutării",
+                    "going_to_start": "Mergând la punctul de plecare",
+                    "learning_entry_point": "Punctul de intrare în învățare",
+                    "idle": "Inactiv",
+                    "charging": "Încărcare",
+                    "automatic": "Automat",
+                    "remote_control": "Telecomanda",
+                    "bit": "Pic"
+                }
+            },
+            "status_message": {
+                "name": "Mesaj de stare"
+            },
+            "next_departure": {
+                "name": "Următoarea Plecare"
+            },
+            "previous_departure": {
+                "name": "Plecarea anterioară"
+            },
+            "expected_duration": {
+                "name": "Durata așteptată"
+            },
+            "no_depart_reason": {
+                "name": "Nici un motiv de plecare"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Program activat"
+            },
+            "anti_theft_enabled": {
+                "name": "Antifurt activat"
+            },
+            "child_lock_enabled": {
+                "name": "Blocarea pentru copii este activată"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Punctul de plecare A"
+            },
+            "starting_point_b": {
+                "name": "Punctul de plecare B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Tip de semnal de fir",
+                "state": {
+                    "type_a": "Tip A",
+                    "type_b": "Tip B",
+                    "type_c": "Tip C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Cositoare"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Principal",
+                "starting_point_a": "Punctul de plecare A",
+                "starting_point_b": "Punctul de plecare B",
+                "sub_1": "Subzona 1",
+                "sub_2": "Subzona 2",
+                "sub_3": "Subzona 3",
+                "sub_4": "Subzona 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Începeți să cosiți",
+            "description": "Începeți cosirea cu zona de pornire și durata opționale.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Zona de pornire",
+                    "description": "Zona Robomow din care începe să cosiți."
+                },
+                "duration": {
+                    "name": "Durată",
+                    "description": "Durata de cosire în minute (1-255). Implicit este 30 de minute."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Stabiliți programul",
+            "description": "Setați programul mașinii de tuns iarbă.",
+            "fields": {
+                "start_time": {
+                    "name": "Ora de începere",
+                    "description": "Este timpul să începeți să cosiți în fiecare zi."
+                },
+                "end_time": {
+                    "name": "Ora de sfârșit",
+                    "description": "Este timpul să închei cosirea în fiecare zi."
+                },
+                "day_0_enabled": {
+                    "name": "Luni activat",
+                    "description": "Dacă să cosiți luni."
+                },
+                "day_0_duration": {
+                    "name": "Durata luni",
+                    "description": "Durata de cosire pentru luni în minute (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Cicluri de luni",
+                    "description": "Numărul de cicluri de cosire pentru luni (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Zona de luni",
+                    "description": "Zona de cosit luni."
+                },
+                "day_1_enabled": {
+                    "name": "Marți activată",
+                    "description": "Fie că să cosiți marți."
+                },
+                "day_1_duration": {
+                    "name": "Durata de marți",
+                    "description": "Durata de cosire pentru marți în minute (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Cicluri de marți",
+                    "description": "Numărul de cicluri de cosire pentru ziua de marți (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Zona de marți",
+                    "description": "Zona de cosit marți."
+                },
+                "day_2_enabled": {
+                    "name": "Miercuri activată",
+                    "description": "Dacă să cosiți miercuri."
+                },
+                "day_2_duration": {
+                    "name": "Durata de miercuri",
+                    "description": "Durata de cosire pentru miercuri în minute (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Cicluri de miercuri",
+                    "description": "Numărul de cicluri de cosire pentru miercuri (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Zona de miercuri",
+                    "description": "Zona de cosit miercuri."
+                },
+                "day_3_enabled": {
+                    "name": "Joi activat",
+                    "description": "Dacă să cosiți joi."
+                },
+                "day_3_duration": {
+                    "name": "Durata de joi",
+                    "description": "Durata de cosire pentru joi în minute (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Cicluri de joi",
+                    "description": "Numărul de cicluri de cosire pentru joi (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Zona de joi",
+                    "description": "Zona de cosit joi."
+                },
+                "day_4_enabled": {
+                    "name": "Vineri activat",
+                    "description": "Dacă să cosiți vineri."
+                },
+                "day_4_duration": {
+                    "name": "Durata vineri",
+                    "description": "Durata de cosire pentru vineri în minute (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Cicluri de vineri",
+                    "description": "Numărul de cicluri de cosire pentru vineri (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Zona de vineri",
+                    "description": "Zona de cosit vineri."
+                },
+                "day_5_enabled": {
+                    "name": "Sâmbătă activată",
+                    "description": "Dacă să cosiți sâmbăta."
+                },
+                "day_5_duration": {
+                    "name": "Durata sambata",
+                    "description": "Durata de cosire pentru sâmbătă în minute (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Cicluri de sâmbătă",
+                    "description": "Numărul de cicluri de cosire pentru sâmbătă (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Zona sambata",
+                    "description": "Zona de cosit sambata."
+                },
+                "day_6_enabled": {
+                    "name": "Duminică activată",
+                    "description": "Dacă să cosi duminica."
+                },
+                "day_6_duration": {
+                    "name": "Durata duminica",
+                    "description": "Durata de cosire pentru duminica în minute (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Cicluri de duminică",
+                    "description": "Numărul de cicluri de cosire pentru duminică (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Zona de duminică",
+                    "description": "Zona de cosit duminica."
+                }
+            }
+        }
+    }
+}

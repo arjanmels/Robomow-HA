@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Seleccione o dispositivo Robomow que quere engadir e introduza o número de serie da placa base. \n\nPara obter o número de serie da placa base: 1) Inicie sesión en myrobomow.robomow.com.\n2) Abre as Ferramentas para programadores do teu navegador (F12).\n3) Vaia á pestana Rede.\n4) Volve cargar a páxina.\n5) Busca unha solicitude que remate en /api/customer/products.\n6) Fai clic na solicitude e abra a pestana Resposta.\n7) Na resposta JSON, busque o campo chamado MainboardSerial. Este valor é o número de serie real da placa base.",
+                "data": {
+                    "address": "Enderezo",
+                    "mainboard_serial": "Número de serie da placa base"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Introduce o número de serie da placa base para o dispositivo Robomow que queres engadir ao Home Assistant.\n\nPara obter o número de serie da placa base: 1) Inicie sesión en myrobomow.robomow.com.\n2) Abre as Ferramentas para programadores do teu navegador (F12).\n3) Vaia á pestana Rede.\n4) Volve cargar a páxina.\n5) Busca unha solicitude que remate en /api/customer/products.\n6) Fai clic na solicitude e abra a pestana Resposta.\n7) Na resposta JSON, busque o campo chamado MainboardSerial. Este valor é o número de serie real da placa base.",
+                "data": {
+                    "mainboard_serial": "Número de serie da placa base"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Non se proporcionou ningún enderezo único.",
+            "no_mainboard_serial": "Non se proporciona ningún número de serie da placa base.",
+            "invalid_mainboard_serial": "O número de serie da placa base non é válido. Verifícao e téntao de novo.",
+            "model_unsupported": "O modelo de cortadora non é compatible.",
+            "device_not_found": "Non se puido atopar o dispositivo Robomow. Achégate e téntao de novo.",
+            "service_not_found": "Non se atopou o servizo Bluetooth Robomow necesario neste dispositivo.",
+            "characteristics_not_found": "Non se atoparon as características Bluetooth de Robomow necesarias neste dispositivo."
+        },
+        "abort": {
+            "already_configured": "Esta entrada xa está configurada.",
+            "no_devices_found": "Non se atoparon dispositivos Robomow.",
+            "not_supported": "Este dispositivo Bluetooth non é un cortacéspedes Robomow compatible."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Non se pode conectar co dispositivo"
+        },
+        "invalid_auth": {
+            "message": "Fallou a autenticación"
+        },
+        "unsupported_device": {
+            "message": "Este modelo de dispositivo non é compatible"
+        },
+        "no_unique_address": {
+            "message": "Non se proporcionou ningún enderezo único."
+        },
+        "no_mainboard_serial": {
+            "message": "Non se proporciona ningún número de serie da placa base."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Antirroubo activo"
+            },
+            "mower_home": {
+                "name": "Segadora na casa"
+            },
+            "charging_active": {
+                "name": "Carga activa"
+            },
+            "disabling_device_removed": {
+                "name": "Quitouse a desactivación do dispositivo"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Estado de funcionamento",
+                "state": {
+                    "warming_up": "Quentando",
+                    "mowing": "Sega",
+                    "edge_mowing": "Corte de bordes",
+                    "returning_home_following_edge": "Seguinte bordo para casa",
+                    "returning_home_warming_up": "Quentando para volver a casa",
+                    "returning_home_searching_edge": "Borde de busca",
+                    "going_to_start": "Indo ao punto de partida",
+                    "learning_entry_point": "Punto de entrada á aprendizaxe",
+                    "idle": "Inactivo",
+                    "charging": "Cargando",
+                    "automatic": "Automático",
+                    "remote_control": "Control remoto",
+                    "bit": "Bit"
+                }
+            },
+            "status_message": {
+                "name": "Mensaxe de estado"
+            },
+            "next_departure": {
+                "name": "Próxima Saída"
+            },
+            "previous_departure": {
+                "name": "Saída previa"
+            },
+            "expected_duration": {
+                "name": "Duración prevista"
+            },
+            "no_depart_reason": {
+                "name": "Sen motivo de saída"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Horario activado"
+            },
+            "anti_theft_enabled": {
+                "name": "Antiroubo activado"
+            },
+            "child_lock_enabled": {
+                "name": "Bloqueo para nenos activado"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Punto de partida A"
+            },
+            "starting_point_b": {
+                "name": "Punto de partida B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Tipo de sinal de cable",
+                "state": {
+                    "type_a": "Tipo A",
+                    "type_b": "Tipo B",
+                    "type_c": "Tipo C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Segadora"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Principal",
+                "starting_point_a": "Punto de partida A",
+                "starting_point_b": "Punto de partida B",
+                "sub_1": "Subzona 1",
+                "sub_2": "Subzona 2",
+                "sub_3": "Subzona 3",
+                "sub_4": "Subzona 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Comeza a segar",
+            "description": "Comezar a cortar con zona de inicio e duración opcionales.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Zona de saída",
+                    "description": "Zona de Robomow para comezar a cortar."
+                },
+                "duration": {
+                    "name": "Duración",
+                    "description": "Duración da sega en minutos (1-255). O valor predeterminado é de 30 minutos."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Establecer horario",
+            "description": "Establece o horario da cortadora.",
+            "fields": {
+                "start_time": {
+                    "name": "Hora de inicio",
+                    "description": "É hora de comezar a segar cada día."
+                },
+                "end_time": {
+                    "name": "Tempo de fin",
+                    "description": "É hora de rematar a sega cada día."
+                },
+                "day_0_enabled": {
+                    "name": "Luns activado",
+                    "description": "Se segar o luns."
+                },
+                "day_0_duration": {
+                    "name": "Duración luns",
+                    "description": "Duración da sega para o luns en minutos (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Ciclos dos luns",
+                    "description": "Número de ciclos de corte para o luns (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Zona de luns",
+                    "description": "Zona para segar o luns."
+                },
+                "day_1_enabled": {
+                    "name": "Martes activado",
+                    "description": "Se segar o martes."
+                },
+                "day_1_duration": {
+                    "name": "Duración do martes",
+                    "description": "Duración da sega para o martes en minutos (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Ciclos de martes",
+                    "description": "Número de ciclos de corte para o martes (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Zona de martes",
+                    "description": "Zona para segar o martes."
+                },
+                "day_2_enabled": {
+                    "name": "Mércores activado",
+                    "description": "Se segar o mércores."
+                },
+                "day_2_duration": {
+                    "name": "Duración do mércores",
+                    "description": "Duración da sega para o mércores en minutos (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Ciclos dos mércores",
+                    "description": "Número de ciclos de corte para o mércores (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Zona de mércores",
+                    "description": "Zona para segar o mércores."
+                },
+                "day_3_enabled": {
+                    "name": "Xoves activado",
+                    "description": "Se segar o xoves."
+                },
+                "day_3_duration": {
+                    "name": "Duración do xoves",
+                    "description": "Duración da sega para o xoves en minutos (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Ciclos dos xoves",
+                    "description": "Número de ciclos de corte para o xoves (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Zona de xoves",
+                    "description": "Zona para segar o xoves."
+                },
+                "day_4_enabled": {
+                    "name": "Venres activado",
+                    "description": "Se segar o venres."
+                },
+                "day_4_duration": {
+                    "name": "Duración do venres",
+                    "description": "Duración da sega para o venres en minutos (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Ciclos de venres",
+                    "description": "Número de ciclos de corte para o venres (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Zona de venres",
+                    "description": "Zona para segar o venres."
+                },
+                "day_5_enabled": {
+                    "name": "Sábado activado",
+                    "description": "Se segar o sábado."
+                },
+                "day_5_duration": {
+                    "name": "Duración sábado",
+                    "description": "Duración da sega para o sábado en minutos (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Ciclos de sábado",
+                    "description": "Número de ciclos de corte para o sábado (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Zona sábado",
+                    "description": "Zona para segar o sábado."
+                },
+                "day_6_enabled": {
+                    "name": "Domingo activado",
+                    "description": "Se segar o domingo."
+                },
+                "day_6_duration": {
+                    "name": "Duración do domingo",
+                    "description": "Duración do corte do domingo en minutos (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Ciclos de domingo",
+                    "description": "Número de ciclos de corte para o domingo (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Zona de domingo",
+                    "description": "Zona para segar o domingo."
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Wybierz urządzenie Robomow, które chcesz dodać i wprowadź numer seryjny płyty głównej. \n\nAby uzyskać numer seryjny płyty głównej: 1) Zaloguj się na stronie myrobomow.robomow.com.\n2) Otwórz Narzędzia programistyczne w przeglądarce (F12).\n3) Przejdź do zakładki Sieć.\n4) Załaduj ponownie stronę.\n5) Poszukaj żądania kończącego się na /api/customer/products.\n6) Kliknij żądanie i otwórz zakładkę Odpowiedź.\n7) W odpowiedzi JSON znajdź pole o nazwie MainboardSerial. Ta wartość jest rzeczywistym numerem seryjnym płyty głównej.",
+                "data": {
+                    "address": "Adres",
+                    "mainboard_serial": "Numer seryjny płyty głównej"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Wprowadź numer seryjny płyty głównej urządzenia Robomow, które chcesz dodać do Home Assistant.\n\nAby uzyskać numer seryjny płyty głównej: 1) Zaloguj się na stronie myrobomow.robomow.com.\n2) Otwórz Narzędzia programistyczne w przeglądarce (F12).\n3) Przejdź do zakładki Sieć.\n4) Załaduj ponownie stronę.\n5) Poszukaj żądania kończącego się na /api/customer/products.\n6) Kliknij żądanie i otwórz zakładkę Odpowiedź.\n7) W odpowiedzi JSON znajdź pole o nazwie MainboardSerial. Ta wartość jest rzeczywistym numerem seryjnym płyty głównej.",
+                "data": {
+                    "mainboard_serial": "Numer seryjny płyty głównej"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Nie podano unikalnego adresu.",
+            "no_mainboard_serial": "Nie podano numeru seryjnego płyty głównej.",
+            "invalid_mainboard_serial": "Numer seryjny płyty głównej jest nieprawidłowy. Sprawdź to i spróbuj ponownie.",
+            "model_unsupported": "Model kosiarki nie jest obsługiwany.",
+            "device_not_found": "Nie można znaleźć urządzenia Robomow. Podejdź bliżej i spróbuj ponownie.",
+            "service_not_found": "Na tym urządzeniu nie znaleziono wymaganej usługi Bluetooth Robomow.",
+            "characteristics_not_found": "W tym urządzeniu nie znaleziono wymaganych właściwości Bluetooth Robomow."
+        },
+        "abort": {
+            "already_configured": "Ten wpis jest już skonfigurowany.",
+            "no_devices_found": "Nie znaleziono urządzeń Robomow.",
+            "not_supported": "To urządzenie Bluetooth nie jest obsługiwaną kosiarką Robomow."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Nie można połączyć się z urządzeniem"
+        },
+        "invalid_auth": {
+            "message": "Uwierzytelnienie nie powiodło się"
+        },
+        "unsupported_device": {
+            "message": "Ten model urządzenia nie jest obsługiwany"
+        },
+        "no_unique_address": {
+            "message": "Nie podano unikalnego adresu."
+        },
+        "no_mainboard_serial": {
+            "message": "Nie podano numeru seryjnego płyty głównej."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Aktywne zabezpieczenie przed kradzieżą"
+            },
+            "mower_home": {
+                "name": "Kosiarka do domu"
+            },
+            "charging_active": {
+                "name": "Ładowanie aktywne"
+            },
+            "disabling_device_removed": {
+                "name": "Urządzenie wyłączające zostało usunięte"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Stan operacyjny",
+                "state": {
+                    "warming_up": "Rozgrzewka",
+                    "mowing": "Kośba",
+                    "edge_mowing": "Koszenie krawędziowe",
+                    "returning_home_following_edge": "Podążanie za krawędzią domu",
+                    "returning_home_warming_up": "Rozgrzewka przed powrotem do domu",
+                    "returning_home_searching_edge": "Poszukiwana krawędź",
+                    "going_to_start": "Idę do punktu wyjścia",
+                    "learning_entry_point": "Punkt wejścia do nauki",
+                    "idle": "Bezczynny",
+                    "charging": "Ładowanie",
+                    "automatic": "Automatyczny",
+                    "remote_control": "Zdalne sterowanie",
+                    "bit": "Fragment"
+                }
+            },
+            "status_message": {
+                "name": "Komunikat o statusie"
+            },
+            "next_departure": {
+                "name": "Następny wyjazd"
+            },
+            "previous_departure": {
+                "name": "Poprzedni wyjazd"
+            },
+            "expected_duration": {
+                "name": "Oczekiwany czas trwania"
+            },
+            "no_depart_reason": {
+                "name": "Brak powodu wyjazdu"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Harmonogram włączony"
+            },
+            "anti_theft_enabled": {
+                "name": "Włączone zabezpieczenie przed kradzieżą"
+            },
+            "child_lock_enabled": {
+                "name": "Blokada dziecięca włączona"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Punkt wyjścia A"
+            },
+            "starting_point_b": {
+                "name": "Punkt wyjścia B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Typ sygnału przewodowego",
+                "state": {
+                    "type_a": "Typ A",
+                    "type_b": "Typ B",
+                    "type_c": "Typ C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Kosiarka"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Główny",
+                "starting_point_a": "Punkt wyjścia A",
+                "starting_point_b": "Punkt wyjścia B",
+                "sub_1": "Podstrefa 1",
+                "sub_2": "Podstrefa 2",
+                "sub_3": "Podstrefa 3",
+                "sub_4": "Podstrefa 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Rozpocznij koszenie",
+            "description": "Rozpocznij koszenie z opcjonalną strefą początkową i czasem trwania.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Strefa startowa",
+                    "description": "Strefa Robomow, od której rozpoczyna się koszenie."
+                },
+                "duration": {
+                    "name": "Czas trwania",
+                    "description": "Czas koszenia w minutach (1-255). Wartość domyślna to 30 minut."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Ustal harmonogram",
+            "description": "Ustaw harmonogram kosiarki.",
+            "fields": {
+                "start_time": {
+                    "name": "Czas rozpoczęcia",
+                    "description": "Czas rozpocząć codzienne koszenie."
+                },
+                "end_time": {
+                    "name": "Czas końca",
+                    "description": "Czas zakończyć codzienne koszenie."
+                },
+                "day_0_enabled": {
+                    "name": "Poniedziałek włączony",
+                    "description": "Czy kosić w poniedziałek."
+                },
+                "day_0_duration": {
+                    "name": "Czas trwania poniedziałku",
+                    "description": "Czas koszenia w poniedziałek w minutach (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Cykle poniedziałkowe",
+                    "description": "Liczba cykli koszenia w poniedziałek (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Strefa poniedziałku",
+                    "description": "Strefa do koszenia w poniedziałek."
+                },
+                "day_1_enabled": {
+                    "name": "Wtorek włączony",
+                    "description": "Czy kosić we wtorek."
+                },
+                "day_1_duration": {
+                    "name": "Czas trwania wtorek",
+                    "description": "Czas koszenia we wtorek w minutach (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Cykle wtorkowe",
+                    "description": "Liczba cykli koszenia na wtorek (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Strefa wtorkowa",
+                    "description": "Strefa do koszenia we wtorek."
+                },
+                "day_2_enabled": {
+                    "name": "Środa włączona",
+                    "description": "Czy kosić w środę."
+                },
+                "day_2_duration": {
+                    "name": "środowy czas trwania",
+                    "description": "Czas koszenia w środę w minutach (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Cykle środowe",
+                    "description": "Liczba cykli koszenia w środę (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Strefa środowa",
+                    "description": "Strefa do koszenia w środę."
+                },
+                "day_3_enabled": {
+                    "name": "Czwartek włączony",
+                    "description": "Czy kosić w czwartek."
+                },
+                "day_3_duration": {
+                    "name": "Czwartkowy czas trwania",
+                    "description": "Czas koszenia w czwartek w minutach (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Czwartkowe cykle",
+                    "description": "Liczba cykli koszenia w czwartek (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Strefa czwartkowa",
+                    "description": "Strefa do koszenia w czwartek."
+                },
+                "day_4_enabled": {
+                    "name": "Piątek włączony",
+                    "description": "Czy kosić w piątek."
+                },
+                "day_4_duration": {
+                    "name": "Czas trwania piątek",
+                    "description": "Czas koszenia w piątek w minutach (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Cykle piątkowe",
+                    "description": "Liczba cykli koszenia w piątek (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Strefa piątkowa",
+                    "description": "Strefa do koszenia w piątek."
+                },
+                "day_5_enabled": {
+                    "name": "Sobota włączona",
+                    "description": "Czy kosić w sobotę."
+                },
+                "day_5_duration": {
+                    "name": "Czas trwania soboty",
+                    "description": "Czas koszenia w sobotę w minutach (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Cykle sobotnie",
+                    "description": "Liczba cykli koszenia w sobotę (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Strefa sobotnia",
+                    "description": "Strefa do koszenia w sobotę."
+                },
+                "day_6_enabled": {
+                    "name": "Niedziela włączona",
+                    "description": "Czy kosić w niedzielę."
+                },
+                "day_6_duration": {
+                    "name": "Czas trwania niedzieli",
+                    "description": "Czas koszenia w niedzielę w minutach (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Niedzielne cykle",
+                    "description": "Liczba cykli koszenia w niedzielę (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Strefa niedzielna",
+                    "description": "Strefa do koszenia w niedzielę."
+                }
+            }
+        }
+    }
+}

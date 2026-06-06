@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Hautatu gehitu nahi duzun Robomow gailua eta idatzi plaka nagusiaren serie-zenbakia. \n\nPlaka nagusiaren serie-zenbakia lortzeko: 1) Hasi saioa myrobomow.robomow.com helbidean.\n2) Ireki arakatzailearen Garatzaile-tresnak (F12).\n3) Joan Sarea fitxara.\n4) Orria berriro kargatu.\n5) Bilatu /api/customer/products-en amaitzen den eskaera.\n6) Egin klik eskaera eta ireki Erantzun fitxa.\n7) JSON erantzunean, bilatu MainboardSerial izeneko eremua. Balio hau plaka nagusiaren benetako serie-zenbakia da.",
+                "data": {
+                    "address": "Helbidea",
+                    "mainboard_serial": "Plaka nagusiaren serie zenbakia"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Sartu Home Assistant-era gehitu nahi duzun Robomow gailuaren plaka nagusiaren serie-zenbakia.\n\nPlaka nagusiaren serie-zenbakia lortzeko: 1) Hasi saioa myrobomow.robomow.com helbidean.\n2) Ireki arakatzailearen Garatzaile-tresnak (F12).\n3) Joan Sarea fitxara.\n4) Orria berriro kargatu.\n5) Bilatu /api/customer/products-en amaitzen den eskaera.\n6) Egin klik eskaera eta ireki Erantzun fitxa.\n7) JSON erantzunean, bilatu MainboardSerial izeneko eremua. Balio hau plaka nagusiaren benetako serie-zenbakia da.",
+                "data": {
+                    "mainboard_serial": "Plaka nagusiaren serie zenbakia"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Ez da helbide esklusiborik eman.",
+            "no_mainboard_serial": "Ez da plaka nagusiaren serie-zenbakirik ematen.",
+            "invalid_mainboard_serial": "Plaka nagusiaren serie zenbakia ez da baliozkoa. Egiaztatu eta saiatu berriro.",
+            "model_unsupported": "Sega-eredua ez da onartzen.",
+            "device_not_found": "Ezin izan da Robomow gailua aurkitu. Hurbildu eta saiatu berriro.",
+            "service_not_found": "Ez da beharrezkoa Robomow Bluetooth zerbitzua aurkitu gailu honetan.",
+            "characteristics_not_found": "Ez dira aurkitu behar diren Robomow Bluetooth ezaugarriak gailu honetan."
+        },
+        "abort": {
+            "already_configured": "Sarrera hau dagoeneko konfiguratuta dago.",
+            "no_devices_found": "Ez da Robomow gailurik aurkitu.",
+            "not_supported": "Bluetooth gailu hau ez da onartzen Robomow sega bat."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Ezin da gailura konektatu"
+        },
+        "invalid_auth": {
+            "message": "Autentifikazioak huts egin du"
+        },
+        "unsupported_device": {
+            "message": "Gailu-eredu hau ez da onartzen"
+        },
+        "no_unique_address": {
+            "message": "Ez da helbide esklusiborik eman."
+        },
+        "no_mainboard_serial": {
+            "message": "Ez da plaka nagusiaren serie-zenbakirik ematen."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Lapurreten aurkako aktiboa"
+            },
+            "mower_home": {
+                "name": "Etxeko segagailua"
+            },
+            "charging_active": {
+                "name": "Kargatzen aktibo"
+            },
+            "disabling_device_removed": {
+                "name": "Gailua desgaitzea kendu da"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Funtzionamendu egoera",
+                "state": {
+                    "warming_up": "Berotzea",
+                    "mowing": "Sega",
+                    "edge_mowing": "Ertz moztea",
+                    "returning_home_following_edge": "Jarraian ertzean etxera",
+                    "returning_home_warming_up": "Etxera itzultzeko beroketa",
+                    "returning_home_searching_edge": "Bilaketa ertza",
+                    "going_to_start": "Abiapuntura joatea",
+                    "learning_entry_point": "Ikaskuntzaren sarrera puntua",
+                    "idle": "Geldirik",
+                    "charging": "Kargatzen",
+                    "automatic": "Automatikoa",
+                    "remote_control": "Urruneko kontrola",
+                    "bit": "Bit"
+                }
+            },
+            "status_message": {
+                "name": "Egoera-mezua"
+            },
+            "next_departure": {
+                "name": "Hurrengo Irteera"
+            },
+            "previous_departure": {
+                "name": "Aurreko Irteera"
+            },
+            "expected_duration": {
+                "name": "Esperotako Iraupena"
+            },
+            "no_depart_reason": {
+                "name": "Irteera arrazoirik ez"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Programazioa gaituta"
+            },
+            "anti_theft_enabled": {
+                "name": "Lapurketen aurkakoa gaituta"
+            },
+            "child_lock_enabled": {
+                "name": "Haurrentzako blokeoa gaituta"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Abiapuntua A"
+            },
+            "starting_point_b": {
+                "name": "B abiapuntua"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Hari seinale mota",
+                "state": {
+                    "type_a": "A mota",
+                    "type_b": "B mota",
+                    "type_c": "C mota"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Segagailua"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Nagusia",
+                "starting_point_a": "Abiapuntua A",
+                "starting_point_b": "B abiapuntua",
+                "sub_1": "1 azpigunea",
+                "sub_2": "2 azpigunea",
+                "sub_3": "3. azpigunea",
+                "sub_4": "4. azpigunea"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Hasi sega",
+            "description": "Hasi sega aukeran hasierako zona eta iraupenarekin.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Hasierako gunea",
+                    "description": "Robomow gunea segatzen hasteko."
+                },
+                "duration": {
+                    "name": "Iraupena",
+                    "description": "Sega iraupena minututan (1-255). Lehenetsia 30 minutu da."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Ezarri ordutegia",
+            "description": "Ezarri sega-egutegia.",
+            "fields": {
+                "start_time": {
+                    "name": "Hasiera ordua",
+                    "description": "Egunero mozten hasteko ordua."
+                },
+                "end_time": {
+                    "name": "Amaiera ordua",
+                    "description": "Egunero mozten amaitzeko ordua."
+                },
+                "day_0_enabled": {
+                    "name": "Astelehena gaituta",
+                    "description": "Astelehenean moztu ala ez."
+                },
+                "day_0_duration": {
+                    "name": "Astelehenen iraupena",
+                    "description": "Sega-iraupena astelehenean minututan (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Asteleheneko zikloak",
+                    "description": "Asteleheneko sega-ziklo kopurua (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Asteleheneko zona",
+                    "description": "Astelehenean mozteko gunea."
+                },
+                "day_1_enabled": {
+                    "name": "Asteartea gaituta",
+                    "description": "Asteartean moztu ala ez."
+                },
+                "day_1_duration": {
+                    "name": "Astearteko iraupena",
+                    "description": "Sega iraupena astearterako minututan (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Astearteko zikloak",
+                    "description": "Astearteko sega-ziklo kopurua (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Astearteko gunea",
+                    "description": "Asteartean mozteko gunea."
+                },
+                "day_2_enabled": {
+                    "name": "Asteazkena gaituta",
+                    "description": "Asteazkenean moztu ala ez."
+                },
+                "day_2_duration": {
+                    "name": "Asteazkeneko iraupena",
+                    "description": "Sega iraupena asteazkenerako minututan (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Asteazkeneko zikloak",
+                    "description": "Asteazkeneko sega-ziklo kopurua (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Asteazkeneko zona",
+                    "description": "Asteazkenean mozteko gunea."
+                },
+                "day_3_enabled": {
+                    "name": "Osteguna gaituta",
+                    "description": "Ostegunean moztu ala ez."
+                },
+                "day_3_duration": {
+                    "name": "Ostegunaren iraupena",
+                    "description": "Ostegunerako sega-iraupena minututan (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Ostegunetako zikloak",
+                    "description": "Ostegunerako sega-ziklo kopurua (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Osteguneko zona",
+                    "description": "Ostegunean mozteko gunea."
+                },
+                "day_4_enabled": {
+                    "name": "Ostirala gaituta",
+                    "description": "Ostiralean moztu ala ez."
+                },
+                "day_4_duration": {
+                    "name": "Ostiraleko iraupena",
+                    "description": "Ostiraleko mozketaren iraupena minututan (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Ostiraleko zikloak",
+                    "description": "Ostiraleko sega-ziklo kopurua (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Ostiraleko gunea",
+                    "description": "Ostiralean mozteko gunea."
+                },
+                "day_5_enabled": {
+                    "name": "Larunbata gaituta",
+                    "description": "Larunbatean moztu ala ez."
+                },
+                "day_5_duration": {
+                    "name": "Larunbatean iraupena",
+                    "description": "Larunbaterako sega-iraupena minututan (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Larunbatetako zikloak",
+                    "description": "Larunbateko sega-ziklo kopurua (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Larunbateko gunea",
+                    "description": "Larunbatean mozteko gunea."
+                },
+                "day_6_enabled": {
+                    "name": "Igandea gaituta",
+                    "description": "Igandean moztu ala ez."
+                },
+                "day_6_duration": {
+                    "name": "Igandeko iraupena",
+                    "description": "Igandeko sega-iraupena minututan (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Igandeko zikloak",
+                    "description": "Iganderako sega-ziklo kopurua (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Igandeko zona",
+                    "description": "Igandean mozteko gunea."
+                }
+            }
+        }
+    }
+}

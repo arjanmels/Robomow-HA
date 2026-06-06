@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Seleccione el dispositivo Robomow que desea agregar e ingrese el número de serie de la placa base. \n\nPara obtener el número de serie de la placa base: 1) Inicie sesión en myrobomow.robomow.com.\n2) Abra las Herramientas de desarrollo de su navegador (F12).\n3) Vaya a la pestaña Red.\n4) Vuelva a cargar la página.\n5) Busque una solicitud que termine en /api/cliente/productos.\n6) Haga clic en la solicitud y abra la pestaña Respuesta.\n7) En la respuesta JSON, busque el campo denominado MainboardSerial. Este valor es el número de serie real de la placa base.",
+                "data": {
+                    "address": "DIRECCIÓN",
+                    "mainboard_serial": "Número de serie de la placa base"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Ingrese el número de serie de la placa base del dispositivo Robomow que desea agregar a Home Assistant.\n\nPara obtener el número de serie de la placa base: 1) Inicie sesión en myrobomow.robomow.com.\n2) Abra las Herramientas de desarrollo de su navegador (F12).\n3) Vaya a la pestaña Red.\n4) Vuelva a cargar la página.\n5) Busque una solicitud que termine en /api/cliente/productos.\n6) Haga clic en la solicitud y abra la pestaña Respuesta.\n7) En la respuesta JSON, busque el campo denominado MainboardSerial. Este valor es el número de serie real de la placa base.",
+                "data": {
+                    "mainboard_serial": "Número de serie de la placa base"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "No se proporcionó ninguna dirección única.",
+            "no_mainboard_serial": "No se proporciona ningún número de serie de la placa base.",
+            "invalid_mainboard_serial": "El número de serie de la placa base no es válido. Verifícalo y vuelve a intentarlo.",
+            "model_unsupported": "El modelo de cortacésped no es compatible.",
+            "device_not_found": "No se pudo encontrar el dispositivo Robomow. Acércate e inténtalo de nuevo.",
+            "service_not_found": "El servicio Bluetooth Robomow requerido no se encontró en este dispositivo.",
+            "characteristics_not_found": "Las características Bluetooth requeridas de Robomow no se encontraron en este dispositivo."
+        },
+        "abort": {
+            "already_configured": "Esta entrada ya está configurada.",
+            "no_devices_found": "No se encontraron dispositivos Robomow.",
+            "not_supported": "Este dispositivo Bluetooth no es un cortacésped Robomow compatible."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "No se puede conectar al dispositivo"
+        },
+        "invalid_auth": {
+            "message": "Error de autenticación"
+        },
+        "unsupported_device": {
+            "message": "Este modelo de dispositivo no es compatible"
+        },
+        "no_unique_address": {
+            "message": "No se proporcionó ninguna dirección única."
+        },
+        "no_mainboard_serial": {
+            "message": "No se proporciona ningún número de serie de la placa base."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Antirrobo activo"
+            },
+            "mower_home": {
+                "name": "cortacésped en casa"
+            },
+            "charging_active": {
+                "name": "Cargando activo"
+            },
+            "disabling_device_removed": {
+                "name": "Dispositivo de desactivación eliminado"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Estado de funcionamiento",
+                "state": {
+                    "warming_up": "Calentando",
+                    "mowing": "Siega",
+                    "edge_mowing": "Corte de bordes",
+                    "returning_home_following_edge": "Siguiendo el borde de casa",
+                    "returning_home_warming_up": "Calentando para volver a casa",
+                    "returning_home_searching_edge": "Borde de búsqueda",
+                    "going_to_start": "Yendo al punto de partida",
+                    "learning_entry_point": "Punto de entrada al aprendizaje",
+                    "idle": "Inactivo",
+                    "charging": "Cargando",
+                    "automatic": "Automático",
+                    "remote_control": "Mando a distancia",
+                    "bit": "Poco"
+                }
+            },
+            "status_message": {
+                "name": "Mensaje de estado"
+            },
+            "next_departure": {
+                "name": "Próxima salida"
+            },
+            "previous_departure": {
+                "name": "Salida Anterior"
+            },
+            "expected_duration": {
+                "name": "Duración esperada"
+            },
+            "no_depart_reason": {
+                "name": "Sin motivo de salida"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Horario habilitado"
+            },
+            "anti_theft_enabled": {
+                "name": "Antirrobo habilitado"
+            },
+            "child_lock_enabled": {
+                "name": "Bloqueo infantil habilitado"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Punto de partida A"
+            },
+            "starting_point_b": {
+                "name": "Punto de partida B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Tipo de señal de cable",
+                "state": {
+                    "type_a": "Tipo A",
+                    "type_b": "Tipo B",
+                    "type_c": "Tipo C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Cortacésped"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Principal",
+                "starting_point_a": "Punto de partida A",
+                "starting_point_b": "Punto de partida B",
+                "sub_1": "Subzona 1",
+                "sub_2": "Subzona 2",
+                "sub_3": "Subzona 3",
+                "sub_4": "Subzona 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Empezar a cortar",
+            "description": "Comience a cortar con zona de inicio y duración opcionales.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Zona de salida",
+                    "description": "Zona Robomow para empezar a cortar."
+                },
+                "duration": {
+                    "name": "Duración",
+                    "description": "Duración del corte en minutos (1-255). El valor predeterminado es 30 minutos."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Establecer horario",
+            "description": "Establezca el horario del cortacésped.",
+            "fields": {
+                "start_time": {
+                    "name": "Hora de inicio",
+                    "description": "Es hora de empezar a cortar el césped todos los días."
+                },
+                "end_time": {
+                    "name": "Hora de finalización",
+                    "description": "Es hora de terminar de cortar el césped cada día."
+                },
+                "day_0_enabled": {
+                    "name": "lunes habilitado",
+                    "description": "Ya sea para cortar el lunes."
+                },
+                "day_0_duration": {
+                    "name": "Duración del lunes",
+                    "description": "Duración del corte del lunes en minutos (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "ciclos de lunes",
+                    "description": "Número de ciclos de corte para el lunes (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "zona lunes",
+                    "description": "Zona para cortar el lunes."
+                },
+                "day_1_enabled": {
+                    "name": "martes habilitado",
+                    "description": "Ya sea para cortar el martes."
+                },
+                "day_1_duration": {
+                    "name": "Duración del martes",
+                    "description": "Duración del corte del martes en minutos (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "ciclos de martes",
+                    "description": "Número de ciclos de corte del martes (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "zona martes",
+                    "description": "Zona para cortar el martes."
+                },
+                "day_2_enabled": {
+                    "name": "miércoles habilitado",
+                    "description": "Ya sea para cortar el miércoles."
+                },
+                "day_2_duration": {
+                    "name": "Duración del miércoles",
+                    "description": "Duración del corte del miércoles en minutos (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "ciclos de miércoles",
+                    "description": "Número de ciclos de corte del miércoles (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "zona del miércoles",
+                    "description": "Zona para cortar el miércoles."
+                },
+                "day_3_enabled": {
+                    "name": "Jueves habilitado",
+                    "description": "Ya sea para cortar el jueves."
+                },
+                "day_3_duration": {
+                    "name": "Duración del jueves",
+                    "description": "Duración del corte del jueves en minutos (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "ciclos de jueves",
+                    "description": "Número de ciclos de corte del jueves (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "zona jueves",
+                    "description": "Zona para cortar el jueves."
+                },
+                "day_4_enabled": {
+                    "name": "viernes habilitado",
+                    "description": "Ya sea para cortar el viernes."
+                },
+                "day_4_duration": {
+                    "name": "Duración del viernes",
+                    "description": "Duración del corte del viernes en minutos (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "ciclos de viernes",
+                    "description": "Número de ciclos de corte para el viernes (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "zona viernes",
+                    "description": "Zona para cortar el viernes."
+                },
+                "day_5_enabled": {
+                    "name": "Sábado habilitado",
+                    "description": "Ya sea para cortar el sábado."
+                },
+                "day_5_duration": {
+                    "name": "Duración del sábado",
+                    "description": "Duración del corte del sábado en minutos (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "ciclos del sábado",
+                    "description": "Número de ciclos de corte para el sábado (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "zona sabado",
+                    "description": "Zona para cortar el sábado."
+                },
+                "day_6_enabled": {
+                    "name": "domingo habilitado",
+                    "description": "Ya sea para cortar el domingo."
+                },
+                "day_6_duration": {
+                    "name": "Duración del domingo",
+                    "description": "Duración del corte del domingo en minutos (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "ciclos dominicales",
+                    "description": "Número de ciclos de corte del domingo (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "zona dominical",
+                    "description": "Zona para cortar el domingo."
+                }
+            }
+        }
+    }
+}

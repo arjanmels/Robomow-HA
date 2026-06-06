@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "حدد جهاز Robomow الذي تريد إضافته وأدخل الرقم التسلسلي للوحة الرئيسية. \n\nللحصول على الرقم التسلسلي للوحة الرئيسية: 1) قم بتسجيل الدخول إلى myrobomow.robomow.com.\n2) افتح أدوات المطور في متصفحك (F12).\n3) انتقل إلى علامة التبويب الشبكة.\n4) أعد تحميل الصفحة.\n5) ابحث عن طلب ينتهي بـ /api/customer/products.\n6) انقر فوق الطلب وافتح علامة التبويب \"الاستجابة\".\n7) في استجابة JSON، ابحث عن الحقل المسمى MainboardSerial. هذه القيمة هي الرقم التسلسلي الفعلي للوحة الرئيسية.",
+                "data": {
+                    "address": "عنوان",
+                    "mainboard_serial": "الرقم التسلسلي للوحة الرئيسية"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "أدخل الرقم التسلسلي للوحة الرئيسية لجهاز Robomow الذي تريد إضافته إلى Home Assistant.\n\nللحصول على الرقم التسلسلي للوحة الرئيسية: 1) قم بتسجيل الدخول إلى myrobomow.robomow.com.\n2) افتح أدوات المطور في متصفحك (F12).\n3) انتقل إلى علامة التبويب الشبكة.\n4) أعد تحميل الصفحة.\n5) ابحث عن طلب ينتهي بـ /api/customer/products.\n6) انقر فوق الطلب وافتح علامة التبويب \"الاستجابة\".\n7) في استجابة JSON، ابحث عن الحقل المسمى MainboardSerial. هذه القيمة هي الرقم التسلسلي الفعلي للوحة الرئيسية.",
+                "data": {
+                    "mainboard_serial": "الرقم التسلسلي للوحة الرئيسية"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "لم يتم توفير عنوان فريد.",
+            "no_mainboard_serial": "لم يتم توفير الرقم التسلسلي للوحة الرئيسية.",
+            "invalid_mainboard_serial": "الرقم التسلسلي للوحة الرئيسية غير صالح. التحقق من ذلك وحاول مرة أخرى.",
+            "model_unsupported": "طراز الجزازة غير مدعوم.",
+            "device_not_found": "تعذر العثور على جهاز Robomow. اقترب وحاول مرة أخرى.",
+            "service_not_found": "لم يتم العثور على خدمة Robomow Bluetooth المطلوبة على هذا الجهاز.",
+            "characteristics_not_found": "لم يتم العثور على خصائص Robomow Bluetooth المطلوبة على هذا الجهاز."
+        },
+        "abort": {
+            "already_configured": "تم تكوين هذا الإدخال بالفعل.",
+            "no_devices_found": "لم يتم العثور على أجهزة Robomow.",
+            "not_supported": "جهاز Bluetooth هذا ليس جزازة Robomow مدعومة."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "لا يمكن الاتصال بالجهاز"
+        },
+        "invalid_auth": {
+            "message": "فشلت المصادقة"
+        },
+        "unsupported_device": {
+            "message": "طراز الجهاز هذا غير مدعوم"
+        },
+        "no_unique_address": {
+            "message": "لم يتم توفير عنوان فريد."
+        },
+        "no_mainboard_serial": {
+            "message": "لم يتم توفير الرقم التسلسلي للوحة الرئيسية."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "مكافحة السرقة نشطة"
+            },
+            "mower_home": {
+                "name": "جزازة المنزل"
+            },
+            "charging_active": {
+                "name": "الشحن نشط"
+            },
+            "disabling_device_removed": {
+                "name": "تمت إزالة تعطيل الجهاز"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "حالة التشغيل",
+                "state": {
+                    "warming_up": "الاحماء",
+                    "mowing": "القص",
+                    "edge_mowing": "قص الحافة",
+                    "returning_home_following_edge": "بعد حافة المنزل",
+                    "returning_home_warming_up": "الاحماء للعودة إلى المنزل",
+                    "returning_home_searching_edge": "حافة البحث",
+                    "going_to_start": "الذهاب إلى نقطة البداية",
+                    "learning_entry_point": "نقطة دخول التعلم",
+                    "idle": "عاطل",
+                    "charging": "الشحن",
+                    "automatic": "تلقائي",
+                    "remote_control": "التحكم عن بعد",
+                    "bit": "قليل"
+                }
+            },
+            "status_message": {
+                "name": "رسالة الحالة"
+            },
+            "next_departure": {
+                "name": "المغادرة القادمة"
+            },
+            "previous_departure": {
+                "name": "المغادرة السابقة"
+            },
+            "expected_duration": {
+                "name": "المدة المتوقعة"
+            },
+            "no_depart_reason": {
+                "name": "لا يوجد سبب المغادرة"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "تم تفعيل الجدول الزمني"
+            },
+            "anti_theft_enabled": {
+                "name": "تمكين مكافحة السرقة"
+            },
+            "child_lock_enabled": {
+                "name": "تم تفعيل قفل الأطفال"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "نقطة البداية أ"
+            },
+            "starting_point_b": {
+                "name": "نقطة البداية ب"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "نوع إشارة السلك",
+                "state": {
+                    "type_a": "النوع أ",
+                    "type_b": "النوع ب",
+                    "type_c": "النوع ج"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "جزازة"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "رئيسي",
+                "starting_point_a": "نقطة البداية أ",
+                "starting_point_b": "نقطة البداية ب",
+                "sub_1": "المنطقة الفرعية 1",
+                "sub_2": "المنطقة الفرعية 2",
+                "sub_3": "المنطقة الفرعية 3",
+                "sub_4": "المنطقة الفرعية 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "ابدأ القص",
+            "description": "ابدأ القص بمنطقة البداية والمدة الاختيارية.",
+            "fields": {
+                "starting_zone": {
+                    "name": "منطقة البداية",
+                    "description": "منطقة Robomow لبدء القص منها."
+                },
+                "duration": {
+                    "name": "مدة",
+                    "description": "مدة القص بالدقائق (1-255). الافتراضي هو 30 دقيقة."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "تحديد الجدول الزمني",
+            "description": "ضبط الجدول الزمني للجزازة.",
+            "fields": {
+                "start_time": {
+                    "name": "وقت البدء",
+                    "description": "حان الوقت لبدء القص كل يوم."
+                },
+                "end_time": {
+                    "name": "وقت الانتهاء",
+                    "description": "الوقت لإنهاء القص كل يوم."
+                },
+                "day_0_enabled": {
+                    "name": "يوم الاثنين ممكن",
+                    "description": "سواء لقص يوم الاثنين."
+                },
+                "day_0_duration": {
+                    "name": "مدة يوم الاثنين",
+                    "description": "مدة القص ليوم الاثنين بالدقائق (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "دورات الاثنين",
+                    "description": "عدد دورات القص ليوم الاثنين (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "منطقة الاثنين",
+                    "description": "منطقة للجز يوم الاثنين."
+                },
+                "day_1_enabled": {
+                    "name": "الثلاثاء ممكن",
+                    "description": "سواء لقص يوم الثلاثاء."
+                },
+                "day_1_duration": {
+                    "name": "مدة الثلاثاء",
+                    "description": "مدة القص ليوم الثلاثاء بالدقائق (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "دورات الثلاثاء",
+                    "description": "عدد دورات القص ليوم الثلاثاء (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "منطقة الثلاثاء",
+                    "description": "منطقة للجز يوم الثلاثاء."
+                },
+                "day_2_enabled": {
+                    "name": "الأربعاء ممكن",
+                    "description": "ما إذا كان يجب القص يوم الأربعاء."
+                },
+                "day_2_duration": {
+                    "name": "مدة الاربعاء",
+                    "description": "مدة القص ليوم الاربعاء بالدقائق (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "دورات الاربعاء",
+                    "description": "عدد دورات القص ليوم الاربعاء (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "منطقة الأربعاء",
+                    "description": "منطقة للجز يوم الاربعاء."
+                },
+                "day_3_enabled": {
+                    "name": "الخميس ممكن",
+                    "description": "سواء لقص يوم الخميس."
+                },
+                "day_3_duration": {
+                    "name": "مدة الخميس",
+                    "description": "مدة القص ليوم الخميس بالدقائق (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "دورات الخميس",
+                    "description": "عدد دورات القص ليوم الخميس (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "منطقة الخميس",
+                    "description": "منطقة للجز يوم الخميس."
+                },
+                "day_4_enabled": {
+                    "name": "الجمعة مفعلة",
+                    "description": "سواء لجز يوم الجمعة."
+                },
+                "day_4_duration": {
+                    "name": "مدة الجمعة",
+                    "description": "مدة القص ليوم الجمعة بالدقائق (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "دورات الجمعة",
+                    "description": "عدد دورات القص ليوم الجمعة (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "منطقة الجمعة",
+                    "description": "منطقة للجز يوم الجمعة."
+                },
+                "day_5_enabled": {
+                    "name": "السبت ممكن",
+                    "description": "سواء للقص يوم السبت."
+                },
+                "day_5_duration": {
+                    "name": "مدة السبت",
+                    "description": "مدة القص ليوم السبت بالدقائق (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "دورات السبت",
+                    "description": "عدد دورات القص ليوم السبت (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "منطقة السبت",
+                    "description": "منطقة للجز يوم السبت."
+                },
+                "day_6_enabled": {
+                    "name": "يوم الأحد ممكن",
+                    "description": "سواء لقص يوم الأحد."
+                },
+                "day_6_duration": {
+                    "name": "مدة يوم الأحد",
+                    "description": "مدة القص ليوم الأحد بالدقائق (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "دورات الأحد",
+                    "description": "عدد دورات القص ليوم الأحد (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "منطقة الأحد",
+                    "description": "منطقة للجز يوم الأحد."
+                }
+            }
+        }
+    }
+}

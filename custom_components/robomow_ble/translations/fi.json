@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Valitse Robomow-laite, jonka haluat lisätä, ja anna emolevyn sarjanumero. \n\nSaadaksesi emolevyn sarjanumeron: 1) Kirjaudu sisään osoitteessa myrobomow.robomow.com.\n2) Avaa selaimesi Kehittäjätyökalut (F12).\n3) Siirry Verkko-välilehteen.\n4) Lataa sivu uudelleen.\n5) Etsi pyyntö, joka päättyy /api/customer/products.\n6) Napsauta pyyntöä ja avaa Vastaus-välilehti.\n7) Etsi JSON-vastauksesta kenttä nimeltä MainboardSerial. Tämä arvo on todellinen emolevyn sarjanumero.",
+                "data": {
+                    "address": "Osoite",
+                    "mainboard_serial": "Emolevyn sarjanumero"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Anna sen Robomow-laitteen emolevyn sarjanumero, jonka haluat lisätä Home Assistantiin.\n\nSaadaksesi emolevyn sarjanumeron: 1) Kirjaudu sisään osoitteessa myrobomow.robomow.com.\n2) Avaa selaimesi Kehittäjätyökalut (F12).\n3) Siirry Verkko-välilehteen.\n4) Lataa sivu uudelleen.\n5) Etsi pyyntö, joka päättyy /api/customer/products.\n6) Napsauta pyyntöä ja avaa Vastaus-välilehti.\n7) Etsi JSON-vastauksesta kenttä nimeltä MainboardSerial. Tämä arvo on todellinen emolevyn sarjanumero.",
+                "data": {
+                    "mainboard_serial": "Emolevyn sarjanumero"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Yksilöllistä osoitetta ei ole annettu.",
+            "no_mainboard_serial": "Emolevyn sarjanumeroa ei ole annettu.",
+            "invalid_mainboard_serial": "Emolevyn sarjanumero on virheellinen. Tarkista se ja yritä uudelleen.",
+            "model_unsupported": "Leikkurimallia ei tueta.",
+            "device_not_found": "Robomow-laitetta ei löytynyt. Siirry lähemmäs ja yritä uudelleen.",
+            "service_not_found": "Vaadittua Robomow Bluetooth -palvelua ei löytynyt tästä laitteesta.",
+            "characteristics_not_found": "Vaadittuja Robomow Bluetooth -ominaisuuksia ei löytynyt tästä laitteesta."
+        },
+        "abort": {
+            "already_configured": "Tämä merkintä on jo määritetty.",
+            "no_devices_found": "Robomow-laitteita ei löytynyt.",
+            "not_supported": "Tämä Bluetooth-laite ei ole tuettu Robomow-leikkuri."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Ei voi muodostaa yhteyttä laitteeseen"
+        },
+        "invalid_auth": {
+            "message": "Todennus epäonnistui"
+        },
+        "unsupported_device": {
+            "message": "Tätä laitemallia ei tueta"
+        },
+        "no_unique_address": {
+            "message": "Yksilöllistä osoitetta ei ole annettu."
+        },
+        "no_mainboard_serial": {
+            "message": "Emolevyn sarjanumeroa ei ole annettu."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Varkaudenesto aktiivinen"
+            },
+            "mower_home": {
+                "name": "Ruohonleikkuri kotiin"
+            },
+            "charging_active": {
+                "name": "Lataus aktiivinen"
+            },
+            "disabling_device_removed": {
+                "name": "Laitteen käytöstä poistaminen poistettu"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Toimintatila",
+                "state": {
+                    "warming_up": "Lämmittelyä",
+                    "mowing": "Niitto",
+                    "edge_mowing": "Reunan leikkaus",
+                    "returning_home_following_edge": "Seuraava reuna kotiin",
+                    "returning_home_warming_up": "Lämmittelyä kotiin paluuta varten",
+                    "returning_home_searching_edge": "Haku reuna",
+                    "going_to_start": "Lähtöpisteeseen menossa",
+                    "learning_entry_point": "Oppimisen aloituspiste",
+                    "idle": "Tyhjäkäynti",
+                    "charging": "Lataus",
+                    "automatic": "Automaattinen",
+                    "remote_control": "Kaukosäädin",
+                    "bit": "Bitti"
+                }
+            },
+            "status_message": {
+                "name": "Tilaviesti"
+            },
+            "next_departure": {
+                "name": "Seuraava lähtö"
+            },
+            "previous_departure": {
+                "name": "Edellinen lähtö"
+            },
+            "expected_duration": {
+                "name": "Odotettu kesto"
+            },
+            "no_depart_reason": {
+                "name": "Ei lähtösyytä"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Aikataulu käytössä"
+            },
+            "anti_theft_enabled": {
+                "name": "Varkaudenesto käytössä"
+            },
+            "child_lock_enabled": {
+                "name": "Lapsilukko käytössä"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Lähtökohta A"
+            },
+            "starting_point_b": {
+                "name": "Lähtökohta B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Johdon signaalin tyyppi",
+                "state": {
+                    "type_a": "Tyyppi A",
+                    "type_b": "Tyyppi B",
+                    "type_c": "Tyyppi C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Ruohonleikkuri"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Main",
+                "starting_point_a": "Lähtökohta A",
+                "starting_point_b": "Lähtökohta B",
+                "sub_1": "Alavyöhyke 1",
+                "sub_2": "Alavyöhyke 2",
+                "sub_3": "Alavyöhyke 3",
+                "sub_4": "Alavyöhyke 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Aloita niitto",
+            "description": "Aloita leikkaus valinnaisella aloitusvyöhykkeellä ja kestolla.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Lähtöalue",
+                    "description": "Robomow-alue, josta leikkaus aloitetaan."
+                },
+                "duration": {
+                    "name": "Kesto",
+                    "description": "Leikkuuaika minuutteina (1-255). Oletusarvo on 30 minuuttia."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Aseta aikataulu",
+            "description": "Aseta leikkurin aikataulu.",
+            "fields": {
+                "start_time": {
+                    "name": "Aloitusaika",
+                    "description": "On aika aloittaa leikkaus joka päivä."
+                },
+                "end_time": {
+                    "name": "Päättymisaika",
+                    "description": "Joka päivä on aika lopettaa niitto."
+                },
+                "day_0_enabled": {
+                    "name": "Maanantai käytössä",
+                    "description": "Leikkataanko maanantaina."
+                },
+                "day_0_duration": {
+                    "name": "Maanantain kesto",
+                    "description": "Leikkuuaika maanantaille minuutteina (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Maanantaisyklit",
+                    "description": "Leikkuujaksojen lukumäärä maanantaina (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Maanantain vyöhyke",
+                    "description": "Maanantaina leikattava vyöhyke."
+                },
+                "day_1_enabled": {
+                    "name": "Tiistai käytössä",
+                    "description": "Leikkaako se tiistaina."
+                },
+                "day_1_duration": {
+                    "name": "Tiistain kesto",
+                    "description": "Leikkuuaika tiistaina minuutteina (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Tiistaisyklit",
+                    "description": "Leikkuujaksojen määrä tiistaina (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Tiistai vyöhyke",
+                    "description": "Alue leikattavaksi tiistaina."
+                },
+                "day_2_enabled": {
+                    "name": "Keskiviikko käytössä",
+                    "description": "Leikkaako keskiviikkona."
+                },
+                "day_2_duration": {
+                    "name": "Keskiviikon kesto",
+                    "description": "Leikkuuaika keskiviikolle minuutteina (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Keskiviikon syklit",
+                    "description": "Leikkuujaksojen lukumäärä keskiviikolle (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Keskiviikon vyöhyke",
+                    "description": "Keskiviikkona leikattava vyöhyke."
+                },
+                "day_3_enabled": {
+                    "name": "Torstai käytössä",
+                    "description": "Leikkaako se torstaina."
+                },
+                "day_3_duration": {
+                    "name": "Torstain kesto",
+                    "description": "Leikkuuaika torstaina minuutteina (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Torstai syklit",
+                    "description": "Leikkuujaksojen lukumäärä torstaina (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Torstain vyöhyke",
+                    "description": "Torstaina leikattava vyöhyke."
+                },
+                "day_4_enabled": {
+                    "name": "Perjantai käytössä",
+                    "description": "Leikkaako se perjantaina."
+                },
+                "day_4_duration": {
+                    "name": "Perjantain kesto",
+                    "description": "Leikkuuaika perjantaille minuutteina (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Perjantai syklit",
+                    "description": "Leikkuujaksojen lukumäärä perjantaina (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Perjantain vyöhyke",
+                    "description": "Perjantaina leikattava vyöhyke."
+                },
+                "day_5_enabled": {
+                    "name": "Lauantai käytössä",
+                    "description": "Leikkaako lauantaina."
+                },
+                "day_5_duration": {
+                    "name": "Lauantain kesto",
+                    "description": "Leikkuuaika lauantaille minuuteissa (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Lauantaisyklit",
+                    "description": "Leikkuujaksojen lukumäärä lauantaina (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Lauantain vyöhyke",
+                    "description": "Lauantaina leikattava vyöhyke."
+                },
+                "day_6_enabled": {
+                    "name": "Sunnuntai käytössä",
+                    "description": "Leikkaako sunnuntaina."
+                },
+                "day_6_duration": {
+                    "name": "Sunnuntain kesto",
+                    "description": "Leikkuuaika sunnuntaille minuutteina (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Sunnuntaisyklit",
+                    "description": "Leikkuujaksojen lukumäärä sunnuntaina (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Sunnuntai vyöhyke",
+                    "description": "Sunnuntaina leikattava vyöhyke."
+                }
+            }
+        }
+    }
+}

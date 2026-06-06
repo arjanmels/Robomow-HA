@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Seleccioneu el dispositiu Robomow que voleu afegir i introduïu el número de sèrie de la placa base. \n\nPer obtenir el número de sèrie de la placa base: 1) Inicieu sessió a myrobomow.robomow.com.\n2) Obriu les Eines per a desenvolupadors del vostre navegador (F12).\n3) Aneu a la pestanya Xarxa.\n4) Torneu a carregar la pàgina.\n5) Cerqueu una sol·licitud que acabi en /api/customer/products.\n6) Feu clic a la sol·licitud i obriu la pestanya Resposta.\n7) A la resposta JSON, cerqueu el camp anomenat MainboardSerial. Aquest valor és el número de sèrie real de la placa base.",
+                "data": {
+                    "address": "Adreça",
+                    "mainboard_serial": "Número de sèrie de la placa base"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Introduïu el número de sèrie de la placa base del dispositiu Robomow que voleu afegir a Home Assistant.\n\nPer obtenir el número de sèrie de la placa base: 1) Inicieu sessió a myrobomow.robomow.com.\n2) Obriu les Eines per a desenvolupadors del vostre navegador (F12).\n3) Aneu a la pestanya Xarxa.\n4) Torneu a carregar la pàgina.\n5) Cerqueu una sol·licitud que acabi en /api/customer/products.\n6) Feu clic a la sol·licitud i obriu la pestanya Resposta.\n7) A la resposta JSON, cerqueu el camp anomenat MainboardSerial. Aquest valor és el número de sèrie real de la placa base.",
+                "data": {
+                    "mainboard_serial": "Número de sèrie de la placa base"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "No s'ha proporcionat cap adreça única.",
+            "no_mainboard_serial": "No es proporciona cap número de sèrie de la placa base.",
+            "invalid_mainboard_serial": "El número de sèrie de la placa base no és vàlid. Verifiqueu-ho i torneu-ho a provar.",
+            "model_unsupported": "El model de tallagespa no és compatible.",
+            "device_not_found": "No s'ha pogut trobar el dispositiu Robomow. Apropa't i torna-ho a provar.",
+            "service_not_found": "No s'ha trobat el servei Bluetooth Robomow necessari en aquest dispositiu.",
+            "characteristics_not_found": "No s'han trobat les característiques Bluetooth de Robomow necessàries en aquest dispositiu."
+        },
+        "abort": {
+            "already_configured": "Aquesta entrada ja està configurada.",
+            "no_devices_found": "No s'ha trobat cap dispositiu Robomow.",
+            "not_supported": "Aquest dispositiu Bluetooth no és un tallagespa Robomow compatible."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "No es pot connectar al dispositiu"
+        },
+        "invalid_auth": {
+            "message": "L'autenticació ha fallat"
+        },
+        "unsupported_device": {
+            "message": "Aquest model de dispositiu no és compatible"
+        },
+        "no_unique_address": {
+            "message": "No s'ha proporcionat cap adreça única."
+        },
+        "no_mainboard_serial": {
+            "message": "No es proporciona cap número de sèrie de la placa base."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Antirobatori actiu"
+            },
+            "mower_home": {
+                "name": "Segadora a casa"
+            },
+            "charging_active": {
+                "name": "Càrrega activa"
+            },
+            "disabling_device_removed": {
+                "name": "S'ha eliminat el dispositiu desactivant"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Estat de funcionament",
+                "state": {
+                    "warming_up": "Escalfament",
+                    "mowing": "Sega",
+                    "edge_mowing": "Sega de vora",
+                    "returning_home_following_edge": "Vora seguint cap a casa",
+                    "returning_home_warming_up": "Escalfant per tornar a casa",
+                    "returning_home_searching_edge": "Bord de recerca",
+                    "going_to_start": "Anant al punt de partida",
+                    "learning_entry_point": "Punt d'entrada a l'aprenentatge",
+                    "idle": "Inactiu",
+                    "charging": "Carregant",
+                    "automatic": "Automàtic",
+                    "remote_control": "Comandament a distància",
+                    "bit": "Bit"
+                }
+            },
+            "status_message": {
+                "name": "Missatge d'estat"
+            },
+            "next_departure": {
+                "name": "Propera Sortida"
+            },
+            "previous_departure": {
+                "name": "Sortida prèvia"
+            },
+            "expected_duration": {
+                "name": "Durada prevista"
+            },
+            "no_depart_reason": {
+                "name": "Sense motiu de sortida"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Programació activada"
+            },
+            "anti_theft_enabled": {
+                "name": "Antirobatori habilitat"
+            },
+            "child_lock_enabled": {
+                "name": "Bloqueig per a nens habilitat"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Punt de partida A"
+            },
+            "starting_point_b": {
+                "name": "Punt de partida B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Tipus de senyal de cable",
+                "state": {
+                    "type_a": "Tipus A",
+                    "type_b": "Tipus B",
+                    "type_c": "Tipus C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Segadora"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Principal",
+                "starting_point_a": "Punt de partida A",
+                "starting_point_b": "Punt de partida B",
+                "sub_1": "Subzona 1",
+                "sub_2": "Subzona 2",
+                "sub_3": "Subzona 3",
+                "sub_4": "Subzona 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Comença a tallar",
+            "description": "Comenceu a tallar amb la zona d'inici i la durada opcionals.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Zona de sortida",
+                    "description": "Zona Robomow per començar a tallar."
+                },
+                "duration": {
+                    "name": "Durada",
+                    "description": "Durada de la sega en minuts (1-255). El valor predeterminat és de 30 minuts."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Estableix horari",
+            "description": "Estableix el calendari de la segadora.",
+            "fields": {
+                "start_time": {
+                    "name": "Hora d'inici",
+                    "description": "És hora de començar a segar cada dia."
+                },
+                "end_time": {
+                    "name": "Hora de finalització",
+                    "description": "És hora d'acabar la sega cada dia."
+                },
+                "day_0_enabled": {
+                    "name": "Dilluns habilitat",
+                    "description": "Ja sigui per segar el dilluns."
+                },
+                "day_0_duration": {
+                    "name": "Durada dilluns",
+                    "description": "Durada de la sega per a dilluns en minuts (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Cicles de dilluns",
+                    "description": "Nombre de cicles de sega per dilluns (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Zona dilluns",
+                    "description": "Zona per segar els dilluns."
+                },
+                "day_1_enabled": {
+                    "name": "Dimarts habilitat",
+                    "description": "Si segar el dimarts."
+                },
+                "day_1_duration": {
+                    "name": "Durada dimarts",
+                    "description": "Durada de la sega per a dimarts en minuts (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Cicles de dimarts",
+                    "description": "Nombre de cicles de sega per a dimarts (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Zona de dimarts",
+                    "description": "Zona per segar els dimarts."
+                },
+                "day_2_enabled": {
+                    "name": "Dimecres habilitat",
+                    "description": "Si sega el dimecres."
+                },
+                "day_2_duration": {
+                    "name": "Durada dimecres",
+                    "description": "Durada de la sega per dimecres en minuts (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Cicles de dimecres",
+                    "description": "Nombre de cicles de sega per dimecres (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Zona dimecres",
+                    "description": "Zona per segar dimecres."
+                },
+                "day_3_enabled": {
+                    "name": "Dijous habilitat",
+                    "description": "Si sega el dijous."
+                },
+                "day_3_duration": {
+                    "name": "Durada dijous",
+                    "description": "Durada de la sega per dijous en minuts (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Cicles de dijous",
+                    "description": "Nombre de cicles de sega per dijous (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Zona dijous",
+                    "description": "Zona per segar els dijous."
+                },
+                "day_4_enabled": {
+                    "name": "Divendres habilitat",
+                    "description": "Ja sigui segar el divendres."
+                },
+                "day_4_duration": {
+                    "name": "Durada divendres",
+                    "description": "Durada de la sega per divendres en minuts (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Cicles de divendres",
+                    "description": "Nombre de cicles de sega per divendres (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Zona divendres",
+                    "description": "Zona per segar divendres."
+                },
+                "day_5_enabled": {
+                    "name": "Dissabte habilitat",
+                    "description": "Ja sigui per segar el dissabte."
+                },
+                "day_5_duration": {
+                    "name": "Durada dissabte",
+                    "description": "Durada de la sega per a dissabte en minuts (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Cicles de dissabte",
+                    "description": "Nombre de cicles de sega per dissabte (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Zona dissabte",
+                    "description": "Zona per segar dissabte."
+                },
+                "day_6_enabled": {
+                    "name": "Diumenge habilitat",
+                    "description": "Ja sigui per segar el diumenge."
+                },
+                "day_6_duration": {
+                    "name": "Durada diumenge",
+                    "description": "Durada de la sega per diumenge en minuts (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Cicles de diumenge",
+                    "description": "Nombre de cicles de sega per diumenge (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Zona de diumenge",
+                    "description": "Zona per segar diumenge."
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Atlasiet Robomow ierīci, kuru vēlaties pievienot, un ievadiet galvenās plates sērijas numuru. \n\nLai iegūtu galvenās plates sērijas numuru: 1) Piesakieties vietnē myrobomow.robomow.com.\n2) Atveriet pārlūkprogrammas izstrādātāja rīkus (F12).\n3) Dodieties uz cilni Tīkls.\n4) Pārlādējiet lapu.\n5) Meklējiet pieprasījumu, kas beidzas ar /api/customer/products.\n6) Noklikšķiniet uz pieprasījuma un atveriet cilni Atbilde.\n7) JSON atbildē atrodiet lauku ar nosaukumu MainboardSerial. Šī vērtība ir faktiskais galvenās plates sērijas numurs.",
+                "data": {
+                    "address": "Adrese",
+                    "mainboard_serial": "Galvenās plates sērijas numurs"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Ievadiet galvenās plates sērijas numuru tai Robomow ierīcei, kuru vēlaties pievienot mājas palīgam.\n\nLai iegūtu galvenās plates sērijas numuru: 1) Piesakieties vietnē myrobomow.robomow.com.\n2) Atveriet pārlūkprogrammas izstrādātāja rīkus (F12).\n3) Dodieties uz cilni Tīkls.\n4) Pārlādējiet lapu.\n5) Meklējiet pieprasījumu, kas beidzas ar /api/customer/products.\n6) Noklikšķiniet uz pieprasījuma un atveriet cilni Atbilde.\n7) JSON atbildē atrodiet lauku ar nosaukumu MainboardSerial. Šī vērtība ir faktiskais galvenās plates sērijas numurs.",
+                "data": {
+                    "mainboard_serial": "Galvenās plates sērijas numurs"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Nav norādīta unikāla adrese.",
+            "no_mainboard_serial": "Nav norādīts galvenās plates sērijas numurs.",
+            "invalid_mainboard_serial": "Galvenās plates sērijas numurs nav derīgs. Pārbaudiet to un mēģiniet vēlreiz.",
+            "model_unsupported": "Pļāvēja modelis netiek atbalstīts.",
+            "device_not_found": "Robomow ierīci nevarēja atrast. Pārejiet tuvāk un mēģiniet vēlreiz.",
+            "service_not_found": "Nepieciešamais Robomow Bluetooth pakalpojums šajā ierīcē netika atrasts.",
+            "characteristics_not_found": "Šajā ierīcē netika atrasti nepieciešamie Robomow Bluetooth parametri."
+        },
+        "abort": {
+            "already_configured": "Šis ieraksts jau ir konfigurēts.",
+            "no_devices_found": "Netika atrasta neviena Robomow ierīce.",
+            "not_supported": "Šī Bluetooth ierīce nav atbalstīta Robomow pļāvēja."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Nevar izveidot savienojumu ar ierīci"
+        },
+        "invalid_auth": {
+            "message": "Autentifikācija neizdevās"
+        },
+        "unsupported_device": {
+            "message": "Šis ierīces modelis netiek atbalstīts"
+        },
+        "no_unique_address": {
+            "message": "Nav norādīta unikāla adrese."
+        },
+        "no_mainboard_serial": {
+            "message": "Nav norādīts galvenās plates sērijas numurs."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Aktīvs pretaizdzīšanas līdzeklis"
+            },
+            "mower_home": {
+                "name": "Pļāvējs mājās"
+            },
+            "charging_active": {
+                "name": "Uzlāde ir aktīva"
+            },
+            "disabling_device_removed": {
+                "name": "Ierīces atspējošana ir noņemta"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Darbības stāvoklis",
+                "state": {
+                    "warming_up": "Iesildīšanās",
+                    "mowing": "Pļaušana",
+                    "edge_mowing": "Malu pļaušana",
+                    "returning_home_following_edge": "Pēc malas mājas",
+                    "returning_home_warming_up": "Iesildīšanās, lai atgrieztos mājās",
+                    "returning_home_searching_edge": "Meklēšanas mala",
+                    "going_to_start": "Došanās uz sākuma punktu",
+                    "learning_entry_point": "Mācību sākuma punkts",
+                    "idle": "Dīkstāvē",
+                    "charging": "Uzlāde",
+                    "automatic": "Automātiski",
+                    "remote_control": "Tālvadības pults",
+                    "bit": "Mazliet"
+                }
+            },
+            "status_message": {
+                "name": "Statusa ziņojums"
+            },
+            "next_departure": {
+                "name": "Nākamā izbraukšana"
+            },
+            "previous_departure": {
+                "name": "Iepriekšējā izbraukšana"
+            },
+            "expected_duration": {
+                "name": "Paredzamais ilgums"
+            },
+            "no_depart_reason": {
+                "name": "Nav izbraukšanas iemesla"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Grafiks ir iespējots"
+            },
+            "anti_theft_enabled": {
+                "name": "Iespējota pretaizdzīšanas funkcija"
+            },
+            "child_lock_enabled": {
+                "name": "Bērnu atslēga ir iespējota"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Sākuma punkts A"
+            },
+            "starting_point_b": {
+                "name": "Sākuma punkts B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Vadu signāla veids",
+                "state": {
+                    "type_a": "A tips",
+                    "type_b": "B tips",
+                    "type_c": "C tips"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Zāles pļāvējs"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Galvenā",
+                "starting_point_a": "Sākuma punkts A",
+                "starting_point_b": "Sākuma punkts B",
+                "sub_1": "1. apakšzona",
+                "sub_2": "2. apakšzona",
+                "sub_3": "3. apakšzona",
+                "sub_4": "4. apakšzona"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Sāciet pļaut",
+            "description": "Sāciet pļaušanu ar izvēles sākuma zonu un ilgumu.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Starta zona",
+                    "description": "Robomow zona, no kuras sākt pļaušanu."
+                },
+                "duration": {
+                    "name": "Ilgums",
+                    "description": "Pļaušanas ilgums minūtēs (1-255). Pēc noklusējuma ir 30 minūtes."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Iestatiet grafiku",
+            "description": "Iestatiet pļāvēja grafiku.",
+            "fields": {
+                "start_time": {
+                    "name": "Sākuma laiks",
+                    "description": "Laiks sākt pļaut katru dienu."
+                },
+                "end_time": {
+                    "name": "Beigu laiks",
+                    "description": "Laiks beigt pļaušanu katru dienu."
+                },
+                "day_0_enabled": {
+                    "name": "Pirmdiena iespējota",
+                    "description": "Vai pļaut pirmdien."
+                },
+                "day_0_duration": {
+                    "name": "Pirmdienas ilgums",
+                    "description": "Pļaušanas ilgums pirmdienai minūtēs (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Pirmdienas cikli",
+                    "description": "Pļaušanas ciklu skaits pirmdienai (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Pirmdienas zona",
+                    "description": "Zona pļaušanai pirmdien."
+                },
+                "day_1_enabled": {
+                    "name": "Otrdiena iespējota",
+                    "description": "Vai pļaut otrdien."
+                },
+                "day_1_duration": {
+                    "name": "Otrdienas ilgums",
+                    "description": "Pļaušanas ilgums otrdienai minūtēs (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Otrdienas cikli",
+                    "description": "Pļaušanas ciklu skaits otrdienai (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Otrdienas zona",
+                    "description": "Zona pļaušanai otrdien."
+                },
+                "day_2_enabled": {
+                    "name": "Trešdiena iespējota",
+                    "description": "Vai pļaut trešdien."
+                },
+                "day_2_duration": {
+                    "name": "Trešdienas ilgums",
+                    "description": "Pļaušanas ilgums trešdienai minūtēs (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Trešdienas cikli",
+                    "description": "Pļaušanas ciklu skaits trešdienai (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Trešdienas zona",
+                    "description": "Zona pļaušanai trešdien."
+                },
+                "day_3_enabled": {
+                    "name": "Ceturtdiena iespējota",
+                    "description": "Vai ceturtdien pļaut."
+                },
+                "day_3_duration": {
+                    "name": "Ceturtdienas ilgums",
+                    "description": "Pļaušanas ilgums ceturtdienai minūtēs (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Ceturtdienu cikli",
+                    "description": "Pļaušanas ciklu skaits ceturtdienai (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Ceturtdienas zona",
+                    "description": "Zona pļaušanai ceturtdien."
+                },
+                "day_4_enabled": {
+                    "name": "Piektdiena iespējota",
+                    "description": "Vai piektdien pļaut."
+                },
+                "day_4_duration": {
+                    "name": "Piektdienas ilgums",
+                    "description": "Pļaušanas ilgums piektdienai minūtēs (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Piektdienas cikli",
+                    "description": "Pļaušanas ciklu skaits piektdienai (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Piektdienas zona",
+                    "description": "Piektdien pļaušanas zona."
+                },
+                "day_5_enabled": {
+                    "name": "Sestdiena iespējota",
+                    "description": "Vai sestdien pļaut."
+                },
+                "day_5_duration": {
+                    "name": "Sestdienas ilgums",
+                    "description": "Pļaušanas ilgums sestdienai minūtēs (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Sestdienas cikli",
+                    "description": "Pļaušanas ciklu skaits sestdienai (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Sestdienas zona",
+                    "description": "Sestdien pļaušanas zona."
+                },
+                "day_6_enabled": {
+                    "name": "Svētdiena iespējota",
+                    "description": "Vai pļaut svētdien."
+                },
+                "day_6_duration": {
+                    "name": "Svētdienas ilgums",
+                    "description": "Pļaušanas ilgums svētdienai minūtēs (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Svētdienas cikli",
+                    "description": "Pļaušanas ciklu skaits svētdienai (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Svētdienas zona",
+                    "description": "Zona pļaušanai svētdien."
+                }
+            }
+        }
+    }
+}

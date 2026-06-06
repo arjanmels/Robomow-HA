@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Selecione o dispositivo Robomow que deseja adicionar e insira o número de série da placa principal. \n\nPara obter o número de série da placa-mãe: 1) Faça login em myrobomow.robomow.com.\n2) Abra as Ferramentas do Desenvolvedor do seu navegador (F12).\n3) Vá para a guia Rede.\n4) Recarregue a página.\n5) Procure uma solicitação que termine em /api/customer/products.\n6) Clique na solicitação e abra a guia Resposta.\n7) Na resposta JSON, encontre o campo denominado MainboardSerial. Este valor é o número de série real da placa-mãe.",
+                "data": {
+                    "address": "Endereço",
+                    "mainboard_serial": "Número de série da placa-mãe"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Digite o número de série da placa principal do dispositivo Robomow que deseja adicionar ao Home Assistant.\n\nPara obter o número de série da placa-mãe: 1) Faça login em myrobomow.robomow.com.\n2) Abra as Ferramentas do Desenvolvedor do seu navegador (F12).\n3) Vá para a guia Rede.\n4) Recarregue a página.\n5) Procure uma solicitação que termine em /api/customer/products.\n6) Clique na solicitação e abra a guia Resposta.\n7) Na resposta JSON, encontre o campo denominado MainboardSerial. Este valor é o número de série real da placa-mãe.",
+                "data": {
+                    "mainboard_serial": "Número de série da placa-mãe"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Nenhum endereço exclusivo fornecido.",
+            "no_mainboard_serial": "Nenhum número de série da placa-mãe fornecido.",
+            "invalid_mainboard_serial": "O número de série da placa-mãe é inválido. Verifique e tente novamente.",
+            "model_unsupported": "O modelo do cortador não é compatível.",
+            "device_not_found": "O dispositivo Robomow não foi encontrado. Aproxime-se e tente novamente.",
+            "service_not_found": "O serviço Robomow Bluetooth necessário não foi encontrado neste dispositivo.",
+            "characteristics_not_found": "As características necessárias do Robomow Bluetooth não foram encontradas neste dispositivo."
+        },
+        "abort": {
+            "already_configured": "Esta entrada já está configurada.",
+            "no_devices_found": "Nenhum dispositivo Robomow encontrado.",
+            "not_supported": "Este dispositivo Bluetooth não é um cortador Robomow compatível."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Não é possível conectar ao dispositivo"
+        },
+        "invalid_auth": {
+            "message": "Falha na autenticação"
+        },
+        "unsupported_device": {
+            "message": "Este modelo de dispositivo não é compatível"
+        },
+        "no_unique_address": {
+            "message": "Nenhum endereço exclusivo fornecido."
+        },
+        "no_mainboard_serial": {
+            "message": "Nenhum número de série da placa-mãe fornecido."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Anti-roubo ativo"
+            },
+            "mower_home": {
+                "name": "Cortador de grama para casa"
+            },
+            "charging_active": {
+                "name": "Carregamento ativo"
+            },
+            "disabling_device_removed": {
+                "name": "Desativando dispositivo removido"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Estado operacional",
+                "state": {
+                    "warming_up": "Aquecendo",
+                    "mowing": "Cortar",
+                    "edge_mowing": "Corte de borda",
+                    "returning_home_following_edge": "Seguindo a borda para casa",
+                    "returning_home_warming_up": "Aquecendo para voltar para casa",
+                    "returning_home_searching_edge": "Borda de pesquisa",
+                    "going_to_start": "Indo para o ponto de partida",
+                    "learning_entry_point": "Ponto de entrada de aprendizagem",
+                    "idle": "Parado",
+                    "charging": "Carregando",
+                    "automatic": "Automático",
+                    "remote_control": "Controle remoto",
+                    "bit": "Pedaço"
+                }
+            },
+            "status_message": {
+                "name": "Mensagem de status"
+            },
+            "next_departure": {
+                "name": "Próxima partida"
+            },
+            "previous_departure": {
+                "name": "Partida Anterior"
+            },
+            "expected_duration": {
+                "name": "Duração Esperada"
+            },
+            "no_depart_reason": {
+                "name": "Sem motivo de partida"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Agendamento ativado"
+            },
+            "anti_theft_enabled": {
+                "name": "Anti-roubo ativado"
+            },
+            "child_lock_enabled": {
+                "name": "Bloqueio infantil ativado"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Ponto de partida A"
+            },
+            "starting_point_b": {
+                "name": "Ponto de partida B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Tipo de sinal de fio",
+                "state": {
+                    "type_a": "Tipo A",
+                    "type_b": "Tipo B",
+                    "type_c": "Tipo C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Cortador"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Principal",
+                "starting_point_a": "Ponto de partida A",
+                "starting_point_b": "Ponto de partida B",
+                "sub_1": "Subzona 1",
+                "sub_2": "Subzona 2",
+                "sub_3": "Subzona 3",
+                "sub_4": "Subzona 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Comece a cortar",
+            "description": "Comece a cortar com zona inicial e duração opcionais.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Zona inicial",
+                    "description": "Zona Robomow para começar a cortar."
+                },
+                "duration": {
+                    "name": "Duração",
+                    "description": "Duração do corte em minutos (1-255). O padrão é 30 minutos."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Definir cronograma",
+            "description": "Defina a programação do cortador.",
+            "fields": {
+                "start_time": {
+                    "name": "Hora de início",
+                    "description": "É hora de começar a cortar a grama todos os dias."
+                },
+                "end_time": {
+                    "name": "Hora de término",
+                    "description": "É hora de parar de cortar a grama todos os dias."
+                },
+                "day_0_enabled": {
+                    "name": "Segunda-feira ativada",
+                    "description": "Seja para cortar a grama na segunda-feira."
+                },
+                "day_0_duration": {
+                    "name": "Duração de segunda-feira",
+                    "description": "Duração do corte de segunda-feira em minutos (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Ciclos de segunda-feira",
+                    "description": "Número de ciclos de corte para segunda-feira (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Zona de segunda-feira",
+                    "description": "Zona para cortar na segunda-feira."
+                },
+                "day_1_enabled": {
+                    "name": "Terça-feira ativada",
+                    "description": "Seja para cortar a grama na terça-feira."
+                },
+                "day_1_duration": {
+                    "name": "Duração de terça-feira",
+                    "description": "Duração do corte de terça-feira em minutos (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Ciclos de terça-feira",
+                    "description": "Número de ciclos de corte para terça-feira (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Zona de terça-feira",
+                    "description": "Zona para cortar na terça-feira."
+                },
+                "day_2_enabled": {
+                    "name": "Quarta-feira ativada",
+                    "description": "Seja para cortar a grama na quarta-feira."
+                },
+                "day_2_duration": {
+                    "name": "Duração de quarta-feira",
+                    "description": "Duração do corte de quarta-feira em minutos (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Ciclos de quarta-feira",
+                    "description": "Número de ciclos de corte para quarta-feira (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Zona de quarta-feira",
+                    "description": "Zona para cortar na quarta-feira."
+                },
+                "day_3_enabled": {
+                    "name": "Quinta-feira ativada",
+                    "description": "Seja para cortar a grama na quinta-feira."
+                },
+                "day_3_duration": {
+                    "name": "Duração de quinta-feira",
+                    "description": "Duração do corte de quinta-feira em minutos (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Ciclos de quinta-feira",
+                    "description": "Número de ciclos de corte para quinta-feira (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Zona de quinta-feira",
+                    "description": "Zona para cortar na quinta-feira."
+                },
+                "day_4_enabled": {
+                    "name": "Sexta-feira ativada",
+                    "description": "Seja para cortar a grama na sexta-feira."
+                },
+                "day_4_duration": {
+                    "name": "Duração de sexta-feira",
+                    "description": "Duração do corte de sexta-feira em minutos (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Ciclos de sexta-feira",
+                    "description": "Número de ciclos de corte para sexta-feira (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Zona de sexta-feira",
+                    "description": "Zona para cortar na sexta-feira."
+                },
+                "day_5_enabled": {
+                    "name": "Sábado ativado",
+                    "description": "Seja para cortar a grama no sábado."
+                },
+                "day_5_duration": {
+                    "name": "Duração de sábado",
+                    "description": "Duração do corte de sábado em minutos (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Ciclos de sábado",
+                    "description": "Número de ciclos de corte para sábado (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Zona de sábado",
+                    "description": "Zona para cortar no sábado."
+                },
+                "day_6_enabled": {
+                    "name": "Domingo ativado",
+                    "description": "Seja para cortar a grama no domingo."
+                },
+                "day_6_duration": {
+                    "name": "Duração de domingo",
+                    "description": "Duração do corte de domingo em minutos (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Ciclos de domingo",
+                    "description": "Número de ciclos de corte para domingo (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Zona de domingo",
+                    "description": "Zona para cortar no domingo."
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Chagua kifaa cha Robomow unachotaka kuongeza na uweke nambari ya mfululizo ya ubao kuu. \n\nIli kupata nambari ya serial ya ubao kuu: 1) Ingia kwa myrobomow.robomow.com.\n2) Fungua Zana za Wasanidi Programu za kivinjari chako (F12).\n3) Nenda kwenye kichupo cha Mtandao.\n4) Pakia upya ukurasa.\n5) Tafuta ombi linaloishia /api/customer/products.\n6) Bonyeza ombi na ufungue kichupo cha Majibu.\n7) Katika majibu ya JSON, pata uwanja unaoitwa MainboardSerial. Thamani hii ndiyo nambari halisi ya mfululizo ya ubao kuu.",
+                "data": {
+                    "address": "Anwani",
+                    "mainboard_serial": "Nambari ya serial ya ubao kuu"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Weka nambari ya ufuatiliaji ya ubao mkuu ya kifaa cha Robomow unachotaka kuongeza kwenye Mratibu wa Nyumbani.\n\nIli kupata nambari ya serial ya ubao kuu: 1) Ingia kwa myrobomow.robomow.com.\n2) Fungua Zana za Wasanidi Programu za kivinjari chako (F12).\n3) Nenda kwenye kichupo cha Mtandao.\n4) Pakia upya ukurasa.\n5) Tafuta ombi linaloishia /api/customer/products.\n6) Bonyeza ombi na ufungue kichupo cha Majibu.\n7) Katika majibu ya JSON, pata uwanja unaoitwa MainboardSerial. Thamani hii ndiyo nambari halisi ya mfululizo ya ubao kuu.",
+                "data": {
+                    "mainboard_serial": "Nambari ya serial ya ubao kuu"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Hakuna anwani ya kipekee iliyotolewa.",
+            "no_mainboard_serial": "Hakuna nambari ya ufuatiliaji ya ubao mkuu iliyotolewa.",
+            "invalid_mainboard_serial": "Nambari ya ufuatiliaji ya ubao mkuu ni batili. Ithibitishe na ujaribu tena.",
+            "model_unsupported": "Mfano wa mower hautumiki.",
+            "device_not_found": "Kifaa cha Robomow hakikuweza kupatikana. Sogeza karibu na ujaribu tena.",
+            "service_not_found": "Huduma inayohitajika ya Bluetooth ya Robomow haikupatikana kwenye kifaa hiki.",
+            "characteristics_not_found": "Sifa zinazohitajika za Bluetooth za Robomow hazikupatikana kwenye kifaa hiki."
+        },
+        "abort": {
+            "already_configured": "Ingizo hili tayari limesanidiwa.",
+            "no_devices_found": "Hakuna vifaa vya Robomow vilivyopatikana.",
+            "not_supported": "Kifaa hiki cha Bluetooth si mower inayotumika ya Robomow."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Haiwezi kuunganisha kwenye kifaa"
+        },
+        "invalid_auth": {
+            "message": "Uthibitishaji umeshindwa"
+        },
+        "unsupported_device": {
+            "message": "Muundo huu wa kifaa hautumiki"
+        },
+        "no_unique_address": {
+            "message": "Hakuna anwani ya kipekee iliyotolewa."
+        },
+        "no_mainboard_serial": {
+            "message": "Hakuna nambari ya ufuatiliaji ya ubao mkuu iliyotolewa."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Kupambana na wizi kazi"
+            },
+            "mower_home": {
+                "name": "Mower nyumbani"
+            },
+            "charging_active": {
+                "name": "Inachaji"
+            },
+            "disabling_device_removed": {
+                "name": "Kifaa kinachozima kimeondolewa"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Jimbo la Uendeshaji",
+                "state": {
+                    "warming_up": "Kuongeza joto",
+                    "mowing": "Kukata nywele",
+                    "edge_mowing": "Kukata makali",
+                    "returning_home_following_edge": "Kufuatia makali nyumbani",
+                    "returning_home_warming_up": "Kuota moto kurudi nyumbani",
+                    "returning_home_searching_edge": "Kutafuta makali",
+                    "going_to_start": "Kwenda mahali pa kuanzia",
+                    "learning_entry_point": "Sehemu ya kuingia ya kujifunza",
+                    "idle": "Bila kufanya kitu",
+                    "charging": "Inachaji",
+                    "automatic": "Otomatiki",
+                    "remote_control": "Udhibiti wa mbali",
+                    "bit": "Kidogo"
+                }
+            },
+            "status_message": {
+                "name": "Ujumbe wa hali"
+            },
+            "next_departure": {
+                "name": "Kuondoka Kujayo"
+            },
+            "previous_departure": {
+                "name": "Kuondoka Awali"
+            },
+            "expected_duration": {
+                "name": "Muda Unaotarajiwa"
+            },
+            "no_depart_reason": {
+                "name": "Hakuna Sababu ya Kuondoka"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Ratiba imewezeshwa"
+            },
+            "anti_theft_enabled": {
+                "name": "Kuzuia wizi kumewashwa"
+            },
+            "child_lock_enabled": {
+                "name": "Kufuli kwa mtoto kumewashwa"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Sehemu ya kuanzia A"
+            },
+            "starting_point_b": {
+                "name": "Sehemu ya kuanzia B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Aina ya ishara ya waya",
+                "state": {
+                    "type_a": "Aina A",
+                    "type_b": "Aina B",
+                    "type_c": "Aina C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Mower"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Kuu",
+                "starting_point_a": "Sehemu ya kuanzia A",
+                "starting_point_b": "Sehemu ya kuanzia B",
+                "sub_1": "Kanda ndogo 1",
+                "sub_2": "Kanda ndogo ya 2",
+                "sub_3": "Kanda ndogo ya 3",
+                "sub_4": "Kanda ndogo 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Anza kukata",
+            "description": "Anza kukata kwa hiari eneo la kuanzia na muda.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Eneo la kuanzia",
+                    "description": "Eneo la Robomow la kuanza kukata kutoka."
+                },
+                "duration": {
+                    "name": "Muda",
+                    "description": "Muda wa kukata kwa dakika (1-255). Chaguo-msingi ni dakika 30."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Weka ratiba",
+            "description": "Weka ratiba ya mower.",
+            "fields": {
+                "start_time": {
+                    "name": "Wakati wa kuanza",
+                    "description": "Muda wa kuanza kukata kila siku."
+                },
+                "end_time": {
+                    "name": "Wakati wa mwisho",
+                    "description": "Wakati wa kumaliza kukata kila siku."
+                },
+                "day_0_enabled": {
+                    "name": "Jumatatu imewashwa",
+                    "description": "Ikiwa utakatwa Jumatatu."
+                },
+                "day_0_duration": {
+                    "name": "Muda wa Jumatatu",
+                    "description": "Muda wa kukata kwa Jumatatu kwa dakika (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Mizunguko ya Jumatatu",
+                    "description": "Idadi ya mizunguko ya kukata kwa Jumatatu (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Jumatatu eneo",
+                    "description": "Eneo la kukata jumatatu."
+                },
+                "day_1_enabled": {
+                    "name": "Jumanne kuwezeshwa",
+                    "description": "Kama utakatwa siku ya Jumanne."
+                },
+                "day_1_duration": {
+                    "name": "Muda wa Jumanne",
+                    "description": "Muda wa kukata kwa Jumanne kwa dakika (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Mizunguko ya Jumanne",
+                    "description": "Idadi ya mizunguko ya kukata kwa Jumanne (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Jumanne eneo",
+                    "description": "Eneo la kukatwa siku ya Jumanne."
+                },
+                "day_2_enabled": {
+                    "name": "Jumatano imewezeshwa",
+                    "description": "Kama utakatwa Jumatano."
+                },
+                "day_2_duration": {
+                    "name": "Muda wa Jumatano",
+                    "description": "Muda wa kukata kwa Jumatano kwa dakika (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Mizunguko ya Jumatano",
+                    "description": "Idadi ya mizunguko ya kukata kwa Jumatano (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Ukanda wa Jumatano",
+                    "description": "Eneo la kukata siku ya Jumatano."
+                },
+                "day_3_enabled": {
+                    "name": "Alhamisi kuwezeshwa",
+                    "description": "Kama utakatwa siku ya Alhamisi."
+                },
+                "day_3_duration": {
+                    "name": "Muda wa Alhamisi",
+                    "description": "Muda wa kukata kwa Alhamisi kwa dakika (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Mizunguko ya Alhamisi",
+                    "description": "Idadi ya mizunguko ya kukata kwa Alhamisi (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Ukanda wa Alhamisi",
+                    "description": "Eneo la kukata siku ya Alhamisi."
+                },
+                "day_4_enabled": {
+                    "name": "Ijumaa imewezeshwa",
+                    "description": "Ikiwa utakatwa siku ya Ijumaa."
+                },
+                "day_4_duration": {
+                    "name": "Muda wa Ijumaa",
+                    "description": "Muda wa kukata kwa Ijumaa kwa dakika (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Mizunguko ya Ijumaa",
+                    "description": "Idadi ya mizunguko ya kukata kwa siku ya Ijumaa (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Eneo la Ijumaa",
+                    "description": "Eneo la kukata siku ya Ijumaa."
+                },
+                "day_5_enabled": {
+                    "name": "Jumamosi kuwezeshwa",
+                    "description": "Ikiwa utakatwa Jumamosi."
+                },
+                "day_5_duration": {
+                    "name": "Muda wa Jumamosi",
+                    "description": "Muda wa kukata kwa Jumamosi kwa dakika (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Mizunguko ya Jumamosi",
+                    "description": "Idadi ya mizunguko ya kukata kwa Jumamosi (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Jumamosi eneo",
+                    "description": "Eneo la kukata jumamosi."
+                },
+                "day_6_enabled": {
+                    "name": "Jumapili kuwezeshwa",
+                    "description": "Ikiwa utakatwa siku ya Jumapili."
+                },
+                "day_6_duration": {
+                    "name": "Muda wa Jumapili",
+                    "description": "Muda wa kukata kwa Jumapili kwa dakika (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Mizunguko ya Jumapili",
+                    "description": "Idadi ya mizunguko ya kukata kwa Jumapili (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Eneo la Jumapili",
+                    "description": "Eneo la kukatwa siku ya Jumapili."
+                }
+            }
+        }
+    }
+}

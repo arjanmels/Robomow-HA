@@ -1,0 +1,290 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Eklemek istediğiniz Robomow cihazını seçin ve anakart seri numarasını girin. \n\nAnakart seri numarasını almak için: 1) myrobomow.robomow.com adresinde oturum açın.\n2) Tarayıcınızın Geliştirici Araçlarını (F12) açın.\n3) Ağ sekmesine gidin.\n4) Sayfayı yeniden yükleyin.\n5) /api/customer/products ile biten bir istek arayın.\n6) İsteğe tıklayın ve Yanıt sekmesini açın.\n7) JSON yanıtında MainboardSerial adlı alanı bulun. Bu değer asıl anakart seri numarasıdır.",
+                "data": {
+                    "address": "Adres",
+                    "mainboard_serial": "Anakart seri numarası"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Home Assistant'a eklemek istediğiniz Robomow cihazının anakart seri numarasını girin.\n\nAnakart seri numarasını almak için: 1) myrobomow.robomow.com adresinde oturum açın.\n2) Tarayıcınızın Geliştirici Araçlarını (F12) açın.\n3) Ağ sekmesine gidin.\n4) Sayfayı yeniden yükleyin.\n5) /api/customer/products ile biten bir istek arayın.\n6) İsteğe tıklayın ve Yanıt sekmesini açın.\n7) JSON yanıtında MainboardSerial adlı alanı bulun. Bu değer asıl anakart seri numarasıdır.",
+                "data": {
+                    "mainboard_serial": "Anakart seri numarası"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Benzersiz bir adres sağlanmadı.",
+            "no_mainboard_serial": "Anakart seri numarası sağlanmadı.",
+            "invalid_mainboard_serial": "Anakart seri numarası geçersiz. Doğrulayın ve tekrar deneyin.",
+            "model_unsupported": "Biçme makinesi modeli desteklenmiyor.",
+            "device_not_found": "Robomow cihazı bulunamadı. Yaklaşın ve tekrar deneyin.",
+            "service_not_found": "Gerekli Robomow Bluetooth hizmeti bu cihazda bulunamadı.",
+            "characteristics_not_found": "Gerekli Robomow Bluetooth özellikleri bu cihazda bulunamadı."
+        },
+        "abort": {
+            "already_configured": "Bu giriş zaten yapılandırılmış.",
+            "no_devices_found": "Robomow cihazı bulunamadı.",
+            "not_supported": "Bu Bluetooth cihazı desteklenen bir Robomow çim biçme makinesi değil."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Cihaza bağlanılamıyor"
+        },
+        "invalid_auth": {
+            "message": "Kimlik doğrulama başarısız oldu"
+        },
+        "unsupported_device": {
+            "message": "Bu cihaz modeli desteklenmiyor"
+        },
+        "no_unique_address": {
+            "message": "Benzersiz bir adres sağlanmadı."
+        },
+        "no_mainboard_serial": {
+            "message": "Anakart seri numarası sağlanmadı."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Hırsızlığa karşı koruma etkin"
+            },
+            "mower_home": {
+                "name": "Biçme makinesi"
+            },
+            "charging_active": {
+                "name": "Şarj etme etkin"
+            },
+            "disabling_device_removed": {
+                "name": "Devre dışı bırakılan cihaz kaldırıldı"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Çalışma Durumu",
+                "state": {
+                    "warming_up": "Isınma",
+                    "mowing": "Biçme",
+                    "edge_mowing": "Kenar Biçme",
+                    "returning_home_following_edge": "Evin takip edilmesi",
+                    "returning_home_warming_up": "Eve dönüş için ısınma",
+                    "returning_home_searching_edge": "Arama kenarı",
+                    "going_to_start": "Başlangıç ​​noktasına gidiyoruz",
+                    "learning_entry_point": "Öğrenme giriş noktası",
+                    "idle": "Boşta",
+                    "charging": "Şarj etme",
+                    "automatic": "Otomatik",
+                    "remote_control": "Uzaktan kumanda",
+                    "bit": "Biraz"
+                }
+            },
+            "status_message": {
+                "name": "Durum Mesajı"
+            },
+            "next_departure": {
+                "name": "Sonraki Kalkış"
+            },
+            "previous_departure": {
+                "name": "Önceki Kalkış"
+            },
+            "expected_duration": {
+                "name": "Beklenen Süre"
+            },
+            "no_depart_reason": {
+                "name": "Ayrılış Sebebi Yok"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Program etkinleştirildi"
+            },
+            "anti_theft_enabled": {
+                "name": "Hırsızlığa karşı koruma etkin"
+            },
+            "child_lock_enabled": {
+                "name": "Çocuk kilidi etkin"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Başlangıç ​​noktası A"
+            },
+            "starting_point_b": {
+                "name": "Başlangıç ​​noktası B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Tel sinyal tipi",
+                "state": {
+                    "type_a": "A tipi",
+                    "type_b": "Tip B",
+                    "type_c": "Tip C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Biçme makinesi"
+            }
+        }
+    },
+    "selector": {
+        "zone": {
+            "options": {
+                "main": "Ana",
+                "starting_point_a": "Başlangıç ​​noktası A",
+                "starting_point_b": "Başlangıç ​​noktası B",
+                "sub_1": "Alt bölge 1",
+                "sub_2": "Alt bölge 2",
+                "sub_3": "Alt bölge 3",
+                "sub_4": "Alt bölge 4"
+            }
+        }
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Biçmeye başla",
+            "description": "İsteğe bağlı başlangıç ​​bölgesi ve süresiyle çim biçmeye başlayın.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Başlangıç ​​bölgesi",
+                    "description": "Biçmeye başlamak için Robomow bölgesi."
+                },
+                "duration": {
+                    "name": "Süre",
+                    "description": "Dakika cinsinden biçme süresi (1-255). Varsayılan 30 dakikadır."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Programı ayarla",
+            "description": "Biçme makinesi programını ayarlayın.",
+            "fields": {
+                "start_time": {
+                    "name": "Başlangıç ​​zamanı",
+                    "description": "Her gün biçmeye başlama zamanı."
+                },
+                "end_time": {
+                    "name": "Bitiş zamanı",
+                    "description": "Her gün çim biçmeye son verme zamanı."
+                },
+                "day_0_enabled": {
+                    "name": "Pazartesi etkinleştirildi",
+                    "description": "Pazartesi günü biçilip biçilmeyeceği."
+                },
+                "day_0_duration": {
+                    "name": "Pazartesi süresi",
+                    "description": "Pazartesi günü için dakika cinsinden biçme süresi (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Pazartesi döngüleri",
+                    "description": "Pazartesi gününe ait biçme çevrimi sayısı (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Pazartesi bölgesi",
+                    "description": "Pazartesi günü biçilecek bölge."
+                },
+                "day_1_enabled": {
+                    "name": "Salı etkin",
+                    "description": "Salı günü biçilip biçilmeyeceği."
+                },
+                "day_1_duration": {
+                    "name": "Salı süresi",
+                    "description": "Salı günü için dakika cinsinden biçme süresi (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Salı döngüleri",
+                    "description": "Salı gününe ait biçme döngüsü sayısı (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Salı bölgesi",
+                    "description": "Salı günü biçilecek bölge."
+                },
+                "day_2_enabled": {
+                    "name": "Çarşamba etkin",
+                    "description": "Çarşamba günü biçilip biçilmeyeceği."
+                },
+                "day_2_duration": {
+                    "name": "Çarşamba süresi",
+                    "description": "Çarşamba günü için dakika cinsinden biçme süresi (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Çarşamba döngüleri",
+                    "description": "Çarşamba için biçme döngüsü sayısı (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Çarşamba bölgesi",
+                    "description": "Çarşamba günü biçilecek bölge."
+                },
+                "day_3_enabled": {
+                    "name": "Perşembe etkin",
+                    "description": "Perşembe günü biçilip biçilmeyeceği."
+                },
+                "day_3_duration": {
+                    "name": "Perşembe süresi",
+                    "description": "Perşembe günü için dakika cinsinden biçme süresi (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Perşembe döngüleri",
+                    "description": "Perşembe gününe ait biçme çevrimi sayısı (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Perşembe bölgesi",
+                    "description": "Perşembe günü biçilecek bölge."
+                },
+                "day_4_enabled": {
+                    "name": "Cuma etkin",
+                    "description": "Cuma günü biçilip biçilmeyeceği."
+                },
+                "day_4_duration": {
+                    "name": "Cuma süresi",
+                    "description": "Cuma günü için dakika cinsinden biçme süresi (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Cuma döngüleri",
+                    "description": "Cuma günü için biçme döngüsü sayısı (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Cuma bölgesi",
+                    "description": "Cuma günü biçilecek bölge."
+                },
+                "day_5_enabled": {
+                    "name": "Cumartesi etkin",
+                    "description": "Cumartesi günü biçilip biçilmeyeceği."
+                },
+                "day_5_duration": {
+                    "name": "Cumartesi süresi",
+                    "description": "Cumartesi günü için dakika cinsinden biçme süresi (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Cumartesi döngüleri",
+                    "description": "Cumartesi günü için biçme döngüsü sayısı (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Cumartesi bölgesi",
+                    "description": "Cumartesi günü biçilecek bölge."
+                },
+                "day_6_enabled": {
+                    "name": "Pazar etkin",
+                    "description": "Pazar günü biçilip biçilmeyeceği."
+                },
+                "day_6_duration": {
+                    "name": "Pazar süresi",
+                    "description": "Pazar günü için dakika cinsinden biçme süresi (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Pazar döngüleri",
+                    "description": "Pazar gününe ait biçme çevrimi sayısı (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Pazar bölgesi",
+                    "description": "Pazar günü biçilecek bölge."
+                }
+            }
+        }
+    }
+}
