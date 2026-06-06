@@ -30,7 +30,7 @@ SENSOR_DESCRIPTIONS = (
         translation_key="operating_state",
         icon="mdi:state-machine",
         device_class=SensorDeviceClass.ENUM,
-        options=[state.value for state in MowerOperatingState],
+        options=[state.name for state in MowerOperatingState],
     ),
     SensorEntityDescription(
         key=EntityKey.MESSAGE,

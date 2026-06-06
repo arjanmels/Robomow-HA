@@ -1,0 +1,291 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Selecteer het Robomow-apparaat dat u wilt toevoegen aan Home Assistant en voer het mainboard-serienummer in.",
+                "data": {
+                    "address": "Adres",
+                    "mainboard_serial": "Mainboard-serienummer"
+                }
+            },
+            "bluetooth_confirm": {
+                "description": "Voer het mainboard-serienummer in voor het Robomow-apparaat dat u wilt toevoegen aan Home Assistant.",
+                "data": {
+                    "mainboard_serial": "Mainboard-serienummer"
+                }
+            }
+        },
+        "error": {
+            "no_unique_address": "Geen uniek adres opgegeven.",
+            "no_mainboard_serial": "Geen mainboard-serienummer opgegeven.",
+            "invalid_mainboard_serial": "Het mainboard-serienummer is ongeldig. Controleer het en probeer het opnieuw.",
+            "model_unsupported": "Het mowermodel wordt niet ondersteund.",
+            "device_not_found": "Het Robomow-apparaat kon niet worden gevonden. Ga dichter bij het apparaat staan en probeer het opnieuw.",
+            "service_not_found": "De vereiste Robomow Bluetooth-service is niet gevonden op dit apparaat.",
+            "characteristics_not_found": "De vereiste Robomow Bluetooth-karakteristieken zijn niet gevonden op dit apparaat."
+        },
+        "abort": {
+            "already_configured": "Dit item is al geconfigureerd.",
+            "no_devices_found": "Geen Robomow-apparaten gevonden.",
+            "not_supported": "Dit Bluetooth-apparaat is geen ondersteunde Robomow-maaimachine."
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Kan geen verbinding maken met het apparaat"
+        },
+        "invalid_auth": {
+            "message": "Authenticatie mislukt"
+        },
+        "unsupported_device": {
+            "message": "Dit apparaatmodel wordt niet ondersteund"
+        },
+        "no_unique_address": {
+            "message": "Geen uniek adres opgegeven."
+        },
+        "no_mainboard_serial": {
+            "message": "Geen mainboard-serienummer opgegeven."
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "anti_theft_active": {
+                "name": "Antidiefstalbeveiliging actief"
+            },
+            "mower_home": {
+                "name": "Maaimachine thuis"
+            },
+            "charging_active": {
+                "name": "Opladen actief"
+            },
+            "disabling_device_removed": {
+                "name": "Uitschakelingsapparaat verwijderd"
+            }
+        },
+        "sensor": {
+            "operating_state": {
+                "name": "Bedrijfstatus"
+            },
+            "status_message": {
+                "name": "Statusbericht"
+            },
+            "next_departure": {
+                "name": "Volgende vertrek"
+            },
+            "previous_departure": {
+                "name": "Vorige vertrek"
+            },
+            "expected_duration": {
+                "name": "Verwachte duur"
+            },
+            "no_depart_reason": {
+                "name": "Reden voor geen vertrek"
+            }
+        },
+        "switch": {
+            "schedule_enabled": {
+                "name": "Schema ingeschakeld"
+            },
+            "anti_theft_enabled": {
+                "name": "Antidiefstalbeveiligt ingeschakeld"
+            },
+            "child_lock_enabled": {
+                "name": "Kinderslot ingeschakeld"
+            }
+        },
+        "number": {
+            "starting_point_a": {
+                "name": "Startpunt A"
+            },
+            "starting_point_b": {
+                "name": "Startpunt B"
+            }
+        },
+        "select": {
+            "wire_signal_type": {
+                "name": "Type draadsignaal",
+                "state": {
+                    "TYPE_A": "Type A",
+                    "TYPE_B": "Type B",
+                    "TYPE_C": "Type C"
+                }
+            }
+        },
+        "lawn_mower": {
+            "mower": {
+                "name": "Maaimachine"
+            }
+        }
+    },
+    "enum": {
+        "operating_state": {
+            "WARMING_UP": "Opwarmen",
+            "MOWING": "Maaien",
+            "EDGE_MOWING": "Kantmaaien",
+            "RETURNING_HOME_FOLLOWING_EDGE": "Thuis langs rand",
+            "RETURNING_HOME_WARMING_UP": "Opwarmen voor thuiskomst",
+            "RETURNING_HOME_SEARCHING_EDGE": "Rand zoeken",
+            "GOING_TO_START": "Naar startpunt gaan",
+            "LEARNING_ENTRY_POINT": "Toegangspunt leren",
+            "IDLE": "Inactief",
+            "CHARGING": "Laden",
+            "AUTOMATIC": "Automatisch",
+            "REMOTE_CONTROL": "Afstandsbediening",
+            "BIT": "BIT"
+        },
+        "zone": {
+            "MAIN": "Hoofd",
+            "STARTING_POINT_A": "Startpunt A",
+            "STARTING_POINT_B": "Startpunt B",
+            "SUB_1": "Subzone 1",
+            "SUB_2": "Subzone 2",
+            "SUB_3": "Subzone 3",
+            "SUB_4": "Subzone 4"
+        }
+    },
+    "device": {
+        "suggested_area": "Tuin"
+    },
+    "services": {
+        "start_mowing": {
+            "name": "Maaien starten",
+            "description": "Maaien starten met optioneel startzone en duur.",
+            "fields": {
+                "starting_zone": {
+                    "name": "Startzone",
+                    "description": "Robomow-zone waaruit maaien moet starten."
+                },
+                "duration": {
+                    "name": "Duur",
+                    "description": "Maaiduur in minuten (1-255). Standaard is 30 minuten."
+                }
+            }
+        },
+        "set_schedule": {
+            "name": "Schema instellen",
+            "description": "Stel het maaiplan in.",
+            "fields": {
+                "start_time": {
+                    "name": "Starttijd",
+                    "description": "Tijd om elke dag maaien te starten."
+                },
+                "end_time": {
+                    "name": "Eindtijd",
+                    "description": "Tijd om elke dag maaien te beëindigen."
+                },
+                "day_0_enabled": {
+                    "name": "Maandag ingeschakeld",
+                    "description": "Of maaien op maandag moet gebeuren."
+                },
+                "day_0_duration": {
+                    "name": "Maandag duur",
+                    "description": "Maaiduur voor maandag in minuten (1-255)."
+                },
+                "day_0_cycles": {
+                    "name": "Maandag cycli",
+                    "description": "Aantal maaicycli voor maandag (1-2)."
+                },
+                "day_0_zone": {
+                    "name": "Maandag zone",
+                    "description": "Robomow-zone om op maandag maaien."
+                },
+                "day_1_enabled": {
+                    "name": "Dinsdag ingeschakeld",
+                    "description": "Of maaien op dinsdag moet gebeuren."
+                },
+                "day_1_duration": {
+                    "name": "Dinsdag duur",
+                    "description": "Maaiduur voor dinsdag in minuten (1-255)."
+                },
+                "day_1_cycles": {
+                    "name": "Dinsdag cycli",
+                    "description": "Aantal maaicycli voor dinsdag (1-2)."
+                },
+                "day_1_zone": {
+                    "name": "Dinsdag zone",
+                    "description": "Robomow-zone om op dinsdag maaien."
+                },
+                "day_2_enabled": {
+                    "name": "Woensdag ingeschakeld",
+                    "description": "Of maaien op woensdag moet gebeuren."
+                },
+                "day_2_duration": {
+                    "name": "Woensdag duur",
+                    "description": "Maaiduur voor woensdag in minuten (1-255)."
+                },
+                "day_2_cycles": {
+                    "name": "Woensdag cycli",
+                    "description": "Aantal maaicycli voor woensdag (1-2)."
+                },
+                "day_2_zone": {
+                    "name": "Woensdag zone",
+                    "description": "Robomow-zone om op woensdag maaien."
+                },
+                "day_3_enabled": {
+                    "name": "Donderdag ingeschakeld",
+                    "description": "Of maaien op donderdag moet gebeuren."
+                },
+                "day_3_duration": {
+                    "name": "Donderdag duur",
+                    "description": "Maaiduur voor donderdag in minuten (1-255)."
+                },
+                "day_3_cycles": {
+                    "name": "Donderdag cycli",
+                    "description": "Aantal maaicycli voor donderdag (1-2)."
+                },
+                "day_3_zone": {
+                    "name": "Donderdag zone",
+                    "description": "Robomow-zone om op donderdag maaien."
+                },
+                "day_4_enabled": {
+                    "name": "Vrijdag ingeschakeld",
+                    "description": "Of maaien op vrijdag moet gebeuren."
+                },
+                "day_4_duration": {
+                    "name": "Vrijdag duur",
+                    "description": "Maaiduur voor vrijdag in minuten (1-255)."
+                },
+                "day_4_cycles": {
+                    "name": "Vrijdag cycli",
+                    "description": "Aantal maaicycli voor vrijdag (1-2)."
+                },
+                "day_4_zone": {
+                    "name": "Vrijdag zone",
+                    "description": "Robomow-zone om op vrijdag maaien."
+                },
+                "day_5_enabled": {
+                    "name": "Zaterdag ingeschakeld",
+                    "description": "Of maaien op zaterdag moet gebeuren."
+                },
+                "day_5_duration": {
+                    "name": "Zaterdag duur",
+                    "description": "Maaiduur voor zaterdag in minuten (1-255)."
+                },
+                "day_5_cycles": {
+                    "name": "Zaterdag cycli",
+                    "description": "Aantal maaicycli voor zaterdag (1-2)."
+                },
+                "day_5_zone": {
+                    "name": "Zaterdag zone",
+                    "description": "Robomow-zone om op zaterdag maaien."
+                },
+                "day_6_enabled": {
+                    "name": "Zondag ingeschakeld",
+                    "description": "Of maaien op zondag moet gebeuren."
+                },
+                "day_6_duration": {
+                    "name": "Zondag duur",
+                    "description": "Maaiduur voor zondag in minuten (1-255)."
+                },
+                "day_6_cycles": {
+                    "name": "Zondag cycli",
+                    "description": "Aantal maaicycli voor zondag (1-2)."
+                },
+                "day_6_zone": {
+                    "name": "Zondag zone",
+                    "description": "Robomow-zone om op zondag maaien."
+                }
+            }
+        }
+    }
+}

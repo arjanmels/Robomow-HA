@@ -14,6 +14,8 @@ if [[ ${#PY_FILES[@]} -gt 0 ]]; then
     ruff format --check "${PY_FILES[@]}"
     echo "- ruff check"
     ruff check "${PY_FILES[@]}"
+    echo "- pyright type check"
+    pyright "${PY_FILES[@]}"
 fi
 
 # Validate all JSON files with jq.
