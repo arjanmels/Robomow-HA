@@ -2,7 +2,7 @@ pip>=26.1.2
 ruff>=0.15.16
 colorlog>=6.10.1
 PyYAML>=6.0.2
-pymarkdownlnt>=0.9.33
+pymarkdownlnt>=0.9.37
 pyright>=1.1.350
 
 homeassistant==2026.6.0
