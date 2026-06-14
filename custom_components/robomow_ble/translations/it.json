@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Seleziona il dispositivo Robomow che desideri aggiungere e inserisci il numero di serie della scheda principale. \n\nPer ottenere il numero di serie della scheda madre: 1) Accedi a myrobomow.robomow.com.\n2) Apri gli Strumenti per sviluppatori del tuo browser (F12).\n3) Vai alla scheda Rete.\n4) Ricaricare la pagina.\n5) Cerca una richiesta che termina con /api/customer/products.\n6) Fare clic sulla richiesta e aprire la scheda Risposta.\n7) Nella risposta JSON, trova il campo denominato MainboardSerial. Questo valore è il numero di serie effettivo della scheda madre.",
+                "description": "Seleziona il dispositivo Robomow che desideri aggiungere e inserisci il numero di serie della scheda principale. \n\nPer ottenere il numero di serie della scheda madre:\n1) Accedi a myrobomow.robomow.com.\n2) Apri gli Strumenti per sviluppatori del tuo browser (F12).\n3) Vai alla scheda Rete.\n4) Ricaricare la pagina.\n5) Cerca una richiesta che termina con /api/customer/products.\n6) Fare clic sulla richiesta e aprire la scheda Risposta.\n7) Nella risposta JSON, trova il campo denominato MainboardSerial. Questo valore è il numero di serie effettivo della scheda madre.",
                 "data": {
                     "address": "Indirizzo",
                     "mainboard_serial": "Numero di serie della scheda madre"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Inserisci il numero di serie della scheda madre per il dispositivo Robomow che desideri aggiungere a Home Assistant.\n\nPer ottenere il numero di serie della scheda madre: 1) Accedi a myrobomow.robomow.com.\n2) Apri gli Strumenti per sviluppatori del tuo browser (F12).\n3) Vai alla scheda Rete.\n4) Ricaricare la pagina.\n5) Cerca una richiesta che termina con /api/customer/products.\n6) Fare clic sulla richiesta e aprire la scheda Risposta.\n7) Nella risposta JSON, trova il campo denominato MainboardSerial. Questo valore è il numero di serie effettivo della scheda madre.",
+                "description": "Inserisci il numero di serie della scheda madre per il dispositivo Robomow che desideri aggiungere a Home Assistant.\n\nPer ottenere il numero di serie della scheda madre:\n1) Accedi a myrobomow.robomow.com.\n2) Apri gli Strumenti per sviluppatori del tuo browser (F12).\n3) Vai alla scheda Rete.\n4) Ricaricare la pagina.\n5) Cerca una richiesta che termina con /api/customer/products.\n6) Fare clic sulla richiesta e aprire la scheda Risposta.\n7) Nella risposta JSON, trova il campo denominato MainboardSerial. Questo valore è il numero di serie effettivo della scheda madre.",
                 "data": {
                     "mainboard_serial": "Numero di serie della scheda madre"
                 }

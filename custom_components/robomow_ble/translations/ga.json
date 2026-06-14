@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Roghnaigh an gléas Robomow is mian leat a chur leis agus cuir isteach sraithuimhir an phríomhchláir. \n\nChun sraithuimhir an phríomhchláir a fháil: 1) Logáil isteach ar myrobomow.robomow.com.\n2) Oscail Uirlisí Forbróra do bhrabhsálaí (F12).\n3) Téigh go dtí an Líonra tab.\n4) Athlódáil an leathanach.\n5) Cuardaigh iarratas a chríochnaíonn in /api/customer/products.\n6) Cliceáil ar an iarratas agus oscail an cluaisín Freagra.\n7) I bhfreagra JSON, faigh an réimse darb ainm MainboardSerial. Is é an luach seo sraithuimhir iarbhír an phríomhchláir.",
+                "description": "Roghnaigh an gléas Robomow is mian leat a chur leis agus cuir isteach sraithuimhir an phríomhchláir. \n\nChun sraithuimhir an phríomhchláir a fháil:\n1) Logáil isteach ar myrobomow.robomow.com.\n2) Oscail Uirlisí Forbróra do bhrabhsálaí (F12).\n3) Téigh go dtí an Líonra tab.\n4) Athlódáil an leathanach.\n5) Cuardaigh iarratas a chríochnaíonn in /api/customer/products.\n6) Cliceáil ar an iarratas agus oscail an cluaisín Freagra.\n7) I bhfreagra JSON, faigh an réimse darb ainm MainboardSerial. Is é an luach seo sraithuimhir iarbhír an phríomhchláir.",
                 "data": {
                     "address": "Seoladh",
                     "mainboard_serial": "Sraithuimhir an phríomhchláir"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Cuir isteach sraithuimhir an phríomhchláir don ghléas Robomow is mian leat a chur le Cúntóir Baile.\n\nChun sraithuimhir an phríomhchláir a fháil: 1) Logáil isteach ar myrobomow.robomow.com.\n2) Oscail Uirlisí Forbróra do bhrabhsálaí (F12).\n3) Téigh go dtí an Líonra tab.\n4) Athlódáil an leathanach.\n5) Cuardaigh iarratas a chríochnaíonn in /api/customer/products.\n6) Cliceáil ar an iarratas agus oscail an cluaisín Freagra.\n7) I bhfreagra JSON, faigh an réimse darb ainm MainboardSerial. Is é an luach seo sraithuimhir iarbhír an phríomhchláir.",
+                "description": "Cuir isteach sraithuimhir an phríomhchláir don ghléas Robomow is mian leat a chur le Cúntóir Baile.\n\nChun sraithuimhir an phríomhchláir a fháil:\n1) Logáil isteach ar myrobomow.robomow.com.\n2) Oscail Uirlisí Forbróra do bhrabhsálaí (F12).\n3) Téigh go dtí an Líonra tab.\n4) Athlódáil an leathanach.\n5) Cuardaigh iarratas a chríochnaíonn in /api/customer/products.\n6) Cliceáil ar an iarratas agus oscail an cluaisín Freagra.\n7) I bhfreagra JSON, faigh an réimse darb ainm MainboardSerial. Is é an luach seo sraithuimhir iarbhír an phríomhchláir.",
                 "data": {
                     "mainboard_serial": "Sraithuimhir an phríomhchláir"
                 }

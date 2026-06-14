@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Pasirinkite Robomow įrenginį, kurį norite pridėti, ir įveskite pagrindinės plokštės serijos numerį. \n\nNorėdami gauti pagrindinės plokštės serijos numerį: 1) Prisijunkite prie myrobomow.robomow.com.\n2) Atidarykite naršyklės kūrėjo įrankius (F12).\n3) Eikite į skirtuką Tinklas.\n4) Iš naujo įkelkite puslapį.\n5) Ieškokite užklausos, kuri baigiasi /api/customer/products.\n6) Spustelėkite užklausą ir atidarykite skirtuką Atsakymas.\n7) JSON atsakyme raskite lauką pavadinimu MainboardSerial. Ši vertė yra tikrasis pagrindinės plokštės serijos numeris.",
+                "description": "Pasirinkite Robomow įrenginį, kurį norite pridėti, ir įveskite pagrindinės plokštės serijos numerį. \n\nNorėdami gauti pagrindinės plokštės serijos numerį:\n1) Prisijunkite prie myrobomow.robomow.com.\n2) Atidarykite naršyklės kūrėjo įrankius (F12).\n3) Eikite į skirtuką Tinklas.\n4) Iš naujo įkelkite puslapį.\n5) Ieškokite užklausos, kuri baigiasi /api/customer/products.\n6) Spustelėkite užklausą ir atidarykite skirtuką Atsakymas.\n7) JSON atsakyme raskite lauką pavadinimu MainboardSerial. Ši vertė yra tikrasis pagrindinės plokštės serijos numeris.",
                 "data": {
                     "address": "Adresas",
                     "mainboard_serial": "Pagrindinės plokštės serijos numeris"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Įveskite pagrindinės plokštės serijos numerį Robomow įrenginiui, kurį norite pridėti prie namų asistento.\n\nNorėdami gauti pagrindinės plokštės serijos numerį: 1) Prisijunkite prie myrobomow.robomow.com.\n2) Atidarykite naršyklės kūrėjo įrankius (F12).\n3) Eikite į skirtuką Tinklas.\n4) Iš naujo įkelkite puslapį.\n5) Ieškokite užklausos, kuri baigiasi /api/customer/products.\n6) Spustelėkite užklausą ir atidarykite skirtuką Atsakymas.\n7) JSON atsakyme raskite lauką pavadinimu MainboardSerial. Ši vertė yra tikrasis pagrindinės plokštės serijos numeris.",
+                "description": "Įveskite pagrindinės plokštės serijos numerį Robomow įrenginiui, kurį norite pridėti prie namų asistento.\n\nNorėdami gauti pagrindinės plokštės serijos numerį:\n1) Prisijunkite prie myrobomow.robomow.com.\n2) Atidarykite naršyklės kūrėjo įrankius (F12).\n3) Eikite į skirtuką Tinklas.\n4) Iš naujo įkelkite puslapį.\n5) Ieškokite užklausos, kuri baigiasi /api/customer/products.\n6) Spustelėkite užklausą ir atidarykite skirtuką Atsakymas.\n7) JSON atsakyme raskite lauką pavadinimu MainboardSerial. Ši vertė yra tikrasis pagrindinės plokštės serijos numeris.",
                 "data": {
                     "mainboard_serial": "Pagrindinės plokštės serijos numeris"
                 }

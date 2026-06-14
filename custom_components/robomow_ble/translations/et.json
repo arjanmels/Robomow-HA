@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Valige Robomow seade, mida soovite lisada, ja sisestage emaplaadi seerianumber. \n\nEmaplaadi seerianumbri saamiseks: 1) Logige sisse saidile myrobomow.robomow.com.\n2) Avage brauseris Developer Tools (F12).\n3) Minge vahekaardile Võrk.\n4) Laadige leht uuesti.\n5) Otsige päringut, mis lõpeb numbriga /api/customer/products.\n6) Klõpsake päringut ja avage vahekaart Vastus.\n7) Leidke JSON-i vastusest väli nimega MainboardSerial. See väärtus on emaplaadi tegelik seerianumber.",
+                "description": "Valige Robomow seade, mida soovite lisada, ja sisestage emaplaadi seerianumber. \n\nEmaplaadi seerianumbri saamiseks:\n1) Logige sisse saidile myrobomow.robomow.com.\n2) Avage brauseris Developer Tools (F12).\n3) Minge vahekaardile Võrk.\n4) Laadige leht uuesti.\n5) Otsige päringut, mis lõpeb numbriga /api/customer/products.\n6) Klõpsake päringut ja avage vahekaart Vastus.\n7) Leidke JSON-i vastusest väli nimega MainboardSerial. See väärtus on emaplaadi tegelik seerianumber.",
                 "data": {
                     "address": "Aadress",
                     "mainboard_serial": "Emaplaadi seerianumber"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Sisestage selle Robomow seadme emaplaadi seerianumber, mille soovite koduabilisele lisada.\n\nEmaplaadi seerianumbri saamiseks: 1) Logige sisse saidile myrobomow.robomow.com.\n2) Avage brauseris Developer Tools (F12).\n3) Minge vahekaardile Võrk.\n4) Laadige leht uuesti.\n5) Otsige päringut, mis lõpeb numbriga /api/customer/products.\n6) Klõpsake päringut ja avage vahekaart Vastus.\n7) Leidke JSON-i vastusest väli nimega MainboardSerial. See väärtus on emaplaadi tegelik seerianumber.",
+                "description": "Sisestage selle Robomow seadme emaplaadi seerianumber, mille soovite koduabilisele lisada.\n\nEmaplaadi seerianumbri saamiseks:\n1) Logige sisse saidile myrobomow.robomow.com.\n2) Avage brauseris Developer Tools (F12).\n3) Minge vahekaardile Võrk.\n4) Laadige leht uuesti.\n5) Otsige päringut, mis lõpeb numbriga /api/customer/products.\n6) Klõpsake päringut ja avage vahekaart Vastus.\n7) Leidke JSON-i vastusest väli nimega MainboardSerial. See väärtus on emaplaadi tegelik seerianumber.",
                 "data": {
                     "mainboard_serial": "Emaplaadi seerianumber"
                 }

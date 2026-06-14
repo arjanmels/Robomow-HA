@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Kies die Robomow-toestel wat jy wil byvoeg en voer die hoofbordreeksnommer in. \n\nOm die hoofbordreeksnommer te kry: 1) Meld aan by myrobomow.robomow.com.\n2) Maak jou blaaier se Ontwikkelaarnutsgoed (F12) oop.\n3) Gaan na die Netwerk-oortjie.\n4) Herlaai die bladsy.\n5) Soek 'n versoek wat eindig op /api/kliënt/produkte.\n6) Klik op die versoek en maak die Antwoord-oortjie oop.\n7) In die JSON-antwoord, vind die veld genaamd MainboardSerial. Hierdie waarde is die werklike hoofbord reeksnommer.",
+                "description": "Kies die Robomow-toestel wat jy wil byvoeg en voer die hoofbordreeksnommer in. \n\nOm die hoofbordreeksnommer te kry:\n1) Meld aan by myrobomow.robomow.com.\n2) Maak jou blaaier se Ontwikkelaarnutsgoed (F12) oop.\n3) Gaan na die Netwerk-oortjie.\n4) Herlaai die bladsy.\n5) Soek 'n versoek wat eindig op /api/kliënt/produkte.\n6) Klik op die versoek en maak die Antwoord-oortjie oop.\n7) In die JSON-antwoord, vind die veld genaamd MainboardSerial. Hierdie waarde is die werklike hoofbord reeksnommer.",
                 "data": {
                     "address": "Adres",
                     "mainboard_serial": "Hoofbord reeksnommer"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Voer die hoofbordreeksnommer in vir die Robomow-toestel wat jy by Home Assistant wil voeg.\n\nOm die hoofbordreeksnommer te kry: 1) Meld aan by myrobomow.robomow.com.\n2) Maak jou blaaier se Ontwikkelaarnutsgoed (F12) oop.\n3) Gaan na die Netwerk-oortjie.\n4) Herlaai die bladsy.\n5) Soek 'n versoek wat eindig op /api/kliënt/produkte.\n6) Klik op die versoek en maak die Antwoord-oortjie oop.\n7) In die JSON-antwoord, vind die veld genaamd MainboardSerial. Hierdie waarde is die werklike hoofbord reeksnommer.",
+                "description": "Voer die hoofbordreeksnommer in vir die Robomow-toestel wat jy by Home Assistant wil voeg.\n\nOm die hoofbordreeksnommer te kry:\n1) Meld aan by myrobomow.robomow.com.\n2) Maak jou blaaier se Ontwikkelaarnutsgoed (F12) oop.\n3) Gaan na die Netwerk-oortjie.\n4) Herlaai die bladsy.\n5) Soek 'n versoek wat eindig op /api/kliënt/produkte.\n6) Klik op die versoek en maak die Antwoord-oortjie oop.\n7) In die JSON-antwoord, vind die veld genaamd MainboardSerial. Hierdie waarde is die werklike hoofbord reeksnommer.",
                 "data": {
                     "mainboard_serial": "Hoofbord reeksnommer"
                 }

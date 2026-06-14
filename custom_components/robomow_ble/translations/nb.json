@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Velg Robomow-enheten du vil legge til og skriv inn hovedkortets serienummer. \n\nFor å få hovedkortets serienummer: 1) Logg inn på myrobomow.robomow.com.\n2) Åpne nettleserens utviklerverktøy (F12).\n3) Gå til fanen Nettverk.\n4) Last inn siden på nytt.\n5) Se etter en forespørsel som slutter på /api/customer/products.\n6) Klikk på forespørselen og åpne fanen Svar.\n7) I JSON-svaret finner du feltet som heter MainboardSerial. Denne verdien er det faktiske hovedkortets serienummer.",
+                "description": "Velg Robomow-enheten du vil legge til og skriv inn hovedkortets serienummer. \n\nFor å få hovedkortets serienummer:\n1) Logg inn på myrobomow.robomow.com.\n2) Åpne nettleserens utviklerverktøy (F12).\n3) Gå til fanen Nettverk.\n4) Last inn siden på nytt.\n5) Se etter en forespørsel som slutter på /api/customer/products.\n6) Klikk på forespørselen og åpne fanen Svar.\n7) I JSON-svaret finner du feltet som heter MainboardSerial. Denne verdien er det faktiske hovedkortets serienummer.",
                 "data": {
                     "address": "Adresse",
                     "mainboard_serial": "Hovedkortets serienummer"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Skriv inn hovedkortets serienummer for Robomow-enheten du vil legge til Home Assistant.\n\nFor å få hovedkortets serienummer: 1) Logg inn på myrobomow.robomow.com.\n2) Åpne nettleserens utviklerverktøy (F12).\n3) Gå til fanen Nettverk.\n4) Last inn siden på nytt.\n5) Se etter en forespørsel som slutter på /api/customer/products.\n6) Klikk på forespørselen og åpne fanen Svar.\n7) I JSON-svaret finner du feltet som heter MainboardSerial. Denne verdien er det faktiske hovedkortets serienummer.",
+                "description": "Skriv inn hovedkortets serienummer for Robomow-enheten du vil legge til Home Assistant.\n\nFor å få hovedkortets serienummer:\n1) Logg inn på myrobomow.robomow.com.\n2) Åpne nettleserens utviklerverktøy (F12).\n3) Gå til fanen Nettverk.\n4) Last inn siden på nytt.\n5) Se etter en forespørsel som slutter på /api/customer/products.\n6) Klikk på forespørselen og åpne fanen Svar.\n7) I JSON-svaret finner du feltet som heter MainboardSerial. Denne verdien er det faktiske hovedkortets serienummer.",
                 "data": {
                     "mainboard_serial": "Hovedkortets serienummer"
                 }

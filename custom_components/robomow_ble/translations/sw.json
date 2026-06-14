@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Chagua kifaa cha Robomow unachotaka kuongeza na uweke nambari ya mfululizo ya ubao kuu. \n\nIli kupata nambari ya serial ya ubao kuu: 1) Ingia kwa myrobomow.robomow.com.\n2) Fungua Zana za Wasanidi Programu za kivinjari chako (F12).\n3) Nenda kwenye kichupo cha Mtandao.\n4) Pakia upya ukurasa.\n5) Tafuta ombi linaloishia /api/customer/products.\n6) Bonyeza ombi na ufungue kichupo cha Majibu.\n7) Katika majibu ya JSON, pata uwanja unaoitwa MainboardSerial. Thamani hii ndiyo nambari halisi ya mfululizo ya ubao kuu.",
+                "description": "Chagua kifaa cha Robomow unachotaka kuongeza na uweke nambari ya mfululizo ya ubao kuu. \n\nIli kupata nambari ya serial ya ubao kuu:\n1) Ingia kwa myrobomow.robomow.com.\n2) Fungua Zana za Wasanidi Programu za kivinjari chako (F12).\n3) Nenda kwenye kichupo cha Mtandao.\n4) Pakia upya ukurasa.\n5) Tafuta ombi linaloishia /api/customer/products.\n6) Bonyeza ombi na ufungue kichupo cha Majibu.\n7) Katika majibu ya JSON, pata uwanja unaoitwa MainboardSerial. Thamani hii ndiyo nambari halisi ya mfululizo ya ubao kuu.",
                 "data": {
                     "address": "Anwani",
                     "mainboard_serial": "Nambari ya serial ya ubao kuu"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Weka nambari ya ufuatiliaji ya ubao mkuu ya kifaa cha Robomow unachotaka kuongeza kwenye Mratibu wa Nyumbani.\n\nIli kupata nambari ya serial ya ubao kuu: 1) Ingia kwa myrobomow.robomow.com.\n2) Fungua Zana za Wasanidi Programu za kivinjari chako (F12).\n3) Nenda kwenye kichupo cha Mtandao.\n4) Pakia upya ukurasa.\n5) Tafuta ombi linaloishia /api/customer/products.\n6) Bonyeza ombi na ufungue kichupo cha Majibu.\n7) Katika majibu ya JSON, pata uwanja unaoitwa MainboardSerial. Thamani hii ndiyo nambari halisi ya mfululizo ya ubao kuu.",
+                "description": "Weka nambari ya ufuatiliaji ya ubao mkuu ya kifaa cha Robomow unachotaka kuongeza kwenye Mratibu wa Nyumbani.\n\nIli kupata nambari ya serial ya ubao kuu:\n1) Ingia kwa myrobomow.robomow.com.\n2) Fungua Zana za Wasanidi Programu za kivinjari chako (F12).\n3) Nenda kwenye kichupo cha Mtandao.\n4) Pakia upya ukurasa.\n5) Tafuta ombi linaloishia /api/customer/products.\n6) Bonyeza ombi na ufungue kichupo cha Majibu.\n7) Katika majibu ya JSON, pata uwanja unaoitwa MainboardSerial. Thamani hii ndiyo nambari halisi ya mfululizo ya ubao kuu.",
                 "data": {
                     "mainboard_serial": "Nambari ya serial ya ubao kuu"
                 }

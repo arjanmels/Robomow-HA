@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Sélectionnez l'appareil Robomow que vous souhaitez ajouter et entrez le numéro de série de la carte mère. \n\nPour obtenir le numéro de série de la carte mère : 1) Connectez-vous à myrobomow.robomow.com.\n2) Ouvrez les outils de développement de votre navigateur (F12).\n3) Accédez à l'onglet Réseau.\n4) Rechargez la page.\n5) Recherchez une demande se terminant par /api/customer/products.\n6) Cliquez sur la demande et ouvrez l'onglet Réponse.\n7) Dans la réponse JSON, recherchez le champ nommé MainboardSerial. Cette valeur est le numéro de série réel de la carte mère.",
+                "description": "Sélectionnez l'appareil Robomow que vous souhaitez ajouter et entrez le numéro de série de la carte mère. \n\nPour obtenir le numéro de série de la carte mère :\n1) Connectez-vous à myrobomow.robomow.com.\n2) Ouvrez les outils de développement de votre navigateur (F12).\n3) Accédez à l'onglet Réseau.\n4) Rechargez la page.\n5) Recherchez une demande se terminant par /api/customer/products.\n6) Cliquez sur la demande et ouvrez l'onglet Réponse.\n7) Dans la réponse JSON, recherchez le champ nommé MainboardSerial. Cette valeur est le numéro de série réel de la carte mère.",
                 "data": {
                     "address": "Adresse",
                     "mainboard_serial": "Numéro de série de la carte mère"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Entrez le numéro de série de la carte mère de l'appareil Robomow que vous souhaitez ajouter à Home Assistant.\n\nPour obtenir le numéro de série de la carte mère : 1) Connectez-vous à myrobomow.robomow.com.\n2) Ouvrez les outils de développement de votre navigateur (F12).\n3) Accédez à l'onglet Réseau.\n4) Rechargez la page.\n5) Recherchez une demande se terminant par /api/customer/products.\n6) Cliquez sur la demande et ouvrez l'onglet Réponse.\n7) Dans la réponse JSON, recherchez le champ nommé MainboardSerial. Cette valeur est le numéro de série réel de la carte mère.",
+                "description": "Entrez le numéro de série de la carte mère de l'appareil Robomow que vous souhaitez ajouter à Home Assistant.\n\nPour obtenir le numéro de série de la carte mère :\n1) Connectez-vous à myrobomow.robomow.com.\n2) Ouvrez les outils de développement de votre navigateur (F12).\n3) Accédez à l'onglet Réseau.\n4) Rechargez la page.\n5) Recherchez une demande se terminant par /api/customer/products.\n6) Cliquez sur la demande et ouvrez l'onglet Réponse.\n7) Dans la réponse JSON, recherchez le champ nommé MainboardSerial. Cette valeur est le numéro de série réel de la carte mère.",
                 "data": {
                     "mainboard_serial": "Numéro de série de la carte mère"
                 }

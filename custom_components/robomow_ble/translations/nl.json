@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Selecteer het Robomow-apparaat dat u wilt toevoegen en voer het serienummer van het moederbord in. \n\nOm het serienummer van het moederbord te vinden: 1) Log in op myrobomow.robomow.com.\n2) Open de Ontwikkelaarstools van uw browser (F12).\n3) Ga naar het tabblad Netwerk.\n4) Herlaad de pagina.\n5) Zoek naar een aanvraag die eindigt op /api/customer/products.\n6) Klik op de aanvraag en open het tabblad Response.\n7) Zoek in de JSON-response naar het veld MainboardSerial. Deze waarde is het echte serienummer van het moederbord.",
+                "description": "Selecteer het Robomow-apparaat dat u wilt toevoegen en voer het serienummer van het moederbord in. \n\nOm het serienummer van het moederbord te vinden:\n1) Log in op myrobomow.robomow.com.\n2) Open de Ontwikkelaarstools van uw browser (F12).\n3) Ga naar het tabblad Netwerk.\n4) Herlaad de pagina.\n5) Zoek naar een aanvraag die eindigt op /api/customer/products.\n6) Klik op de aanvraag en open het tabblad Response.\n7) Zoek in de JSON-response naar het veld MainboardSerial. Deze waarde is het echte serienummer van het moederbord.",
                 "data": {
                     "address": "Adres",
                     "mainboard_serial": "Serienummer van het moederbord"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Voer het serienummer van het moederbord in voor het Robomow-apparaat dat u wilt toevoegen aan Home Assistant.\n\nOm het serienummer van het moederbord te vinden: 1) Log in op myrobomow.robomow.com.\n2) Open de Ontwikkelaarstools van uw browser (F12).\n3) Ga naar het tabblad Netwerk.\n4) Herlaad de pagina.\n5) Zoek naar een aanvraag die eindigt op /api/customer/products.\n6) Klik op de aanvraag en open het tabblad Response.\n7) Zoek in de JSON-response naar het veld MainboardSerial. Deze waarde is het echte serienummer van het moederbord.",
+                "description": "Voer het serienummer van het moederbord in voor het Robomow-apparaat dat u wilt toevoegen aan Home Assistant.\n\nOm het serienummer van het moederbord te vinden:\n1) Log in op myrobomow.robomow.com.\n2) Open de Ontwikkelaarstools van uw browser (F12).\n3) Ga naar het tabblad Netwerk.\n4) Herlaad de pagina.\n5) Zoek naar een aanvraag die eindigt op /api/customer/products.\n6) Klik op de aanvraag en open het tabblad Response.\n7) Zoek in de JSON-response naar het veld MainboardSerial. Deze waarde is het echte serienummer van het moederbord.",
                 "data": {
                     "mainboard_serial": "Serienummer van het moederbord"
                 }

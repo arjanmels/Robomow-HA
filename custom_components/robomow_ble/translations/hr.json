@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Odaberite Robomow uređaj koji želite dodati i unesite serijski broj matične ploče. \n\nDa biste dobili serijski broj matične ploče: 1) Prijavite se na myrobomow.robomow.com.\n2) Otvorite alate za razvojne programere preglednika (F12).\n3) Idite na karticu Mreža.\n4) Ponovno učitajte stranicu.\n5) Potražite zahtjev koji završava na /api/customer/products.\n6) Pritisnite zahtjev i otvorite karticu Odgovor.\n7) U JSON odgovoru pronađite polje pod nazivom MainboardSerial. Ova vrijednost je stvarni serijski broj matične ploče.",
+                "description": "Odaberite Robomow uređaj koji želite dodati i unesite serijski broj matične ploče. \n\nDa biste dobili serijski broj matične ploče:\n1) Prijavite se na myrobomow.robomow.com.\n2) Otvorite alate za razvojne programere preglednika (F12).\n3) Idite na karticu Mreža.\n4) Ponovno učitajte stranicu.\n5) Potražite zahtjev koji završava na /api/customer/products.\n6) Pritisnite zahtjev i otvorite karticu Odgovor.\n7) U JSON odgovoru pronađite polje pod nazivom MainboardSerial. Ova vrijednost je stvarni serijski broj matične ploče.",
                 "data": {
                     "address": "Adresa",
                     "mainboard_serial": "Serijski broj matične ploče"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Unesite serijski broj matične ploče za Robomow uređaj koji želite dodati u Home Assistant.\n\nDa biste dobili serijski broj matične ploče: 1) Prijavite se na myrobomow.robomow.com.\n2) Otvorite alate za razvojne programere preglednika (F12).\n3) Idite na karticu Mreža.\n4) Ponovno učitajte stranicu.\n5) Potražite zahtjev koji završava na /api/customer/products.\n6) Pritisnite zahtjev i otvorite karticu Odgovor.\n7) U JSON odgovoru pronađite polje pod nazivom MainboardSerial. Ova vrijednost je stvarni serijski broj matične ploče.",
+                "description": "Unesite serijski broj matične ploče za Robomow uređaj koji želite dodati u Home Assistant.\n\nDa biste dobili serijski broj matične ploče:\n1) Prijavite se na myrobomow.robomow.com.\n2) Otvorite alate za razvojne programere preglednika (F12).\n3) Idite na karticu Mreža.\n4) Ponovno učitajte stranicu.\n5) Potražite zahtjev koji završava na /api/customer/products.\n6) Pritisnite zahtjev i otvorite karticu Odgovor.\n7) U JSON odgovoru pronađite polje pod nazivom MainboardSerial. Ova vrijednost je stvarni serijski broj matične ploče.",
                 "data": {
                     "mainboard_serial": "Serijski broj matične ploče"
                 }

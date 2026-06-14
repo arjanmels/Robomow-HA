@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Wielt de Robomow Apparat deen Dir wëllt addéieren a gitt d'Mainboard Seriennummer. \n\nFir d'Mainboard Serien Zuel ze kréien: 1) Loggt Iech op myrobomow.robomow.com.\n2) Öffnen Äre Browser Entwéckler Tools (F12).\n3) Gitt op d'Netzwierk Tab.\n4) Lued d'Säit nei.\n5) Sich no enger Demande op /api/Client/Produiten.\n6) Klickt op d'Ufro an öffnen de Tab Äntwert.\n7) An der JSON Äntwert, fannt de Feld mam Numm MainboardSerial. Dëse Wäert ass déi aktuell Mainboard Serien Zuel.",
+                "description": "Wielt de Robomow Apparat deen Dir wëllt addéieren a gitt d'Mainboard Seriennummer. \n\nFir d'Mainboard Serien Zuel ze kréien:\n1) Loggt Iech op myrobomow.robomow.com.\n2) Öffnen Äre Browser Entwéckler Tools (F12).\n3) Gitt op d'Netzwierk Tab.\n4) Lued d'Säit nei.\n5) Sich no enger Demande op /api/Client/Produiten.\n6) Klickt op d'Ufro an öffnen de Tab Äntwert.\n7) An der JSON Äntwert, fannt de Feld mam Numm MainboardSerial. Dëse Wäert ass déi aktuell Mainboard Serien Zuel.",
                 "data": {
                     "address": "Adress",
                     "mainboard_serial": "Mainboard Serien Zuel"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Gitt d'Mainboard-Seriennummer fir de Robomow-Apparat un, deen Dir an den Home Assistant addéiere wëllt.\n\nFir d'Mainboard Serien Zuel ze kréien: 1) Loggt Iech op myrobomow.robomow.com.\n2) Öffnen Äre Browser Entwéckler Tools (F12).\n3) Gitt op d'Netzwierk Tab.\n4) Lued d'Säit nei.\n5) Sich no enger Demande op /api/Client/Produiten.\n6) Klickt op d'Ufro an öffnen de Tab Äntwert.\n7) An der JSON Äntwert, fannt de Feld mam Numm MainboardSerial. Dëse Wäert ass déi aktuell Mainboard Serien Zuel.",
+                "description": "Gitt d'Mainboard-Seriennummer fir de Robomow-Apparat un, deen Dir an den Home Assistant addéiere wëllt.\n\nFir d'Mainboard Serien Zuel ze kréien:\n1) Loggt Iech op myrobomow.robomow.com.\n2) Öffnen Äre Browser Entwéckler Tools (F12).\n3) Gitt op d'Netzwierk Tab.\n4) Lued d'Säit nei.\n5) Sich no enger Demande op /api/Client/Produiten.\n6) Klickt op d'Ufro an öffnen de Tab Äntwert.\n7) An der JSON Äntwert, fannt de Feld mam Numm MainboardSerial. Dëse Wäert ass déi aktuell Mainboard Serien Zuel.",
                 "data": {
                     "mainboard_serial": "Mainboard Serien Zuel"
                 }

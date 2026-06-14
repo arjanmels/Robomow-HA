@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Wählen Sie das Robomow-Gerät aus, das Sie hinzufügen möchten, und geben Sie die Seriennummer des Mainboards ein. \n\nSo erhalten Sie die Seriennummer des Mainboards: 1) Melden Sie sich bei myrobomow.robomow.com an.\n2) Öffnen Sie die Entwicklertools Ihres Browsers (F12).\n3) Gehen Sie zur Registerkarte Netzwerk.\n4) Laden Sie die Seite neu.\n5) Suchen Sie nach einer Anfrage, die auf /api/customer/products endet.\n6) Klicken Sie auf die Anfrage und öffnen Sie die Registerkarte Antwort.\n7) Suchen Sie in der JSON-Antwort das Feld mit dem Namen „MainboardSerial“. Dieser Wert ist die tatsächliche Seriennummer des Mainboards.",
+                "description": "Wählen Sie das Robomow-Gerät aus, das Sie hinzufügen möchten, und geben Sie die Seriennummer des Mainboards ein. \n\nSo erhalten Sie die Seriennummer des Mainboards:\n1) Melden Sie sich bei myrobomow.robomow.com an.\n2) Öffnen Sie die Entwicklertools Ihres Browsers (F12).\n3) Gehen Sie zur Registerkarte Netzwerk.\n4) Laden Sie die Seite neu.\n5) Suchen Sie nach einer Anfrage, die auf /api/customer/products endet.\n6) Klicken Sie auf die Anfrage und öffnen Sie die Registerkarte Antwort.\n7) Suchen Sie in der JSON-Antwort das Feld mit dem Namen „MainboardSerial“. Dieser Wert ist die tatsächliche Seriennummer des Mainboards.",
                 "data": {
                     "address": "Adresse",
                     "mainboard_serial": "Seriennummer des Mainboards"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Geben Sie die Seriennummer des Mainboards für das Robomow-Gerät ein, das Sie zu Home Assistant hinzufügen möchten.\n\nSo erhalten Sie die Seriennummer des Mainboards: 1) Melden Sie sich bei myrobomow.robomow.com an.\n2) Öffnen Sie die Entwicklertools Ihres Browsers (F12).\n3) Gehen Sie zur Registerkarte Netzwerk.\n4) Laden Sie die Seite neu.\n5) Suchen Sie nach einer Anfrage, die auf /api/customer/products endet.\n6) Klicken Sie auf die Anfrage und öffnen Sie die Registerkarte Antwort.\n7) Suchen Sie in der JSON-Antwort das Feld mit dem Namen „MainboardSerial“. Dieser Wert ist die tatsächliche Seriennummer des Mainboards.",
+                "description": "Geben Sie die Seriennummer des Mainboards für das Robomow-Gerät ein, das Sie zu Home Assistant hinzufügen möchten.\n\nSo erhalten Sie die Seriennummer des Mainboards:\n1) Melden Sie sich bei myrobomow.robomow.com an.\n2) Öffnen Sie die Entwicklertools Ihres Browsers (F12).\n3) Gehen Sie zur Registerkarte Netzwerk.\n4) Laden Sie die Seite neu.\n5) Suchen Sie nach einer Anfrage, die auf /api/customer/products endet.\n6) Klicken Sie auf die Anfrage und öffnen Sie die Registerkarte Antwort.\n7) Suchen Sie in der JSON-Antwort das Feld mit dem Namen „MainboardSerial“. Dieser Wert ist die tatsächliche Seriennummer des Mainboards.",
                 "data": {
                     "mainboard_serial": "Seriennummer des Mainboards"
                 }

@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "추가하려는 Robomow 장치를 선택하고 메인보드 일련번호를 입력하세요. \n\n메인보드 일련번호를 얻으려면: 1) myroboow.robomov.com에 로그인합니다.\n2) 브라우저의 개발자 도구(F12)를 엽니다.\n3) 네트워크 탭으로 이동합니다.\n4) 페이지를 새로고침하세요.\n5) /api/customer/products로 끝나는 요청을 찾습니다.\n6) 요청을 클릭하고 응답 탭을 엽니다.\n7) JSON 응답에서 MainboardSerial이라는 필드를 찾습니다. 이 값은 실제 메인보드 일련번호입니다.",
+                "description": "추가하려는 Robomow 장치를 선택하고 메인보드 일련번호를 입력하세요. \n\n메인보드 일련번호를 얻으려면:\n1) myroboow.robomov.com에 로그인합니다.\n2) 브라우저의 개발자 도구(F12)를 엽니다.\n3) 네트워크 탭으로 이동합니다.\n4) 페이지를 새로고침하세요.\n5) /api/customer/products로 끝나는 요청을 찾습니다.\n6) 요청을 클릭하고 응답 탭을 엽니다.\n7) JSON 응답에서 MainboardSerial이라는 필드를 찾습니다. 이 값은 실제 메인보드 일련번호입니다.",
                 "data": {
                     "address": "주소",
                     "mainboard_serial": "메인보드 일련번호"
                 }
             },
             "bluetooth_confirm": {
-                "description": "홈어시스턴트에 추가하려는 Robomow 장치의 메인보드 일련번호를 입력하세요.\n\n메인보드 일련번호를 얻으려면: 1) myroboow.robomov.com에 로그인합니다.\n2) 브라우저의 개발자 도구(F12)를 엽니다.\n3) 네트워크 탭으로 이동합니다.\n4) 페이지를 새로고침하세요.\n5) /api/customer/products로 끝나는 요청을 찾습니다.\n6) 요청을 클릭하고 응답 탭을 엽니다.\n7) JSON 응답에서 MainboardSerial이라는 필드를 찾습니다. 이 값은 실제 메인보드 일련번호입니다.",
+                "description": "홈어시스턴트에 추가하려는 Robomow 장치의 메인보드 일련번호를 입력하세요.\n\n메인보드 일련번호를 얻으려면:\n1) myroboow.robomov.com에 로그인합니다.\n2) 브라우저의 개발자 도구(F12)를 엽니다.\n3) 네트워크 탭으로 이동합니다.\n4) 페이지를 새로고침하세요.\n5) /api/customer/products로 끝나는 요청을 찾습니다.\n6) 요청을 클릭하고 응답 탭을 엽니다.\n7) JSON 응답에서 MainboardSerial이라는 필드를 찾습니다. 이 값은 실제 메인보드 일련번호입니다.",
                 "data": {
                     "mainboard_serial": "메인보드 일련번호"
                 }

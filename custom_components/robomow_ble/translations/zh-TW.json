@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "選擇您要新增的Robomow設備並輸入主機板序號。 \n\n取得主機板序號： 1) 登入myrobomow.robomow.com。\n2) 開啟瀏覽器的開發人員工具 (F12)。\n3) 轉到網路選項卡。\n4) 重新載入頁面。\n5) 找出以 /api/customer/products 結尾的請求。\n6) 按一下請求並開啟「回應」標籤。\n7) 在 JSON 回應中，找到名為 MainboardSerial 的欄位。該值是實際的主機板序號。",
+                "description": "選擇您要新增的Robomow設備並輸入主機板序號。 \n\n取得主機板序號：\n1) 登入myrobomow.robomow.com。\n2) 開啟瀏覽器的開發人員工具 (F12)。\n3) 轉到網路選項卡。\n4) 重新載入頁面。\n5) 找出以 /api/customer/products 結尾的請求。\n6) 按一下請求並開啟「回應」標籤。\n7) 在 JSON 回應中，找到名為 MainboardSerial 的欄位。該值是實際的主機板序號。",
                 "data": {
                     "address": "地址",
                     "mainboard_serial": "主機板序號"
                 }
             },
             "bluetooth_confirm": {
-                "description": "輸入要新增至 Home Assistant 的 Roboow 裝置的主機板序號。\n\n取得主機板序號： 1) 登入myrobomow.robomow.com。\n2) 開啟瀏覽器的開發人員工具 (F12)。\n3) 轉到網路選項卡。\n4) 重新載入頁面。\n5) 找出以 /api/customer/products 結尾的請求。\n6) 按一下請求並開啟「回應」標籤。\n7) 在 JSON 回應中，找到名為 MainboardSerial 的欄位。該值是實際的主機板序號。",
+                "description": "輸入要新增至 Home Assistant 的 Roboow 裝置的主機板序號。\n\n取得主機板序號：\n1) 登入myrobomow.robomow.com。\n2) 開啟瀏覽器的開發人員工具 (F12)。\n3) 轉到網路選項卡。\n4) 重新載入頁面。\n5) 找出以 /api/customer/products 結尾的請求。\n6) 按一下請求並開啟「回應」標籤。\n7) 在 JSON 回應中，找到名為 MainboardSerial 的欄位。該值是實際的主機板序號。",
                 "data": {
                     "mainboard_serial": "主機板序號"
                 }

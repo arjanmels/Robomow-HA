@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Pilih peranti Robomow yang anda mahu tambah dan masukkan nombor siri papan utama. \n\nUntuk mendapatkan nombor siri papan utama: 1) Log masuk ke myrobomow.robomow.com.\n2) Buka Alat Pembangun penyemak imbas anda (F12).\n3) Pergi ke tab Rangkaian.\n4) Muat semula halaman.\n5) Cari permintaan yang berakhir dengan /api/customer/products.\n6) Klik permintaan dan buka tab Respons.\n7) Dalam respons JSON, cari medan bernama MainboardSerial. Nilai ini ialah nombor siri papan utama sebenar.",
+                "description": "Pilih peranti Robomow yang anda mahu tambah dan masukkan nombor siri papan utama. \n\nUntuk mendapatkan nombor siri papan utama:\n1) Log masuk ke myrobomow.robomow.com.\n2) Buka Alat Pembangun penyemak imbas anda (F12).\n3) Pergi ke tab Rangkaian.\n4) Muat semula halaman.\n5) Cari permintaan yang berakhir dengan /api/customer/products.\n6) Klik permintaan dan buka tab Respons.\n7) Dalam respons JSON, cari medan bernama MainboardSerial. Nilai ini ialah nombor siri papan utama sebenar.",
                 "data": {
                     "address": "Alamat",
                     "mainboard_serial": "Nombor siri papan utama"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Masukkan nombor siri papan utama untuk peranti Robomow yang ingin anda tambahkan pada Home Assistant.\n\nUntuk mendapatkan nombor siri papan utama: 1) Log masuk ke myrobomow.robomow.com.\n2) Buka Alat Pembangun penyemak imbas anda (F12).\n3) Pergi ke tab Rangkaian.\n4) Muat semula halaman.\n5) Cari permintaan yang berakhir dengan /api/customer/products.\n6) Klik permintaan dan buka tab Respons.\n7) Dalam respons JSON, cari medan bernama MainboardSerial. Nilai ini ialah nombor siri papan utama sebenar.",
+                "description": "Masukkan nombor siri papan utama untuk peranti Robomow yang ingin anda tambahkan pada Home Assistant.\n\nUntuk mendapatkan nombor siri papan utama:\n1) Log masuk ke myrobomow.robomow.com.\n2) Buka Alat Pembangun penyemak imbas anda (F12).\n3) Pergi ke tab Rangkaian.\n4) Muat semula halaman.\n5) Cari permintaan yang berakhir dengan /api/customer/products.\n6) Klik permintaan dan buka tab Respons.\n7) Dalam respons JSON, cari medan bernama MainboardSerial. Nilai ini ialah nombor siri papan utama sebenar.",
                 "data": {
                     "mainboard_serial": "Nombor siri papan utama"
                 }

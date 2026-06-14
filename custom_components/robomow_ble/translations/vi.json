@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Chọn thiết bị Robomow bạn muốn thêm và nhập số serial của bo mạch chính. \n\nĐể lấy số serial bo mạch chính: 1) Đăng nhập vào myrobomow.robomow.com.\n2) Mở Công cụ dành cho nhà phát triển của trình duyệt (F12).\n3) Chuyển đến tab Mạng.\n4) Tải lại trang.\n5) Tìm yêu cầu kết thúc bằng /api/customer/products.\n6) Nhấp vào yêu cầu và mở tab Phản hồi.\n7) Trong phản hồi JSON, tìm trường có tên MainboardSerial. Giá trị này là số sê-ri bo mạch chính thực tế.",
+                "description": "Chọn thiết bị Robomow bạn muốn thêm và nhập số serial của bo mạch chính. \n\nĐể lấy số serial bo mạch chính:\n1) Đăng nhập vào myrobomow.robomow.com.\n2) Mở Công cụ dành cho nhà phát triển của trình duyệt (F12).\n3) Chuyển đến tab Mạng.\n4) Tải lại trang.\n5) Tìm yêu cầu kết thúc bằng /api/customer/products.\n6) Nhấp vào yêu cầu và mở tab Phản hồi.\n7) Trong phản hồi JSON, tìm trường có tên MainboardSerial. Giá trị này là số sê-ri bo mạch chính thực tế.",
                 "data": {
                     "address": "Địa chỉ",
                     "mainboard_serial": "Số serial bo mạch chủ"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Nhập số serial bo mạch chính của thiết bị Robomow bạn muốn thêm vào Home Assistant.\n\nĐể lấy số serial bo mạch chính: 1) Đăng nhập vào myrobomow.robomow.com.\n2) Mở Công cụ dành cho nhà phát triển của trình duyệt (F12).\n3) Chuyển đến tab Mạng.\n4) Tải lại trang.\n5) Tìm yêu cầu kết thúc bằng /api/customer/products.\n6) Nhấp vào yêu cầu và mở tab Phản hồi.\n7) Trong phản hồi JSON, tìm trường có tên MainboardSerial. Giá trị này là số sê-ri bo mạch chính thực tế.",
+                "description": "Nhập số serial bo mạch chính của thiết bị Robomow bạn muốn thêm vào Home Assistant.\n\nĐể lấy số serial bo mạch chính:\n1) Đăng nhập vào myrobomow.robomow.com.\n2) Mở Công cụ dành cho nhà phát triển của trình duyệt (F12).\n3) Chuyển đến tab Mạng.\n4) Tải lại trang.\n5) Tìm yêu cầu kết thúc bằng /api/customer/products.\n6) Nhấp vào yêu cầu và mở tab Phản hồi.\n7) Trong phản hồi JSON, tìm trường có tên MainboardSerial. Giá trị này là số sê-ri bo mạch chính thực tế.",
                 "data": {
                     "mainboard_serial": "Số serial bo mạch chủ"
                 }

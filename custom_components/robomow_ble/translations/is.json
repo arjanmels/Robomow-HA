@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Veldu Robomow tækið sem þú vilt bæta við og sláðu inn raðnúmer móðurborðsins. \n\nTil að fá raðnúmer aðalborðsins: 1) Skráðu þig inn á myrobomow.robomow.com.\n2) Opnaðu þróunartól vafrans þíns (F12).\n3) Farðu í Network flipann.\n4) Endurhlaða síðuna.\n5) Leitaðu að beiðni sem endar á /api/customer/products.\n6) Smelltu á beiðnina og opnaðu Svar flipann.\n7) Í JSON svarinu, finndu reitinn sem heitir MainboardSerial. Þetta gildi er raunverulegt raðnúmer aðalborðsins.",
+                "description": "Veldu Robomow tækið sem þú vilt bæta við og sláðu inn raðnúmer móðurborðsins. \n\nTil að fá raðnúmer aðalborðsins:\n1) Skráðu þig inn á myrobomow.robomow.com.\n2) Opnaðu þróunartól vafrans þíns (F12).\n3) Farðu í Network flipann.\n4) Endurhlaða síðuna.\n5) Leitaðu að beiðni sem endar á /api/customer/products.\n6) Smelltu á beiðnina og opnaðu Svar flipann.\n7) Í JSON svarinu, finndu reitinn sem heitir MainboardSerial. Þetta gildi er raunverulegt raðnúmer aðalborðsins.",
                 "data": {
                     "address": "Heimilisfang",
                     "mainboard_serial": "Raðnúmer móðurborðs"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Sláðu inn raðnúmer móðurborðsins fyrir Robomow tækið sem þú vilt bæta við Home Assistant.\n\nTil að fá raðnúmer aðalborðsins: 1) Skráðu þig inn á myrobomow.robomow.com.\n2) Opnaðu þróunartól vafrans þíns (F12).\n3) Farðu í Network flipann.\n4) Endurhlaða síðuna.\n5) Leitaðu að beiðni sem endar á /api/customer/products.\n6) Smelltu á beiðnina og opnaðu Svar flipann.\n7) Í JSON svarinu, finndu reitinn sem heitir MainboardSerial. Þetta gildi er raunverulegt raðnúmer aðalborðsins.",
+                "description": "Sláðu inn raðnúmer móðurborðsins fyrir Robomow tækið sem þú vilt bæta við Home Assistant.\n\nTil að fá raðnúmer aðalborðsins:\n1) Skráðu þig inn á myrobomow.robomow.com.\n2) Opnaðu þróunartól vafrans þíns (F12).\n3) Farðu í Network flipann.\n4) Endurhlaða síðuna.\n5) Leitaðu að beiðni sem endar á /api/customer/products.\n6) Smelltu á beiðnina og opnaðu Svar flipann.\n7) Í JSON svarinu, finndu reitinn sem heitir MainboardSerial. Þetta gildi er raunverulegt raðnúmer aðalborðsins.",
                 "data": {
                     "mainboard_serial": "Raðnúmer móðurborðs"
                 }

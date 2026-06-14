@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Vyberte zařízení Robomow, které chcete přidat, a zadejte sériové číslo základní desky. \n\nChcete-li získat sériové číslo základní desky: 1) Přihlaste se na myrobomow.robomow.com.\n2) Otevřete v prohlížeči Vývojářské nástroje (F12).\n3) Přejděte na kartu Síť.\n4) Znovu načtěte stránku.\n5) Hledejte požadavek končící na /api/customer/products.\n6) Klikněte na požadavek a otevřete kartu Odpověď.\n7) V odpovědi JSON najděte pole s názvem MainboardSerial. Tato hodnota je skutečné sériové číslo základní desky.",
+                "description": "Vyberte zařízení Robomow, které chcete přidat, a zadejte sériové číslo základní desky. \n\nChcete-li získat sériové číslo základní desky:\n1) Přihlaste se na myrobomow.robomow.com.\n2) Otevřete v prohlížeči Vývojářské nástroje (F12).\n3) Přejděte na kartu Síť.\n4) Znovu načtěte stránku.\n5) Hledejte požadavek končící na /api/customer/products.\n6) Klikněte na požadavek a otevřete kartu Odpověď.\n7) V odpovědi JSON najděte pole s názvem MainboardSerial. Tato hodnota je skutečné sériové číslo základní desky.",
                 "data": {
                     "address": "Adresa",
                     "mainboard_serial": "Sériové číslo základní desky"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Zadejte sériové číslo základní desky pro zařízení Robomow, které chcete přidat do Home Assistant.\n\nChcete-li získat sériové číslo základní desky: 1) Přihlaste se na myrobomow.robomow.com.\n2) Otevřete v prohlížeči Vývojářské nástroje (F12).\n3) Přejděte na kartu Síť.\n4) Znovu načtěte stránku.\n5) Hledejte požadavek končící na /api/customer/products.\n6) Klikněte na požadavek a otevřete kartu Odpověď.\n7) V odpovědi JSON najděte pole s názvem MainboardSerial. Tato hodnota je skutečné sériové číslo základní desky.",
+                "description": "Zadejte sériové číslo základní desky pro zařízení Robomow, které chcete přidat do Home Assistant.\n\nChcete-li získat sériové číslo základní desky:\n1) Přihlaste se na myrobomow.robomow.com.\n2) Otevřete v prohlížeči Vývojářské nástroje (F12).\n3) Přejděte na kartu Síť.\n4) Znovu načtěte stránku.\n5) Hledejte požadavek končící na /api/customer/products.\n6) Klikněte na požadavek a otevřete kartu Odpověď.\n7) V odpovědi JSON najděte pole s názvem MainboardSerial. Tato hodnota je skutečné sériové číslo základní desky.",
                 "data": {
                     "mainboard_serial": "Sériové číslo základní desky"
                 }

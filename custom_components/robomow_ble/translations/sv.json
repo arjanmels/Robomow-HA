@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Välj den Robomow-enhet du vill lägga till och ange moderkortets serienummer. \n\nFör att få moderkortets serienummer: 1) Logga in på myrobomow.robomow.com.\n2) Öppna webbläsarens utvecklarverktyg (F12).\n3) Gå till fliken Nätverk.\n4) Ladda om sidan.\n5) Leta efter en begäran som slutar på /api/customer/products.\n6) Klicka på begäran och öppna fliken Svar.\n7) Hitta fältet MainboardSerial i JSON-svaret. Detta värde är det faktiska moderkortets serienummer.",
+                "description": "Välj den Robomow-enhet du vill lägga till och ange moderkortets serienummer. \n\nFör att få moderkortets serienummer:\n1) Logga in på myrobomow.robomow.com.\n2) Öppna webbläsarens utvecklarverktyg (F12).\n3) Gå till fliken Nätverk.\n4) Ladda om sidan.\n5) Leta efter en begäran som slutar på /api/customer/products.\n6) Klicka på begäran och öppna fliken Svar.\n7) Hitta fältet MainboardSerial i JSON-svaret. Detta värde är det faktiska moderkortets serienummer.",
                 "data": {
                     "address": "Adress",
                     "mainboard_serial": "Moderkortets serienummer"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Ange moderkortets serienummer för den Robomow-enhet som du vill lägga till i Home Assistant.\n\nFör att få moderkortets serienummer: 1) Logga in på myrobomow.robomow.com.\n2) Öppna webbläsarens utvecklarverktyg (F12).\n3) Gå till fliken Nätverk.\n4) Ladda om sidan.\n5) Leta efter en begäran som slutar på /api/customer/products.\n6) Klicka på begäran och öppna fliken Svar.\n7) Hitta fältet MainboardSerial i JSON-svaret. Detta värde är det faktiska moderkortets serienummer.",
+                "description": "Ange moderkortets serienummer för den Robomow-enhet som du vill lägga till i Home Assistant.\n\nFör att få moderkortets serienummer:\n1) Logga in på myrobomow.robomow.com.\n2) Öppna webbläsarens utvecklarverktyg (F12).\n3) Gå till fliken Nätverk.\n4) Ladda om sidan.\n5) Leta efter en begäran som slutar på /api/customer/products.\n6) Klicka på begäran och öppna fliken Svar.\n7) Hitta fältet MainboardSerial i JSON-svaret. Detta värde är det faktiska moderkortets serienummer.",
                 "data": {
                     "mainboard_serial": "Moderkortets serienummer"
                 }

@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Pilih perangkat Robomow yang ingin Anda tambahkan dan masukkan nomor seri mainboard. \n\nUntuk mendapatkan nomor seri mainboard: 1) Masuk ke myrobomow.robomow.com.\n2) Buka Alat Pengembang browser Anda (F12).\n3) Buka tab Jaringan.\n4) Muat ulang halaman.\n5) Cari permintaan yang diakhiri dengan /api/customer/products.\n6) Klik permintaan dan buka tab Respons.\n7) Dalam respons JSON, temukan bidang bernama MainboardSerial. Nilai ini adalah nomor seri mainboard sebenarnya.",
+                "description": "Pilih perangkat Robomow yang ingin Anda tambahkan dan masukkan nomor seri mainboard. \n\nUntuk mendapatkan nomor seri mainboard:\n1) Masuk ke myrobomow.robomow.com.\n2) Buka Alat Pengembang browser Anda (F12).\n3) Buka tab Jaringan.\n4) Muat ulang halaman.\n5) Cari permintaan yang diakhiri dengan /api/customer/products.\n6) Klik permintaan dan buka tab Respons.\n7) Dalam respons JSON, temukan bidang bernama MainboardSerial. Nilai ini adalah nomor seri mainboard sebenarnya.",
                 "data": {
                     "address": "Alamat",
                     "mainboard_serial": "Nomor seri papan utama"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Masukkan nomor seri mainboard untuk perangkat Robomow yang ingin Anda tambahkan ke Home Assistant.\n\nUntuk mendapatkan nomor seri mainboard: 1) Masuk ke myrobomow.robomow.com.\n2) Buka Alat Pengembang browser Anda (F12).\n3) Buka tab Jaringan.\n4) Muat ulang halaman.\n5) Cari permintaan yang diakhiri dengan /api/customer/products.\n6) Klik permintaan dan buka tab Respons.\n7) Dalam respons JSON, temukan bidang bernama MainboardSerial. Nilai ini adalah nomor seri mainboard sebenarnya.",
+                "description": "Masukkan nomor seri mainboard untuk perangkat Robomow yang ingin Anda tambahkan ke Home Assistant.\n\nUntuk mendapatkan nomor seri mainboard:\n1) Masuk ke myrobomow.robomow.com.\n2) Buka Alat Pengembang browser Anda (F12).\n3) Buka tab Jaringan.\n4) Muat ulang halaman.\n5) Cari permintaan yang diakhiri dengan /api/customer/products.\n6) Klik permintaan dan buka tab Respons.\n7) Dalam respons JSON, temukan bidang bernama MainboardSerial. Nilai ini adalah nomor seri mainboard sebenarnya.",
                 "data": {
                     "mainboard_serial": "Nomor seri papan utama"
                 }

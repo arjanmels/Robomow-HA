@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Dewiswch y ddyfais Robomow rydych chi am ei hychwanegu a nodwch rif cyfresol y prif fwrdd. \n\nI gael rhif cyfresol y prif fwrdd: 1) Mewngofnodwch i myrobomow.robomow.com.\n2) Agorwch Offer Datblygwr eich porwr (F12).\n3) Ewch i'r tab Rhwydwaith.\n4) Ail-lwythwch y dudalen.\n5) Chwiliwch am gais sy'n gorffen yn /api/customer/products.\n6) Cliciwch ar y cais ac agorwch y tab Ymateb.\n7) Yn ymateb JSON, darganfyddwch y maes o'r enw MainboardSerial. Y gwerth hwn yw'r rhif cyfresol prif fwrdd gwirioneddol.",
+                "description": "Dewiswch y ddyfais Robomow rydych chi am ei hychwanegu a nodwch rif cyfresol y prif fwrdd. \n\nI gael rhif cyfresol y prif fwrdd:\n1) Mewngofnodwch i myrobomow.robomow.com.\n2) Agorwch Offer Datblygwr eich porwr (F12).\n3) Ewch i'r tab Rhwydwaith.\n4) Ail-lwythwch y dudalen.\n5) Chwiliwch am gais sy'n gorffen yn /api/customer/products.\n6) Cliciwch ar y cais ac agorwch y tab Ymateb.\n7) Yn ymateb JSON, darganfyddwch y maes o'r enw MainboardSerial. Y gwerth hwn yw'r rhif cyfresol prif fwrdd gwirioneddol.",
                 "data": {
                     "address": "Cyfeiriad",
                     "mainboard_serial": "Rhif cyfresol y prif fwrdd"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Rhowch rif cyfresol y prif fwrdd ar gyfer y ddyfais Robomow rydych chi am ei hychwanegu at Home Assistant.\n\nI gael rhif cyfresol y prif fwrdd: 1) Mewngofnodwch i myrobomow.robomow.com.\n2) Agorwch Offer Datblygwr eich porwr (F12).\n3) Ewch i'r tab Rhwydwaith.\n4) Ail-lwythwch y dudalen.\n5) Chwiliwch am gais sy'n gorffen yn /api/customer/products.\n6) Cliciwch ar y cais ac agorwch y tab Ymateb.\n7) Yn ymateb JSON, darganfyddwch y maes o'r enw MainboardSerial. Y gwerth hwn yw'r rhif cyfresol prif fwrdd gwirioneddol.",
+                "description": "Rhowch rif cyfresol y prif fwrdd ar gyfer y ddyfais Robomow rydych chi am ei hychwanegu at Home Assistant.\n\nI gael rhif cyfresol y prif fwrdd:\n1) Mewngofnodwch i myrobomow.robomow.com.\n2) Agorwch Offer Datblygwr eich porwr (F12).\n3) Ewch i'r tab Rhwydwaith.\n4) Ail-lwythwch y dudalen.\n5) Chwiliwch am gais sy'n gorffen yn /api/customer/products.\n6) Cliciwch ar y cais ac agorwch y tab Ymateb.\n7) Yn ymateb JSON, darganfyddwch y maes o'r enw MainboardSerial. Y gwerth hwn yw'r rhif cyfresol prif fwrdd gwirioneddol.",
                 "data": {
                     "mainboard_serial": "Rhif cyfresol y prif fwrdd"
                 }

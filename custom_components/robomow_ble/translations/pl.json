@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Wybierz urządzenie Robomow, które chcesz dodać i wprowadź numer seryjny płyty głównej. \n\nAby uzyskać numer seryjny płyty głównej: 1) Zaloguj się na stronie myrobomow.robomow.com.\n2) Otwórz Narzędzia programistyczne w przeglądarce (F12).\n3) Przejdź do zakładki Sieć.\n4) Załaduj ponownie stronę.\n5) Poszukaj żądania kończącego się na /api/customer/products.\n6) Kliknij żądanie i otwórz zakładkę Odpowiedź.\n7) W odpowiedzi JSON znajdź pole o nazwie MainboardSerial. Ta wartość jest rzeczywistym numerem seryjnym płyty głównej.",
+                "description": "Wybierz urządzenie Robomow, które chcesz dodać i wprowadź numer seryjny płyty głównej. \n\nAby uzyskać numer seryjny płyty głównej:\n1) Zaloguj się na stronie myrobomow.robomow.com.\n2) Otwórz Narzędzia programistyczne w przeglądarce (F12).\n3) Przejdź do zakładki Sieć.\n4) Załaduj ponownie stronę.\n5) Poszukaj żądania kończącego się na /api/customer/products.\n6) Kliknij żądanie i otwórz zakładkę Odpowiedź.\n7) W odpowiedzi JSON znajdź pole o nazwie MainboardSerial. Ta wartość jest rzeczywistym numerem seryjnym płyty głównej.",
                 "data": {
                     "address": "Adres",
                     "mainboard_serial": "Numer seryjny płyty głównej"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Wprowadź numer seryjny płyty głównej urządzenia Robomow, które chcesz dodać do Home Assistant.\n\nAby uzyskać numer seryjny płyty głównej: 1) Zaloguj się na stronie myrobomow.robomow.com.\n2) Otwórz Narzędzia programistyczne w przeglądarce (F12).\n3) Przejdź do zakładki Sieć.\n4) Załaduj ponownie stronę.\n5) Poszukaj żądania kończącego się na /api/customer/products.\n6) Kliknij żądanie i otwórz zakładkę Odpowiedź.\n7) W odpowiedzi JSON znajdź pole o nazwie MainboardSerial. Ta wartość jest rzeczywistym numerem seryjnym płyty głównej.",
+                "description": "Wprowadź numer seryjny płyty głównej urządzenia Robomow, które chcesz dodać do Home Assistant.\n\nAby uzyskać numer seryjny płyty głównej:\n1) Zaloguj się na stronie myrobomow.robomow.com.\n2) Otwórz Narzędzia programistyczne w przeglądarce (F12).\n3) Przejdź do zakładki Sieć.\n4) Załaduj ponownie stronę.\n5) Poszukaj żądania kończącego się na /api/customer/products.\n6) Kliknij żądanie i otwórz zakładkę Odpowiedź.\n7) W odpowiedzi JSON znajdź pole o nazwie MainboardSerial. Ta wartość jest rzeczywistym numerem seryjnym płyty głównej.",
                 "data": {
                     "mainboard_serial": "Numer seryjny płyty głównej"
                 }

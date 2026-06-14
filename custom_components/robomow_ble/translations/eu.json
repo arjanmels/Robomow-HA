@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Hautatu gehitu nahi duzun Robomow gailua eta idatzi plaka nagusiaren serie-zenbakia. \n\nPlaka nagusiaren serie-zenbakia lortzeko: 1) Hasi saioa myrobomow.robomow.com helbidean.\n2) Ireki arakatzailearen Garatzaile-tresnak (F12).\n3) Joan Sarea fitxara.\n4) Orria berriro kargatu.\n5) Bilatu /api/customer/products-en amaitzen den eskaera.\n6) Egin klik eskaera eta ireki Erantzun fitxa.\n7) JSON erantzunean, bilatu MainboardSerial izeneko eremua. Balio hau plaka nagusiaren benetako serie-zenbakia da.",
+                "description": "Hautatu gehitu nahi duzun Robomow gailua eta idatzi plaka nagusiaren serie-zenbakia. \n\nPlaka nagusiaren serie-zenbakia lortzeko:\n1) Hasi saioa myrobomow.robomow.com helbidean.\n2) Ireki arakatzailearen Garatzaile-tresnak (F12).\n3) Joan Sarea fitxara.\n4) Orria berriro kargatu.\n5) Bilatu /api/customer/products-en amaitzen den eskaera.\n6) Egin klik eskaera eta ireki Erantzun fitxa.\n7) JSON erantzunean, bilatu MainboardSerial izeneko eremua. Balio hau plaka nagusiaren benetako serie-zenbakia da.",
                 "data": {
                     "address": "Helbidea",
                     "mainboard_serial": "Plaka nagusiaren serie zenbakia"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Sartu Home Assistant-era gehitu nahi duzun Robomow gailuaren plaka nagusiaren serie-zenbakia.\n\nPlaka nagusiaren serie-zenbakia lortzeko: 1) Hasi saioa myrobomow.robomow.com helbidean.\n2) Ireki arakatzailearen Garatzaile-tresnak (F12).\n3) Joan Sarea fitxara.\n4) Orria berriro kargatu.\n5) Bilatu /api/customer/products-en amaitzen den eskaera.\n6) Egin klik eskaera eta ireki Erantzun fitxa.\n7) JSON erantzunean, bilatu MainboardSerial izeneko eremua. Balio hau plaka nagusiaren benetako serie-zenbakia da.",
+                "description": "Sartu Home Assistant-era gehitu nahi duzun Robomow gailuaren plaka nagusiaren serie-zenbakia.\n\nPlaka nagusiaren serie-zenbakia lortzeko:\n1) Hasi saioa myrobomow.robomow.com helbidean.\n2) Ireki arakatzailearen Garatzaile-tresnak (F12).\n3) Joan Sarea fitxara.\n4) Orria berriro kargatu.\n5) Bilatu /api/customer/products-en amaitzen den eskaera.\n6) Egin klik eskaera eta ireki Erantzun fitxa.\n7) JSON erantzunean, bilatu MainboardSerial izeneko eremua. Balio hau plaka nagusiaren benetako serie-zenbakia da.",
                 "data": {
                     "mainboard_serial": "Plaka nagusiaren serie zenbakia"
                 }

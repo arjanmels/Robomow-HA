@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Vyberte zariadenie Robomow, ktoré chcete pridať, a zadajte sériové číslo základnej dosky. \n\nPostup získania sériového čísla základnej dosky: 1) Prihláste sa na stránke myrobomow.robomow.com.\n2) Otvorte v prehliadači Vývojárske nástroje (F12).\n3) Prejdite na kartu Sieť.\n4) Znovu načítajte stránku.\n5) Vyhľadajte požiadavku končiacu na /api/customer/products.\n6) Kliknite na požiadavku a otvorte kartu Odpoveď.\n7) V odpovedi JSON nájdite pole s názvom MainboardSerial. Táto hodnota je skutočné sériové číslo základnej dosky.",
+                "description": "Vyberte zariadenie Robomow, ktoré chcete pridať, a zadajte sériové číslo základnej dosky. \n\nPostup získania sériového čísla základnej dosky:\n1) Prihláste sa na stránke myrobomow.robomow.com.\n2) Otvorte v prehliadači Vývojárske nástroje (F12).\n3) Prejdite na kartu Sieť.\n4) Znovu načítajte stránku.\n5) Vyhľadajte požiadavku končiacu na /api/customer/products.\n6) Kliknite na požiadavku a otvorte kartu Odpoveď.\n7) V odpovedi JSON nájdite pole s názvom MainboardSerial. Táto hodnota je skutočné sériové číslo základnej dosky.",
                 "data": {
                     "address": "Adresa",
                     "mainboard_serial": "Sériové číslo základnej dosky"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Zadajte sériové číslo základnej dosky pre zariadenie Robomow, ktoré chcete pridať do Home Assistant.\n\nPostup získania sériového čísla základnej dosky: 1) Prihláste sa na stránke myrobomow.robomow.com.\n2) Otvorte v prehliadači Vývojárske nástroje (F12).\n3) Prejdite na kartu Sieť.\n4) Znovu načítajte stránku.\n5) Vyhľadajte požiadavku končiacu na /api/customer/products.\n6) Kliknite na požiadavku a otvorte kartu Odpoveď.\n7) V odpovedi JSON nájdite pole s názvom MainboardSerial. Táto hodnota je skutočné sériové číslo základnej dosky.",
+                "description": "Zadajte sériové číslo základnej dosky pre zariadenie Robomow, ktoré chcete pridať do Home Assistant.\n\nPostup získania sériového čísla základnej dosky:\n1) Prihláste sa na stránke myrobomow.robomow.com.\n2) Otvorte v prehliadači Vývojárske nástroje (F12).\n3) Prejdite na kartu Sieť.\n4) Znovu načítajte stránku.\n5) Vyhľadajte požiadavku končiacu na /api/customer/products.\n6) Kliknite na požiadavku a otvorte kartu Odpoveď.\n7) V odpovedi JSON nájdite pole s názvom MainboardSerial. Táto hodnota je skutočné sériové číslo základnej dosky.",
                 "data": {
                     "mainboard_serial": "Sériové číslo základnej dosky"
                 }

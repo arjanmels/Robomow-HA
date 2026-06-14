@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Seleccioneu el dispositiu Robomow que voleu afegir i introduïu el número de sèrie de la placa base. \n\nPer obtenir el número de sèrie de la placa base: 1) Inicieu sessió a myrobomow.robomow.com.\n2) Obriu les Eines per a desenvolupadors del vostre navegador (F12).\n3) Aneu a la pestanya Xarxa.\n4) Torneu a carregar la pàgina.\n5) Cerqueu una sol·licitud que acabi en /api/customer/products.\n6) Feu clic a la sol·licitud i obriu la pestanya Resposta.\n7) A la resposta JSON, cerqueu el camp anomenat MainboardSerial. Aquest valor és el número de sèrie real de la placa base.",
+                "description": "Seleccioneu el dispositiu Robomow que voleu afegir i introduïu el número de sèrie de la placa base. \n\nPer obtenir el número de sèrie de la placa base:\n1) Inicieu sessió a myrobomow.robomow.com.\n2) Obriu les Eines per a desenvolupadors del vostre navegador (F12).\n3) Aneu a la pestanya Xarxa.\n4) Torneu a carregar la pàgina.\n5) Cerqueu una sol·licitud que acabi en /api/customer/products.\n6) Feu clic a la sol·licitud i obriu la pestanya Resposta.\n7) A la resposta JSON, cerqueu el camp anomenat MainboardSerial. Aquest valor és el número de sèrie real de la placa base.",
                 "data": {
                     "address": "Adreça",
                     "mainboard_serial": "Número de sèrie de la placa base"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Introduïu el número de sèrie de la placa base del dispositiu Robomow que voleu afegir a Home Assistant.\n\nPer obtenir el número de sèrie de la placa base: 1) Inicieu sessió a myrobomow.robomow.com.\n2) Obriu les Eines per a desenvolupadors del vostre navegador (F12).\n3) Aneu a la pestanya Xarxa.\n4) Torneu a carregar la pàgina.\n5) Cerqueu una sol·licitud que acabi en /api/customer/products.\n6) Feu clic a la sol·licitud i obriu la pestanya Resposta.\n7) A la resposta JSON, cerqueu el camp anomenat MainboardSerial. Aquest valor és el número de sèrie real de la placa base.",
+                "description": "Introduïu el número de sèrie de la placa base del dispositiu Robomow que voleu afegir a Home Assistant.\n\nPer obtenir el número de sèrie de la placa base:\n1) Inicieu sessió a myrobomow.robomow.com.\n2) Obriu les Eines per a desenvolupadors del vostre navegador (F12).\n3) Aneu a la pestanya Xarxa.\n4) Torneu a carregar la pàgina.\n5) Cerqueu una sol·licitud que acabi en /api/customer/products.\n6) Feu clic a la sol·licitud i obriu la pestanya Resposta.\n7) A la resposta JSON, cerqueu el camp anomenat MainboardSerial. Aquest valor és el número de sèrie real de la placa base.",
                 "data": {
                     "mainboard_serial": "Número de sèrie de la placa base"
                 }

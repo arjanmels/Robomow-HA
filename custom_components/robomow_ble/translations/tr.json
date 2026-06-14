@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Eklemek istediğiniz Robomow cihazını seçin ve anakart seri numarasını girin. \n\nAnakart seri numarasını almak için: 1) myrobomow.robomow.com adresinde oturum açın.\n2) Tarayıcınızın Geliştirici Araçlarını (F12) açın.\n3) Ağ sekmesine gidin.\n4) Sayfayı yeniden yükleyin.\n5) /api/customer/products ile biten bir istek arayın.\n6) İsteğe tıklayın ve Yanıt sekmesini açın.\n7) JSON yanıtında MainboardSerial adlı alanı bulun. Bu değer asıl anakart seri numarasıdır.",
+                "description": "Eklemek istediğiniz Robomow cihazını seçin ve anakart seri numarasını girin. \n\nAnakart seri numarasını almak için:\n1) myrobomow.robomow.com adresinde oturum açın.\n2) Tarayıcınızın Geliştirici Araçlarını (F12) açın.\n3) Ağ sekmesine gidin.\n4) Sayfayı yeniden yükleyin.\n5) /api/customer/products ile biten bir istek arayın.\n6) İsteğe tıklayın ve Yanıt sekmesini açın.\n7) JSON yanıtında MainboardSerial adlı alanı bulun. Bu değer asıl anakart seri numarasıdır.",
                 "data": {
                     "address": "Adres",
                     "mainboard_serial": "Anakart seri numarası"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Home Assistant'a eklemek istediğiniz Robomow cihazının anakart seri numarasını girin.\n\nAnakart seri numarasını almak için: 1) myrobomow.robomow.com adresinde oturum açın.\n2) Tarayıcınızın Geliştirici Araçlarını (F12) açın.\n3) Ağ sekmesine gidin.\n4) Sayfayı yeniden yükleyin.\n5) /api/customer/products ile biten bir istek arayın.\n6) İsteğe tıklayın ve Yanıt sekmesini açın.\n7) JSON yanıtında MainboardSerial adlı alanı bulun. Bu değer asıl anakart seri numarasıdır.",
+                "description": "Home Assistant'a eklemek istediğiniz Robomow cihazının anakart seri numarasını girin.\n\nAnakart seri numarasını almak için:\n1) myrobomow.robomow.com adresinde oturum açın.\n2) Tarayıcınızın Geliştirici Araçlarını (F12) açın.\n3) Ağ sekmesine gidin.\n4) Sayfayı yeniden yükleyin.\n5) /api/customer/products ile biten bir istek arayın.\n6) İsteğe tıklayın ve Yanıt sekmesini açın.\n7) JSON yanıtında MainboardSerial adlı alanı bulun. Bu değer asıl anakart seri numarasıdır.",
                 "data": {
                     "mainboard_serial": "Anakart seri numarası"
                 }

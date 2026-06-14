@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Válassza ki a hozzáadni kívánt Robomow eszközt, és adja meg az alaplap sorozatszámát. \n\nAz alaplap sorozatszámának beszerzéséhez: 1) Jelentkezzen be a myrobomow.robomow.com oldalon.\n2) Nyissa meg böngészője Fejlesztői eszközeit (F12).\n3) Lépjen a Hálózat fülre.\n4) Töltse be újra az oldalt.\n5) Keressen egy /api/customer/products végű kérelmet.\n6) Kattintson a kérésre, és nyissa meg a Válasz lapot.\n7) A JSON-válaszban keresse meg a MainboardSerial nevű mezőt. Ez az érték az alaplap tényleges sorozatszáma.",
+                "description": "Válassza ki a hozzáadni kívánt Robomow eszközt, és adja meg az alaplap sorozatszámát. \n\nAz alaplap sorozatszámának beszerzéséhez:\n1) Jelentkezzen be a myrobomow.robomow.com oldalon.\n2) Nyissa meg böngészője Fejlesztői eszközeit (F12).\n3) Lépjen a Hálózat fülre.\n4) Töltse be újra az oldalt.\n5) Keressen egy /api/customer/products végű kérelmet.\n6) Kattintson a kérésre, és nyissa meg a Válasz lapot.\n7) A JSON-válaszban keresse meg a MainboardSerial nevű mezőt. Ez az érték az alaplap tényleges sorozatszáma.",
                 "data": {
                     "address": "Cím",
                     "mainboard_serial": "Alaplap sorozatszáma"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Adja meg az otthoni asszisztenshez hozzáadni kívánt Robomow eszköz alaplapi sorozatszámát.\n\nAz alaplap sorozatszámának beszerzéséhez: 1) Jelentkezzen be a myrobomow.robomow.com oldalon.\n2) Nyissa meg böngészője Fejlesztői eszközeit (F12).\n3) Lépjen a Hálózat fülre.\n4) Töltse be újra az oldalt.\n5) Keressen egy /api/customer/products végű kérelmet.\n6) Kattintson a kérésre, és nyissa meg a Válasz lapot.\n7) A JSON-válaszban keresse meg a MainboardSerial nevű mezőt. Ez az érték az alaplap tényleges sorozatszáma.",
+                "description": "Adja meg az otthoni asszisztenshez hozzáadni kívánt Robomow eszköz alaplapi sorozatszámát.\n\nAz alaplap sorozatszámának beszerzéséhez:\n1) Jelentkezzen be a myrobomow.robomow.com oldalon.\n2) Nyissa meg böngészője Fejlesztői eszközeit (F12).\n3) Lépjen a Hálózat fülre.\n4) Töltse be újra az oldalt.\n5) Keressen egy /api/customer/products végű kérelmet.\n6) Kattintson a kérésre, és nyissa meg a Válasz lapot.\n7) A JSON-válaszban keresse meg a MainboardSerial nevű mezőt. Ez az érték az alaplap tényleges sorozatszáma.",
                 "data": {
                     "mainboard_serial": "Alaplap sorozatszáma"
                 }

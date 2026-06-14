@@ -2,14 +2,14 @@
     "config": {
         "step": {
             "user": {
-                "description": "Seleccione o dispositivo Robomow que quere engadir e introduza o número de serie da placa base. \n\nPara obter o número de serie da placa base: 1) Inicie sesión en myrobomow.robomow.com.\n2) Abre as Ferramentas para programadores do teu navegador (F12).\n3) Vaia á pestana Rede.\n4) Volve cargar a páxina.\n5) Busca unha solicitude que remate en /api/customer/products.\n6) Fai clic na solicitude e abra a pestana Resposta.\n7) Na resposta JSON, busque o campo chamado MainboardSerial. Este valor é o número de serie real da placa base.",
+                "description": "Seleccione o dispositivo Robomow que quere engadir e introduza o número de serie da placa base. \n\nPara obter o número de serie da placa base:\n1) Inicie sesión en myrobomow.robomow.com.\n2) Abre as Ferramentas para programadores do teu navegador (F12).\n3) Vaia á pestana Rede.\n4) Volve cargar a páxina.\n5) Busca unha solicitude que remate en /api/customer/products.\n6) Fai clic na solicitude e abra a pestana Resposta.\n7) Na resposta JSON, busque o campo chamado MainboardSerial. Este valor é o número de serie real da placa base.",
                 "data": {
                     "address": "Enderezo",
                     "mainboard_serial": "Número de serie da placa base"
                 }
             },
             "bluetooth_confirm": {
-                "description": "Introduce o número de serie da placa base para o dispositivo Robomow que queres engadir ao Home Assistant.\n\nPara obter o número de serie da placa base: 1) Inicie sesión en myrobomow.robomow.com.\n2) Abre as Ferramentas para programadores do teu navegador (F12).\n3) Vaia á pestana Rede.\n4) Volve cargar a páxina.\n5) Busca unha solicitude que remate en /api/customer/products.\n6) Fai clic na solicitude e abra a pestana Resposta.\n7) Na resposta JSON, busque o campo chamado MainboardSerial. Este valor é o número de serie real da placa base.",
+                "description": "Introduce o número de serie da placa base para o dispositivo Robomow que queres engadir ao Home Assistant.\n\nPara obter o número de serie da placa base:\n1) Inicie sesión en myrobomow.robomow.com.\n2) Abre as Ferramentas para programadores do teu navegador (F12).\n3) Vaia á pestana Rede.\n4) Volve cargar a páxina.\n5) Busca unha solicitude que remate en /api/customer/products.\n6) Fai clic na solicitude e abra a pestana Resposta.\n7) Na resposta JSON, busque o campo chamado MainboardSerial. Este valor é o número de serie real da placa base.",
                 "data": {
                     "mainboard_serial": "Número de serie da placa base"
                 }
