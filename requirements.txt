@@ -2,7 +2,7 @@ pip>=26.1.2
 ruff>=0.15.17
 colorlog>=6.10.1
 PyYAML>=6.0.3
-pymarkdownlnt>=0.9.38
+pymarkdownlnt>=0.9.39
 pyright>=1.1.410
 deep-translator>=1.11.4
 
