@@ -114,7 +114,7 @@ class RobomowBLEConfigFlow(ConfigFlow, domain=DOMAIN):
             data_schema=vol.Schema(
                 {
                     vol.Required(CONF_MAINBOARD_SERIAL): vol.All(
-                        str, vol.Length(min=14, max=14)
+                        str, vol.Length(min=13, max=14)
                     )
                 }
             ),
@@ -148,6 +148,8 @@ class RobomowBLEConfigFlow(ConfigFlow, domain=DOMAIN):
                 errors[CONF_MAINBOARD_SERIAL] = "characteristics_not_found"
             except ConfigEntryAuthFailed:
                 errors[CONF_MAINBOARD_SERIAL] = "invalid_mainboard_serial"
+            except ConditionError:
+                errors[CONF_MAINBOARD_SERIAL] = "model_unsupported"
 
             if not errors:
                 return self.async_create_entry(
@@ -192,7 +194,7 @@ class RobomowBLEConfigFlow(ConfigFlow, domain=DOMAIN):
                         }
                     ),
                     vol.Required(CONF_MAINBOARD_SERIAL): vol.All(
-                        str, vol.Length(min=14, max=14)
+                        str, vol.Length(min=13, max=14)
                     ),
                 }
             ),
